@@ -91,7 +91,6 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 		      }
 		      case MotionEvent.ACTION_UP:
 		          // Your action here on button click
-		    	  startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
 //		  				Utils.animateFad(RegistrationActivity.this);
 		  				finish();
 		    	  
@@ -134,16 +133,6 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 		});
 		
 		
-//		register_confirm.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				v.getBackground().setColorFilter(0xe0f47521,PorterDuff.Mode.SRC_ATOP);
-//				v.invalidate();
-//				startActivity(new Intent(RegistrationActivity.this, HomeLoggedIn.class));
-//		//		Utils.animateFad(RegistrationActivity.this);
-//				finish();
-//			}
-//		});
 		
 		
 		

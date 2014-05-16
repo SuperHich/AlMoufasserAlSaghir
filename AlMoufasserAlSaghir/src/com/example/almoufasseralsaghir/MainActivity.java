@@ -65,6 +65,8 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	register_interface.setVisibility(View.INVISIBLE);
 	logged_in_interface.setVisibility(View.INVISIBLE);
 	
+	///////////////FIRST VIEW : ENTER/////////////////////////////////////////////////////////
+	
 	register_enter.setOnTouchListener(new OnTouchListener() {
 		@Override
 	    public boolean onTouch(View v, MotionEvent event) {
@@ -91,6 +93,9 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	    }
 	});
 	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+///////////////   SECOND VIEW : LOGIN    /////////////////////////////////////////////////////////
 	
 	
 	email_login.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -102,7 +107,6 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 			else 
 				if(email_login.getText().toString().equals(""))
 				email_hint.setVisibility(View.VISIBLE);
-			
 		}
 	});
 	
@@ -151,7 +155,40 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	    	// Your action here on button click
 				startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
 	    		//		Utils.animateFad(RegistrationActivity.this);
-	    				finish();
+	      }
+	      case MotionEvent.ACTION_CANCEL: {
+	          Button view = (Button) v;
+	          view.getBackground().clearColorFilter();
+	          view.invalidate();
+	          break;
+	      }
+	      }
+	      return true;
+	    }
+	});
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+///////////////   THIRD VIEW : LOGGED IN    /////////////////////////////////////////////////////////
+	
+		deconnect.setOnTouchListener(new OnTouchListener() {
+		
+		@Override
+	    public boolean onTouch(View v, MotionEvent event) {
+	      switch (event.getAction()) {
+	      case MotionEvent.ACTION_DOWN: {
+	          Button view = (Button) v;
+	          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+	          v.invalidate();
+	          break;
+	      }
+	      case MotionEvent.ACTION_UP: {
+	    	// Your action here on button click
+	    	  name_logged_in.setText("");
+	    	  logged_in_interface.setVisibility(View.GONE);
+	    	  register_interface.setVisibility(View.GONE);
+	    	  register_enter.setVisibility(View.VISIBLE);
+	    	  register_enter.bringToFront();
+	    	  
 	      }
 	      case MotionEvent.ACTION_CANCEL: {
 	          Button view = (Button) v;
@@ -164,6 +201,43 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	    }
 	});
 	
+	
+	account_settings.setOnTouchListener(new OnTouchListener() {
+		
+		@Override
+	    public boolean onTouch(View v, MotionEvent event) {
+	      switch (event.getAction()) {
+	      case MotionEvent.ACTION_DOWN: {
+	          Button view = (Button) v;
+	          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+	          v.invalidate();
+	          break;
+	      }
+	      case MotionEvent.ACTION_UP: {
+	    	// Your action here on button click
+				startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+	
+// SHOULD BE IMPLEMENTED WITH INTENT PUT EXTRA    		
+				
+				//		Utils.animateFad(RegistrationActivity.this);
+	      }
+	      case MotionEvent.ACTION_CANCEL: {
+	          Button view = (Button) v;
+	          view.getBackground().clearColorFilter();
+	          view.invalidate();
+	          break;
+	      }
+	      }
+	      return true;
+	    }
+	});
+	
+	
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
+///////////////   LIST VIEW : HANDLING    /////////////////////////////////////////////////////////
 	
 	
 	Integer[] lListIcone={R.drawable.list_1 , R.drawable.list_2 ,R.drawable.list_3 ,R.drawable.list_4 };
@@ -204,6 +278,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 		
 	});
 	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	
