@@ -43,8 +43,6 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	herbes = (ImageView) findViewById(R.id.herbes);
 	herbes.bringToFront();
 	
-	
-	
 	register_enter = (Button) findViewById(R.id.register);
 	
 	register_interface = (RelativeLayout) findViewById(R.id.register_interface);
@@ -59,6 +57,8 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	account_settings = (Button) findViewById(R.id.account_settings);
 	settings = (Button) findViewById(R.id.settings);
 	name_logged_in = (TextView) findViewById(R.id.welcome_logged_name);
+	
+	name_logged_in.setText("Mohamed Rami Trabelsi");
 	
 	
 	register_enter.setVisibility(View.VISIBLE);

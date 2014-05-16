@@ -69,7 +69,7 @@
         android:id="@+id/logged_in"
         android:layout_width="fill_parent"
         android:layout_height="144px"
-        android:visibility="invisible">
+        android:visibility="visible">
        
         <Button 
             android:id="@+id/deconnect"
@@ -122,10 +122,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="450px"
             android:layout_marginTop="45px"
-            android:text="Mohamed Rami Trabelsi"
             android:textStyle="italic|bold"
             android:textColor="#062e4b"
-            android:textSize="45px"
+            android:textSize="35px"
             />
         
     </RelativeLayout>
