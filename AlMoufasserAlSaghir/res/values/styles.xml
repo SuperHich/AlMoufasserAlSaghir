@@ -1,0 +1,38 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+     <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+	<style name="CustomDialogTheme" parent="@android:style/Theme.Translucent.NoTitleBar">
+		<item name="android:windowFrame">@null</item>
+	    <item name="android:windowContentOverlay">@null</item>
+	    <item name="android:backgroundDimEnabled">true</item>
+	    <item name="android:windowIsTranslucent">true</item>
+	    <item name="android:windowNoTitle">true</item>
+	</style>
+	<style name="scrollstyle">
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_handle</item>
+        <item name="android:scrollbarTrackVertical">@drawable/scrollbar_track</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/scrollbar_handle</item>
+        <item name="android:scrollbarTrackHorizontal">@drawable/scrollbar_track</item>
+	</style>
+    
+</resources>
