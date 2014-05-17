@@ -1,13 +1,18 @@
 package com.example.almoufasseralsaghir;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -18,6 +23,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.ImageAdapter;
@@ -30,7 +36,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 					deconnect, account_settings, settings;
 	private RelativeLayout register_interface, logged_in_interface ;
 	private EditText email_login ;
-	private TextView name_logged_in ;
+	private FontFitTextView name_logged_in ;
 	private ListView listViewArticles;
 	ImageView herbes, email_hint ;
 	private ConfirmationDialog exitDialog ;
@@ -56,16 +62,19 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	deconnect = (Button) findViewById(R.id.deconnect);
 	account_settings = (Button) findViewById(R.id.account_settings);
 	settings = (Button) findViewById(R.id.settings);
-	name_logged_in = (TextView) findViewById(R.id.welcome_logged_name);
 	
-	name_logged_in.setText("Mohamed Rami Trabelsi");
+	name_logged_in = (FontFitTextView) findViewById(R.id.welcome_logged_name);
+	
+
+	name_logged_in.setText("Sedki Trimech");
+//	name_logged_in.resizeText(600,200);
 	
 	
 	register_enter.setVisibility(View.VISIBLE);
 	register_interface.setVisibility(View.INVISIBLE);
 	logged_in_interface.setVisibility(View.INVISIBLE);
 	
-	///////////////FIRST VIEW : ENTER/////////////////////////////////////////////////////////
+	///////////////FIRST HEADER VIEW : ENTER/////////////////////////////////////////////////////////
 	
 	register_enter.setOnTouchListener(new OnTouchListener() {
 		@Override
@@ -95,7 +104,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-///////////////   SECOND VIEW : LOGIN    /////////////////////////////////////////////////////////
+///////////////   SECOND HEADER VIEW : LOGIN    /////////////////////////////////////////////////////////
 	
 	
 	email_login.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -168,7 +177,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-///////////////   THIRD VIEW : LOGGED IN    /////////////////////////////////////////////////////////
+///////////////   THIRD HEADER VIEW : LOGGED IN    /////////////////////////////////////////////////////////
 	
 		deconnect.setOnTouchListener(new OnTouchListener() {
 		
@@ -183,7 +192,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      }
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
-	    	  name_logged_in.setText("");
+	//    	  name_logged_in.setText("");
 	    	  logged_in_interface.setVisibility(View.GONE);
 	    	  register_interface.setVisibility(View.GONE);
 	    	  register_enter.setVisibility(View.VISIBLE);
@@ -232,7 +241,98 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	    }
 	});
 	
+		settings.setOnTouchListener(new OnTouchListener() {
+		
+		@Override
+	    public boolean onTouch(View v, MotionEvent event) {
+	      switch (event.getAction()) {
+	      case MotionEvent.ACTION_DOWN: {
+	          Button view = (Button) v;
+	          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+	          v.invalidate();
+	          break;
+	      }
+	      case MotionEvent.ACTION_UP: {
+	    	// Your action here on button click
+	    	  final Dialog dialog = new Dialog(MainActivity.this);
+	    	  dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); 
+	    	  dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+	    	  dialog.setContentView(R.layout.main_dialog_settings);
+	    	  dialog.setCancelable(true);
+	    	  
+	    	  RelativeLayout popup_view = (RelativeLayout) dialog.findViewById(R.id.popup_main);
+	    	  popup_view.getLayoutParams().height = 521;
+	    	  popup_view.getLayoutParams().width = 847;
+	    	  SanabilActivity.scaleViewAndChildren(popup_view, SanabilActivity.scale);
+	    	  
+	    	  Button popup_confirm = (Button) dialog.findViewById(R.id.popup_confirm);
+	    	  final Button popup_reader1 = (Button) dialog.findViewById(R.id.popup_active_btn);
+	    	  final Button popup_reader2 = (Button) dialog.findViewById(R.id.popup_inactive_btn);
+	    	  
+	    	  popup_reader1.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					popup_reader1.setBackgroundResource(R.drawable.popup_active_btn);
+					popup_reader2.setBackgroundResource(R.drawable.popup_inactive_btn);
+   
+	////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
 	
+				}
+	    	  });
+	    	  
+	    	  popup_reader2.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						
+						popup_reader1.setBackgroundResource(R.drawable.popup_inactive_btn);
+						popup_reader2.setBackgroundResource(R.drawable.popup_active_btn);
+	
+	////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
+						
+					}
+		    	  });
+	    	  
+	    	  popup_confirm.setOnTouchListener(new OnTouchListener() {
+	    			
+	    			@Override
+	    		    public boolean onTouch(View v, MotionEvent event) {
+	    		      switch (event.getAction()) {
+	    		      case MotionEvent.ACTION_DOWN: {
+	    		          Button view = (Button) v;
+	    		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+	    		          v.invalidate();
+	    		          break;
+	    		      }
+	    		      case MotionEvent.ACTION_UP: {
+	    
+	   ////////////////////// SET READER IN MYAPPLICATION //////////////////////////////////////////////////////////////////
+	    		    	  
+	    		      }
+	    		      case MotionEvent.ACTION_CANCEL: {
+	    		          Button view = (Button) v;
+	    		          view.getBackground().clearColorFilter();
+	    		          view.invalidate();
+	    		          break;
+	    		      }
+	    		      }
+	    		      return true;
+	    		    }
+	    		});
+	    	  
+	    	  dialog.show();
+	    		      
+	      }
+	      case MotionEvent.ACTION_CANCEL: {
+	          Button view = (Button) v;
+	          view.getBackground().clearColorFilter();
+	          view.invalidate();
+	          break;
+	      }
+	      }
+	      return true;
+	    }
+	});
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -281,28 +381,47 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	
-	
 }
-public void onBackPressed() {
-	 exitDialog();
-}
-public  void exitDialog() {
-		exitDialog = new ConfirmationDialog(this,
-				R.style.CustomDialogTheme, 
-				 this);
-		exitDialog.setCancelable(false);
-		exitDialog.show();
+	public void correctWidth(TextView textView, int desiredWidth)
+	{
+	    Paint paint = new Paint();
+	    Rect bounds = new Rect();
+
+	    paint.setTypeface(textView.getTypeface());
+	    float textSize = textView.getTextSize();
+	    paint.setTextSize(textSize);
+	    String text = textView.getText().toString();
+	    paint.getTextBounds(text, 0, text.length(), bounds);
+
+	    while (bounds.width() > desiredWidth)
+	    {
+	        textSize--;
+	        paint.setTextSize(textSize);
+	        paint.getTextBounds(text, 0, text.length(), bounds);
+	    }
+
+	    textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 	}
-@Override
-public void onClickYes() {
-	exitDialog.dismiss();
-	finish();
-}
-@Override
-public void onClickNo() {
-	exitDialog.dismiss();		
-}
+	
+		public void onBackPressed() {
+			 exitDialog();
+		}
+		public  void exitDialog() {
+				exitDialog = new ConfirmationDialog(this,
+						R.style.CustomDialogTheme, 
+						 this);
+				exitDialog.setCancelable(false);
+				exitDialog.show();
+			}
+		@Override
+		public void onClickYes() {
+			exitDialog.dismiss();
+			finish();
+		}
+		@Override
+		public void onClickNo() {
+			exitDialog.dismiss();		
+		}
 
 
 }

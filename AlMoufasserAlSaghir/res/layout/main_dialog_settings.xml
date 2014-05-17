@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_main"
+    android:layout_width="847px"
+    android:layout_height="521px"
+     android:background="@drawable/popup_bg">
+    
+    <Button
+        android:id="@+id/popup_active_btn"
+        android:layout_width="68px"
+        android:layout_height="65px"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="145px"
+        android:layout_marginRight="100px"
+        android:background="@drawable/popup_active_btn" 
+        />
+    <Button
+        android:id="@+id/popup_inactive_btn"
+        android:layout_width="68px"
+        android:layout_height="65px"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="240px"
+        android:layout_marginRight="100px"
+        android:background="@drawable/popup_inactive_btn" 
+        />
+    
+    <Button 
+            android:id="@+id/popup_confirm"
+            android:layout_width="135px"
+            android:layout_height="62px"
+            android:layout_alignParentBottom="true"
+           	android:layout_alignParentLeft="true"
+            android:layout_marginBottom="85px"
+            android:layout_marginLeft="80px"
+            android:background="@drawable/popup_confirm"
+            />
+
+</RelativeLayout>
