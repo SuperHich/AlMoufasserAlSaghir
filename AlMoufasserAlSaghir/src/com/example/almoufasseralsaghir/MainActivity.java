@@ -292,7 +292,9 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      }
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
-				startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+	    	  Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+	    	  intent.putExtra("update", true);
+	    	  startActivity(intent);
 	
 // SHOULD BE IMPLEMENTED WITH INTENT PUT EXTRA    		
 				
