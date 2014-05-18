@@ -2,14 +2,17 @@ package com.example.almoufasseralsaghir;
 
 import org.json.JSONObject;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -18,14 +21,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.external.User;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
+import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.utils.Utils;
 
 
 public class MainActivity extends SanabilActivity  implements IClickCustomListener{
@@ -34,7 +38,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 					deconnect, account_settings, settings;
 	private RelativeLayout register_interface, logged_in_interface ;
 	private EditText email_login ;
-	private TextView name_logged_in ;
+	private FontFitTextView name_logged_in ;
 	private ListView listViewArticles;
 	ImageView herbes, email_hint ;
 	private ConfirmationDialog exitDialog ;
@@ -64,15 +68,19 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	deconnect = (Button) findViewById(R.id.deconnect);
 	account_settings = (Button) findViewById(R.id.account_settings);
 	settings = (Button) findViewById(R.id.settings);
-	name_logged_in = (TextView) findViewById(R.id.welcome_logged_name);
 	
-//	name_logged_in.setText("Mohamed Rami Trabelsi");
+	name_logged_in = (FontFitTextView) findViewById(R.id.welcome_logged_name);
+	
 
+	name_logged_in.setText("Sedki Trimech");
+//	name_logged_in.resizeText(600,200);
+	
+	
 	register_enter.setVisibility(View.VISIBLE);
 	register_interface.setVisibility(View.INVISIBLE);
 	logged_in_interface.setVisibility(View.INVISIBLE);
 	
-	///////////////FIRST VIEW : ENTER/////////////////////////////////////////////////////////
+	///////////////FIRST HEADER VIEW : ENTER/////////////////////////////////////////////////////////
 	
 	register_enter.setOnTouchListener(new OnTouchListener() {
 		@Override
@@ -102,7 +110,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-///////////////   SECOND VIEW : LOGIN    /////////////////////////////////////////////////////////
+///////////////   SECOND HEADER VIEW : LOGIN    /////////////////////////////////////////////////////////
 	
 	
 	email_login.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -110,11 +118,10 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 
-			if (hasFocus) 
-				email_hint.setVisibility(View.INVISIBLE);
+			if (hasFocus) email_hint.setVisibility(View.INVISIBLE);
 			else 
 				if(email_login.getText().toString().equals(""))
-					email_hint.setVisibility(View.VISIBLE);
+				email_hint.setVisibility(View.VISIBLE);
 		}
 	});
 	
@@ -131,7 +138,6 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      }
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
-				
 				new AsyncTask<Void, JSONObject, JSONObject>() {
 
 					@Override
@@ -206,7 +212,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-///////////////   THIRD VIEW : LOGGED IN    /////////////////////////////////////////////////////////
+///////////////   THIRD HEADER VIEW : LOGGED IN    /////////////////////////////////////////////////////////
 	
 		deconnect.setOnTouchListener(new OnTouchListener() {
 		
@@ -221,8 +227,8 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      }
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
-	    	  
-//	    	  new AsyncTask<Void, Integer, Integer>() {
+	//    	  name_logged_in.setText("");
+	//	    	  new AsyncTask<Void, Integer, Integer>() {
 //		    		  
 //					@Override
 //					protected void onPreExecute() {
@@ -256,10 +262,9 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 //				}.execute();
 	    	  
 	    	  logged_in_interface.setVisibility(View.GONE);
-				register_interface.setVisibility(View.GONE);
-				register_enter.setVisibility(View.VISIBLE);
-				register_enter.bringToFront();	
-	    	  
+	    	  register_interface.setVisibility(View.GONE);
+	    	  register_enter.setVisibility(View.VISIBLE);
+	    	  register_enter.bringToFront();
 	    	  
 	      }
 	      case MotionEvent.ACTION_CANCEL: {
@@ -287,9 +292,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      }
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
-	    	  Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
-	    	  intent.putExtra("update", true);
-	    	  startActivity(intent);
+				startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
 	
 // SHOULD BE IMPLEMENTED WITH INTENT PUT EXTRA    		
 				
@@ -306,7 +309,98 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	    }
 	});
 	
+		settings.setOnTouchListener(new OnTouchListener() {
+		
+		@Override
+	    public boolean onTouch(View v, MotionEvent event) {
+	      switch (event.getAction()) {
+	      case MotionEvent.ACTION_DOWN: {
+	          Button view = (Button) v;
+	          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+	          v.invalidate();
+	          break;
+	      }
+	      case MotionEvent.ACTION_UP: {
+	    	// Your action here on button click
+	    	  final Dialog dialog = new Dialog(MainActivity.this);
+	    	  dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); 
+	    	  dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+	    	  dialog.setContentView(R.layout.main_dialog_settings);
+	    	  dialog.setCancelable(true);
+	    	  
+	    	  RelativeLayout popup_view = (RelativeLayout) dialog.findViewById(R.id.popup_main);
+	    	  popup_view.getLayoutParams().height = 521;
+	    	  popup_view.getLayoutParams().width = 847;
+	    	  SanabilActivity.scaleViewAndChildren(popup_view, SanabilActivity.scale);
+	    	  
+	    	  Button popup_confirm = (Button) dialog.findViewById(R.id.popup_confirm);
+	    	  final Button popup_reader1 = (Button) dialog.findViewById(R.id.popup_active_btn);
+	    	  final Button popup_reader2 = (Button) dialog.findViewById(R.id.popup_inactive_btn);
+	    	  
+	    	  popup_reader1.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					popup_reader1.setBackgroundResource(R.drawable.popup_active_btn);
+					popup_reader2.setBackgroundResource(R.drawable.popup_inactive_btn);
+   
+	////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
 	
+				}
+	    	  });
+	    	  
+	    	  popup_reader2.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						
+						popup_reader1.setBackgroundResource(R.drawable.popup_inactive_btn);
+						popup_reader2.setBackgroundResource(R.drawable.popup_active_btn);
+	
+	////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
+						
+					}
+		    	  });
+	    	  
+	    	  popup_confirm.setOnTouchListener(new OnTouchListener() {
+	    			
+	    			@Override
+	    		    public boolean onTouch(View v, MotionEvent event) {
+	    		      switch (event.getAction()) {
+	    		      case MotionEvent.ACTION_DOWN: {
+	    		          Button view = (Button) v;
+	    		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+	    		          v.invalidate();
+	    		          break;
+	    		      }
+	    		      case MotionEvent.ACTION_UP: {
+	    
+	   ////////////////////// SET READER IN MYAPPLICATION //////////////////////////////////////////////////////////////////
+	    		    	  
+	    		      }
+	    		      case MotionEvent.ACTION_CANCEL: {
+	    		          Button view = (Button) v;
+	    		          view.getBackground().clearColorFilter();
+	    		          view.invalidate();
+	    		          break;
+	    		      }
+	    		      }
+	    		      return true;
+	    		    }
+	    		});
+	    	  
+	    	  dialog.show();
+	    		      
+	      }
+	      case MotionEvent.ACTION_CANCEL: {
+	          Button view = (Button) v;
+	          view.getBackground().clearColorFilter();
+	          view.invalidate();
+	          break;
+	      }
+	      }
+	      return true;
+	    }
+	});
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -314,7 +408,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 ///////////////   LIST VIEW : HANDLING    /////////////////////////////////////////////////////////
 	
 	
-	Integer[] lListIcone={R.drawable.list_1 , R.drawable.list_2 ,R.drawable.list_3 ,R.drawable.list_4 };
+	Integer[] lListIcone={R.drawable.list_4 , R.drawable.list_3 ,R.drawable.list_2 ,R.drawable.list_1 };
 	ArrayAdapter<Integer> adapter = new ImageAdapter(this, R.layout.rowlv_module, lListIcone);
 
 	listViewArticles = (ListView) findViewById(R.id.listView1);
@@ -326,24 +420,28 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			switch (position) {
 			case 0:
-//				startActivity(new Intent(ActivityModules.this, M8_Home.class));
-//				Utils.animateFad(ActivityModules.this);
-//				finish();
+				Intent i1 = new Intent(MainActivity.this, HomeLoggedIn.class);
+				i1.putExtra("part", "1");
+				startActivity(i1);
+				Utils.animateFad(MainActivity.this);
 				break;
 			case 1:
-//				startActivity(new Intent(ActivityModules.this, M9_Home.class));
-//				Utils.animateFad(ActivityModules.this);
-//				finish();
+				Intent i2 = new Intent(MainActivity.this, HomeLoggedIn.class);
+				i2.putExtra("part", "2");
+				startActivity(i2);
+				Utils.animateFad(MainActivity.this);
 				break;
 			case 2:
-//				startActivity(new Intent(ActivityModules.this, M10_Home.class));
-//				Utils.animateFad(ActivityModules.this);
-//				finish();
+				Intent i3 = new Intent(MainActivity.this, HomeLoggedIn.class);
+				i3.putExtra("part", "3");
+				startActivity(i3);
+				Utils.animateFad(MainActivity.this);
 				break;
 			case 3:
-//				startActivity(new Intent(ActivityModules.this, M11_Home.class));
-//				Utils.animateFad(ActivityModules.this);
-//				finish();
+				Intent i4 = new Intent(MainActivity.this, HomeLoggedIn.class);
+				i4.putExtra("part", "4");
+				startActivity(i4);
+				Utils.animateFad(MainActivity.this);
 				break;
 			default:
 				break;
@@ -354,43 +452,29 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	AsyncTask<Void, JSONObject, JSONObject> LoginAsync = new AsyncTask<Void, JSONObject, JSONObject>() {
-//
-//		@Override
-//		protected JSONObject doInBackground(Void... params) {
-//			
-//			return tafseerManager.loginUser(email_login.getText().toString());
-//		}
-//		
-//		@Override
-//		protected void onPostExecute(JSONObject result) {
-//			if(result != null)
-//			{
-//				logged_in_interface.setVisibility(View.VISIBLE);
-//				logged_in_interface.bringToFront();
-//			}
-//		}
-//		
-//	};
 	
-	}
-	public void onBackPressed() {
-		exitDialog();
-	}
-	public  void exitDialog() {
-		exitDialog = new ConfirmationDialog(this,
-				R.style.CustomDialogTheme, 
-				this);
-		exitDialog.setCancelable(false);
-		exitDialog.show();
-	}
-	@Override
-	public void onClickYes() {
-		exitDialog.dismiss();
-		finish();
-	}
-	@Override
-	public void onClickNo() {
-		exitDialog.dismiss();		
-	}
+}
+	
+	
+		public void onBackPressed() {
+			 exitDialog();
+		}
+		public  void exitDialog() {
+				exitDialog = new ConfirmationDialog(this,
+						R.style.CustomDialogTheme, 
+						 this);
+				exitDialog.setCancelable(false);
+				exitDialog.show();
+			}
+		@Override
+		public void onClickYes() {
+			exitDialog.dismiss();
+			finish();
+		}
+		@Override
+		public void onClickNo() {
+			exitDialog.dismiss();		
+		}
+
+
 }
