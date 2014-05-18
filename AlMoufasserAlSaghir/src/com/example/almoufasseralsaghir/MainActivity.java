@@ -5,8 +5,10 @@ import org.json.JSONObject;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,9 +42,12 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	private EditText email_login ;
 	private FontFitTextView name_logged_in ;
 	private ListView listViewArticles;
-	ImageView herbes, email_hint ;
+	ImageView herbes, email_hint, welcomer ;
 	private ConfirmationDialog exitDialog ;
 	private TafseerManager tafseerManager;
+	private MediaPlayer welcome_mp ;
+	
+	int i = 0 ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	tafseerManager = TafseerManager.getInstance(this);
 	
 	herbes = (ImageView) findViewById(R.id.herbes);
-	herbes.bringToFront();
+	welcomer = (ImageView) findViewById(R.id.welcomer);
 	
 	register_enter = (Button) findViewById(R.id.register);
 	
@@ -75,10 +80,51 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	name_logged_in.setText("Sedki Trimech");
 //	name_logged_in.resizeText(600,200);
 	
+	herbes.bringToFront();
 	
 	register_enter.setVisibility(View.VISIBLE);
 	register_interface.setVisibility(View.INVISIBLE);
 	logged_in_interface.setVisibility(View.INVISIBLE);
+	
+///////////////  SOUND ANIMATION : GIF ALIKE /////////////////////////////////////////////////////////
+	
+	welcome_mp = new MediaPlayer();
+	welcome_mp = MediaPlayer.create(this, R.raw.test);
+	welcome_mp.start();
+	
+	
+	new CountDownTimer(14000, 200) {
+
+	     public void onTick(long millisUntilFinished) {
+	    	
+	    	 if (i == 6) i = 0;
+	    	 
+	    	 switch (i)  {
+	    	 case 0 : welcomer.setBackgroundResource(R.drawable.welcomer_1_modified);
+	    		 break ;
+	    	 case 1 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+	    		 break ;
+	    	 case 2 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+	    		 break ;
+	    	 case 3 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+	    		 break ;
+	    	 case 4 : welcomer.setBackgroundResource(R.drawable.welcomer_3_modified);
+    		 	 break ;
+	    	 case 5 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+    		   	 break ;
+	    	
+	    	 }
+	    	 
+	    	 i++ ;
+	     
+	     }
+
+	     public void onFinish() {
+	    	 
+	    	 welcomer.setBackgroundResource(R.drawable.welcomer);
+	     }
+	  }.start();
+	
 	
 	///////////////FIRST HEADER VIEW : ENTER/////////////////////////////////////////////////////////
 	

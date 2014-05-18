@@ -3,8 +3,19 @@
     android:layout_width="1422px"
     android:layout_height="800px"
     android:layout_gravity="center"
-    android:background="@drawable/bg2" >
+    android:background="@drawable/bg2_n" >
 
+    <ImageView 
+        android:id="@+id/welcomer"
+        android:layout_width="247px"
+        android:layout_height="355px"
+        android:layout_marginTop="260px"
+        android:layout_marginLeft="170px"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/welcomer" 
+        />
+    
+    
     <Button
         android:id="@+id/register"
         android:layout_width="133px"
