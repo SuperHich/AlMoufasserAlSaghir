@@ -28,6 +28,7 @@ import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.utils.Utils;
 
 
 public class MainActivity extends SanabilActivity  implements IClickCustomListener{
@@ -340,7 +341,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 ///////////////   LIST VIEW : HANDLING    /////////////////////////////////////////////////////////
 	
 	
-	Integer[] lListIcone={R.drawable.list_1 , R.drawable.list_2 ,R.drawable.list_3 ,R.drawable.list_4 };
+	Integer[] lListIcone={R.drawable.list_4 , R.drawable.list_3 ,R.drawable.list_2 ,R.drawable.list_1 };
 	ArrayAdapter<Integer> adapter = new ImageAdapter(this, R.layout.rowlv_module, lListIcone);
 
 	listViewArticles = (ListView) findViewById(R.id.listView1);
@@ -352,24 +353,28 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			switch (position) {
 			case 0:
-//				startActivity(new Intent(ActivityModules.this, M8_Home.class));
-//				Utils.animateFad(ActivityModules.this);
-//				finish();
+				Intent i1 = new Intent(MainActivity.this, HomeLoggedIn.class);
+				i1.putExtra("part", "1");
+				startActivity(i1);
+				Utils.animateFad(MainActivity.this);
 				break;
 			case 1:
-//				startActivity(new Intent(ActivityModules.this, M9_Home.class));
-//				Utils.animateFad(ActivityModules.this);
-//				finish();
+				Intent i2 = new Intent(MainActivity.this, HomeLoggedIn.class);
+				i2.putExtra("part", "2");
+				startActivity(i2);
+				Utils.animateFad(MainActivity.this);
 				break;
 			case 2:
-//				startActivity(new Intent(ActivityModules.this, M10_Home.class));
-//				Utils.animateFad(ActivityModules.this);
-//				finish();
+				Intent i3 = new Intent(MainActivity.this, HomeLoggedIn.class);
+				i3.putExtra("part", "3");
+				startActivity(i3);
+				Utils.animateFad(MainActivity.this);
 				break;
 			case 3:
-//				startActivity(new Intent(ActivityModules.this, M11_Home.class));
-//				Utils.animateFad(ActivityModules.this);
-//				finish();
+				Intent i4 = new Intent(MainActivity.this, HomeLoggedIn.class);
+				i4.putExtra("part", "4");
+				startActivity(i4);
+				Utils.animateFad(MainActivity.this);
 				break;
 			default:
 				break;
@@ -382,26 +387,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	
 	
 }
-	public void correctWidth(TextView textView, int desiredWidth)
-	{
-	    Paint paint = new Paint();
-	    Rect bounds = new Rect();
-
-	    paint.setTypeface(textView.getTypeface());
-	    float textSize = textView.getTextSize();
-	    paint.setTextSize(textSize);
-	    String text = textView.getText().toString();
-	    paint.getTextBounds(text, 0, text.length(), bounds);
-
-	    while (bounds.width() > desiredWidth)
-	    {
-	        textSize--;
-	        paint.setTextSize(textSize);
-	        paint.getTextBounds(text, 0, text.length(), bounds);
-	    }
-
-	    textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-	}
+	
 	
 		public void onBackPressed() {
 			 exitDialog();

@@ -3,7 +3,145 @@
     android:layout_width="1422px"
     android:layout_height="800px"
     android:layout_gravity="center"
-    >
+    android:background="@drawable/bg4">
     
-
+	<ImageView 
+        android:id="@+id/herbes"
+        android:layout_width="1422px"
+        android:layout_height="245px"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg2_herbes" 
+        />
+	
+	<Button 
+	    android:id="@+id/e4_info"
+        android:layout_width="87px"
+        android:layout_height="86px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/e4_info" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e4_favourites"
+        android:layout_width="89px"
+        android:layout_height="88px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/e4_favourites" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e4_previous"
+        android:layout_width="89px"
+        android:layout_height="87px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/e4_previous" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e4_home"
+        android:layout_width="87px"
+        android:layout_height="87px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/e4_home" 
+	    />
+	
+	
+	<RelativeLayout 
+	    android:id="@+id/e4_part1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:visibility="invisible"
+	    >
+		<ImageView 
+		    android:id="@+id/e4_part1_container"
+	        android:layout_width="1422px"
+	        android:layout_height="800px"
+	        android:background="@drawable/e4_partie1_nabaa" 
+	        />
+		
+		<ListView
+	        android:id="@+id/listView1"
+	        android:layout_width="300px"
+	        android:layout_height="420px"
+	        android:layout_marginLeft="300px"
+	        android:layout_marginTop="150px"
+	        android:cacheColorHint="#00000000"
+	        android:listSelector="@drawable/selection" />
+    </RelativeLayout>
+    
+	<RelativeLayout 
+	    android:id="@+id/e4_part2"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:visibility="invisible"
+	    >
+		<ImageView 
+		    android:id="@+id/e4_part2_container"
+	        android:layout_width="1422px"
+	        android:layout_height="800px"
+	        android:background="@drawable/e4_partie2_molk" 
+	        />
+		
+		<ListView
+	        android:id="@+id/listView2"
+	        android:layout_width="300px"
+	        android:layout_height="420px"
+	        android:layout_marginLeft="850px"
+	        android:layout_marginTop="150px"
+	        android:cacheColorHint="#00000000"
+	        android:listSelector="@drawable/selection" />
+    </RelativeLayout>
+    
+	<RelativeLayout 
+	    android:id="@+id/e4_part3"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:visibility="invisible"
+	    >
+		<ImageView 
+		    android:id="@+id/e4_part3_container"
+	        android:layout_width="1422px"
+	        android:layout_height="800px"
+	        android:background="@drawable/e4_partie3_moujedla" 
+	        />
+		
+		<ListView
+	        android:id="@+id/listView3"
+	        android:layout_width="300px"
+	        android:layout_height="420px"
+	        android:layout_marginLeft="540px"
+	        android:layout_marginTop="150px"
+	        android:cacheColorHint="#00000000"
+	        android:listSelector="@drawable/selection" />
+    </RelativeLayout>
+    
+	<RelativeLayout 
+	    android:id="@+id/e4_part4"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:visibility="invisible"
+	    >
+		<ImageView 
+		    android:id="@+id/e4_part4_container"
+	        android:layout_width="1422px"
+	        android:layout_height="800px"
+	        android:background="@drawable/e4_partie4_dhariat" 
+	        />
+		
+		<ListView
+	        android:id="@+id/listView4"
+	        android:layout_width="300px"
+	        android:layout_height="420px"
+	        android:layout_marginLeft="850px"
+	        android:layout_marginTop="150px"
+	        android:cacheColorHint="#00000000"
+	        android:listSelector="@drawable/selection" />
+    </RelativeLayout>
+	
+	
+	
 </RelativeLayout>
