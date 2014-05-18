@@ -1,7 +1,7 @@
 package com.example.almoufasseralsaghir;
 
-import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.almoufasseralsaghir.external.TafseerManager;
+import com.almoufasseralsaghir.external.User;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.SanabilActivity;
@@ -38,10 +40,16 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 	
 	private ConfirmationDialog exitDialog ;
 	
+	private TafseerManager tafseerManager;
+	private boolean isUpdate = false;
+	private User savedUser;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registration);
+		
+		tafseerManager = TafseerManager.getInstance(this);
 		
 		register_cancel = (Button) findViewById(R.id.register_cancel);
 		register_confirm = (Button) findViewById(R.id.register_confirm);
@@ -68,6 +76,12 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 		social_2 = (Button) findViewById(R.id.social_btn_bas_droit_2);
 		social_3 = (Button) findViewById(R.id.social_btn_bas_droit_3);
 		
+		if(getIntent().getExtras() != null)
+		{
+			isUpdate = getIntent().getExtras().getBoolean("update");
+			savedUser = tafseerManager.getSavedUser();
+			showUser(savedUser);
+		}
 //		register_cancel.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -117,9 +131,63 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 		      }
 		      case MotionEvent.ACTION_UP:
 		          // Your action here on button click
-		    	  startActivity(new Intent(RegistrationActivity.this, HomeLoggedIn.class));
+//		    	  startActivity(new Intent(RegistrationActivity.this, HomeLoggedIn.class));
 		  		//		Utils.animateFad(RegistrationActivity.this);
-		  				finish();
+		    	  new AsyncTask<Void, Integer, Integer>() {
+		    		  		    		  
+						@Override
+						protected void onPreExecute() {
+							
+						}
+						
+						@Override
+						protected Integer doInBackground(Void... params) {
+							
+							String uid 				= null; 
+							String name 			= register_name.getText().toString();
+							String email  			= register_mail.getText().toString();
+							String email_confirm  	= register_mail_confirm.getText().toString();
+							String twitter  		= register_twitter.getText().toString();
+							String facebook 		= register_fb.getText().toString();
+							String follower1 		= register_bas_droit_1.getText().toString();
+							String follower2  		= register_bas_droit_2.getText().toString();
+							String follower3 		= register_bas_droit_3.getText().toString();
+							
+							if(email.equals(email_confirm)){
+								savedUser.setUdid(tafseerManager.getDeviceID());
+								savedUser.setName(name);
+								savedUser.setEmail(email);
+								savedUser.setTwitter(twitter);
+								savedUser.setFacebook(facebook);
+								savedUser.setFollower1(follower1);
+								savedUser.setFollower2(follower2);
+								savedUser.setFollower3(follower3);							
+								
+								if(!isUpdate)
+									return tafseerManager.registerUser(savedUser);
+								else
+									return tafseerManager.updateUser(savedUser);
+							}
+							return -1;
+						}
+						
+						@Override
+						protected void onPostExecute(Integer result) {
+							if(result > 0)
+							{
+								if(result == 2)
+									tafseerManager.showPopUp(RegistrationActivity.this, R.string.user_already_registered);
+								else{
+									savedUser.setUid(result);
+									tafseerManager.saveUser(savedUser);
+									finish();
+								}
+							}else
+								tafseerManager.showPopUp(RegistrationActivity.this, R.string.error_try_again);
+						}
+						
+					}.execute();
+		    	 
 		    	  
 		      case MotionEvent.ACTION_CANCEL: {
 		          Button view = (Button) v;
@@ -240,6 +308,17 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 			}
 		});
 		
+	}
+	
+	private void showUser(User user){
+		register_name.setText(user.getName());
+		register_mail.setText(user.getEmail());
+//		register_mail_confirm.setText(user.getEmail());
+		register_twitter.setText(user.getTwitter());
+		register_fb.setText(user.getFacebook());
+		register_bas_droit_1.setText(user.getFollower1());
+		register_bas_droit_2.setText(user.getFollower2());
+		register_bas_droit_3.setText(user.getFollower3());
 	}
 
 	public void onBackPressed() {
