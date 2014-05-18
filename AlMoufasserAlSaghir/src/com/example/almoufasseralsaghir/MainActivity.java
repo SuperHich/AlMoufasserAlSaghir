@@ -1,11 +1,13 @@
 package com.example.almoufasseralsaghir;
 
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
@@ -18,6 +20,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.almoufasseralsaghir.external.TafseerManager;
+import com.almoufasseralsaghir.external.User;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.ImageAdapter;
@@ -34,12 +38,16 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	private ListView listViewArticles;
 	ImageView herbes, email_hint ;
 	private ConfirmationDialog exitDialog ;
+	private TafseerManager tafseerManager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
+	
+	tafseerManager = TafseerManager.getInstance(this);
+	
 	herbes = (ImageView) findViewById(R.id.herbes);
 	herbes.bringToFront();
 	
@@ -58,9 +66,8 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	settings = (Button) findViewById(R.id.settings);
 	name_logged_in = (TextView) findViewById(R.id.welcome_logged_name);
 	
-	name_logged_in.setText("Mohamed Rami Trabelsi");
-	
-	
+//	name_logged_in.setText("Mohamed Rami Trabelsi");
+
 	register_enter.setVisibility(View.VISIBLE);
 	register_interface.setVisibility(View.INVISIBLE);
 	logged_in_interface.setVisibility(View.INVISIBLE);
@@ -103,10 +110,11 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 
-			if (hasFocus) email_hint.setVisibility(View.INVISIBLE);
+			if (hasFocus) 
+				email_hint.setVisibility(View.INVISIBLE);
 			else 
 				if(email_login.getText().toString().equals(""))
-				email_hint.setVisibility(View.VISIBLE);
+					email_hint.setVisibility(View.VISIBLE);
 		}
 	});
 	
@@ -123,9 +131,39 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      }
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
-				register_interface.setVisibility(View.GONE);
-				logged_in_interface.setVisibility(View.VISIBLE);
-				logged_in_interface.bringToFront();
+				
+				new AsyncTask<Void, JSONObject, JSONObject>() {
+
+					@Override
+					protected void onPreExecute() {
+						register_interface.setVisibility(View.GONE);
+					}
+					
+					@Override
+					protected JSONObject doInBackground(Void... params) {
+
+						return tafseerManager.loginUser(email_login.getText().toString());
+					}
+					
+					@Override
+					protected void onPostExecute(JSONObject result) {
+						if(result != null)
+						{
+							User userLoggedIn = tafseerManager.parseUser(result);
+							if(userLoggedIn != null){
+								tafseerManager.saveUser(userLoggedIn);
+								name_logged_in.setText(userLoggedIn.getName());
+								logged_in_interface.setVisibility(View.VISIBLE);
+								logged_in_interface.bringToFront();
+							}
+							
+						}else{
+							register_interface.setVisibility(View.VISIBLE);
+							tafseerManager.showPopUp(MainActivity.this, R.string.error_try_again);
+						}
+					}
+					
+				}.execute();
 	    	  
 	      }
 	      case MotionEvent.ACTION_CANCEL: {
@@ -183,11 +221,45 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      }
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
-	    	  name_logged_in.setText("");
+	    	  
+//	    	  new AsyncTask<Void, Integer, Integer>() {
+//		    		  
+//					@Override
+//					protected void onPreExecute() {
+//						
+//					}
+//					
+//					@Override
+//					protected Integer doInBackground(Void... params) {
+//						
+//						User savedUser = tafseerManager.getSavedUser();
+//						int uid 				= savedUser.getUid(); 
+//						String udid 			= savedUser.getUdid();
+//						String email  			= savedUser.getEmail();
+//						
+//						return tafseerManager.deleteUser(uid, udid, email);
+//					}
+//					
+//					@Override
+//					protected void onPostExecute(Integer result) {
+//						if(result > 0)
+//						{
+//							name_logged_in.setText("");
+//							logged_in_interface.setVisibility(View.GONE);
+//							register_interface.setVisibility(View.GONE);
+//							register_enter.setVisibility(View.VISIBLE);
+//							register_enter.bringToFront();					
+//						}else
+//							tafseerManager.showPopUp(MainActivity.this, R.string.error_try_again);
+//					}
+//					
+//				}.execute();
+	    	  
 	    	  logged_in_interface.setVisibility(View.GONE);
-	    	  register_interface.setVisibility(View.GONE);
-	    	  register_enter.setVisibility(View.VISIBLE);
-	    	  register_enter.bringToFront();
+				register_interface.setVisibility(View.GONE);
+				register_enter.setVisibility(View.VISIBLE);
+				register_enter.bringToFront();	
+	    	  
 	    	  
 	      }
 	      case MotionEvent.ACTION_CANCEL: {
@@ -215,7 +287,9 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      }
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
-				startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+	    	  Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+	    	  intent.putExtra("update", true);
+	    	  startActivity(intent);
 	
 // SHOULD BE IMPLEMENTED WITH INTENT PUT EXTRA    		
 				
@@ -280,29 +354,45 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+//	AsyncTask<Void, JSONObject, JSONObject> LoginAsync = new AsyncTask<Void, JSONObject, JSONObject>() {
+//
+//		@Override
+//		protected JSONObject doInBackground(Void... params) {
+//			
+//			return tafseerManager.loginUser(email_login.getText().toString());
+//		}
+//		
+//		@Override
+//		protected void onPostExecute(JSONObject result) {
+//			if(result != null)
+//			{
+//				logged_in_interface.setVisibility(View.VISIBLE);
+//				logged_in_interface.bringToFront();
+//			}
+//		}
+//		
+//	};
 	
-	
-	
-}
-public void onBackPressed() {
-	 exitDialog();
-}
-public  void exitDialog() {
+	}
+	public void onBackPressed() {
+		exitDialog();
+	}
+	public  void exitDialog() {
 		exitDialog = new ConfirmationDialog(this,
 				R.style.CustomDialogTheme, 
-				 this);
+				this);
 		exitDialog.setCancelable(false);
 		exitDialog.show();
 	}
-@Override
-public void onClickYes() {
-	exitDialog.dismiss();
-	finish();
-}
-@Override
-public void onClickNo() {
-	exitDialog.dismiss();		
-}
+	@Override
+	public void onClickYes() {
+		exitDialog.dismiss();
+		finish();
+	}
+	@Override
+	public void onClickNo() {
+		exitDialog.dismiss();		
+	}
 
 
 }
