@@ -393,6 +393,4 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	public void onClickNo() {
 		exitDialog.dismiss();		
 	}
-
-
 }
