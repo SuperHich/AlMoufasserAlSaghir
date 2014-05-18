@@ -137,13 +137,12 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 		    		  		    		  
 						@Override
 						protected void onPreExecute() {
-							
+							savedUser = new User();
 						}
 						
 						@Override
 						protected Integer doInBackground(Void... params) {
 							
-							String uid 				= null; 
 							String name 			= register_name.getText().toString();
 							String email  			= register_mail.getText().toString();
 							String email_confirm  	= register_mail_confirm.getText().toString();
