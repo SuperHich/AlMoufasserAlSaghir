@@ -202,7 +202,7 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 			}
 			
 		});
-/////////////////////////////////////// LIST de PARTIE 2 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// LIST de PARTIE 3 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		Integer[] part3_list ={R.drawable.p3_s1_moujedla , R.drawable.p3_s2_hachr ,R.drawable.p3_s3_momtahina ,R.drawable.p3_s4_saff ,R.drawable.p3_s5_jomoa,
 		R.drawable.p3_s6_mounafiqoun,R.drawable.p3_s7_thaabin,R.drawable.p3_s8_talek,R.drawable.p3_s9_tahrim
@@ -246,52 +246,53 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 		}
 		}
 		
-		});		
-/////////////////////////////////////// LIST de PARTIE 2 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		});	
 		
-//		Integer[] part4_list ={R.drawable.p4_s1_moujedla , R.drawable.p4_s2_hachr ,R.drawable.p4_s3_momtahina ,R.drawable.p4_s4_saff ,R.drawable.p4_s5_jomoa,
-//		R.drawable.p4_s6_mounafiqoun,R.drawable.p4_s7_thaabin,R.drawable.p4_s8_talek,R.drawable.p4_s9_tahrim
-//		};
-//		ArrayAdapter<Integer> adapter4 = new ImageAdapter(this, R.layout.rowlv_module, part4_list);
-//		
-//		part4_listView.setAdapter(adapter4);
-//		part4_listView.setDivider(null);
-//		
-//		part4_listView.setOnItemClickListener(new OnItemClickListener() {
-//		@Override
-//		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-//		switch (position) {
-//		case 0:
-//			//startActivity(new Intent(ActivityModules.this, M8_Home.class));
-//			//Utils.animateFad(ActivityModules.this);
-//			//finish();
-//			break;
-//		case 1:
-//			//startActivity(new Intent(ActivityModules.this, M9_Home.class));
-//			//Utils.animateFad(ActivityModules.this);
-//			//finish();
-//			break;
-//		case 2:
-//			//startActivity(new Intent(ActivityModules.this, M10_Home.class));
-//			//Utils.animateFad(ActivityModules.this);
-//			//finish();
-//			break;
-//		case 3:
-//			//startActivity(new Intent(ActivityModules.this, M11_Home.class));
-//			//Utils.animateFad(ActivityModules.this);
-//			//finish();
-//			break;
-//		case 4:
-//			//startActivity(new Intent(ActivityModules.this, M12_Home.class));
-//			//Utils.animateFad(ActivityModules.this);
-//			//finish();
-//			break;
-//		default:
-//		break;
-//		}
-//		}
-//
-//});	
+/////////////////////////////////////// LIST de PARTIE 4 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		Integer[] part4_list ={R.drawable.p4_s1_qaf , R.drawable.p4_s2_dhariet ,R.drawable.p4_s3_tour ,R.drawable.p4_s4_najm ,R.drawable.p4_s5_qamar,
+		R.drawable.p4_s6_rahmen,R.drawable.p4_s7_waqiaa,R.drawable.p4_s8_hadid
+		};
+		ArrayAdapter<Integer> adapter4 = new ImageAdapter(this, R.layout.rowlv_module, part4_list);
+		
+		part4_listView.setAdapter(adapter4);
+		part4_listView.setDivider(null);
+		
+		part4_listView.setOnItemClickListener(new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+		switch (position) {
+		case 0:
+			//startActivity(new Intent(ActivityModules.this, M8_Home.class));
+			//Utils.animateFad(ActivityModules.this);
+			//finish();
+			break;
+		case 1:
+			//startActivity(new Intent(ActivityModules.this, M9_Home.class));
+			//Utils.animateFad(ActivityModules.this);
+			//finish();
+			break;
+		case 2:
+			//startActivity(new Intent(ActivityModules.this, M10_Home.class));
+			//Utils.animateFad(ActivityModules.this);
+			//finish();
+			break;
+		case 3:
+			//startActivity(new Intent(ActivityModules.this, M11_Home.class));
+			//Utils.animateFad(ActivityModules.this);
+			//finish();
+			break;
+		case 4:
+			//startActivity(new Intent(ActivityModules.this, M12_Home.class));
+			//Utils.animateFad(ActivityModules.this);
+			//finish();
+			break;
+		default:
+		break;
+		}
+		}
+
+});	
 		
 		previous.setOnTouchListener(new OnTouchListener() {
 			
