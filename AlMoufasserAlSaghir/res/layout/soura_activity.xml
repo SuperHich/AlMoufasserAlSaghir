@@ -13,8 +13,70 @@
         android:background="@drawable/bg2_herbes" 
         />
 	
+	<ImageView 
+        android:id="@+id/soura_plateau"
+        android:layout_width="847px"
+        android:layout_height="209px"
+        android:layout_marginTop="170px"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/soura_plateau" 
+        />
+	<ImageView 
+        android:id="@+id/soura_title"
+        android:layout_width="691px"
+        android:layout_height="250px"
+        android:layout_marginTop="30px"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/e5_title_sourat_naziat" 
+        />
+	
+	
 	<Button 
-	    android:id="@+id/e4_info"
+	    android:id="@+id/questions"
+        android:layout_width="253px"
+        android:layout_height="329px"
+        android:layout_marginTop="340px"
+        android:layout_marginLeft="130px"
+        android:background="@drawable/e5_questions_btn" 
+	    />
+	
+	<Button 
+	    android:id="@+id/calendar"
+        android:layout_width="211px"
+        android:layout_height="232px"
+        android:layout_marginTop="340px"
+        android:layout_marginLeft="380px"
+        android:background="@drawable/e5_calendar_btn" 
+	    />
+	
+	<Button 
+	    android:id="@+id/mostafad"
+        android:layout_width="185px"
+        android:layout_height="204px"
+        android:layout_marginTop="355px"
+        android:layout_marginLeft="630px"
+        android:background="@drawable/e5_mostafad_btn" 
+	    />
+	
+	<Button 
+	    android:id="@+id/maana"
+        android:layout_width="217px"
+        android:layout_height="218px"
+        android:layout_marginTop="355px"
+        android:layout_marginLeft="840px"
+        android:background="@drawable/e5_maana_btn" 
+	    />
+	<Button 
+	    android:id="@+id/player"
+        android:layout_width="245px"
+        android:layout_height="272px"
+        android:layout_marginTop="400px"
+        android:layout_marginLeft="1045px"
+        android:background="@drawable/e5_player_btn" 
+	    />
+	
+	<Button 
+	    android:id="@+id/info"
         android:layout_width="87px"
         android:layout_height="86px"
         android:layout_alignParentTop="true"
@@ -23,7 +85,7 @@
 	    />
 	
 	<Button 
-	    android:id="@+id/e4_favourites"
+	    android:id="@+id/favourites"
         android:layout_width="89px"
         android:layout_height="88px"
         android:layout_alignParentTop="true"
@@ -32,7 +94,7 @@
 	    />
 	
 	<Button 
-	    android:id="@+id/e4_previous"
+	    android:id="@+id/previous"
         android:layout_width="89px"
         android:layout_height="87px"
         android:layout_alignParentBottom="true"
@@ -41,7 +103,7 @@
 	    />
 	
 	<Button 
-	    android:id="@+id/e4_home"
+	    android:id="@+id/home"
         android:layout_width="87px"
         android:layout_height="87px"
         android:layout_alignParentBottom="true"

@@ -19,8 +19,9 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 
 	private ImageView herbes ;
 	private Button info, favourites, previous, home ;
+	private Button questions, calendar, mostafad, maana, player ;
 	private ConfirmationDialog exitDialog ;
-	
+	private ImageView soura_title ;
 	String soura_name ;
 	
 	@Override
@@ -28,11 +29,17 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.soura_activity);
 		
-		info = (Button) findViewById(R.id.e4_info);
-		favourites = (Button) findViewById(R.id.e4_favourites);
-		previous = (Button) findViewById(R.id.e4_previous);
-		home = (Button) findViewById(R.id.e4_home);	
+		info = (Button) findViewById(R.id.info);
+		favourites = (Button) findViewById(R.id.favourites);
+		previous = (Button) findViewById(R.id.previous);
+		home = (Button) findViewById(R.id.home);	
 		herbes = (ImageView) findViewById(R.id.herbes);
+		
+		questions = (Button) findViewById(R.id.questions);
+		calendar = (Button) findViewById(R.id.calendar);
+		mostafad = (Button) findViewById(R.id.mostafad);
+		maana = (Button) findViewById(R.id.maana);
+		player = (Button) findViewById(R.id.player);
 		
 		herbes.bringToFront();
 		info.bringToFront();
@@ -50,8 +57,166 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		soura_name = TafseerManager.getSouraName(part_num, s_position) ;
 		
 		Toast.makeText(getApplicationContext(), soura_name, Toast.LENGTH_LONG).show();
+
 		
 		
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		questions.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+					
+		    	  
+		    	  
+		    	  
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
+		
+//////////////////////////////////////////////////////////////////////////////////////////////////////	
+
+		calendar.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+					
+		    	  
+		    	  
+		    	  
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
+		
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		mostafad.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+					
+		    	  
+		    	  
+		    	  
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		maana.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+					
+		    	  
+		    	  
+		    	  
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		player.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+					
+		    	  
+		    	  
+		    	  
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
+		
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		previous.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
@@ -105,6 +270,33 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		      return true;
 		    }
 		});
+		info.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+		    	  startActivity(new Intent(SouraActivity.this, InfoActivity.class));
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
+		
+		
 		
 	}
 	
