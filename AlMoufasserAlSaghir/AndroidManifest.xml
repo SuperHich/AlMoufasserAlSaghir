@@ -40,6 +40,15 @@
             android:name="com.example.almoufasseralsaghir.SouraActivity"
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name="com.example.almoufasseralsaghir.InfoActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.example.almoufasseralsaghir.HelpActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        
     </application>
 
 </manifest>
