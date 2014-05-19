@@ -4,6 +4,7 @@
     <string name="app_name">Al Moufasser Al Saghir</string>
     <string name="action_settings">Settings</string>
     <string name="error_try_again">خطأ .. حاول مرة أخرى</string>
+    <string name="error_internet_connexion">تأكد من الاتصال بالانترنت</string>
     <string name="user_already_registered">هذا المستخدم مسجل مسبقاً</string>
     <string name="register_success">تم التسجيل بنجاح</string>
     <string name="update_success">تم التعديل بنجاح</string>

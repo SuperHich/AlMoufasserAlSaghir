@@ -33,7 +33,6 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 	
 	private Button info, favourites, previous, home ;
 	private RelativeLayout part1, part2, part3, part4 ;
-	private ImageView part1_container, part2_container, part3_container, part4_container ;
 	private ImageView herbes ;
 	
 	@Override
@@ -51,10 +50,6 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 		part3 = (RelativeLayout) findViewById(R.id.e4_part3);
 		part4 = (RelativeLayout) findViewById(R.id.e4_part4);
 		
-		part1_container = (ImageView) findViewById(R.id.e4_part1_container);
-		part2_container = (ImageView) findViewById(R.id.e4_part2_container);
-		part3_container = (ImageView) findViewById(R.id.e4_part3_container);
-		part4_container = (ImageView) findViewById(R.id.e4_part4_container);
 		
 		part1_listView = (ListView) findViewById(R.id.listView1);
 		part2_listView = (ListView) findViewById(R.id.listView2);
@@ -124,35 +119,13 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 		part1_listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				switch (position) {
-				case 0:
-//					startActivity(new Intent(ActivityModules.this, M8_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				case 1:
-//					startActivity(new Intent(ActivityModules.this, M9_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				case 2:
-//					startActivity(new Intent(ActivityModules.this, M10_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				case 3:
-//					startActivity(new Intent(ActivityModules.this, M11_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				case 4:
-//					startActivity(new Intent(ActivityModules.this, M12_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				default:
-					break;
-				}
+
+					Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
+					in.putExtra("quran_part", "1");
+					in.putExtra("soura_position", String.valueOf(position));
+					startActivity(in);
+					Utils.animateFad(HomeLoggedIn.this);
+					
 			}
 			
 		});
@@ -170,35 +143,11 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 		part2_listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				switch (position) {
-				case 0:
-//					startActivity(new Intent(ActivityModules.this, M8_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				case 1:
-//					startActivity(new Intent(ActivityModules.this, M9_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				case 2:
-//					startActivity(new Intent(ActivityModules.this, M10_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				case 3:
-//					startActivity(new Intent(ActivityModules.this, M11_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				case 4:
-//					startActivity(new Intent(ActivityModules.this, M12_Home.class));
-//					Utils.animateFad(ActivityModules.this);
-//					finish();
-					break;
-				default:
-					break;
-				}
+				Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
+				in.putExtra("quran_part", "2");
+				in.putExtra("soura_position", String.valueOf(position));
+				startActivity(in);
+				Utils.animateFad(HomeLoggedIn.this);
 			}
 			
 		});
@@ -215,35 +164,12 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 		part3_listView.setOnItemClickListener(new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-		switch (position) {
-		case 0:
-			//startActivity(new Intent(ActivityModules.this, M8_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		case 1:
-			//startActivity(new Intent(ActivityModules.this, M9_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		case 2:
-			//startActivity(new Intent(ActivityModules.this, M10_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		case 3:
-			//startActivity(new Intent(ActivityModules.this, M11_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		case 4:
-			//startActivity(new Intent(ActivityModules.this, M12_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		default:
-		break;
-		}
+			Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
+			in.putExtra("quran_part", "4");
+			in.putExtra("soura_position", String.valueOf(position));
+			startActivity(in);
+			Utils.animateFad(HomeLoggedIn.this);
+		
 		}
 		
 		});	
@@ -261,39 +187,15 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 		part4_listView.setOnItemClickListener(new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-		switch (position) {
-		case 0:
-			//startActivity(new Intent(ActivityModules.this, M8_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		case 1:
-			//startActivity(new Intent(ActivityModules.this, M9_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		case 2:
-			//startActivity(new Intent(ActivityModules.this, M10_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		case 3:
-			//startActivity(new Intent(ActivityModules.this, M11_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		case 4:
-			//startActivity(new Intent(ActivityModules.this, M12_Home.class));
-			//Utils.animateFad(ActivityModules.this);
-			//finish();
-			break;
-		default:
-		break;
+			Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
+			in.putExtra("quran_part", "4");
+			in.putExtra("soura_position", String.valueOf(position));
+			startActivity(in);
+			Utils.animateFad(HomeLoggedIn.this);
 		}
-		}
-
-});	
+			});	
 		
+//////////////////////////////////// UTIL BUTTONS	////////////////////////////////////////////////////////////////////////	
 		previous.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
@@ -320,6 +222,33 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 		    }
 		});
 
+		info.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+		    	  startActivity(new Intent(HomeLoggedIn.this, InfoActivity.class));
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
+		
+		
 		home.setOnTouchListener(new OnTouchListener() {
 			
 			@Override

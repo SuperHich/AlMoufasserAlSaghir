@@ -9,6 +9,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.almoufasseralsaghir.R;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,7 +44,7 @@ public class TafseerManager {
 
 
 	private static TafseerManager mInstance = null;
-	private SharedPreferences settings;
+	private static SharedPreferences settings;
 	private SharedPreferences.Editor editor;
 
 	private JSONParser jsonParser;
@@ -72,6 +74,48 @@ public class TafseerManager {
         return json;
     }  
 	
+	public static String getSouraName(int part, int position) {
+		
+		String soura_name = "" ;
+		
+		String[] part1_list ={"nabaa" , "naziaat" ,"abas" ,"takwir" ,"infitar",
+				"moutaffifin","inchikak","bourouj","tariq", "aala",
+				"ghachia","fajr", "balad", "shams", "lail",
+				"dhouha", "inchirah", "tin","alaq", "kadar",
+				"bayyina","zalzala", "adyet", "quariaa", "takathor",
+				"asr","homaza", "fil", "quraich","maaaoun",
+				"kawthar", "kafiroun", "nasr", "masad", "ikhlas",
+				"falaq", "ness"
+		};
+		
+		String[] part2_list ={"molk" , "kalam" , "hakka" ,"miaraj" ,"nouh",
+				"jinn", "mouzammil", "modathir", "qayimat", "insan",
+				"morsilat"
+		};
+		
+		String[] part3_list ={"moujedla" , "hachr" ,"momtahina" ,"saff" ,"jomoa",
+				"mounafiqoun","thaabin","talek","tahrim"
+				};
+		String[] part4_list ={"qaf" , "dhariet" ,"tour" ,"najm" ,"qamar",
+				"rahmen","waqiaa","hadid"
+				};
+		
+		switch(part){
+		case 1 : soura_name = part1_list[position];
+		break ;
+		case 2 : soura_name = part2_list[position];
+		break ;
+		case 3 : soura_name = part3_list[position];
+		break ;
+		case 4 : soura_name = part4_list[position];
+		break ;
+		}
+		
+		return soura_name ;
+	}
+	
+	
+	
 	public void saveUser(User user){	
 		editor.putInt("uid", user.getUid());
 		editor.putString("udid", user.getUdid());
@@ -86,7 +130,7 @@ public class TafseerManager {
 		editor.commit();
 	}
 	
-	public User getSavedUser(){
+	public static User getSavedUser(){
 		User user = new User();
 		
 		user.setUid(settings.getInt("uid", -1));
@@ -118,6 +162,7 @@ public class TafseerManager {
 		// show it
 		alertDialogBuilder.show();
 	}
+	
 	
 	public User parseUser(JSONObject userObj){
 		User user = new User();

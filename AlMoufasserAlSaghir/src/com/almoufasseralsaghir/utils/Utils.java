@@ -2,7 +2,10 @@ package com.almoufasseralsaghir.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 public class Utils {
 
@@ -28,4 +31,14 @@ public class Utils {
 			mp.release();
 		}
 	}
+	public static boolean isOnline(Context context) {
+
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		return false;
+	}
+	
 }

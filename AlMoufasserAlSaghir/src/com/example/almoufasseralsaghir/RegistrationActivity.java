@@ -1,5 +1,7 @@
 package com.example.almoufasseralsaghir;
 
+import java.util.ArrayList;
+
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import com.almoufasseralsaghir.external.User;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.utils.Utils;
 
 public class RegistrationActivity extends SanabilActivity  implements IClickCustomListener{
 
@@ -133,6 +136,8 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 		          // Your action here on button click
 //		    	  startActivity(new Intent(RegistrationActivity.this, HomeLoggedIn.class));
 		  		//		Utils.animateFad(RegistrationActivity.this);
+		    	 
+		    	  if (Utils.isOnline(getApplicationContext())){
 		    	  new AsyncTask<Void, Integer, Integer>() {
 		    		  		    		  
 						@Override
@@ -186,7 +191,9 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 						}
 						
 					}.execute();
-		    	 
+		    	  }else {
+		    		  tafseerManager.showPopUp(RegistrationActivity.this, R.string.error_internet_connexion);
+		    	  }
 		    	  
 		      case MotionEvent.ACTION_CANCEL: {
 		          Button view = (Button) v;
@@ -308,6 +315,8 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 		});
 		
 	}
+	
+	
 	
 	private void showUser(User user){
 		register_name.setText(user.getName());

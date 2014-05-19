@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1422px"
+    android:layout_height="800px"
+    android:layout_gravity="center" 
+    android:background="@drawable/info_bg" >
+    
+	<Button 
+	    android:id="@+id/previous"
+        android:layout_width="81px"
+        android:layout_height="81px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="20px"
+        android:background="@drawable/previous" 
+	    />
+	
+	<Button 
+	    android:id="@+id/more_apps"
+        android:layout_width="294px"
+        android:layout_height="82px"
+        android:layout_marginLeft="920px"
+        android:layout_marginTop="500px"
+        android:background="@drawable/more_applications" 
+	    />
+	
+	<Button 
+	    android:id="@+id/help"
+        android:layout_width="245px"
+        android:layout_height="84px"
+        android:layout_marginLeft="560px"
+        android:layout_marginTop="495px"
+        android:background="@drawable/help_btn" 
+	    />
+    
+    
+</RelativeLayout>

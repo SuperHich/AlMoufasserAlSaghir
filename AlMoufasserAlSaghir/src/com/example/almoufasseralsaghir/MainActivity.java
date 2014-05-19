@@ -3,9 +3,11 @@ package com.example.almoufasseralsaghir;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -45,9 +47,11 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	ImageView herbes, email_hint, welcomer ;
 	private ConfirmationDialog exitDialog ;
 	private TafseerManager tafseerManager;
-	private MediaPlayer welcome_mp ;
+	private MediaPlayer welcome_mp, welcome_mp2 ;
 	
 	int i = 0 ;
+	public static boolean first_entry = true;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,23 +81,28 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	name_logged_in = (FontFitTextView) findViewById(R.id.welcome_logged_name);
 	
 
-	name_logged_in.setText("Sedki Trimech");
+//	name_logged_in.setText("Sedki Trimech");
 //	name_logged_in.resizeText(600,200);
+	
+	name_logged_in.setText(TafseerManager.getSavedUser().getName());
 	
 	herbes.bringToFront();
 	
-	register_enter.setVisibility(View.VISIBLE);
-	register_interface.setVisibility(View.INVISIBLE);
-	logged_in_interface.setVisibility(View.INVISIBLE);
+	
 	
 ///////////////  SOUND ANIMATION : GIF ALIKE /////////////////////////////////////////////////////////
 	
+	if (first_entry) {
+		
+		register_enter.setVisibility(View.VISIBLE);
+		register_interface.setVisibility(View.INVISIBLE);
+		logged_in_interface.setVisibility(View.INVISIBLE);
+		
 	welcome_mp = new MediaPlayer();
-	welcome_mp = MediaPlayer.create(this, R.raw.test);
+	welcome_mp = MediaPlayer.create(this, R.raw.welcome_msg_1);
 	welcome_mp.start();
 	
-	
-	new CountDownTimer(14000, 200) {
+	new CountDownTimer(4000, 60) {
 
 	     public void onTick(long millisUntilFinished) {
 	    	
@@ -109,22 +118,64 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	    	 case 3 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
 	    		 break ;
 	    	 case 4 : welcomer.setBackgroundResource(R.drawable.welcomer_3_modified);
-    		 	 break ;
+   		 	 break ;
 	    	 case 5 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
-    		   	 break ;
-	    	
+   		   	 break ;
 	    	 }
-	    	 
 	    	 i++ ;
-	     
 	     }
-
 	     public void onFinish() {
-	    	 
-	    	 welcomer.setBackgroundResource(R.drawable.welcomer);
+	    	 welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
 	     }
 	  }.start();
 	
+	
+	welcome_mp.setOnCompletionListener(new OnCompletionListener() {
+		@Override
+		public void onCompletion(MediaPlayer mp) {
+			mp.release();
+			welcome_mp = MediaPlayer.create(MainActivity.this, R.raw.welcome_msg_2);
+			welcome_mp.start();
+			i = 0 ;
+			new CountDownTimer(4000, 60) {
+
+			     public void onTick(long millisUntilFinished) {
+			    	
+			    	 if (i == 6) i = 0;
+			    	 
+			    	 switch (i)  {
+			    	 case 0 : welcomer.setBackgroundResource(R.drawable.welcomer_1_modified);
+			    		 break ;
+			    	 case 1 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+			    		 break ;
+			    	 case 2 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+			    		 break ;
+			    	 case 3 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+			    		 break ;
+			    	 case 4 : welcomer.setBackgroundResource(R.drawable.welcomer_3_modified);
+		    		 	 break ;
+			    	 case 5 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+		    		   	 break ;
+			    	 }
+			    	 i++ ;
+			     }
+
+			     public void onFinish() {
+			     welcomer.setBackgroundResource(R.drawable.welcomer);
+			     }
+			  }.start();
+			
+		}
+	});
+	
+	
+	
+	} else {
+		welcomer.setBackgroundResource(R.drawable.welcomer);
+		register_enter.setVisibility(View.INVISIBLE);
+		register_interface.setVisibility(View.INVISIBLE);
+		logged_in_interface.setVisibility(View.VISIBLE);
+	}
 	
 	///////////////FIRST HEADER VIEW : ENTER/////////////////////////////////////////////////////////
 	
@@ -184,23 +235,30 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      }
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
+	    	  final ProgressDialog pd = new ProgressDialog(MainActivity.this);
+	    	  
+	    	  if (Utils.isOnline(getApplicationContext())){
 				new AsyncTask<Void, JSONObject, JSONObject>() {
 
 					@Override
 					protected void onPreExecute() {
 						register_interface.setVisibility(View.GONE);
+			            pd.setCancelable(false);
+			            pd.setIndeterminate(true);
+			            pd.show();
 					}
 					
 					@Override
 					protected JSONObject doInBackground(Void... params) {
-
+						
 						return tafseerManager.loginUser(email_login.getText().toString());
 					}
 					
 					@Override
 					protected void onPostExecute(JSONObject result) {
+						pd.dismiss();
 						if(result != null)
-						{
+						{	
 							User userLoggedIn = tafseerManager.parseUser(result);
 							if(userLoggedIn != null){
 								tafseerManager.saveUser(userLoggedIn);
@@ -209,14 +267,16 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 								logged_in_interface.bringToFront();
 							}
 							
-						}else{
+						}else{ 
 							register_interface.setVisibility(View.VISIBLE);
 							tafseerManager.showPopUp(MainActivity.this, R.string.error_try_again);
 						}
 					}
 					
 				}.execute();
-	    	  
+	    	  } else {
+	    		  tafseerManager.showPopUp(MainActivity.this, R.string.error_internet_connexion);
+	    	  }
 	      }
 	      case MotionEvent.ACTION_CANCEL: {
 	          Button view = (Button) v;

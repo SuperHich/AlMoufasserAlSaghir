@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1422px"
+    android:layout_height="800px"
+    android:layout_gravity="center"
+    android:background="@drawable/bg4">
+    
+	<ImageView 
+        android:id="@+id/herbes"
+        android:layout_width="1422px"
+        android:layout_height="245px"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg2_herbes" 
+        />
+	
+	<Button 
+	    android:id="@+id/e4_info"
+        android:layout_width="87px"
+        android:layout_height="86px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/e4_info" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e4_favourites"
+        android:layout_width="89px"
+        android:layout_height="88px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/e4_favourites" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e4_previous"
+        android:layout_width="89px"
+        android:layout_height="87px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/e4_previous" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e4_home"
+        android:layout_width="87px"
+        android:layout_height="87px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/e4_home" 
+	    />
+	
+	
+	
+	
+	
+</RelativeLayout>
