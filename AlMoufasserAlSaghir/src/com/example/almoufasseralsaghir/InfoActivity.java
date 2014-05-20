@@ -2,6 +2,7 @@ package com.example.almoufasseralsaghir;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -65,9 +66,7 @@ public class InfoActivity extends SanabilActivity implements IClickCustomListene
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	  
-		    	  
-/////////////// HICHEM WEB SERVICE GOOGLE PLAY ///////////////////////////////////////////
-		      
+		    	  startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://alnour.ws/zadapp/")));  
 		      
 		      
 		      }

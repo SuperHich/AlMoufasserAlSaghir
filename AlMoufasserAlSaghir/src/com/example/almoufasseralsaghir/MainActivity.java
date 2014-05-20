@@ -98,9 +98,9 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 		register_interface.setVisibility(View.INVISIBLE);
 		logged_in_interface.setVisibility(View.INVISIBLE);
 		
-	welcome_mp = new MediaPlayer();
-	welcome_mp = MediaPlayer.create(this, R.raw.welcome_msg_1);
-	welcome_mp.start();
+//	welcome_mp = new MediaPlayer();
+//	welcome_mp = MediaPlayer.create(this, R.raw.welcome_msg_1);
+//	welcome_mp.start();
 	
 	new CountDownTimer(4000, 60) {
 
@@ -130,43 +130,43 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	  }.start();
 	
 	
-	welcome_mp.setOnCompletionListener(new OnCompletionListener() {
-		@Override
-		public void onCompletion(MediaPlayer mp) {
-			mp.release();
-			welcome_mp = MediaPlayer.create(MainActivity.this, R.raw.welcome_msg_2);
-			welcome_mp.start();
-			i = 0 ;
-			new CountDownTimer(4000, 60) {
-
-			     public void onTick(long millisUntilFinished) {
-			    	
-			    	 if (i == 6) i = 0;
-			    	 
-			    	 switch (i)  {
-			    	 case 0 : welcomer.setBackgroundResource(R.drawable.welcomer_1_modified);
-			    		 break ;
-			    	 case 1 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
-			    		 break ;
-			    	 case 2 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
-			    		 break ;
-			    	 case 3 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
-			    		 break ;
-			    	 case 4 : welcomer.setBackgroundResource(R.drawable.welcomer_3_modified);
-		    		 	 break ;
-			    	 case 5 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
-		    		   	 break ;
-			    	 }
-			    	 i++ ;
-			     }
-
-			     public void onFinish() {
-			     welcomer.setBackgroundResource(R.drawable.welcomer);
-			     }
-			  }.start();
-			
-		}
-	});
+//	welcome_mp.setOnCompletionListener(new OnCompletionListener() {
+//		@Override
+//		public void onCompletion(MediaPlayer mp) {
+//			mp.release();
+//			welcome_mp = MediaPlayer.create(MainActivity.this, R.raw.welcome_msg_2);
+//			welcome_mp.start();
+//			i = 0 ;
+//			new CountDownTimer(4000, 60) {
+//
+//			     public void onTick(long millisUntilFinished) {
+//			    	
+//			    	 if (i == 6) i = 0;
+//			    	 
+//			    	 switch (i)  {
+//			    	 case 0 : welcomer.setBackgroundResource(R.drawable.welcomer_1_modified);
+//			    		 break ;
+//			    	 case 1 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+//			    		 break ;
+//			    	 case 2 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+//			    		 break ;
+//			    	 case 3 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+//			    		 break ;
+//			    	 case 4 : welcomer.setBackgroundResource(R.drawable.welcomer_3_modified);
+//		    		 	 break ;
+//			    	 case 5 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+//		    		   	 break ;
+//			    	 }
+//			    	 i++ ;
+//			     }
+//
+//			     public void onFinish() {
+//			     welcomer.setBackgroundResource(R.drawable.welcomer);
+//			     }
+//			  }.start();
+//			
+//		}
+//	});
 	
 	
 	

@@ -1,8 +1,13 @@
 package com.example.almoufasseralsaghir;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
@@ -13,7 +18,8 @@ import com.example.almoufasseralsaghir.pager.HelpFragmentAdapter;
 public class HelpActivity extends SanabilActivity implements IClickCustomListener {
 
 	private ConfirmationDialog exitDialog ;
-
+	
+	private Button previous ;
 	private HelpFragmentAdapter mAdapter;
 	private ViewPager mPager;
 	private ImageView icn1, icn2, icn3, icn4, icn5, icn6, icn7, icn8, icn9;
@@ -32,6 +38,9 @@ public class HelpActivity extends SanabilActivity implements IClickCustomListene
 		icn7 = (ImageView) findViewById(R.id.icn7);
 		icn8 = (ImageView) findViewById(R.id.icn8);
 		icn9 = (ImageView) findViewById(R.id.icn9);
+		
+		previous = (Button) findViewById(R.id.previous);
+		previous.bringToFront();
 		
 		mAdapter = new HelpFragmentAdapter(getSupportFragmentManager());
 
@@ -111,7 +120,31 @@ public class HelpActivity extends SanabilActivity implements IClickCustomListene
 
 //        mIndicator = (IconPageIndicator)findViewById(R.id.indicator);
 //        mIndicator.setViewPager(mPager);
-		
+previous.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+					finish();
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
 		
 	}
 	
