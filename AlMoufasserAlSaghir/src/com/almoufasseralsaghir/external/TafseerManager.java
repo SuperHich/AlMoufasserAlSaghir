@@ -9,8 +9,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.almoufasseralsaghir.R;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
