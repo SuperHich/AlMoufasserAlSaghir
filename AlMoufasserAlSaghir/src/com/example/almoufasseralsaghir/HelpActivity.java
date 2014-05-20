@@ -38,6 +38,8 @@ public class HelpActivity extends SanabilActivity implements IClickCustomListene
         mPager = (ViewPager)findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
         
+        mPager.setCurrentItem(8);
+        
         mPager.setOnPageChangeListener(new OnPageChangeListener() {
 			
 			@Override

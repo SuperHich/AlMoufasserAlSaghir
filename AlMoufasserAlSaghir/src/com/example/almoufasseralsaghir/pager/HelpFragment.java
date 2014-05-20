@@ -1,7 +1,11 @@
 package com.example.almoufasseralsaghir.pager;
 
+import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.example.almoufasseralsaghir.R;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,16 +37,17 @@ public final class HelpFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {        
-    	ImageView image = new ImageView(getActivity());
+    	
+    	
+    	View view = inflater.inflate(R.layout.help_viewpager, container, false);
+		if(!(SanabilActivity.scaled))
+			SanabilActivity.scaleViewAndChildren(view, SanabilActivity.scale);
+    	
+    	ImageView image = (ImageView) view.findViewById(R.id.image_viewer);
     	image.setImageResource(mImageId);
-    	image.setScaleType(ScaleType.FIT_XY);
 
-        LinearLayout layout = new LinearLayout(getActivity());
-        layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        layout.setGravity(Gravity.CENTER);
-        layout.addView(image);
-
-        return layout;
+        
+        return view;
     }
 
     @Override

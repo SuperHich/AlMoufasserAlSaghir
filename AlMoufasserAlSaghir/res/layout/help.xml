@@ -17,17 +17,17 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="1422px"
+    android:layout_height="800px">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="1422px"
+        android:layout_height="800px"
         />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="1422px"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" 
         android:layout_centerHorizontal="true"
@@ -35,65 +35,65 @@
 
         <ImageView
             android:id="@+id/icn1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/dot1" 
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/dot2" 
             android:contentDescription="@null"/>
 
         <ImageView
             android:id="@+id/icn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40px"
+            android:layout_height="40px"
             android:src="@drawable/dot2" 
             android:contentDescription="@null"/>
 
         <ImageView
             android:id="@+id/icn3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40px"
+            android:layout_height="40px"
             android:src="@drawable/dot2" 
             android:contentDescription="@null"/>
         
          <ImageView
             android:id="@+id/icn4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40px"
+            android:layout_height="40px"
             android:src="@drawable/dot2" 
             android:contentDescription="@null"/>
 
         <ImageView
             android:id="@+id/icn5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40px"
+            android:layout_height="40px"
             android:src="@drawable/dot2" 
             android:contentDescription="@null"/>
         
          <ImageView
             android:id="@+id/icn6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40px"
+            android:layout_height="40px"
             android:src="@drawable/dot2" 
             android:contentDescription="@null"/>
 
         <ImageView
             android:id="@+id/icn7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40px"
+            android:layout_height="40px"
             android:src="@drawable/dot2" 
             android:contentDescription="@null"/>
         
          <ImageView
             android:id="@+id/icn8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40px"
+            android:layout_height="40px"
             android:src="@drawable/dot2" 
             android:contentDescription="@null"/>
 
         <ImageView
             android:id="@+id/icn9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/dot2" 
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/dot1" 
             android:contentDescription="@null"/>
     </LinearLayout>
 </RelativeLayout>

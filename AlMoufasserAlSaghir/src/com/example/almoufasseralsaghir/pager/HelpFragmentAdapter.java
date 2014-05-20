@@ -8,15 +8,15 @@ import com.example.almoufasseralsaghir.R;
 
 public class HelpFragmentAdapter extends FragmentPagerAdapter {
     protected static final int[] CONTENT = new int[] { 
-    	R.drawable.help_page1, 
-    	R.drawable.help_page2, 
-    	R.drawable.help_page3, 
-    	R.drawable.help_page4, 
+    	R.drawable.help_page9, 
+    	R.drawable.help_page8, 
+    	R.drawable.help_page7, 
+    	R.drawable.help_page6, 
     	R.drawable.help_page5,
-    	R.drawable.help_page6,
-    	R.drawable.help_page7,
-    	R.drawable.help_page8,
-    	R.drawable.help_page9};
+    	R.drawable.help_page4,
+    	R.drawable.help_page3,
+    	R.drawable.help_page2,
+    	R.drawable.help_page1};
    
 
     private int mCount = CONTENT.length;
