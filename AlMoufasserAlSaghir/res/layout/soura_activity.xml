@@ -24,10 +24,9 @@
 	<ImageView 
         android:id="@+id/soura_title"
         android:layout_width="691px"
-        android:layout_height="250px"
-        android:layout_marginTop="30px"
+        android:layout_height="324px"
+        android:layout_marginTop="10px"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/e5_title_sourat_naziat" 
         />
 	
 	

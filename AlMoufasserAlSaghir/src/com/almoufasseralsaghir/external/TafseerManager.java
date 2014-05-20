@@ -77,11 +77,11 @@ public class TafseerManager {
 		String soura_name = "" ;
 		
 		String[] part1_list ={"nabaa" , "naziaat" ,"abas" ,"takwir" ,"infitar",
-				"moutaffifin","inchikak","bourouj","tariq", "aala",
+				"moutaffifin","inchikak","bourouj","tarek", "aala",
 				"ghachia","fajr", "balad", "shams", "lail",
 				"dhouha", "inchirah", "tin","alaq", "kadar",
 				"bayyina","zalzala", "adyet", "quariaa", "takathor",
-				"asr","homaza", "fil", "quraich","maaaoun",
+				"asr","homaza", "fil", "quraich","maaoun",
 				"kawthar", "kafiroun", "nasr", "masad", "ikhlas",
 				"falaq", "ness"
 		};

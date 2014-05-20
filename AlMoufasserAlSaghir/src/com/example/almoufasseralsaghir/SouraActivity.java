@@ -31,6 +31,8 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.soura_activity);
 		
+		soura_title = (ImageView) findViewById(R.id.soura_title);
+		
 		info = (Button) findViewById(R.id.info);
 		favourites = (Button) findViewById(R.id.favourites);
 		previous = (Button) findViewById(R.id.previous);
@@ -52,8 +54,7 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		previous.bringToFront();
 		home.bringToFront();
 		
-		parts_btn.bringToFront();
-		soura_part_num.bringToFront();
+		
 		
 		Bundle extras = getIntent().getExtras();
 		String q_part_number =(String) extras.get("quran_part");
@@ -64,8 +65,13 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		
 		soura_name = TafseerManager.getSouraName(quran_part_num, s_position) ;
 		
-		Toast.makeText(getApplicationContext(), soura_name, Toast.LENGTH_LONG).show();
-
+		int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+soura_name, "drawable", this.getPackageName());
+		
+		soura_title.setBackgroundResource(drawableResourceId);
+		
+		parts_btn.bringToFront();
+		soura_part_num.bringToFront();
+		
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		parts_btn.setOnTouchListener(new OnTouchListener() {

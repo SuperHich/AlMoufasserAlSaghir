@@ -65,9 +65,7 @@ public class InfoActivity extends SanabilActivity implements IClickCustomListene
 		          break;
 		      }
 		      case MotionEvent.ACTION_UP: {
-		    	  
 		    	  startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://alnour.ws/zadapp/")));  
-		      
 		      
 		      }
 		      case MotionEvent.ACTION_CANCEL: {

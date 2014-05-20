@@ -177,7 +177,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 		logged_in_interface.setVisibility(View.VISIBLE);
 	}
 	
-	///////////////FIRST HEADER VIEW : ENTER/////////////////////////////////////////////////////////
+///////////////FIRST HEADER VIEW : ENTER/////////////////////////////////////////////////////////
 	
 	register_enter.setOnTouchListener(new OnTouchListener() {
 		@Override
@@ -402,8 +402,6 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	    	  intent.putExtra("update", true);
 	    	  startActivity(intent);
 	
-// SHOULD BE IMPLEMENTED WITH INTENT PUT EXTRA    		
-				
 				//		Utils.animateFad(RegistrationActivity.this);
 	      }
 	      case MotionEvent.ACTION_CANCEL: {
@@ -452,7 +450,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 					popup_reader1.setBackgroundResource(R.drawable.popup_active_btn);
 					popup_reader2.setBackgroundResource(R.drawable.popup_inactive_btn);
    
-	////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
+////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
 	
 				}
 	    	  });
@@ -464,7 +462,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 						popup_reader1.setBackgroundResource(R.drawable.popup_inactive_btn);
 						popup_reader2.setBackgroundResource(R.drawable.popup_active_btn);
 	
-	////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
+////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
 						
 					}
 		    	  });
@@ -482,7 +480,7 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	    		      }
 	    		      case MotionEvent.ACTION_UP: {
 	    
-	   ////////////////////// SET READER IN MYAPPLICATION //////////////////////////////////////////////////////////////////
+////////////////////// SET READER IN MYAPPLICATION //////////////////////////////////////////////////////////////////
 	    		    	  
 	    		      }
 	    		      case MotionEvent.ACTION_CANCEL: {
@@ -531,25 +529,26 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 				Intent i1 = new Intent(MainActivity.this, HomeLoggedIn.class);
 				i1.putExtra("part", "1");
 				startActivity(i1);
-				Utils.animateFad(MainActivity.this);
+				Utils.animateSlide(MainActivity.this);
+				
 				break;
 			case 1:
 				Intent i2 = new Intent(MainActivity.this, HomeLoggedIn.class);
 				i2.putExtra("part", "2");
 				startActivity(i2);
-				Utils.animateFad(MainActivity.this);
+				Utils.animateSlide(MainActivity.this);
 				break;
 			case 2:
 				Intent i3 = new Intent(MainActivity.this, HomeLoggedIn.class);
 				i3.putExtra("part", "3");
 				startActivity(i3);
-				Utils.animateFad(MainActivity.this);
+				Utils.animateSlide(MainActivity.this);
 				break;
 			case 3:
 				Intent i4 = new Intent(MainActivity.this, HomeLoggedIn.class);
 				i4.putExtra("part", "4");
 				startActivity(i4);
-				Utils.animateFad(MainActivity.this);
+				Utils.animateSlide(MainActivity.this);
 				break;
 			default:
 				break;

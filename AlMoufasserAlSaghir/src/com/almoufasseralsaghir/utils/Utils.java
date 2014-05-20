@@ -14,6 +14,10 @@ public class Utils {
 		pActivity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
 	}
 	
+	public static void animateSlide(Activity pActivity){
+		pActivity.overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+	}
+	
 	@SuppressLint("NewApi")
 	public static void animateFrags(android.support.v4.app.FragmentTransaction ft2){
 		ft2.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);

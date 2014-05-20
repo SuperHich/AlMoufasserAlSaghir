@@ -26,7 +26,7 @@ public class SplashHome extends SanabilActivity {
 
 			Intent intent = new Intent(SplashHome.this, MainActivity.class);
 			SplashHome.this.startActivity(intent);
-			Utils.animateFad(SplashHome.this);
+			Utils.animateSlide(SplashHome.this);
 			SplashHome.this.finish();
 
 			super.handleMessage(msg);
