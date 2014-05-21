@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_soura_parts"
+    android:layout_width="700px"
+    android:layout_height="429px"
+     android:background="@drawable/popup_soura_parts_bg">
+    
+    
+    <com.almoufasseralsaghir.wheelview.WheelView 
+        
+        android:id="@+id/parts_wheel"
+        android:layout_width="532px"
+        android:layout_height="220px"
+       android:layout_marginLeft="82px"
+       android:layout_marginTop="95px"
+      />
+    
+    
+    <Button
+        android:id="@+id/popup_soura_ok_btn"
+        android:layout_width="32px"
+        android:layout_height="32px"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="323px"
+        android:layout_marginRight="200px"
+        android:background="@drawable/popup_active_btn" 
+        />
+    
+
+</RelativeLayout>

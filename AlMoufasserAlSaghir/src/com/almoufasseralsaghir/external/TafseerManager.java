@@ -36,6 +36,8 @@ public class TafseerManager {
 	private static final String TOKEN	 		= "qqsrW0oliakDZAAzecc_XSY7d";
 	private String deviceID;
 	
+	
+	
 	public String getDeviceID() {
 		return deviceID;
 	}

@@ -29,26 +29,30 @@
         android:layout_centerHorizontal="true"
         />
 	
+	<RelativeLayout
+	    android:id="@+id/parts_btn_layout"
+	    android:layout_width="101px"
+        android:layout_height="123px"
+	    android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50px" >
 	
 	<Button 
-	    android:id="@+id/parts"
+	    android:id="@+id/parts_btn"
         android:layout_width="101px"
         android:layout_height="123px"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50px"
         android:background="@drawable/e5_soura_parts" 
 	    />
-	
 	<ImageView 
 	    android:id="@+id/part_number"
         android:layout_width="86px"
         android:layout_height="68px"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70px"
+        android:layout_marginBottom="20px"
         android:background="@drawable/e5_soura_part_1" 
 	    />
+	</RelativeLayout>
 	
 	<Button 
 	    android:id="@+id/questions"

@@ -1,30 +1,46 @@
 package com.example.almoufasseralsaghir;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.wheelview.AbstractWheelTextAdapter;
+import com.almoufasseralsaghir.wheelview.OnWheelScrollListener;
+import com.almoufasseralsaghir.wheelview.WheelView;
 
+@SuppressLint("NewApi")
 public class SouraActivity extends SanabilActivity implements IClickCustomListener {
 
 	private ImageView herbes, soura_part_num ;
-	private Button info, favourites, previous, home, parts_btn ;
+	private Button info, favourites, previous, home, soura_parts_btn ;
 	private Button questions, calendar, mostafad, maana, player ;
 	private ConfirmationDialog exitDialog ;
 	private ImageView soura_title ;
+	private RelativeLayout parts_btn_layout ;
+	boolean dialog_enter = false ;  boolean scrolling = false;
 	String soura_name ;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +61,9 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		maana = (Button) findViewById(R.id.maana);
 		player = (Button) findViewById(R.id.player);
 		
-		parts_btn = (Button) findViewById(R.id.parts);
+		
+		parts_btn_layout = (RelativeLayout) findViewById(R.id.parts_btn_layout);
+		soura_parts_btn = (Button) findViewById(R.id.parts_btn);
 		soura_part_num = (ImageView) findViewById(R.id.part_number);
 		
 		herbes.bringToFront();
@@ -66,15 +84,13 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		soura_name = TafseerManager.getSouraName(quran_part_num, s_position) ;
 		
 		int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+soura_name, "drawable", this.getPackageName());
-		
 		soura_title.setBackgroundResource(drawableResourceId);
 		
-		parts_btn.bringToFront();
-		soura_part_num.bringToFront();
+		parts_btn_layout.bringToFront();
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		parts_btn.setOnTouchListener(new OnTouchListener() {
+		soura_parts_btn.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
 		    public boolean onTouch(View v, MotionEvent event) {
@@ -83,16 +99,129 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		          Button view = (Button) v;
 		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
 		          v.invalidate();
+		          dialog_enter = true ;
 		          break;
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
 					
-		    	  Animation animation = new TranslateAnimation(0, 0,0, -150);
-		    	  animation.setDuration(1000);
-		    	  animation.setFillAfter(true);
-		    	  parts_btn.startAnimation(animation);
-		    	  soura_part_num.startAnimation(animation);
+		    	  final ObjectAnimator objectAnimator= ObjectAnimator.ofFloat(parts_btn_layout, "translationY", 0, -150);
+		    	  objectAnimator.setDuration(1000);
+		    	  objectAnimator.start();
+		    	 
+		    	  
+		    	  objectAnimator.addListener(new AnimatorListener() {
+					@Override
+					public void onAnimationStart(Animator animation) {
+					}
+
+					@Override
+					public void onAnimationRepeat(Animator animation) {
+					}
+					
+					@Override
+					public void onAnimationCancel(Animator animation) {
+						
+					}
+					
+					@Override
+					public void onAnimationEnd(Animator animation) {
+
+///////////////////////////// WHEEL DIALOG ///////////////////////////////////////////////////////////		    	  
+						
+						if (dialog_enter){  
+						
+				    	  final Dialog dialog = new Dialog(SouraActivity.this);
+				    	  dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); 
+				    	  dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+				    	  dialog.setContentView(R.layout.dialog_soura_parts);
+				    	  
+				    	  dialog.setCancelable(true);
+				    	  dialog.setOnCancelListener(new OnCancelListener() {
+							@Override
+							public void onCancel(DialogInterface dialog) {
+								dialog.dismiss();
+			    		    	objectAnimator.reverse();
+			    		    	dialog_enter = false ;
+							}
+						});
+				    	 
+				    	  RelativeLayout popup_view = (RelativeLayout) dialog.findViewById(R.id.popup_soura_parts);
+				    	  popup_view.getLayoutParams().width = 700;
+				    	  popup_view.getLayoutParams().height = 429;
+				    	  SanabilActivity.scaleViewAndChildren(popup_view, SanabilActivity.scale);
+				    	  
+				    	  Button popup_confirm = (Button) dialog.findViewById(R.id.popup_soura_ok_btn);
+				    	  
+///////////////////////// WHEEL IMPLEMENTATION  ////////////////////////////////////////////////////////////////////				    	  
+				    	  
+				    	  final WheelView mySouraParts = (WheelView) dialog.findViewById(R.id.parts_wheel);
+				    	  mySouraParts.setVisibleItems(3);
+				    	  mySouraParts.setViewAdapter(new MyWheelAdapter(SouraActivity.this));  
+				    	  
+//				    	  View inflatedView = dialog.getLayoutInflater().inflate(R.layout.s_part_layout, null);
+//				    	  
+//				    	  RelativeLayout soura_part_layout = (RelativeLayout) inflatedView.findViewById(R.id.soura_part_layout);
+//				    	  SanabilActivity.scaleViewAndChildren( soura_part_layout, SanabilActivity.scale);
+				    	  
+				    	  mySouraParts.setCurrentItem(0);
+				    	  
+				    	  mySouraParts.addScrollingListener( new OnWheelScrollListener() {
+				              public void onScrollingStarted(WheelView wheel) {
+				                  scrolling = true;
+				              }
+				              public void onScrollingFinished(WheelView wheel) {
+				                  scrolling = false;
+				                
+		////ACTION//////
+				          Toast.makeText(SouraActivity.this, "My index : "+ mySouraParts.getCurrentItem()+1, Toast.LENGTH_SHORT).show();
+				           
+				          int drawableResourceId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+(mySouraParts.getCurrentItem()+1), "drawable", SouraActivity.this.getPackageName());
+				          soura_part_num.setBackgroundResource(drawableResourceId);
+				          
+				              }
+				          });
+				    	  
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				    	  
+				    	  popup_confirm.setOnTouchListener(new OnTouchListener() {
+				    			
+				    			@Override
+				    		    public boolean onTouch(View v, MotionEvent event) {
+				    		      switch (event.getAction()) {
+				    		      case MotionEvent.ACTION_DOWN: {
+				    		          Button view = (Button) v;
+				    		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+				    		          v.invalidate();
+				    		          dialog_enter = false ;
+				    		          break;
+				    		      }
+				    		      case MotionEvent.ACTION_UP: {
+				    		    	  
+				    		    	  dialog.dismiss();
+				    		    	  objectAnimator.reverse();
+				    		    	  
+				    		      }
+				    		      case MotionEvent.ACTION_CANCEL: {
+				    		          Button view = (Button) v;
+				    		          view.getBackground().clearColorFilter();
+				    		          view.invalidate();
+				    		          break;
+				    		      }
+				    		      }
+				    		      return true;
+				    		    }
+				    		});
+				    	  
+				    	  dialog.show();
+	    	  
+///////////////////////////////////////////////////////////////////////////////////////////////////////	
+						
+					}
+					}
+					
+
+				});
 		    	  
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -345,6 +474,45 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		
 		
 	}
+	
+	private class MyWheelAdapter extends AbstractWheelTextAdapter {
+
+		
+		
+		private int parts[] =
+            new int[] {R.drawable.popup_soura_part1,R.drawable.popup_soura_part1,R.drawable.popup_soura_part1,R.drawable.popup_soura_part1 
+				,R.drawable.popup_soura_part1 ,R.drawable.popup_soura_part1 ,R.drawable.popup_soura_part1 };
+        
+        /**
+         * Constructor
+         */
+        protected MyWheelAdapter(Context context) {
+            super(context, R.layout.s_part_layout, NO_RESOURCE);
+	    	
+        }
+
+        
+        @Override
+        public View getItem(int index, View cachedView, ViewGroup parent) {
+            View view = super.getItem(index, cachedView, parent);
+            ImageView img = (ImageView) view.findViewById(R.id.s_part);
+            img.setImageResource(parts[index]);
+            
+            return view;
+        }
+        
+        @Override
+        public int getItemsCount() {
+            return parts.length;
+        }
+
+		@Override
+		protected CharSequence getItemText(int index) {
+			return null;
+		}
+        
+    }
+	
 	
 	public void onBackPressed() {
 		 exitDialog();
