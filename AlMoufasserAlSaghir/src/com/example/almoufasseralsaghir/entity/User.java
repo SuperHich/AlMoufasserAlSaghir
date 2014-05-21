@@ -1,4 +1,4 @@
-package com.almoufasseralsaghir.external;
+package com.example.almoufasseralsaghir.entity;
 
 public class User {
 	

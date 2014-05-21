@@ -5,13 +5,11 @@ import org.json.JSONObject;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,14 +26,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.almoufasseralsaghir.external.TafseerManager;
-import com.almoufasseralsaghir.external.User;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.SanabilActivity;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.database.AlMoufasserDB;
+import com.example.almoufasseralsaghir.entity.User;
 
 
 public class MainActivity extends SanabilActivity  implements IClickCustomListener{
@@ -254,15 +251,14 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 					protected JSONObject doInBackground(Void... params) {
 						
 //						AlMoufasserDB db = new AlMoufasserDB(MainActivity.this);
-//						Cursor suras = db.getSuras();
-//						while (suras.moveToNext()) {
-//					
-//							Log.i(""," " + suras.getString(3));
-//							
-//						}
-//						db.close();
+//						String partInfo = db.getPartsInfo(54, 7);
+//						Log.i("part info ", partInfo);
 						
-						return tafseerManager.loginUser(email_login.getText().toString());
+						String email = email_login.getText().toString();
+						if(email != null)
+							return tafseerManager.loginUser(email);
+						else
+							return null;
 					}
 					
 					@Override
@@ -345,38 +341,6 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 	      case MotionEvent.ACTION_UP: {
 	    	// Your action here on button click
 	//    	  name_logged_in.setText("");
-	//	    	  new AsyncTask<Void, Integer, Integer>() {
-//		    		  
-//					@Override
-//					protected void onPreExecute() {
-//						
-//					}
-//					
-//					@Override
-//					protected Integer doInBackground(Void... params) {
-//						
-//						User savedUser = tafseerManager.getSavedUser();
-//						int uid 				= savedUser.getUid(); 
-//						String udid 			= savedUser.getUdid();
-//						String email  			= savedUser.getEmail();
-//						
-//						return tafseerManager.deleteUser(uid, udid, email);
-//					}
-//					
-//					@Override
-//					protected void onPostExecute(Integer result) {
-//						if(result > 0)
-//						{
-//							name_logged_in.setText("");
-//							logged_in_interface.setVisibility(View.GONE);
-//							register_interface.setVisibility(View.GONE);
-//							register_enter.setVisibility(View.VISIBLE);
-//							register_enter.bringToFront();					
-//						}else
-//							tafseerManager.showPopUp(MainActivity.this, R.string.error_try_again);
-//					}
-//					
-//				}.execute();
 	    	  
 	    	  logged_in_interface.setVisibility(View.GONE);
 	    	  register_interface.setVisibility(View.GONE);

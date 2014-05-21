@@ -15,11 +15,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.almoufasseralsaghir.external.TafseerManager;
-import com.almoufasseralsaghir.external.User;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.SanabilActivity;
 import com.almoufasseralsaghir.utils.Utils;
+import com.example.almoufasseralsaghir.entity.User;
 
 public class RegistrationActivity extends SanabilActivity  implements IClickCustomListener{
 
