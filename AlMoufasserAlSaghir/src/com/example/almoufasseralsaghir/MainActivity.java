@@ -5,12 +5,13 @@ import org.json.JSONObject;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +35,7 @@ import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.SanabilActivity;
 import com.almoufasseralsaghir.utils.Utils;
+import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 
 
 public class MainActivity extends SanabilActivity  implements IClickCustomListener{
@@ -250,6 +252,15 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 					
 					@Override
 					protected JSONObject doInBackground(Void... params) {
+						
+//						AlMoufasserDB db = new AlMoufasserDB(MainActivity.this);
+//						Cursor suras = db.getSuras();
+//						while (suras.moveToNext()) {
+//					
+//							Log.i(""," " + suras.getString(3));
+//							
+//						}
+//						db.close();
 						
 						return tafseerManager.loginUser(email_login.getText().toString());
 					}
