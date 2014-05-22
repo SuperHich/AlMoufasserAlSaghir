@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +33,7 @@ import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.SanabilActivity;
 import com.almoufasseralsaghir.utils.Utils;
+import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 import com.example.almoufasseralsaghir.entity.User;
 
 
@@ -250,9 +252,11 @@ public class MainActivity extends SanabilActivity  implements IClickCustomListen
 					@Override
 					protected JSONObject doInBackground(Void... params) {
 						
-//						AlMoufasserDB db = new AlMoufasserDB(MainActivity.this);
+						AlMoufasserDB db = new AlMoufasserDB(MainActivity.this);
 //						String partInfo = db.getPartsInfo(54, 7);
 //						Log.i("part info ", partInfo);
+						int suraNb = db.getPartNumber("Al-Qiyaama");
+						Log.i("", "partNb " + suraNb);
 						
 						String email = email_login.getText().toString();
 						if(email != null)

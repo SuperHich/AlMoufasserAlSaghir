@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
@@ -34,7 +33,49 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 	}
     
-    public String getPartsInfo(int suraId, int partNb) {
+    public int getSuraIdByName(String suraName) {
+
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {"c0idx"}; 
+		String sqlTables = "quran_suras_content";
+
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, "c4tname LIKE '%"+suraName+"%'", null,
+				null, null, null);
+
+		int suraNb = -1;
+		if(c.moveToFirst())
+			suraNb = Integer.valueOf(c.getString(0));
+		
+		return suraNb;
+
+	}
+    
+    public int getPartNumber(String suraName) {
+
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		int suraNb = getSuraIdByName(suraName);
+		
+		String [] sqlSelect = {"sura"}; 
+		String sqlTables = "parts";
+
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, "sura ='"+String.valueOf(suraNb)+"'", null,
+				null, null, null);
+
+		int partNb = 1;
+		if(c.moveToFirst())
+			partNb = c.getCount();
+		
+		return partNb;
+
+	}
+    
+    public String getPartsInfo(String suraName, int partNb) {
     	
     	SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -43,7 +84,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		String sqlTables = "parts";
 
 		qb.setTables(sqlTables);
-		Cursor c = qb.query(db, sqlSelect, "(sura ='"+String.valueOf(suraId)+"') AND (part_number ='"+String.valueOf(partNb)+"')", null,
+		Cursor c = qb.query(db, sqlSelect, "(name LIKE '%"+suraName+"%') AND (part_number ='"+String.valueOf(partNb)+"')", null,
 				null, null, null);
 		
 		StringBuilder info = new StringBuilder();
