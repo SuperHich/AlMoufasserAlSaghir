@@ -9,4 +9,17 @@
     <string name="register_success">تم التسجيل بنجاح</string>
     <string name="update_success">تم التعديل بنجاح</string>
 
+    <string name="month_1">جانفي</string>
+    <string name="month_2">فيفري</string>
+    <string name="month_3">مارس</string>
+    <string name="month_4">أفريل</string>
+    <string name="month_5">ماي</string>
+    <string name="month_6">جوان</string>
+    <string name="month_7">جويلية</string>
+    <string name="month_8">أوت</string>
+    <string name="month_9">سبتمبر</string>
+    <string name="month_10">أكتوبر</string>
+    <string name="month_11">نوفمبر</string>
+    <string name="month_12">ديسمبر</string>
+    
 </resources>

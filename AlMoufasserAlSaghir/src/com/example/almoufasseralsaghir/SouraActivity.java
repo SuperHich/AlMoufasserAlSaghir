@@ -19,15 +19,15 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.utils.Utils;
 import com.almoufasseralsaghir.wheelview.AbstractWheelTextAdapter;
 import com.almoufasseralsaghir.wheelview.OnWheelScrollListener;
 import com.almoufasseralsaghir.wheelview.WheelView;
+import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 
 @SuppressLint("NewApi")
 public class SouraActivity extends SanabilActivity implements IClickCustomListener {
@@ -279,8 +279,9 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
-					
-		    	  
+		    	  Intent in = new Intent(SouraActivity.this, CalendarActivity.class);
+					startActivity(in);
+					Utils.animateFad(SouraActivity.this);
 		    	  
 		    	  
 		      }
@@ -474,7 +475,9 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 	}
 	
 	private class MyWheelAdapter extends AbstractWheelTextAdapter {
-
+		
+	//	AlMoufasserDB db = new AlMoufasserDB(SouraActivity.this);
+	//	String partInfo = db.getPartNumber(suraName);
 		
 		
 		private int parts[] =

@@ -43,11 +43,13 @@ public class TafseerManager {
 	private ArrayList<Sura> part2_list = new ArrayList<Sura>();
 	private ArrayList<Sura> part3_list = new ArrayList<Sura>();
 	private ArrayList<Sura> part4_list = new ArrayList<Sura>();
-
+	
 	public String getDeviceID() {
 		return deviceID;
 	}
 
+
+	
 	private static TafseerManager mInstance = null;
 	private static SharedPreferences settings;
 	private SharedPreferences.Editor editor;
@@ -256,6 +258,33 @@ public class TafseerManager {
 		user.setFollower3(settings.getString("follower3", ""));
 
 		return user;
+	}
+	
+	public void setCurrentJuz2(int juz2){
+		editor.putInt("juz2", juz2);
+		editor.commit();
+	}
+	
+	public int getCurrentJuz2(){
+		return settings.getInt("juz2", 0);
+	}
+	
+	public void setCurrentSura(int sura){
+		editor.putInt("sura", sura);
+		editor.commit();
+	}
+	
+	public int getCurrentSura(){
+		return settings.getInt("sura", 0);
+	}
+	
+	public void setCurrentSuraPart(int suraPart){
+		editor.putInt("suraPart", suraPart);
+		editor.commit();
+	}
+	
+	public int getCurrentSuraPart(){
+		return settings.getInt("suraPart", 0);
 	}
 
 	public void showPopUp(Context context, int message) {

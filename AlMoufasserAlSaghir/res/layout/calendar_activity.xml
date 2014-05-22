@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="1422px"
+    android:layout_height="800px"
+    android:layout_gravity="center" 
+    android:background="@drawable/calendar_bg" >
+    
+    <ImageView 
+        android:id="@+id/herbes"
+        android:layout_width="1422px"
+        android:layout_height="136px"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/calendar_herbes" 
+        />
+    <ImageView 
+        android:id="@+id/calendar_completion"
+        android:layout_width="158px"
+        android:layout_height="140px"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="310px"
+        android:layout_marginRight="40px"
+        android:background="@drawable/calendar_bg_completion" 
+        />
+    
+    <CalendarView 
+        android:id="@+id/my_calendar"
+        android:layout_width="276px"
+        android:layout_height="310px"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="65px"
+        android:layout_marginLeft="784px"
+        android:focusedMonthDateColor="#010e1b"
+        android:unfocusedMonthDateColor="#82878e"
+        android:showWeekNumber="false"
+        android:shownWeekCount="6"
+        android:weekNumberColor="#6a6b6b"
+        android:weekDayTextAppearance="@style/mycalendarstyle"
+        />
+    
+    <com.almoufasseralsaghir.utils.FontFitTextView 
+            android:id="@+id/selected_day"
+            android:layout_width="160px"
+            android:layout_height="117px"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="190px"
+            android:layout_marginTop="150px"
+            android:textStyle="bold"
+            android:textColor="#2985be"
+            android:ellipsize="none"
+        	android:maxLines="1"
+        	android:text="28"
+            android:textSize="100sp"/>
+    
+    <com.almoufasseralsaghir.utils.FontFitTextView 
+            android:id="@+id/selected_month"
+            android:layout_width="90px"
+            android:layout_height="40px"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="190px"
+            android:layout_marginTop="270px"
+            android:textColor="#817f7f"
+            android:ellipsize="none"
+        	android:maxLines="1"
+        	android:gravity="center"
+        	android:text="avril"
+            android:textSize="7sp"/>
+    
+    <com.almoufasseralsaghir.utils.FontFitTextView 
+            android:id="@+id/selected_year"
+            android:layout_width="80px"
+            android:layout_height="40px"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="275px"
+            android:layout_marginTop="272px"
+            android:textColor="#817f7f"
+            android:ellipsize="none"
+            android:gravity="center"
+        	android:maxLines="1"
+        	android:text="2013"
+            />
+    <Button 
+	    android:id="@+id/previous"
+        android:layout_width="89px"
+        android:layout_height="87px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/e4_previous" 
+	    />
+    
+    
+    <ListView
+        android:id="@+id/calendar_listView1"
+        android:layout_width="300px"
+        android:layout_height="420px"
+        android:layout_marginLeft="595px"
+        android:layout_marginTop="200px"
+        android:cacheColorHint="#00000000"
+        android:listSelector="@drawable/selection" />
+    
+
+</RelativeLayout>
