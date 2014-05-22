@@ -81,7 +81,7 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		int s_position = Integer.parseInt(soura_position) ;
 		int quran_part_num = Integer.parseInt(q_part_number) ;
 		
-		soura_name = TafseerManager.getSouraName(quran_part_num, s_position) ;
+		soura_name = mTafseerManager.getSouraLabel(quran_part_num, s_position) ;
 		
 		int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+soura_name, "drawable", this.getPackageName());
 		soura_title.setBackgroundResource(drawableResourceId);
@@ -174,8 +174,6 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 				                  scrolling = false;
 				                
 		////ACTION//////
-				          Toast.makeText(SouraActivity.this, "My index : "+ mySouraParts.getCurrentItem()+1, Toast.LENGTH_SHORT).show();
-				           
 				          int drawableResourceId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+(mySouraParts.getCurrentItem()+1), "drawable", SouraActivity.this.getPackageName());
 				          soura_part_num.setBackgroundResource(drawableResourceId);
 				          
@@ -480,8 +478,8 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		
 		
 		private int parts[] =
-            new int[] {R.drawable.popup_soura_part1,R.drawable.popup_soura_part1,R.drawable.popup_soura_part1,R.drawable.popup_soura_part1 
-				,R.drawable.popup_soura_part1 ,R.drawable.popup_soura_part1 ,R.drawable.popup_soura_part1 };
+            new int[] {R.drawable.popup_soura_part1,R.drawable.popup_soura_part2,R.drawable.popup_soura_part3,R.drawable.popup_soura_part4 
+				,R.drawable.popup_soura_part5 ,R.drawable.popup_soura_part6 ,R.drawable.popup_soura_part7 };
         
         /**
          * Constructor

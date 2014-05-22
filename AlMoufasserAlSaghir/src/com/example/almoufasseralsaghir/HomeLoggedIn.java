@@ -78,7 +78,7 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 /////////////////////////////////////// LIST de PARTIE 1 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
 			Integer[] part1_list ={R.drawable.p1_s1_nabaa , R.drawable.p1_s2_naziaat ,R.drawable.p1_s3_abas ,R.drawable.p1_s4_takwir ,R.drawable.p1_s5_infitar,
-			R.drawable.p1_s6_moutaffifinr,R.drawable.p1_s7_inchikak,R.drawable.p1_s8_bourouj,R.drawable.p1_s9_tariq, R.drawable.p1_s10_aala,
+			R.drawable.p1_s6_moutaffifin,R.drawable.p1_s7_inchikak,R.drawable.p1_s8_bourouj,R.drawable.p1_s9_tarek, R.drawable.p1_s10_aala,
 			R.drawable.p1_s11_ghachia,R.drawable.p1_s12_fajr, R.drawable.p1_s13_balad, R.drawable.p1_s14_shams, R.drawable.p1_s15_lail,
 			R.drawable.p1_s16_dhouha, R.drawable.p1_s17_inchirah, R.drawable.p1_s18_tin,R.drawable.p1_s19_alaq, R.drawable.p1_s20_kadar,
 			R.drawable.p1_s21_bayyina,R.drawable.p1_s22_zalzala, R.drawable.p1_s23_adyet, R.drawable.p1_s24_quariaa, R.drawable.p1_s25_takathor,

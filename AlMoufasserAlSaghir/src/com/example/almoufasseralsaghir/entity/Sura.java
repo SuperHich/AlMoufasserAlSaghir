@@ -7,6 +7,17 @@ public class Sura {
 	private int smallDrawableId ;
 	private int bigDrawableId ;
 	
+	public Sura() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Sura(String db_name, String label, int smallDrawableId, int bigDrawableId) {
+		this.db_name = db_name; 
+		this.label = label;
+		this.smallDrawableId = smallDrawableId;
+		this.bigDrawableId = bigDrawableId;
+		}
+	
 	public String getDb_name() {
 		return db_name;
 	}
@@ -17,7 +28,7 @@ public class Sura {
 		return label;
 	}
 	public void setLabel(String label) {
-		this.label = label;
+		this.label = label;		
 	}
 	public int getSmallDrawableId() {
 		return smallDrawableId;

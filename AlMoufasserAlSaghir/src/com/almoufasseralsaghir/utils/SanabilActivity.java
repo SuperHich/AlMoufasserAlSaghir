@@ -1,5 +1,7 @@
 package com.almoufasseralsaghir.utils;
 
+import com.almoufasseralsaghir.external.TafseerManager;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -17,6 +19,7 @@ public class SanabilActivity extends FragmentActivity {
 	
 	public static float scale ;
 	public static boolean scaled = false;
+	protected TafseerManager mTafseerManager ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,8 @@ public class SanabilActivity extends FragmentActivity {
 		
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+		mTafseerManager = TafseerManager.getInstance(this);
+		
 	}
 
 	@Override
