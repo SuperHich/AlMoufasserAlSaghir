@@ -1,5 +1,6 @@
 package com.example.almoufasseralsaghir.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -121,6 +122,49 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			
 		return info.toString();
 	}
+    
+    public boolean addToPartFavorite(int suraId, int partNb, int userId){    	
+    	SQLiteDatabase db = getWritableDatabase();
+
+		String sqlTable = "PartFavorite";
+		
+		ContentValues values = new ContentValues();
+		values.put("SuraID", String.valueOf(suraId));
+		values.put("PartNumber", String.valueOf(partNb));
+		values.put("UserID", String.valueOf(userId));
+		
+		long insertedId = db.insertOrThrow(sqlTable, null, values);
+		
+		return insertedId != -1;
+    }
+
+    public boolean removeFromPartFavorite(int suraId, int partNb, int userId){    	
+    	SQLiteDatabase db = getWritableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTable = "PartFavorite";
+		
+		String whereClause = "WHERE SuraID LIKE '%@' and PartNumber LIKE '%@'  and UserID LIKE '%@'";
+		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb), String.valueOf(userId)};
+		
+		qb.setTables(sqlTable);
+		long insertedId = db.delete(sqlTable, whereClause, whereArgs);
+		
+		return insertedId != -1;
+    }
+    
+    public Cursor getPartFavorite(int userId){
+    	SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "PartFavorite";
+		
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, null, "UserID ='"+userId+"'", null,
+				null, null, null);
+					
+		return c;
+    }
 
 
 }
