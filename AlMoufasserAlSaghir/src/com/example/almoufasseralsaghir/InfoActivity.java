@@ -11,9 +11,9 @@ import android.widget.Button;
 
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
-import com.almoufasseralsaghir.utils.AlMoufasserActivity;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 
-public class InfoActivity extends AlMoufasserActivity implements IClickCustomListener {
+public class InfoActivity extends MySuperScaler implements IClickCustomListener {
 
 	private Button previous, more_apps, help ;
 	private ConfirmationDialog exitDialog ;

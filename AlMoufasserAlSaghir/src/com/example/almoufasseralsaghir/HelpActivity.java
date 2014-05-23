@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
-import com.almoufasseralsaghir.utils.AlMoufasserActivity;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.example.almoufasseralsaghir.pager.HelpFragmentAdapter;
 
-public class HelpActivity extends AlMoufasserActivity {
+public class HelpActivity extends MySuperScaler {
 
 	private ConfirmationDialog exitDialog ;
 	

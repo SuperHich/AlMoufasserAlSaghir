@@ -29,13 +29,13 @@ import android.widget.RelativeLayout;
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ImageAdapter;
-import com.almoufasseralsaghir.utils.AlMoufasserActivity;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 import com.example.almoufasseralsaghir.entity.User;
 
 
-public class MainActivity extends AlMoufasserActivity{
+public class MainActivity extends MySuperScaler{
 
 	private Button  register_enter, login_btn, new_user,
 	deconnect, account_settings, settings;
@@ -412,7 +412,7 @@ public class MainActivity extends AlMoufasserActivity{
 					RelativeLayout popup_view = (RelativeLayout) dialog.findViewById(R.id.popup_main);
 					popup_view.getLayoutParams().height = 521;
 					popup_view.getLayoutParams().width = 847;
-					AlMoufasserActivity.scaleViewAndChildren(popup_view, AlMoufasserActivity.scale);
+					MySuperScaler.scaleViewAndChildren(popup_view, MySuperScaler.scale);
 
 					Button popup_confirm = (Button) dialog.findViewById(R.id.popup_confirm);
 					final Button popup_reader1 = (Button) dialog.findViewById(R.id.popup_active_btn);

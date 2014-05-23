@@ -14,12 +14,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.almoufasseralsaghir.utils.AlMoufasserActivity;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.Utils;
 
 
-public class HomeLoggedIn extends AlMoufasserActivity{
+public class HomeLoggedIn extends MySuperScaler{
 		
 	private ListView part1_listView;
 	private ListView part2_listView;

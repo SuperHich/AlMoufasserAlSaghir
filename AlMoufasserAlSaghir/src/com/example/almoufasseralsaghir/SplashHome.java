@@ -1,6 +1,6 @@
 package com.example.almoufasseralsaghir;
 
-import com.almoufasseralsaghir.utils.AlMoufasserActivity;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 
 
@@ -16,7 +16,7 @@ import android.view.KeyEvent;
 
 
 @SuppressLint("HandlerLeak")
-public class SplashHome extends AlMoufasserActivity {
+public class SplashHome extends MySuperScaler {
 	
 	private static final int STOPSPLASH = 0;
 	private static final long SPLASHTIME = 2000;

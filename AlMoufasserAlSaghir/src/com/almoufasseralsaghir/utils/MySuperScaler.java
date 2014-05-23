@@ -16,7 +16,7 @@ import com.example.almoufasseralsaghir.R;
  * @author wajdihh
  *
  */
-public class AlMoufasserActivity extends FragmentActivity implements IClickCustomListener{
+public class MySuperScaler extends FragmentActivity implements IClickCustomListener{
 	
 	public static float scale ;
 	public static boolean scaled = false;

@@ -1,6 +1,6 @@
 package com.example.almoufasseralsaghir.pager;
 
-import com.almoufasseralsaghir.utils.AlMoufasserActivity;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.example.almoufasseralsaghir.R;
 
 import android.os.Bundle;
@@ -40,8 +40,8 @@ public final class HelpFragment extends Fragment {
     	
     	
     	View view = inflater.inflate(R.layout.help_viewpager, container, false);
-		if(!(AlMoufasserActivity.scaled))
-			AlMoufasserActivity.scaleViewAndChildren(view, AlMoufasserActivity.scale);
+		if(!(MySuperScaler.scaled))
+			MySuperScaler.scaleViewAndChildren(view, MySuperScaler.scale);
     	
     	ImageView image = (ImageView) view.findViewById(R.id.image_viewer);
     	image.setImageResource(mImageId);

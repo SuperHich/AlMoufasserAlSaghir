@@ -12,11 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.almoufasseralsaghir.utils.AlMoufasserActivity;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 import com.example.almoufasseralsaghir.entity.User;
 
-public class RegistrationActivity extends AlMoufasserActivity{
+public class RegistrationActivity extends MySuperScaler{
 
 	private EditText register_name, register_mail, register_mail_confirm, register_fb, register_twitter,
 					 register_bas_droit_1, register_bas_droit_2, register_bas_droit_3,
