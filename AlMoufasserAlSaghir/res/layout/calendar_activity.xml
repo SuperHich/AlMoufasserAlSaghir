@@ -22,29 +22,20 @@
         android:background="@drawable/calendar_bg_completion" 
         />
     
-<!--     <CalendarView  -->
-<!--         android:id="@+id/my_calendar" -->
-<!--         android:layout_width="276px" -->
-<!--         android:layout_height="310px" -->
-<!--         android:layout_alignParentTop="true" -->
-<!--         android:layout_marginTop="65px" -->
-<!--         android:layout_marginLeft="784px" -->
-<!--         android:focusedMonthDateColor="#010e1b" -->
-<!--         android:unfocusedMonthDateColor="#82878e" -->
-<!--         android:showWeekNumber="false" -->
-<!--         android:shownWeekCount="6" -->
-<!--         android:weekNumberColor="#6a6b6b" -->
-<!--         android:weekDayTextAppearance="@style/mycalendarstyle" -->
-<!--         /> -->
-      <LinearLayout
-        android:id="@+id/calendar1"
+    <CalendarView 
+        android:id="@+id/my_calendar"
         android:layout_width="276px"
         android:layout_height="310px"
         android:layout_alignParentTop="true"
         android:layout_marginTop="65px"
         android:layout_marginLeft="784px"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:focusedMonthDateColor="#010e1b"
+        android:unfocusedMonthDateColor="#82878e"
+        android:showWeekNumber="false"
+        android:shownWeekCount="6"
+        android:weekNumberColor="#6a6b6b"
+        android:weekDayTextAppearance="@style/mycalendarstyle"
+        />
     
       
     <com.almoufasseralsaghir.utils.FontFitTextView 
