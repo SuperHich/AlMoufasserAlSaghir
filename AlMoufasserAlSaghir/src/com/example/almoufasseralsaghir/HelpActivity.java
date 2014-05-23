@@ -11,11 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
-import com.almoufasseralsaghir.utils.IClickCustomListener;
-import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.utils.AlMoufasserActivity;
 import com.example.almoufasseralsaghir.pager.HelpFragmentAdapter;
 
-public class HelpActivity extends SanabilActivity implements IClickCustomListener {
+public class HelpActivity extends AlMoufasserActivity {
 
 	private ConfirmationDialog exitDialog ;
 	

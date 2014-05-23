@@ -1,7 +1,5 @@
 package com.almoufasseralsaghir.utils;
 
-import com.almoufasseralsaghir.external.TafseerManager;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -10,12 +8,15 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.almoufasseralsaghir.external.TafseerManager;
+import com.example.almoufasseralsaghir.R;
+
 /**
  * Herite de cette activité pour l'adapation automatique
  * @author wajdihh
  *
  */
-public class SanabilActivity extends FragmentActivity {
+public class AlMoufasserActivity extends FragmentActivity implements IClickCustomListener{
 	
 	public static float scale ;
 	public static boolean scaled = false;
@@ -93,9 +94,31 @@ public class SanabilActivity extends FragmentActivity {
 		}
 	}
 	
-	@Override
+//	@Override
+//	public void onBackPressed() {
+//		super.onBackPressed();
+//	}
+	
+	private ConfirmationDialog exitDialog ;
+
 	public void onBackPressed() {
 		super.onBackPressed();
+//		 exitDialog();
 	}
-
+	public  void exitDialog() {
+			exitDialog = new ConfirmationDialog(this,
+					R.style.CustomDialogTheme, 
+					 this);
+			exitDialog.setCancelable(false);
+			exitDialog.show();
+		}
+	@Override
+	public void onClickYes() {
+		exitDialog.dismiss();
+		finish();
+	}
+	@Override
+	public void onClickNo() {
+		exitDialog.dismiss();		
+	}
 }

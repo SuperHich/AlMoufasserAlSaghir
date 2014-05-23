@@ -2,6 +2,7 @@ package com.example.almoufasseralsaghir.entity;
 
 public class Sura {
 
+	private int suraId;
 	private String db_name; 
 	private String label;
 	private int smallDrawableId ;
@@ -11,7 +12,8 @@ public class Sura {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Sura(String db_name, String label, int smallDrawableId, int bigDrawableId) {
+	public Sura(int suraId, String db_name, String label, int smallDrawableId, int bigDrawableId) {
+		this.setSuraId(suraId);
 		this.db_name = db_name; 
 		this.label = label;
 		this.smallDrawableId = smallDrawableId;
@@ -41,6 +43,14 @@ public class Sura {
 	}
 	public void setBigDrawableId(int bigDrawableId) {
 		this.bigDrawableId = bigDrawableId;
+	}
+
+	public int getSuraId() {
+		return suraId;
+	}
+
+	public void setSuraId(int suraId) {
+		this.suraId = suraId;
 	}
 	
 	

@@ -53,18 +53,16 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 	}
     
-    public int getPartNumber(String suraName) {
+    public int getPartNumber(int suraId) {
 
 		SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-		int suraNb = getSuraIdByName(suraName);
-		
 		String [] sqlSelect = {"sura"}; 
 		String sqlTables = "parts";
 
 		qb.setTables(sqlTables);
-		Cursor c = qb.query(db, sqlSelect, "sura ='"+String.valueOf(suraNb)+"'", null,
+		Cursor c = qb.query(db, sqlSelect, "sura ='"+suraId+"'", null,
 				null, null, null);
 
 		int partNb = 1;
@@ -75,16 +73,16 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 	}
     
-    public String getPartsInfo(String suraName, int partNb) {
+    public String getPartsInfo(int suraId, int partNb) {
     	
     	SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
 		String [] sqlSelect = {"subject", "reason", "advices", "about"}; 
 		String sqlTables = "parts";
-
+		
 		qb.setTables(sqlTables);
-		Cursor c = qb.query(db, sqlSelect, "(name LIKE '%"+suraName+"%') AND (part_number ='"+String.valueOf(partNb)+"')", null,
+		Cursor c = qb.query(db, sqlSelect, "(sura ='"+suraId+"') AND (part_number ='"+partNb+"')", null,
 				null, null, null);
 		
 		StringBuilder info = new StringBuilder();
@@ -102,5 +100,27 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			
 		return info.toString();
 	}
+
+    public String getPartsMoustafad(int suraId, int partNb) {
+    	
+    	SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {"advices"}; 
+		String sqlTables = "parts";
+		
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, "(sura ='"+suraId+"') AND (part_number ='"+partNb+"')", null,
+				null, null, null);
+		
+		StringBuilder info = new StringBuilder();
+		if(c.moveToFirst())
+		{
+			info.append(c.getString(0));	
+		}
+			
+		return info.toString();
+	}
+
 
 }

@@ -14,18 +14,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.almoufasseralsaghir.utils.ConfirmationDialog;
-import com.almoufasseralsaghir.utils.IClickCustomListener;
+import com.almoufasseralsaghir.utils.AlMoufasserActivity;
 import com.almoufasseralsaghir.utils.ImageAdapter;
-import com.almoufasseralsaghir.utils.SanabilActivity;
 import com.almoufasseralsaghir.utils.Utils;
 
 
-public class HomeLoggedIn extends SanabilActivity implements IClickCustomListener{
-	
-	
-	private ConfirmationDialog exitDialog ;
-	
+public class HomeLoggedIn extends AlMoufasserActivity{
+		
 	private ListView part1_listView;
 	private ListView part2_listView;
 	private ListView part3_listView;
@@ -64,10 +59,11 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 		previous.bringToFront();
 		home.bringToFront();
 		
-		Bundle extras = getIntent().getExtras();
-		String p =(String) extras.get("part");
+//		Bundle extras = getIntent().getExtras();
+//		String p =(String) extras.get("part");
+		int p = mTafseerManager.getCurrentJuz2();
 		
-		if (p.equals("1")) {
+		if (p == 0) {
 			part1.setVisibility(View.VISIBLE);
 			part2.setVisibility(View.INVISIBLE);
 			part3.setVisibility(View.INVISIBLE);
@@ -95,9 +91,8 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			
+				mTafseerManager.setCurrentSura(position);
 				Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
-				in.putExtra("quran_part", "1");
-				in.putExtra("soura_position", String.valueOf(position));
 				startActivity(in);
 				Utils.animateFad(HomeLoggedIn.this);
 			
@@ -108,7 +103,7 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 ///////////////////////////////////////////////////////////////////////////////////////////////////////			
 			
 		}
-		if (p.equals("2")) {
+		if (p == 1) {
 			part1.setVisibility(View.INVISIBLE);
 			part2.setVisibility(View.VISIBLE);
 			part3.setVisibility(View.INVISIBLE);
@@ -130,9 +125,8 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 			part2_listView.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+					mTafseerManager.setCurrentSura(position);
 					Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
-					in.putExtra("quran_part", "2");
-					in.putExtra("soura_position", String.valueOf(position));
 					startActivity(in);
 					Utils.animateFad(HomeLoggedIn.this);
 				}
@@ -142,7 +136,7 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 ///////////////////////////////////////////////////////////////////////////////////////////////////////			
 			
 		}
-		if (p.equals("3")) {
+		if (p == 2) {
 			part1.setVisibility(View.INVISIBLE);
 			part2.setVisibility(View.INVISIBLE);
 			part3.setVisibility(View.VISIBLE);
@@ -163,9 +157,8 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 					part3_listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+						mTafseerManager.setCurrentSura(position);
 						Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
-						in.putExtra("quran_part", "3");
-						in.putExtra("soura_position", String.valueOf(position));
 						startActivity(in);
 						Utils.animateFad(HomeLoggedIn.this);
 					
@@ -176,7 +169,7 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 ///////////////////////////////////////////////////////////////////////////////////////////////////////			
 			
 		}
-		if (p.equals("4")) {
+		if (p == 3) {
 			part1.setVisibility(View.INVISIBLE);
 			part2.setVisibility(View.INVISIBLE);
 			part3.setVisibility(View.INVISIBLE);
@@ -197,9 +190,8 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 					part4_listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+						mTafseerManager.setCurrentSura(position);
 						Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
-						in.putExtra("quran_part", "4");
-						in.putExtra("soura_position", String.valueOf(position));
 						startActivity(in);
 						Utils.animateFad(HomeLoggedIn.this);
 					}
@@ -291,25 +283,4 @@ public class HomeLoggedIn extends SanabilActivity implements IClickCustomListene
 		});
 		
 	}
-	
-	public void onBackPressed() {
-		 exitDialog();
-	}
-	public  void exitDialog() {
-			exitDialog = new ConfirmationDialog(this,
-					R.style.CustomDialogTheme, 
-					 this);
-			exitDialog.setCancelable(false);
-			exitDialog.show();
-		}
-	@Override
-	public void onClickYes() {
-		exitDialog.dismiss();
-		finish();
-	}
-	@Override
-	public void onClickNo() {
-		exitDialog.dismiss();		
-	}
-	
 }

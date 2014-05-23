@@ -21,10 +21,10 @@ import android.widget.Toast;
 import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
-import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.utils.AlMoufasserActivity;
 
 @SuppressLint("DefaultLocale")
-public class CalendarActivity extends SanabilActivity implements IClickCustomListener{
+public class CalendarActivity extends AlMoufasserActivity implements IClickCustomListener{
 	private ConfirmationDialog exitDialog ;
 	private ImageView herbes, cal_compl ;
 	private CalendarView myCalendar ;

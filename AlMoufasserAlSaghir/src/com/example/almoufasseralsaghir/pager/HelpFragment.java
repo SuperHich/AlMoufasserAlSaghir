@@ -1,6 +1,6 @@
 package com.example.almoufasseralsaghir.pager;
 
-import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.utils.AlMoufasserActivity;
 import com.example.almoufasseralsaghir.R;
 
 import android.os.Bundle;
@@ -40,8 +40,8 @@ public final class HelpFragment extends Fragment {
     	
     	
     	View view = inflater.inflate(R.layout.help_viewpager, container, false);
-		if(!(SanabilActivity.scaled))
-			SanabilActivity.scaleViewAndChildren(view, SanabilActivity.scale);
+		if(!(AlMoufasserActivity.scaled))
+			AlMoufasserActivity.scaleViewAndChildren(view, AlMoufasserActivity.scale);
     	
     	ImageView image = (ImageView) view.findViewById(R.id.image_viewer);
     	image.setImageResource(mImageId);

@@ -68,80 +68,80 @@ public class TafseerManager {
 		
 ////////////////////    PART 1   //////////////////////////////////////////////////////////////////////////////////////////		
 	
-		part1_list.add(new Sura("An-Naba", "nabaa", getSmallDrawable("nabaa"), getBigDrawable("nabaa")));
-		part1_list.add(new Sura("An-Naazi'aat","naziaat", getSmallDrawable("naziaat"), getBigDrawable("naziaat"))) ;
-		part1_list.add(new Sura("Abasa","abas", getSmallDrawable("abas"), getBigDrawable("abas"))) ;
-		part1_list.add(new Sura("At-Takwir","takwir", getSmallDrawable("takwir"), getBigDrawable("takwir"))) ;
-		part1_list.add(new Sura("Al-Infitaar","infitar", getSmallDrawable("infitar"), getBigDrawable("infitar")));
-		part1_list.add(new Sura("Al-Mutaffifin","moutaffifin", getSmallDrawable("moutaffifin"), getBigDrawable("moutaffifin")));
-		part1_list.add(new Sura("Al-Inshiqaaq","inchikak", getSmallDrawable("inchikak"), getBigDrawable("inchikak")));
-		part1_list.add(new Sura("Al-Burooj","bourouj", getSmallDrawable("bourouj"), getBigDrawable("bourouj")));
-		part1_list.add(new Sura("At-Taariq","tarek", getSmallDrawable("tarek"), getBigDrawable("tarek")));
-		part1_list.add(new Sura("Al-A'laa","aala", getSmallDrawable("aala"), getBigDrawable("aala")));
-		part1_list.add(new Sura("Al-Ghaashiya","ghachia", getSmallDrawable("ghachia"), getBigDrawable("ghachia")));
-		part1_list.add(new Sura("Al-Fajr","fajr", getSmallDrawable("fajr"), getBigDrawable("fajr")));
-		part1_list.add(new Sura("Al-Balad","balad", getSmallDrawable("balad"), getBigDrawable("balad")));
-		part1_list.add(new Sura("Ash-Shams","shams", getSmallDrawable("shams"), getBigDrawable("shams")));
-		part1_list.add(new Sura("Al-Lail","lail", getSmallDrawable("lail"), getBigDrawable("lail")));
-		part1_list.add(new Sura("Ad-Dhuhaa","dhouha", getSmallDrawable("dhouha"), getBigDrawable("dhouha")));
-		part1_list.add(new Sura("Ash-Sharh","inchirah", getSmallDrawable("inchirah"), getBigDrawable("inchirah")));
-		part1_list.add(new Sura("At-Tin","tin", getSmallDrawable("tin"), getBigDrawable("tin")));
-		part1_list.add(new Sura("Al-Alaq","alaq", getSmallDrawable("alaq"), getBigDrawable("alaq")));
-		part1_list.add(new Sura("Al-Qadr","kadar", getSmallDrawable("kadar"), getBigDrawable("kadar")));
-		part1_list.add(new Sura("Al-Bayyina","bayyina", getSmallDrawable("bayyina"), getBigDrawable("bayyina")));
-		part1_list.add(new Sura("Az-Zalzala","zalzala", getSmallDrawable("zalzala"), getBigDrawable("zalzala")));
-		part1_list.add(new Sura("Al-Aadiyaat","adyet", getSmallDrawable("adyet"), getBigDrawable("adyet")));
-		part1_list.add(new Sura("Al-Qaari'a","quariaa", getSmallDrawable("quariaa"), getBigDrawable("quariaa")));
-		part1_list.add(new Sura("At-Takaathur","takathor", getSmallDrawable("takathor"), getBigDrawable("takathor")));
-		part1_list.add(new Sura("Al-Asr","asr", getSmallDrawable("asr"), getBigDrawable("asr")));
-		part1_list.add(new Sura("Al-Humaza","homaza", getSmallDrawable("homaza"), getBigDrawable("homaza")));
-		part1_list.add(new Sura("Al-Fil","fil", getSmallDrawable("fil"), getBigDrawable("fil")));
-		part1_list.add(new Sura("Quraish","quraich", getSmallDrawable("quraich"), getBigDrawable("quraich")));
-		part1_list.add(new Sura("Al-Maa'un","maaoun", getSmallDrawable("maaoun"), getBigDrawable("maaoun")));
-		part1_list.add(new Sura("Al-Kawthar","kawthar", getSmallDrawable("kawthar"), getBigDrawable("kawthar")));
-		part1_list.add(new Sura("Al-Kaafiroon","kafiroun", getSmallDrawable("kafiroun"), getBigDrawable("kafiroun")));
-		part1_list.add(new Sura("An-Nasr","nasr", getSmallDrawable("nasr"), getBigDrawable("nasr")));
-		part1_list.add(new Sura("Al-Masad","masad", getSmallDrawable("masad"), getBigDrawable("masad")));
-		part1_list.add(new Sura("Al-Ikhlaas","ikhlas", getSmallDrawable("ikhlas"), getBigDrawable("ikhlas")));
-		part1_list.add(new Sura("Al-Falaq","falaq", getSmallDrawable("falaq"), getBigDrawable("falaq")));
-		part1_list.add(new Sura("An-Naas","ness", getSmallDrawable("ness"), getBigDrawable("ness")));
+		part1_list.add(new Sura(78, "An-Naba", "nabaa", getSmallDrawable("nabaa"), getBigDrawable("nabaa")));
+		part1_list.add(new Sura(79, "An-Naazi'aat","naziaat", getSmallDrawable("naziaat"), getBigDrawable("naziaat"))) ;
+		part1_list.add(new Sura(80, "Abasa","abas", getSmallDrawable("abas"), getBigDrawable("abas"))) ;
+		part1_list.add(new Sura(81, "At-Takwir","takwir", getSmallDrawable("takwir"), getBigDrawable("takwir"))) ;
+		part1_list.add(new Sura(82, "Al-Infitaar","infitar", getSmallDrawable("infitar"), getBigDrawable("infitar")));
+		part1_list.add(new Sura(83, "Al-Mutaffifin","moutaffifin", getSmallDrawable("moutaffifin"), getBigDrawable("moutaffifin")));
+		part1_list.add(new Sura(84, "Al-Inshiqaaq","inchikak", getSmallDrawable("inchikak"), getBigDrawable("inchikak")));
+		part1_list.add(new Sura(85, "Al-Burooj","bourouj", getSmallDrawable("bourouj"), getBigDrawable("bourouj")));
+		part1_list.add(new Sura(86, "At-Taariq","tarek", getSmallDrawable("tarek"), getBigDrawable("tarek")));
+		part1_list.add(new Sura(87, "Al-A'laa","aala", getSmallDrawable("aala"), getBigDrawable("aala")));
+		part1_list.add(new Sura(88, "Al-Ghaashiya","ghachia", getSmallDrawable("ghachia"), getBigDrawable("ghachia")));
+		part1_list.add(new Sura(89, "Al-Fajr","fajr", getSmallDrawable("fajr"), getBigDrawable("fajr")));
+		part1_list.add(new Sura(90, "Al-Balad","balad", getSmallDrawable("balad"), getBigDrawable("balad")));
+		part1_list.add(new Sura(91, "Ash-Shams","shams", getSmallDrawable("shams"), getBigDrawable("shams")));
+		part1_list.add(new Sura(92, "Al-Lail","lail", getSmallDrawable("lail"), getBigDrawable("lail")));
+		part1_list.add(new Sura(93, "Ad-Dhuhaa","dhouha", getSmallDrawable("dhouha"), getBigDrawable("dhouha")));
+		part1_list.add(new Sura(94, "Ash-Sharh","inchirah", getSmallDrawable("inchirah"), getBigDrawable("inchirah")));
+		part1_list.add(new Sura(95, "At-Tin","tin", getSmallDrawable("tin"), getBigDrawable("tin")));
+		part1_list.add(new Sura(96, "Al-Alaq","alaq", getSmallDrawable("alaq"), getBigDrawable("alaq")));
+		part1_list.add(new Sura(97, "Al-Qadr","kadar", getSmallDrawable("kadar"), getBigDrawable("kadar")));
+		part1_list.add(new Sura(98, "Al-Bayyina","bayyina", getSmallDrawable("bayyina"), getBigDrawable("bayyina")));
+		part1_list.add(new Sura(99, "Az-Zalzala","zalzala", getSmallDrawable("zalzala"), getBigDrawable("zalzala")));
+		part1_list.add(new Sura(100, "Al-Aadiyaat","adyet", getSmallDrawable("adyet"), getBigDrawable("adyet")));
+		part1_list.add(new Sura(101, "Al-Qaari'a","quariaa", getSmallDrawable("quariaa"), getBigDrawable("quariaa")));
+		part1_list.add(new Sura(102, "At-Takaathur","takathor", getSmallDrawable("takathor"), getBigDrawable("takathor")));
+		part1_list.add(new Sura(103, "Al-Asr","asr", getSmallDrawable("asr"), getBigDrawable("asr")));
+		part1_list.add(new Sura(104, "Al-Humaza","homaza", getSmallDrawable("homaza"), getBigDrawable("homaza")));
+		part1_list.add(new Sura(105, "Al-Fil","fil", getSmallDrawable("fil"), getBigDrawable("fil")));
+		part1_list.add(new Sura(106, "Quraish","quraich", getSmallDrawable("quraich"), getBigDrawable("quraich")));
+		part1_list.add(new Sura(107, "Al-Maa'un","maaoun", getSmallDrawable("maaoun"), getBigDrawable("maaoun")));
+		part1_list.add(new Sura(108, "Al-Kawthar","kawthar", getSmallDrawable("kawthar"), getBigDrawable("kawthar")));
+		part1_list.add(new Sura(109, "Al-Kaafiroon","kafiroun", getSmallDrawable("kafiroun"), getBigDrawable("kafiroun")));
+		part1_list.add(new Sura(110, "An-Nasr","nasr", getSmallDrawable("nasr"), getBigDrawable("nasr")));
+		part1_list.add(new Sura(111, "Al-Masad","masad", getSmallDrawable("masad"), getBigDrawable("masad")));
+		part1_list.add(new Sura(112, "Al-Ikhlaas","ikhlas", getSmallDrawable("ikhlas"), getBigDrawable("ikhlas")));
+		part1_list.add(new Sura(113, "Al-Falaq","falaq", getSmallDrawable("falaq"), getBigDrawable("falaq")));
+		part1_list.add(new Sura(114, "An-Naas","ness", getSmallDrawable("ness"), getBigDrawable("ness")));
 
 ////////////////////  PART 2   //////////////////////////////////////////////////////////////////////////////////////////		
 		
-		part2_list.add(new Sura("Al-Mulk","molk", getSmallDrawable("molk"), getBigDrawable("molk")));
-		part2_list.add(new Sura("Al-Qalam","kalam",getSmallDrawable("kalam"), getBigDrawable("kalam")));
-		part2_list.add(new Sura("Al-Haaqqa","hakka", getSmallDrawable("hakka"), getBigDrawable("hakka")));
-		part2_list.add(new Sura("Al-Ma'aarij","miaraj",getSmallDrawable("miaraj"), getBigDrawable("miaraj")));
-		part2_list.add(new Sura("Nooh","nouh",getSmallDrawable("nouh"), getBigDrawable("nouh")));
-		part2_list.add(new Sura("Al-Jinn","jinn", getSmallDrawable("jinn"), getBigDrawable("jinn")));
-		part2_list.add(new Sura("Al-Muzzammil","mouzammil", getSmallDrawable("mouzammil"), getBigDrawable("mouzammil")));
-		part2_list.add(new Sura("Al-Muddaththir","modathir", getSmallDrawable("modathir"), getBigDrawable("modathir")));
-		part2_list.add(new Sura("Al-Qiyaama","qayimat", getSmallDrawable("qayimat"), getBigDrawable("qayimat")));
-		part2_list.add(new Sura("Al-Insaan","insan", getSmallDrawable("insan"), getBigDrawable("insan")));
-		part2_list.add(new Sura("Al-Mursalaat","morsilat", getSmallDrawable("morsilat"), getBigDrawable("morsilat")));
+		part2_list.add(new Sura(67, "Al-Mulk","molk", getSmallDrawable("molk"), getBigDrawable("molk")));
+		part2_list.add(new Sura(68, "Al-Qalam","kalam",getSmallDrawable("kalam"), getBigDrawable("kalam")));
+		part2_list.add(new Sura(69, "Al-Haaqqa","hakka", getSmallDrawable("hakka"), getBigDrawable("hakka")));
+		part2_list.add(new Sura(70, "Al-Ma'aarij","miaraj",getSmallDrawable("miaraj"), getBigDrawable("miaraj")));
+		part2_list.add(new Sura(71, "Nooh","nouh",getSmallDrawable("nouh"), getBigDrawable("nouh")));
+		part2_list.add(new Sura(72, "Al-Jinn","jinn", getSmallDrawable("jinn"), getBigDrawable("jinn")));
+		part2_list.add(new Sura(73, "Al-Muzzammil","mouzammil", getSmallDrawable("mouzammil"), getBigDrawable("mouzammil")));
+		part2_list.add(new Sura(74, "Al-Muddaththir","modathir", getSmallDrawable("modathir"), getBigDrawable("modathir")));
+		part2_list.add(new Sura(75, "Al-Qiyaama","qayimat", getSmallDrawable("qayimat"), getBigDrawable("qayimat")));
+		part2_list.add(new Sura(76, "Al-Insaan","insan", getSmallDrawable("insan"), getBigDrawable("insan")));
+		part2_list.add(new Sura(77, "Al-Mursalaat","morsilat", getSmallDrawable("morsilat"), getBigDrawable("morsilat")));
 	
 ////////////////////      PART 3  //////////////////////////////////////////////////////////////////////////////////////////		
 		
-		part3_list.add(new Sura("Al-Mujaadila","moujedla",getSmallDrawable("moujedla"), getBigDrawable("moujedla")));
-		part3_list.add(new Sura("Al-Hashr","hachr", getSmallDrawable("hachr"), getBigDrawable("hachr")));
-		part3_list.add(new Sura("Al-Mumtahana","momtahina",getSmallDrawable("momtahina"), getBigDrawable("momtahina"))); 
-		part3_list.add(new Sura("As-Saff","saff",getSmallDrawable("saff"), getBigDrawable("saff")));
-		part3_list.add(new Sura("Al-Jumu'a","jomoa",getSmallDrawable("jomoa"), getBigDrawable("jomoa")));
-		part3_list.add(new Sura("Al-Munaafiqoon","mounafiqoun",getSmallDrawable("mounafiqoun"), getBigDrawable("mounafiqoun")));
-		part3_list.add(new Sura("At-Taghaabun","thaabin",getSmallDrawable("thaabin"), getBigDrawable("thaabin")));
-		part3_list.add(new Sura("At-Talaaq","talek", getSmallDrawable("talek"), getBigDrawable("talek")));
-		part3_list.add(new Sura("At-Tahrim","tahrim", getSmallDrawable("tahrim"), getBigDrawable("tahrim")));
+		part3_list.add(new Sura(58, "Al-Mujaadila","moujedla",getSmallDrawable("moujedla"), getBigDrawable("moujedla")));
+		part3_list.add(new Sura(59, "Al-Hashr","hachr", getSmallDrawable("hachr"), getBigDrawable("hachr")));
+		part3_list.add(new Sura(60, "Al-Mumtahana","momtahina",getSmallDrawable("momtahina"), getBigDrawable("momtahina"))); 
+		part3_list.add(new Sura(61, "As-Saff","saff",getSmallDrawable("saff"), getBigDrawable("saff")));
+		part3_list.add(new Sura(62, "Al-Jumu'a","jomoa",getSmallDrawable("jomoa"), getBigDrawable("jomoa")));
+		part3_list.add(new Sura(63, "Al-Munaafiqoon","mounafiqoun",getSmallDrawable("mounafiqoun"), getBigDrawable("mounafiqoun")));
+		part3_list.add(new Sura(64, "At-Taghaabun","thaabin",getSmallDrawable("thaabin"), getBigDrawable("thaabin")));
+		part3_list.add(new Sura(65, "At-Talaaq","talek", getSmallDrawable("talek"), getBigDrawable("talek")));
+		part3_list.add(new Sura(66, "At-Tahrim","tahrim", getSmallDrawable("tahrim"), getBigDrawable("tahrim")));
 		
 ////////////////////    PART 4  //////////////////////////////////////////////////////////////////////////////////////////		
 		
-		part4_list.add(new Sura("Qaaf","qaf", getSmallDrawable("qaf"), getBigDrawable("qaf")));
-		part4_list.add(new Sura("Adh-Dhaariyat","dhariet",getSmallDrawable("dhariet"), getBigDrawable("dhariet")));
-		part4_list.add(new Sura("At-Tur","tour",getSmallDrawable("tour"), getBigDrawable("tour")));
-		part4_list.add(new Sura("An-Najm","najm", getSmallDrawable("najm"), getBigDrawable("najm")));
-		part4_list.add(new Sura("Al-Qamar","qamar",getSmallDrawable("qamar"), getBigDrawable("qamar")));
-		part4_list.add(new Sura("Ar-Rahmaan","rahmen", getSmallDrawable("rahmen"), getBigDrawable("rahmen")));
-		part4_list.add(new Sura("Al-Waaqia","waqiaa", getSmallDrawable("waqiaa"), getBigDrawable("waqiaa")));
-		part4_list.add(new Sura("Al-Hadid","hadid", getSmallDrawable("hadid"), getBigDrawable("hadid")));
+		part4_list.add(new Sura(50, "Qaaf","qaf", getSmallDrawable("qaf"), getBigDrawable("qaf")));
+		part4_list.add(new Sura(51, "Adh-Dhaariyat","dhariet",getSmallDrawable("dhariet"), getBigDrawable("dhariet")));
+		part4_list.add(new Sura(52, "At-Tur","tour",getSmallDrawable("tour"), getBigDrawable("tour")));
+		part4_list.add(new Sura(53, "An-Najm","najm", getSmallDrawable("najm"), getBigDrawable("najm")));
+		part4_list.add(new Sura(54, "Al-Qamar","qamar",getSmallDrawable("qamar"), getBigDrawable("qamar")));
+		part4_list.add(new Sura(55, "Ar-Rahmaan","rahmen", getSmallDrawable("rahmen"), getBigDrawable("rahmen")));
+		part4_list.add(new Sura(56, "Al-Waaqia","waqiaa", getSmallDrawable("waqiaa"), getBigDrawable("waqiaa")));
+		part4_list.add(new Sura(57, "Al-Hadid","hadid", getSmallDrawable("hadid"), getBigDrawable("hadid")));
 
 	}
 
@@ -187,10 +187,10 @@ public class TafseerManager {
 		return json;
 	}
 
-	public String getSouraLabel(int part, int position) {
+	public Sura getSouraLabel(int part, int position) {
 
-		String soura_name = "";
-		Sura mySoura ;
+//		String soura_name = "";
+//		Sura mySoura ;
 		
 //		String[] part1_list = { "nabaa", "naziaat", "abas", "takwir",
 //				"infitar", "moutaffifin", "inchikak", "bourouj", "tarek",
@@ -209,25 +209,17 @@ public class TafseerManager {
 //				"rahmen", "waqiaa", "hadid" };
 
 		switch (part) {
+		case 0:
+			return part1_list.get(position);
 		case 1:
-			mySoura = part1_list.get(position);
-			soura_name = mySoura.getLabel();
-			break;
+			return part2_list.get(position);
 		case 2:
-			mySoura = part2_list.get(position);
-			soura_name = mySoura.getLabel();
-			break;
+			return part3_list.get(position);
 		case 3:
-			mySoura = part3_list.get(position);
-			soura_name = mySoura.getLabel();
-			break;
-		case 4:
-			mySoura = part4_list.get(position);
-			soura_name = mySoura.getLabel();
-			break;
+			return part4_list.get(position);
 		}
 
-		return soura_name;
+		return null;
 	}
 
 	public void saveUser(User user) {
@@ -244,7 +236,7 @@ public class TafseerManager {
 		editor.commit();
 	}
 
-	public static User getSavedUser() {
+	public User getSavedUser() {
 		User user = new User();
 
 		user.setUid(settings.getInt("uid", -1));

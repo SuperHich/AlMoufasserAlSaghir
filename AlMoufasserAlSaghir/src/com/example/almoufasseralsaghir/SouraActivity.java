@@ -20,26 +20,30 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.almoufasseralsaghir.utils.ConfirmationDialog;
-import com.almoufasseralsaghir.utils.IClickCustomListener;
-import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.utils.AlMoufasserActivity;
 import com.almoufasseralsaghir.utils.Utils;
 import com.almoufasseralsaghir.wheelview.AbstractWheelTextAdapter;
 import com.almoufasseralsaghir.wheelview.OnWheelScrollListener;
 import com.almoufasseralsaghir.wheelview.WheelView;
 import com.example.almoufasseralsaghir.database.AlMoufasserDB;
+import com.example.almoufasseralsaghir.entity.Sura;
 
 @SuppressLint("NewApi")
-public class SouraActivity extends SanabilActivity implements IClickCustomListener {
+public class SouraActivity extends AlMoufasserActivity {
 
 	private ImageView herbes, soura_part_num ;
 	private Button info, favourites, previous, home, soura_parts_btn ;
 	private Button questions, calendar, mostafad, maana, player ;
-	private ConfirmationDialog exitDialog ;
 	private ImageView soura_title ;
 	private RelativeLayout parts_btn_layout ;
 	boolean dialog_enter = false ;  boolean scrolling = false;
-	String soura_name ;
+	
+	private Sura currentSura;
+	private int partsNumber = 1;
+	
+	private static final int ALL_PARTS_DRAWABLE[] =
+            new int[] {R.drawable.popup_soura_part1,R.drawable.popup_soura_part2,R.drawable.popup_soura_part3,R.drawable.popup_soura_part4 
+				,R.drawable.popup_soura_part5 ,R.drawable.popup_soura_part6 ,R.drawable.popup_soura_part7 };
 	
 	
 	@Override
@@ -74,16 +78,22 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 		
 		
 		
-		Bundle extras = getIntent().getExtras();
-		String q_part_number =(String) extras.get("quran_part");
-		String soura_position =(String) extras.get("soura_position");
+//		Bundle extras = getIntent().getExtras();
+//		String q_part_number =(String) extras.get("quran_part");
+//		String soura_position =(String) extras.get("soura_position");
 		
-		int s_position = Integer.parseInt(soura_position) ;
-		int quran_part_num = Integer.parseInt(q_part_number) ;
+//		int s_position = Integer.parseInt(soura_position) ;
+//		int quran_part_num = Integer.parseInt(q_part_number) ;
 		
-		soura_name = mTafseerManager.getSouraLabel(quran_part_num, s_position) ;
+		int s_position = mTafseerManager.getCurrentSura();
+		int quran_part_num = mTafseerManager.getCurrentJuz2();
 		
-		int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+soura_name, "drawable", this.getPackageName());
+		currentSura = mTafseerManager.getSouraLabel(quran_part_num, s_position) ;
+		
+		AlMoufasserDB db = new AlMoufasserDB(this);
+		partsNumber = db.getPartNumber(currentSura.getSuraId());
+		
+		int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+currentSura.getLabel(), "drawable", this.getPackageName());
 		soura_title.setBackgroundResource(drawableResourceId);
 		
 		parts_btn_layout.bringToFront();
@@ -149,7 +159,7 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 				    	  RelativeLayout popup_view = (RelativeLayout) dialog.findViewById(R.id.popup_soura_parts);
 				    	  popup_view.getLayoutParams().width = 700;
 				    	  popup_view.getLayoutParams().height = 429;
-				    	  SanabilActivity.scaleViewAndChildren(popup_view, SanabilActivity.scale);
+				    	  AlMoufasserActivity.scaleViewAndChildren(popup_view, AlMoufasserActivity.scale);
 				    	  
 				    	  Button popup_confirm = (Button) dialog.findViewById(R.id.popup_soura_ok_btn);
 				    	  
@@ -157,14 +167,14 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 				    	  
 				    	  final WheelView mySouraParts = (WheelView) dialog.findViewById(R.id.parts_wheel);
 				    	  mySouraParts.setVisibleItems(3);
-				    	  mySouraParts.setViewAdapter(new MyWheelAdapter(SouraActivity.this));  
+				    	  mySouraParts.setViewAdapter(new MyWheelAdapter(SouraActivity.this, getPartsDrawable(partsNumber)));  
 				    	  
 //				    	  View inflatedView = dialog.getLayoutInflater().inflate(R.layout.s_part_layout, null);
 //				    	  
 //				    	  RelativeLayout soura_part_layout = (RelativeLayout) inflatedView.findViewById(R.id.soura_part_layout);
 //				    	  SanabilActivity.scaleViewAndChildren( soura_part_layout, SanabilActivity.scale);
 				    	  
-				    	  mySouraParts.setCurrentItem(0);
+				    	  mySouraParts.setCurrentItem(mTafseerManager.getCurrentSuraPart());
 				    	  
 				    	  mySouraParts.addScrollingListener( new OnWheelScrollListener() {
 				              public void onScrollingStarted(WheelView wheel) {
@@ -196,6 +206,7 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 				    		      }
 				    		      case MotionEvent.ACTION_UP: {
 				    		    	  
+				    		    	  mTafseerManager.setCurrentSuraPart(mySouraParts.getCurrentItem());
 				    		    	  dialog.dismiss();
 				    		    	  objectAnimator.reverse();
 				    		    	  
@@ -480,15 +491,14 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
 	//	String partInfo = db.getPartNumber(suraName);
 		
 		
-		private int parts[] =
-            new int[] {R.drawable.popup_soura_part1,R.drawable.popup_soura_part2,R.drawable.popup_soura_part3,R.drawable.popup_soura_part4 
-				,R.drawable.popup_soura_part5 ,R.drawable.popup_soura_part6 ,R.drawable.popup_soura_part7 };
+		private int parts[];
         
         /**
          * Constructor
          */
-        protected MyWheelAdapter(Context context) {
+        protected MyWheelAdapter(Context context, int[] parts) {
             super(context, R.layout.s_part_layout, NO_RESOURCE);
+            this.parts = parts;
 	    	
         }
 
@@ -514,25 +524,14 @@ public class SouraActivity extends SanabilActivity implements IClickCustomListen
         
     }
 	
-	
-	public void onBackPressed() {
-		 exitDialog();
-	}
-	public  void exitDialog() {
-			exitDialog = new ConfirmationDialog(this,
-					R.style.CustomDialogTheme, 
-					 this);
-			exitDialog.setCancelable(false);
-			exitDialog.show();
+	private int[] getPartsDrawable(int number){
+		int[] parts = new int[number];
+		for (int i = 0; i < number; i++) {
+			parts[i] = ALL_PARTS_DRAWABLE[i];
 		}
-	@Override
-	public void onClickYes() {
-		exitDialog.dismiss();
-		finish();
-	}
-	@Override
-	public void onClickNo() {
-		exitDialog.dismiss();		
+		
+		return parts;
+		
 	}
 
 }

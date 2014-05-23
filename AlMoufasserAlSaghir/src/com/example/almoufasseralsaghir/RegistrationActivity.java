@@ -1,7 +1,5 @@
 package com.example.almoufasseralsaghir;
 
-import java.util.ArrayList;
-
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,14 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.almoufasseralsaghir.external.TafseerManager;
-import com.almoufasseralsaghir.utils.ConfirmationDialog;
-import com.almoufasseralsaghir.utils.IClickCustomListener;
-import com.almoufasseralsaghir.utils.SanabilActivity;
+import com.almoufasseralsaghir.utils.AlMoufasserActivity;
 import com.almoufasseralsaghir.utils.Utils;
 import com.example.almoufasseralsaghir.entity.User;
 
-public class RegistrationActivity extends SanabilActivity  implements IClickCustomListener{
+public class RegistrationActivity extends AlMoufasserActivity{
 
 	private EditText register_name, register_mail, register_mail_confirm, register_fb, register_twitter,
 					 register_bas_droit_1, register_bas_droit_2, register_bas_droit_3,
@@ -39,11 +34,7 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 	private final int state_mail = 0;
 	 private final int state_fb = 1;
 	 private final int state_tw = 2;
-	
-	
-	private ConfirmationDialog exitDialog ;
-	
-	private TafseerManager tafseerManager;
+		
 	private boolean isUpdate = false;
 	private User savedUser;
 	
@@ -51,9 +42,7 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registration);
-		
-		tafseerManager = TafseerManager.getInstance(this);
-		
+				
 		register_cancel = (Button) findViewById(R.id.register_cancel);
 		register_confirm = (Button) findViewById(R.id.register_confirm);
 		
@@ -82,7 +71,7 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 		if(getIntent().getExtras() != null)
 		{
 			isUpdate = getIntent().getExtras().getBoolean("update");
-			savedUser = tafseerManager.getSavedUser();
+			savedUser = mTafseerManager.getSavedUser();
 			showUser(savedUser);
 		}
 //		register_cancel.setOnClickListener(new OnClickListener() {
@@ -158,7 +147,7 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 							String follower3 		= register_bas_droit_3.getText().toString();
 							
 							if(email.equals(email_confirm)){
-								savedUser.setUdid(tafseerManager.getDeviceID());
+								savedUser.setUdid(mTafseerManager.getDeviceID());
 								savedUser.setName(name);
 								savedUser.setEmail(email);
 								savedUser.setTwitter(twitter);
@@ -168,9 +157,9 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 								savedUser.setFollower3(follower3);							
 								
 								if(!isUpdate)
-									return tafseerManager.registerUser(savedUser);
+									return mTafseerManager.registerUser(savedUser);
 								else
-									return tafseerManager.updateUser(savedUser);
+									return mTafseerManager.updateUser(savedUser);
 							}
 							return -1;
 						}
@@ -180,19 +169,19 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 							if(result > 0)
 							{
 								if(result == 2)
-									tafseerManager.showPopUp(RegistrationActivity.this, R.string.user_already_registered);
+									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.user_already_registered);
 								else{
 									savedUser.setUid(result);
-									tafseerManager.saveUser(savedUser);
+									mTafseerManager.saveUser(savedUser);
 									finish();
 								}
 							}else
-								tafseerManager.showPopUp(RegistrationActivity.this, R.string.error_try_again);
+								mTafseerManager.showPopUp(RegistrationActivity.this, R.string.error_try_again);
 						}
 						
 					}.execute();
 		    	  }else {
-		    		  tafseerManager.showPopUp(RegistrationActivity.this, R.string.error_internet_connexion);
+		    		  mTafseerManager.showPopUp(RegistrationActivity.this, R.string.error_internet_connexion);
 		    	  }
 		    	  
 		      case MotionEvent.ACTION_CANCEL: {
@@ -329,23 +318,4 @@ public class RegistrationActivity extends SanabilActivity  implements IClickCust
 		register_bas_droit_3.setText(user.getFollower3());
 	}
 
-	public void onBackPressed() {
-		 exitDialog();
-	}
-	public  void exitDialog() {
-			exitDialog = new ConfirmationDialog(this,
-					R.style.CustomDialogTheme, 
-					 this);
-			exitDialog.setCancelable(false);
-			exitDialog.show();
-		}
-	@Override
-	public void onClickYes() {
-		exitDialog.dismiss();
-		finish();
-	}
-	@Override
-	public void onClickNo() {
-		exitDialog.dismiss();		
-	}
 }
