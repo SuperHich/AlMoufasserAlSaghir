@@ -1,4 +1,9 @@
 <resources>
+    
+<!--     <style name="calendar_header" parent="@android:style/TextAppearance.Small"> -->
+<!--         <item name="android:typeface">sans</item> -->
+<!--         <item name="android:textSize">8sp</item> -->
+<!--   </style> -->
 <style name="mycalendarweekstyle" parent="@android:style/TextAppearance.Small">
         <item name="android:typeface">sans</item>
         <item name="android:textSize">5sp</item>

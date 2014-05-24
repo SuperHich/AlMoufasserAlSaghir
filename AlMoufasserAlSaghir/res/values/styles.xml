@@ -18,6 +18,7 @@
         <item name="android:scrollbarTrackHorizontal">@drawable/scrollbar_track</item>
 	</style>
     
+	
 	<style name="mycalendarweekstyle" parent="@android:style/TextAppearance.Small">
         <item name="android:typeface">sans</item>
   </style>

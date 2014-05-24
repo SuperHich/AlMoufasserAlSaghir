@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -118,10 +119,11 @@ public class CalendarActivity extends MySuperScaler {
 	            TextView tv = (TextView) field.get(myCalendar);
 	            tv.setTextColor( Color.parseColor("#3f4e60"));
 	            tv.setTypeface(null, Typeface.BOLD);
-	            tv.setTextSize(8);
+	      //      tv.setTextAppearance(CalendarActivity.this, R.style.calendar_header);
 	            
-	       //    String cmltxt = toCamelCase(tv.getText().toString()) ;
-	        //    tv.setText(cmltxt);
+	           int density= getResources().getDisplayMetrics().densityDpi;
+	           if(density == DisplayMetrics.DENSITY_HIGH) tv.setTextSize(18*MySuperScaler.scale);
+	           else tv.setTextSize(35 * MySuperScaler.scale);
 	        } 
 	        catch (IllegalArgumentException e)
 	        {
