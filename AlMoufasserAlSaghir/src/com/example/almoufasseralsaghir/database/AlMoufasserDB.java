@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
+import com.example.almoufasseralsaghir.entity.User;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class AlMoufasserDB extends SQLiteAssetHelper {
@@ -144,7 +145,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 		String sqlTable = "PartFavorite";
 		
-		String whereClause = "WHERE SuraID LIKE '%@' and PartNumber LIKE '%@'  and UserID LIKE '%@'";
+		String whereClause = "WHERE SuraID = '%@' AND PartNumber = '%@' AND UserID = '%@'";
 		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb), String.valueOf(userId)};
 		
 		qb.setTables(sqlTable);
@@ -165,6 +166,114 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 					
 		return c;
     }
+    
+    public String getPartName(int partNumber){
+    	
+    	String str = null;
+        switch (partNumber) {
+            case 1:
+                str = "الأول";
+                break;
+            case 2:
+                str = "الثاني";
+                break;
+            case 3:
+                str = "الثالث";
+                break;
+            case 4:
+                str = "الرابع";
+                break;
+            case 5:
+                str = "الخامس";
+                break;
+            case 6:
+                str = "السادس";
+                break;
+            case 7:
+                str = "السابع";
+                break;
+            case 8:
+                str = "الثامن";
+                break;
+            case 9:
+                str = "التاسع";
+                break;
+            case 10:
+                str = "العاشر";
+                break;
+            case 11:
+                str = "الحادي عشر";
+                break;
+            case 12:
+                str = "الثاني عشر";
+                break;
+            case 13:
+                str = "الثالث عشر";
+                break;
+            case 14:
+                str = "الرابع عشر";
+                break;
+            case 15:
+                str = "الخامس عشر";
+                break;
+
+        }
+        return str;//[NSString stringWithFormat:@"المقطع %@",str];
+
+    }
+    
+    //**************************** USERS
+     
+    public boolean setUserDefaultReciter(int reciterId, int userId){    	
+    	SQLiteDatabase db = getWritableDatabase();
+
+		String sqlTable = "Users";
+		
+		ContentValues values = new ContentValues();
+		values.put("DefaultReciter", String.valueOf(reciterId));
+		
+		String whereClause = "WHERE uid = '%@'";
+		String[] whereArgs = {String.valueOf(userId)};
+		
+		long insertedId = db.update(sqlTable, values, whereClause, whereArgs);
+		
+		return insertedId != -1;
+    }
+    
+    public int getUserDefaultReciter(int userId){
+    	SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String[] sqlSelect = {"DefaultReciter"};
+		String sqlTables = "Users";
+		
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, "uid ='"+userId+"'", null,
+				null, null, null);
+			
+		int reciter = 0;
+		if(c.moveToFirst())
+			reciter = Integer.valueOf(c.getString(0));
+		
+		return reciter;
+    }
+
+//    public User login(String email){
+//    	SQLiteDatabase db = getReadableDatabase();
+//		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+//
+//		String sqlTables = "Users";
+//		
+//		qb.setTables(sqlTables);
+//		Cursor c = qb.query(db, null, "email ='"+email+"'", null,
+//				null, null, null);
+//			
+//		User user = new User();
+//		if(c.moveToFirst())
+//			reciter = Integer.valueOf(c.getString(0));
+//		
+//		return reciter;
+//    }
 
 
 }

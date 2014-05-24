@@ -10,7 +10,9 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -182,7 +184,7 @@ public class SouraActivity extends MySuperScaler {
 //				    	  RelativeLayout soura_part_layout = (RelativeLayout) inflatedView.findViewById(R.id.soura_part_layout);
 //				    	  SanabilActivity.scaleViewAndChildren( soura_part_layout, SanabilActivity.scale);
 				    	  
-				    	  mySouraParts.setCurrentItem(mTafseerManager.getCurrentSuraPart());
+//				    	  mySouraParts.setCurrentItem(mTafseerManager.getCurrentSuraPart());
 				    	  
 				    	  mySouraParts.addScrollingListener( new OnWheelScrollListener() {
 				              public void onScrollingStarted(WheelView wheel) {
@@ -344,8 +346,34 @@ public class SouraActivity extends MySuperScaler {
 ///////////////////   MOSTAFAD CONTENT //////////////////////////////////////////////////////////////////		    	  
 		    	  mostafad_content = (WebView) dialog.findViewById(R.id.mostafad_content);
 		    	  mostafad_content.setBackgroundColor(0x00000000);
-		    	  
-		    	  
+//		    	  mostafad_content.getSettings().setJavaScriptEnabled(true);
+		    	 
+		    	  new AsyncTask<Void, String, String>() {
+
+						@Override
+						protected String doInBackground(Void... params) {
+
+							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
+							AlMoufasserDB db = new AlMoufasserDB(SouraActivity.this);
+							String data = db.getPartsMoustafad(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
+							Log.i("mostafad_content", data);
+
+							return data;
+						}
+
+						@Override
+						protected void onPostExecute(String data) {
+							
+							if(data != null)
+							{	
+								mostafad_content.loadData("<html><body>"+data+"</body></html>", "text/html; charset=UTF-8", null);
+
+							}else{ 
+								mTafseerManager.showPopUp(SouraActivity.this, R.string.error_try_again);
+							}
+						}
+
+					}.execute();
 ///////////////////////////////////////////////////////////////////////////////////////////////////		    	  
 		    	 
 		    	  mostafad_previous = (Button) dialog.findViewById(R.id.mostafad_previous);
@@ -422,6 +450,33 @@ public class SouraActivity extends MySuperScaler {
 		    	  maana_content = (WebView) dialog.findViewById(R.id.maana_content);
 		    	  maana_content.setBackgroundColor(0x00000000);
 		    	  
+		    	  new AsyncTask<Void, String, String>() {
+
+						@Override
+						protected String doInBackground(Void... params) {
+
+							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
+							
+							AlMoufasserDB db = new AlMoufasserDB(SouraActivity.this);
+							String data = db.getPartsInfo(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
+							Log.i("maana_content", data);
+
+							return data;
+						}
+
+						@Override
+						protected void onPostExecute(String data) {
+							
+							if(data != null)
+							{	
+								 maana_content.loadData("<html><body>"+data+"</body></html>", "text/html; charset=UTF-8", null);
+
+							}else{ 
+								mTafseerManager.showPopUp(SouraActivity.this, R.string.error_try_again);
+							}
+						}
+
+					}.execute();
 		    	  
 ///////////////////////////////////////////////////////////////////////////////////////////////////		    	  
 		    	 

@@ -10,7 +10,6 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,12 +25,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 import com.example.almoufasseralsaghir.entity.User;
 
 
@@ -247,7 +244,7 @@ public class MainActivity extends MySuperScaler{
 							protected JSONObject doInBackground(Void... params) {
 
 //								AlMoufasserDB db = new AlMoufasserDB(MainActivity.this);
-//								String partInfo = db.getPartsMoustafad(75, 1);
+//								String partInfo = db.getPartsMoustafad(58, 1);
 //								Log.i("part info ", partInfo);
 //								String partInfo = db.getPartsInfo(75, 1);
 //								Log.i("part info ", partInfo);
