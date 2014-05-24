@@ -1,6 +1,10 @@
 package com.example.almoufasseralsaghir;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -50,8 +54,8 @@ public class CalendarActivity extends MySuperScaler {
 		myMonth = (FontFitTextView) findViewById(R.id.selected_month);
 		myYear = (FontFitTextView) findViewById(R.id.selected_year);
 		
-		myCalendar.setMinDate(01/01/2013);
-		
+		Date minDate = convertStringToDate("2014-05-01");
+		myCalendar.setMinDate(minDate.getTime());
 		customizeCalendarHeader();
 		
 		
@@ -105,6 +109,19 @@ public class CalendarActivity extends MySuperScaler {
 		
 	}
 	
+	private Date convertStringToDate(String str){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+		Date convertedDate = new Date();
+	    try {
+	        convertedDate = sdf.parse(str);
+	    } catch (ParseException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
+	    
+	    return convertedDate;
+	}
+	
 	
 	public void customizeCalendarHeader(){
 		
@@ -122,8 +139,10 @@ public class CalendarActivity extends MySuperScaler {
 	      //      tv.setTextAppearance(CalendarActivity.this, R.style.calendar_header);
 	            
 	           int density= getResources().getDisplayMetrics().densityDpi;
-	           if(density == DisplayMetrics.DENSITY_HIGH) tv.setTextSize(18*MySuperScaler.scale);
-	           else tv.setTextSize(35 * MySuperScaler.scale);
+	           if(density == DisplayMetrics.DENSITY_HIGH)
+	        	   tv.setTextSize(18 * MySuperScaler.scale);
+	           else 
+	        	   tv.setTextSize(35 * MySuperScaler.scale);
 	        } 
 	        catch (IllegalArgumentException e)
 	        {
