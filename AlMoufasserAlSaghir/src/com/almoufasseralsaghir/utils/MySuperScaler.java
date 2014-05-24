@@ -6,11 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.CalendarView;
 import android.widget.TextView;
 
 import com.almoufasseralsaghir.external.TafseerManager;
-import com.example.almoufasseralsaghir.R;
 
 /**
  * Herite de cette activité pour l'adapation automatique
@@ -86,13 +84,9 @@ public class MySuperScaler extends FragmentActivity {
 		if (root instanceof TextView) {
 			TextView textView = (TextView) root;
 			textView.setTextSize(textView.getTextSize() * scale);
+	//		 Object myfontsize = (Titanium.Platform.displayCaps.platformHeight * 3) / 100;
 		}
 		
-//		if (root instanceof CalendarView) {
-//			CalendarView calView = (CalendarView) root;
-//			calView.getLayoutParams().width *= scale;
-//			calView.getLayoutParams().height *= scale;
-//		}
 
 		if (root instanceof ViewGroup) {
 			ViewGroup groupView = (ViewGroup) root;

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,25 +51,29 @@ public class CalendarActivity extends MySuperScaler {
 		
 		myCalendar.setMinDate(01/01/2013);
 		
-//		customizeCalendarHeader();
+		customizeCalendarHeader();
+		
+		
 //	Toast.makeText(CalendarActivity.this, String.valueOf(myCalendar.getDate()), Toast.LENGTH_LONG).show();
 //		Log.i("DATE***************", String.valueOf(myCalendar.getDate()));
 //		
-//		myCalendar.setOnDateChangeListener(new OnDateChangeListener() {
-//
-//            @Override
-//            public void onSelectedDayChange(CalendarView view, int year, int month,
-//                    int dayOfMonth) {
-//            	
-//            	int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month+1)), "string", CalendarActivity.this.getPackageName());
-//            	String month_arabe = CalendarActivity.this.getResources().getString(resourceId);
-//            	
-//            	myDay.setText(String.valueOf(dayOfMonth));
-//            	myYear.setText(String.valueOf(year));
-//            	myMonth.setText(month_arabe);
-//            	
-//            }
-//        });
+		myCalendar.setOnDateChangeListener(new OnDateChangeListener() {
+
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month,
+                    int dayOfMonth) {
+            	
+            	int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month+1)), "string", CalendarActivity.this.getPackageName());
+            	String month_arabe = CalendarActivity.this.getResources().getString(resourceId);
+            	
+            	myDay.setText(String.valueOf(dayOfMonth));
+            	myYear.setText(String.valueOf(year));
+            	myMonth.setText(month_arabe);
+            	
+            }
+            
+            
+        });
 		
 		
 		previous.setOnTouchListener(new OnTouchListener() {
@@ -113,6 +118,8 @@ public class CalendarActivity extends MySuperScaler {
 	            TextView tv = (TextView) field.get(myCalendar);
 	            tv.setTextColor( Color.parseColor("#3f4e60"));
 	            tv.setTypeface(null, Typeface.BOLD);
+	            tv.setTextSize(8);
+	            
 	       //    String cmltxt = toCamelCase(tv.getText().toString()) ;
 	        //    tv.setText(cmltxt);
 	        } 

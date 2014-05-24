@@ -29,16 +29,17 @@
         android:layout_marginLeft="784px">
     
     	<android.widget.CalendarView 
-        android:id="@+id/my_calendar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusedMonthDateColor="#010e1b"
-        android:unfocusedMonthDateColor="#82878e"
-        android:showWeekNumber="false"
-        android:shownWeekCount="6"
-        android:weekNumberColor="#6a6b6b"
-        android:weekDayTextAppearance="@style/mycalendarstyle"
-        />
+	        android:id="@+id/my_calendar"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:focusedMonthDateColor="#010e1b"
+	        android:unfocusedMonthDateColor="#82878e"
+	        android:dateTextAppearance="@style/mycalendarstyle"
+	        android:showWeekNumber="false"
+	        android:shownWeekCount="6"
+	        android:weekNumberColor="#6a6b6b"
+	        android:weekDayTextAppearance="@style/mycalendarweekstyle"
+       		 />
     </FrameLayout>
       
     <com.almoufasseralsaghir.utils.FontFitTextView 
