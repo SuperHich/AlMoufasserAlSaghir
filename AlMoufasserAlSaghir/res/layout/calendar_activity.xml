@@ -21,14 +21,17 @@
         android:layout_marginRight="40px"
         android:background="@drawable/calendar_bg_completion" 
         />
-    
-    <CalendarView 
-        android:id="@+id/my_calendar"
+    <FrameLayout 
         android:layout_width="276px"
         android:layout_height="310px"
         android:layout_alignParentTop="true"
         android:layout_marginTop="65px"
-        android:layout_marginLeft="784px"
+        android:layout_marginLeft="784px">
+    
+    	<android.widget.CalendarView 
+        android:id="@+id/my_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:focusedMonthDateColor="#010e1b"
         android:unfocusedMonthDateColor="#82878e"
         android:showWeekNumber="false"
@@ -36,7 +39,7 @@
         android:weekNumberColor="#6a6b6b"
         android:weekDayTextAppearance="@style/mycalendarstyle"
         />
-    
+    </FrameLayout>
       
     <com.almoufasseralsaghir.utils.FontFitTextView 
             android:id="@+id/selected_day"

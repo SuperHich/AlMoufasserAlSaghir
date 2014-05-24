@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.CalendarView;
 import android.widget.TextView;
 
 import com.almoufasseralsaghir.external.TafseerManager;
@@ -16,7 +17,7 @@ import com.example.almoufasseralsaghir.R;
  * @author wajdihh
  *
  */
-public class MySuperScaler extends FragmentActivity implements IClickCustomListener{
+public class MySuperScaler extends FragmentActivity {
 	
 	public static float scale ;
 	public static boolean scaled = false;
@@ -86,6 +87,12 @@ public class MySuperScaler extends FragmentActivity implements IClickCustomListe
 			TextView textView = (TextView) root;
 			textView.setTextSize(textView.getTextSize() * scale);
 		}
+		
+//		if (root instanceof CalendarView) {
+//			CalendarView calView = (CalendarView) root;
+//			calView.getLayoutParams().width *= scale;
+//			calView.getLayoutParams().height *= scale;
+//		}
 
 		if (root instanceof ViewGroup) {
 			ViewGroup groupView = (ViewGroup) root;
@@ -94,31 +101,10 @@ public class MySuperScaler extends FragmentActivity implements IClickCustomListe
 		}
 	}
 	
-//	@Override
-//	public void onBackPressed() {
-//		super.onBackPressed();
-//	}
 	
-	private ConfirmationDialog exitDialog ;
 
 	public void onBackPressed() {
 		super.onBackPressed();
-//		 exitDialog();
-	}
-	public  void exitDialog() {
-			exitDialog = new ConfirmationDialog(this,
-					R.style.CustomDialogTheme, 
-					 this);
-			exitDialog.setCancelable(false);
-			exitDialog.show();
-		}
-	@Override
-	public void onClickYes() {
-		exitDialog.dismiss();
 		finish();
-	}
-	@Override
-	public void onClickNo() {
-		exitDialog.dismiss();		
 	}
 }

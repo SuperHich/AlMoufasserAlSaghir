@@ -148,23 +148,7 @@ previous.setOnTouchListener(new OnTouchListener() {
 	}
 	
 	public void onBackPressed() {
-		 exitDialog();
-	}
-	public  void exitDialog() {
-			exitDialog = new ConfirmationDialog(this,
-					R.style.CustomDialogTheme, 
-					 this);
-			exitDialog.setCancelable(false);
-			exitDialog.show();
-		}
-	@Override
-	public void onClickYes() {
-		exitDialog.dismiss();
-		finish();
-	}
-	@Override
-	public void onClickNo() {
-		exitDialog.dismiss();		
+		 finish();
 	}
 	
 }

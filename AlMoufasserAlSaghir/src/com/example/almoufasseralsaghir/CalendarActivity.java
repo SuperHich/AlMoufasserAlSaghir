@@ -48,6 +48,7 @@ public class CalendarActivity extends MySuperScaler {
 		myMonth = (FontFitTextView) findViewById(R.id.selected_month);
 		myYear = (FontFitTextView) findViewById(R.id.selected_year);
 		
+		myCalendar.setMinDate(01/01/2013);
 		
 //		customizeCalendarHeader();
 //	Toast.makeText(CalendarActivity.this, String.valueOf(myCalendar.getDate()), Toast.LENGTH_LONG).show();
