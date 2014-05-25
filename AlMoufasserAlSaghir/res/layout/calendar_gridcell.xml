@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="42px"
+    android:layout_height="42px"
+    android:background="@drawable/calendar_button_selector"
+     >
+
+    <com.almoufasseralsaghir.utils.CustomizedCalendarCells
+        android:id="@+id/calendar_day_gridcell"
+        android:layout_width="50px"
+        android:layout_height="50px"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:background="@drawable/calendar_button_selector"
+		android:singleLine="true"
+		android:scaleType="fitXY"
+		android:paddingBottom="25px"
+        android:textColor="#000000" >
+    </com.almoufasseralsaghir.utils.CustomizedCalendarCells>
+
+    
+<!--     <TextView -->
+<!--         android:id="@+id/num_events_per_day" -->
+<!--         style="@style/calendar_event_style" -->
+<!--         android:layout_width="10dip" -->
+<!--         android:layout_height="10dip" -->
+<!--         android:layout_gravity="right" > -->
+<!--     </TextView> -->
+
+</RelativeLayout>

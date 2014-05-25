@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="300px"
+        android:layout_height="370px"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/buttonlayout"
+        android:layout_width="300px"
+        android:layout_height="40px"
+        android:gravity="left|top"
+        android:height="60px"
+        android:orientation="horizontal" >
+
+
+        <ImageView
+            android:id="@+id/prevMonth"
+            android:layout_width="26px"
+            android:layout_height="24px"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20px"
+            android:src="@drawable/calendar_left_arrow" >
+        </ImageView>
+
+        <com.almoufasseralsaghir.utils.FontFitTextView 
+            android:id="@+id/currentMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="40px"
+           	android:layout_centerHorizontal="true"
+           	android:layout_centerVertical="true"
+            android:textColor="#1c2737" 
+            android:textSize="7sp"
+            android:ellipsize="none"
+        	android:maxLines="1"
+            android:gravity="center"
+            android:text="blabla">
+        </com.almoufasseralsaghir.utils.FontFitTextView>
+
+        
+        
+        <ImageView
+            android:id="@+id/nextMonth"
+            android:layout_width="20px"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20px"
+            android:src="@drawable/calendar_right_arrow" >
+        </ImageView>
+
+    </RelativeLayout>
+
+
+<!--     <LinearLayout -->
+<!--         android:layout_width="fill_parent" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_gravity="center" > -->
+
+<!--         <ImageView -->
+<!--             android:id="@+id/calendarheader" -->
+<!--             android:layout_width="fill_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_gravity="center" -->
+<!--             android:src="@drawable/calendar_days" > -->
+<!--         </ImageView> -->
+<!--     </LinearLayout> -->
+
+    <GridView
+        android:id="@+id/calendar"
+        android:layout_marginTop="23px"
+        android:layout_width="300px"
+        android:layout_height="263px"
+        android:numColumns="7" >
+    </GridView>
+
+</LinearLayout>

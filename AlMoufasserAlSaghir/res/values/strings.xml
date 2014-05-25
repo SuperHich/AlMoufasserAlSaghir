@@ -22,4 +22,18 @@
     <string name="month_11">نوفمبر</string>
     <string name="month_12">ديسمبر</string>
     
+    <string name="month_January">جانفي</string>
+    <string name="month_February">فيفري</string>
+    <string name="month_March">مارس</string>
+    <string name="month_April">أفريل</string>
+    <string name="month_May">ماي</string>
+    <string name="month_June">جوان</string>
+    <string name="month_July">جويلية</string>
+    <string name="month_August">أوت</string>
+    <string name="month_September">سبتمبر</string>
+    <string name="month_October">أكتوبر</string>
+    <string name="month_November">نوفمبر</string>
+    <string name="month_December">ديسمبر</string>
+    
+    
 </resources>

@@ -21,26 +21,36 @@
         android:layout_marginRight="40px"
         android:background="@drawable/calendar_bg_completion" 
         />
-    <FrameLayout 
-        android:layout_width="276px"
-        android:layout_height="310px"
+    
+    <include 
+        layout="@layout/my_calendar_view"
+        android:layout_width="300px"
+        android:layout_height="370px"
         android:layout_alignParentTop="true"
         android:layout_marginTop="65px"
-        android:layout_marginLeft="784px">
+        android:layout_marginLeft="775px"
+        />
     
-    	<android.widget.CalendarView 
-	        android:id="@+id/my_calendar"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:focusedMonthDateColor="#010e1b"
-	        android:unfocusedMonthDateColor="#82878e"
-	        android:dateTextAppearance="@style/mycalendarstyle"
-	        android:showWeekNumber="false"
-	        android:shownWeekCount="6"
-	        android:weekNumberColor="#6a6b6b"
-	        android:weekDayTextAppearance="@style/mycalendarweekstyle"
-       		 />
-    </FrameLayout>
+<!--     <FrameLayout  -->
+<!--         android:layout_width="276px" -->
+<!--         android:layout_height="310px" -->
+<!--         android:layout_alignParentTop="true" -->
+<!--         android:layout_marginTop="65px" -->
+<!--         android:layout_marginLeft="784px"> -->
+    
+<!--     	<android.widget.CalendarView  -->
+<!-- 	        android:id="@+id/my_calendar" -->
+<!-- 	        android:layout_width="match_parent" -->
+<!-- 	        android:layout_height="match_parent" -->
+<!-- 	        android:focusedMonthDateColor="#010e1b" -->
+<!-- 	        android:unfocusedMonthDateColor="#82878e" -->
+<!-- 	        android:dateTextAppearance="@style/mycalendarstyle" -->
+<!-- 	        android:showWeekNumber="false" -->
+<!-- 	        android:shownWeekCount="6" -->
+<!-- 	        android:weekNumberColor="#6a6b6b" -->
+<!-- 	        android:weekDayTextAppearance="@style/mycalendarweekstyle" -->
+<!--        		 /> -->
+<!--     </FrameLayout> -->
       
     <com.almoufasseralsaghir.utils.FontFitTextView 
             android:id="@+id/selected_day"
