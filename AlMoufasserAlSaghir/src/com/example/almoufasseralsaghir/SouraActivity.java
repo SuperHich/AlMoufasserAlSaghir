@@ -28,7 +28,6 @@ import com.almoufasseralsaghir.utils.Utils;
 import com.almoufasseralsaghir.wheelview.AbstractWheelTextAdapter;
 import com.almoufasseralsaghir.wheelview.OnWheelScrollListener;
 import com.almoufasseralsaghir.wheelview.WheelView;
-import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 import com.example.almoufasseralsaghir.entity.Sura;
 
 @SuppressLint("NewApi")
@@ -100,8 +99,7 @@ public class SouraActivity extends MySuperScaler {
 		
 		currentSura = mTafseerManager.getSouraLabel(quran_part_num, s_position) ;
 		
-		AlMoufasserDB db = new AlMoufasserDB(this);
-		partsNumber = db.getPartNumber(currentSura.getSuraId());
+		partsNumber = myDB.getPartNumber(currentSura.getSuraId());
 		
 		int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+currentSura.getLabel(), "drawable", this.getPackageName());
 		soura_title.setBackgroundResource(drawableResourceId);
@@ -354,8 +352,7 @@ public class SouraActivity extends MySuperScaler {
 						protected String doInBackground(Void... params) {
 
 							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
-							AlMoufasserDB db = new AlMoufasserDB(SouraActivity.this);
-							String data = db.getPartsMoustafad(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
+							String data = myDB.getPartsMoustafad(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
 							Log.i("mostafad_content", data);
 
 							return data;
@@ -457,8 +454,7 @@ public class SouraActivity extends MySuperScaler {
 
 							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
 							
-							AlMoufasserDB db = new AlMoufasserDB(SouraActivity.this);
-							String data = db.getPartsInfo(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
+							String data = myDB.getPartsInfo(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
 							Log.i("maana_content", data);
 
 							return data;
@@ -644,10 +640,6 @@ public class SouraActivity extends MySuperScaler {
 	}
 	
 	private class MyWheelAdapter extends AbstractWheelTextAdapter {
-		
-	//	AlMoufasserDB db = new AlMoufasserDB(SouraActivity.this);
-	//	String partInfo = db.getPartNumber(suraName);
-		
 		
 		private int parts[];
         

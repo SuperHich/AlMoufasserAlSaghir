@@ -97,7 +97,7 @@ public class JSONParser {
  
     }
     
-    public int getIntegerFromUrl(String url, List<NameValuePair> params) {
+    public String getIntegerFromUrl(String url, List<NameValuePair> params) {
     	
     	int statusCode = -1;
         // Making HTTP request
@@ -146,7 +146,7 @@ public class JSONParser {
         }
  
         // return status code / response
-        return statusCode;
+        return String.valueOf(statusCode);
  
     }
     
