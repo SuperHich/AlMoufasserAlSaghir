@@ -134,7 +134,15 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		values.put("PartNumber", String.valueOf(partNb));
 		values.put("UserID", String.valueOf(userId));
 		
-		long insertedId = db.insertOrThrow(sqlTable, null, values);
+		String whereClause = "SuraID = ?";
+		String[] whereArgs = {String.valueOf(suraId)};
+		
+		long insertedId = 0;
+		
+		insertedId = db.update(sqlTable, values, whereClause, whereArgs);
+		
+		if(insertedId == 0)
+			insertedId = db.insert(sqlTable, null, values);
 		
 		return insertedId != -1;
     }
@@ -145,7 +153,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 		String sqlTable = "PartFavorite";
 		
-		String whereClause = "WHERE SuraID = '%@' AND PartNumber = '%@' AND UserID = '%@'";
+		String whereClause = "SuraID = ? AND PartNumber = ? AND UserID = ?";
 		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb), String.valueOf(userId)};
 		
 		qb.setTables(sqlTable);
@@ -232,7 +240,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		ContentValues values = new ContentValues();
 		values.put("DefaultReciter", String.valueOf(reciterId));
 		
-		String whereClause = "WHERE uid = '%@'";
+		String whereClause = "uid = ?";
 		String[] whereArgs = {String.valueOf(userId)};
 		
 		long insertedId = db.update(sqlTable, values, whereClause, whereArgs);
@@ -257,23 +265,137 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		
 		return reciter;
     }
+    
+    public boolean isUserExist(String email){
+    	SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-//    public User login(String email){
-//    	SQLiteDatabase db = getReadableDatabase();
-//		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-//
-//		String sqlTables = "Users";
-//		
-//		qb.setTables(sqlTables);
-//		Cursor c = qb.query(db, null, "email ='"+email+"'", null,
-//				null, null, null);
-//			
+		String[] sqlSelect = {"uid"};
+		String sqlTables = "Users";
+		
+		qb.setTables(sqlTables);
+		qb.setDistinct(true);
+		Cursor c = qb.query(db, sqlSelect, "email ='"+email+"'", null,
+				null, null, null);
+			
+		if(c.moveToFirst())
+			return true;
+		
+		return false;
+    }
+
+    public boolean login(String email){
+    	SQLiteDatabase db = getWritableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "Users";
+		
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, null, "email ='"+email+"'", null,
+				null, null, null);
+			
 //		User user = new User();
-//		if(c.moveToFirst())
-//			reciter = Integer.valueOf(c.getString(0));
-//		
-//		return reciter;
-//    }
+		if(c.moveToFirst())
+		{
+//			user.setUid(c.getString(0));
+//			user.setUdid(c.getString(1));
+//			user.setName(c.getString(2));
+//			user.setEmail(c.getString(3));
+//			user.setTwitter(c.getString(4));
+//			user.setFacebook(c.getString(5));
+//			user.setFollower1(c.getString(6));
+//			user.setType1(c.getString(7));
+//			user.setFollower2(c.getString(8));
+//			user.setType1(c.getString(9));
+//			user.setFollower3(c.getString(10));
+//			user.setType1(c.getString(11));
+//			user.setLoggedIn(true);
+//			user.setDefaultReciter(c.getString(13));
+			
+			ContentValues values = new ContentValues();
+			values.put("LoggedIn", "1");
+			
+			String whereClause = "email = ?";
+			String[] whereArgs = {email};
+			
+			int updated = db.update(sqlTables, values, whereClause, whereArgs);
+//			Log.i("", " LoggedIn: " + (updated > 0?"OK":"NOT"));
+			
+			return updated > 0;
+		}
+		return false;
+    }
+    
+    public boolean logOut(String email){
+    	SQLiteDatabase db = getWritableDatabase();
+
+		String sqlTables = "Users";
+		
+    	ContentValues values = new ContentValues();
+		values.put("LoggedIn", "0");
+		
+		String whereClause = "email = ?";
+		String[] whereArgs = {email};
+		
+		int updated = db.update(sqlTables, values, whereClause, whereArgs);
+		
+		return updated > 0;
+    }
+    
+    public boolean insertUser(User user){    	
+    	SQLiteDatabase db = getWritableDatabase();
+
+		String sqlTable = "Users";
+		
+		ContentValues values = new ContentValues();
+		values.put("uid", user.getUid());
+		values.put("udid", user.getUdid());
+		values.put("name", user.getName());
+		values.put("email", user.getEmail());
+		values.put("twitter", user.getTwitter());
+		values.put("facebook", user.getFacebook());
+		values.put("follower1", user.getFollower1());
+		values.put("typr1", user.getType1());
+		values.put("follower2", user.getFollower2());
+		values.put("typr2", user.getType2());
+		values.put("follower3", user.getFollower3());
+		values.put("typr3", user.getType3());
+		values.put("DefaultReciter", user.getDefaultReciter());
+		values.put("LoggedIn", user.isLoggedIn()?"1":"0");
+		
+		long insertedId = db.insertOrThrow(sqlTable, null, values);
+		
+		return insertedId != -1;
+    }
+
+    public boolean updateUser(User user){    	
+    	SQLiteDatabase db = getWritableDatabase();
+
+		String sqlTable = "Users";
+		
+		ContentValues values = new ContentValues();
+		values.put("uid", user.getUid());
+		values.put("udid", user.getUdid());
+		values.put("name", user.getName());
+		values.put("email", user.getEmail());
+		values.put("twitter", user.getTwitter());
+		values.put("facebook", user.getFacebook());
+		values.put("follower1", user.getFollower1());
+		values.put("typr1", user.getType1());
+		values.put("follower2", user.getFollower2());
+		values.put("typr2", user.getType2());
+		values.put("follower3", user.getFollower3());
+		values.put("typr3", user.getType3());
+		values.put("DefaultReciter", user.getDefaultReciter());
+		values.put("LoggedIn", user.isLoggedIn()?"1":"0");
+		
+		String whereClause = "uid = ?";
+		String[] whereArgs = {user.getUid()};
+		
+		long insertedId = db.update(sqlTable, values, whereClause, whereArgs);
+		
+		return insertedId != -1;
+    }
 
 
 }

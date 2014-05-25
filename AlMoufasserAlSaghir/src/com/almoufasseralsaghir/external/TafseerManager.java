@@ -38,17 +38,14 @@ public class TafseerManager {
 
 	private static final String TOKEN = "qqsrW0oliakDZAAzecc_XSY7d";
 	private String deviceID;
-
+	public String getDeviceID() {
+		return deviceID;
+	}
+	
 	private ArrayList<Sura> part1_list = new ArrayList<Sura>();
 	private ArrayList<Sura> part2_list = new ArrayList<Sura>();
 	private ArrayList<Sura> part3_list = new ArrayList<Sura>();
 	private ArrayList<Sura> part4_list = new ArrayList<Sura>();
-	
-	public String getDeviceID() {
-		return deviceID;
-	}
-
-
 	
 	private static TafseerManager mInstance = null;
 	private static SharedPreferences settings;
@@ -56,6 +53,15 @@ public class TafseerManager {
 
 	private JSONParser jsonParser;
 	private Context context ;
+	
+	private User loggedInUser;
+	public User getLoggedInUser() {
+		return loggedInUser;
+	}
+
+	public void setLoggedInUser(User loggedInUser) {
+		this.loggedInUser = loggedInUser;
+	}
 	
 	
 	public TafseerManager(Context context) {
@@ -223,7 +229,7 @@ public class TafseerManager {
 	}
 
 	public void saveUser(User user) {
-		editor.putInt("uid", user.getUid());
+		editor.putString("uid", user.getUid());
 		editor.putString("udid", user.getUdid());
 		editor.putString("name", user.getName());
 		editor.putString("email", user.getEmail());
@@ -239,7 +245,7 @@ public class TafseerManager {
 	public User getSavedUser() {
 		User user = new User();
 
-		user.setUid(settings.getInt("uid", -1));
+		user.setUid(settings.getString("uid", ""));
 		user.setUdid(settings.getString("udid", ""));
 		user.setName(settings.getString("name", ""));
 		user.setEmail(settings.getString("email", ""));
@@ -301,7 +307,7 @@ public class TafseerManager {
 		User user = new User();
 
 		try {
-			user.setUid(Integer.parseInt(userObj.getString("uid")));
+			user.setUid(userObj.getString("uid"));
 			user.setName(userObj.getString("udid"));
 			user.setName(userObj.getString("name"));
 			user.setEmail(userObj.getString("email"));
@@ -346,10 +352,10 @@ public class TafseerManager {
 	 * @param user
 	 * @return
 	 */
-	public int registerUser(User user) {
+	public String registerUser(User user) {
 		// Building Parameters
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		if (user.getUid() != -1)
+		if (user.getUid() != null)
 			params.add(new BasicNameValuePair("User[uid]", String.valueOf(user
 					.getUid())));
 
@@ -358,16 +364,13 @@ public class TafseerManager {
 		params.add(new BasicNameValuePair("User[email]", user.getEmail()));
 		params.add(new BasicNameValuePair("User[twitter]", user.getTwitter()));
 		params.add(new BasicNameValuePair("User[facebook]", user.getFacebook()));
-		params.add(new BasicNameValuePair("User[follower1]", user
-				.getFollower1()));
-		params.add(new BasicNameValuePair("User[follower2]", user
-				.getFollower2()));
-		params.add(new BasicNameValuePair("User[follower3]", user
-				.getFollower3()));
+		params.add(new BasicNameValuePair("User[follower1]", user.getFollower1()));
+		params.add(new BasicNameValuePair("User[follower2]", user.getFollower2()));
+		params.add(new BasicNameValuePair("User[follower3]", user.getFollower3()));
 		params.add(new BasicNameValuePair("token", TOKEN));
 
 		// getting Integer Value
-		int response = jsonParser.getIntegerFromUrl(URL_REGISTER, params);
+		String response = jsonParser.getIntegerFromUrl(URL_REGISTER, params);
 		// return response
 		return response;
 	}
@@ -378,7 +381,7 @@ public class TafseerManager {
 	 * @param user
 	 * @return
 	 */
-	public int updateUser(User user) {
+	public String updateUser(User user) {
 		// Building Parameters
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("User[uid]", String.valueOf(user
@@ -397,7 +400,7 @@ public class TafseerManager {
 		params.add(new BasicNameValuePair("token", TOKEN));
 
 		// getting Integer Value
-		int response = jsonParser.getIntegerFromUrl(URL_UPDATE, params);
+		String response = jsonParser.getIntegerFromUrl(URL_UPDATE, params);
 		// return response
 		return response;
 	}
@@ -410,7 +413,7 @@ public class TafseerManager {
 	 * @param email
 	 * @return
 	 */
-	public int deleteUser(int uid, String udid, String email) {
+	public String deleteUser(int uid, String udid, String email) {
 		// Building Parameters
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("User[uid]", String.valueOf(uid)));
@@ -418,7 +421,7 @@ public class TafseerManager {
 		params.add(new BasicNameValuePair("User[email]", email));
 
 		// getting JSON Object
-		int response = jsonParser.getIntegerFromUrl(URL_DELETE, params);
+		String response = jsonParser.getIntegerFromUrl(URL_DELETE, params);
 		// return json
 		return response;
 	}
@@ -435,7 +438,7 @@ public class TafseerManager {
 	 * @param token
 	 * @return
 	 */
-	public int postActivity(String uid, String sura, String part,
+	public String postActivity(String uid, String sura, String part,
 			String repeat, String percentage, String date) {
 		// Building Parameters
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -448,7 +451,7 @@ public class TafseerManager {
 		params.add(new BasicNameValuePair("token", TOKEN));
 
 		// getting Integer Value
-		int response = jsonParser.getIntegerFromUrl(URL_ACTIVITY, params);
+		String response = jsonParser.getIntegerFromUrl(URL_ACTIVITY, params);
 		// return response
 		return response;
 	}

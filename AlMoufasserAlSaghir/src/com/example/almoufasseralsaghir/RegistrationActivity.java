@@ -36,7 +36,7 @@ public class RegistrationActivity extends MySuperScaler{
 	 private final int state_tw = 2;
 		
 	private boolean isUpdate = false;
-	private User savedUser;
+	private User loggedInUser;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,8 @@ public class RegistrationActivity extends MySuperScaler{
 		if(getIntent().getExtras() != null)
 		{
 			isUpdate = getIntent().getExtras().getBoolean("update");
-			savedUser = mTafseerManager.getSavedUser();
-			showUser(savedUser);
+			loggedInUser = mTafseerManager.getLoggedInUser();
+			showUser(loggedInUser);
 		}
 //		register_cancel.setOnClickListener(new OnClickListener() {
 //			@Override
@@ -127,15 +127,15 @@ public class RegistrationActivity extends MySuperScaler{
 		  		//		Utils.animateFad(RegistrationActivity.this);
 		    	 
 		    	  if (Utils.isOnline(getApplicationContext())){
-		    	  new AsyncTask<Void, Integer, Integer>() {
+		    	  new AsyncTask<Void, String, String>() {
 		    		  		    		  
 						@Override
 						protected void onPreExecute() {
-							savedUser = new User();
+							loggedInUser = new User();
 						}
 						
 						@Override
-						protected Integer doInBackground(Void... params) {
+						protected String doInBackground(Void... params) {
 							
 							String name 			= register_name.getText().toString();
 							String email  			= register_mail.getText().toString();
@@ -143,36 +143,48 @@ public class RegistrationActivity extends MySuperScaler{
 							String twitter  		= register_twitter.getText().toString();
 							String facebook 		= register_fb.getText().toString();
 							String follower1 		= register_bas_droit_1.getText().toString();
+							String type1 			= String.valueOf(state_social_1);
 							String follower2  		= register_bas_droit_2.getText().toString();
+							String type2 			= String.valueOf(state_social_2);
 							String follower3 		= register_bas_droit_3.getText().toString();
+							String type3 			= String.valueOf(state_social_3);
 							
 							if(email.equals(email_confirm)){
-								savedUser.setUdid(mTafseerManager.getDeviceID());
-								savedUser.setName(name);
-								savedUser.setEmail(email);
-								savedUser.setTwitter(twitter);
-								savedUser.setFacebook(facebook);
-								savedUser.setFollower1(follower1);
-								savedUser.setFollower2(follower2);
-								savedUser.setFollower3(follower3);							
+								loggedInUser.setUdid(mTafseerManager.getDeviceID());
+								loggedInUser.setName(name);
+								loggedInUser.setEmail(email);
+								loggedInUser.setTwitter(twitter);
+								loggedInUser.setFacebook(facebook);
+								loggedInUser.setFollower1(follower1);
+								loggedInUser.setType1(type1);
+								loggedInUser.setFollower2(follower2);
+								loggedInUser.setType2(type2);
+								loggedInUser.setFollower3(follower3);							
+								loggedInUser.setType3(type3);
 								
 								if(!isUpdate)
-									return mTafseerManager.registerUser(savedUser);
+									return mTafseerManager.registerUser(loggedInUser);
 								else
-									return mTafseerManager.updateUser(savedUser);
+									return mTafseerManager.updateUser(loggedInUser);
 							}
-							return -1;
+							return null;
 						}
 						
 						@Override
-						protected void onPostExecute(Integer result) {
-							if(result > 0)
+						protected void onPostExecute(String result) {
+							if(result != null)
 							{
-								if(result == 2)
+								if(result.equals("2"))
 									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.user_already_registered);
 								else{
-									savedUser.setUid(result);
-									mTafseerManager.saveUser(savedUser);
+									loggedInUser.setUid(result);
+									
+									if(!isUpdate)
+										myDB.insertUser(loggedInUser);
+									else{
+										if(myDB.updateUser(loggedInUser))
+											mTafseerManager.setLoggedInUser(loggedInUser);
+									}
 									finish();
 								}
 							}else
@@ -203,66 +215,66 @@ public class RegistrationActivity extends MySuperScaler{
 		social_1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				switch(state_social_1) {
-				case state_mail:
-					social_1.setBackgroundResource(R.drawable.register_social_fb);
-					state_social_1 = state_fb;
-					break;
-				case state_fb:
-					social_1.setBackgroundResource(R.drawable.register_social_twitter);
-					state_social_1 = state_tw;
-					break;
-				case state_tw:
-					social_1.setBackgroundResource(R.drawable.register_social_mail);
-					state_social_1 = state_mail;
-					break;
-				
-				}
+				state_social_1 = toggleSocialButton(social_1, state_social_1);
+//				switch(state_social_1) {
+//				case state_mail:
+//					social_1.setBackgroundResource(R.drawable.register_social_fb);
+//					state_social_1 = state_fb;
+//					break;
+//				case state_fb:
+//					social_1.setBackgroundResource(R.drawable.register_social_twitter);
+//					state_social_1 = state_tw;
+//					break;
+//				case state_tw:
+//					social_1.setBackgroundResource(R.drawable.register_social_mail);
+//					state_social_1 = state_mail;
+//					break;
+//				
+//				}
 			}
 		});
 		
 		social_2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				switch(state_social_2) {
-				case state_mail:
-					social_2.setBackgroundResource(R.drawable.register_social_fb);
-					state_social_2 = state_fb;
-					break;
-				case state_fb:
-					social_2.setBackgroundResource(R.drawable.register_social_twitter);
-					state_social_2 = state_tw;
-					break;
-				case state_tw:
-					social_2.setBackgroundResource(R.drawable.register_social_mail);
-					state_social_2 = state_mail;
-					break;
-				
-				}
+				state_social_2 = toggleSocialButton(social_2, state_social_2);
+//				switch(state_social_2) {
+//				case state_mail:
+//					social_2.setBackgroundResource(R.drawable.register_social_fb);
+//					state_social_2 = state_fb;
+//					break;
+//				case state_fb:
+//					social_2.setBackgroundResource(R.drawable.register_social_twitter);
+//					state_social_2 = state_tw;
+//					break;
+//				case state_tw:
+//					social_2.setBackgroundResource(R.drawable.register_social_mail);
+//					state_social_2 = state_mail;
+//					break;
+//				
+//				}
 			}
 		});
 		
 		social_3.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				switch(state_social_3) {
-				case state_mail:
-					social_3.setBackgroundResource(R.drawable.register_social_fb);
-					state_social_3 = state_fb;
-					break;
-				case state_fb:
-					social_3.setBackgroundResource(R.drawable.register_social_twitter);
-					state_social_3 = state_tw;
-					break;
-				case state_tw:
-					social_3.setBackgroundResource(R.drawable.register_social_mail);
-					state_social_3 = state_mail;
-					break;
-				
-				}
+				state_social_3 = toggleSocialButton(social_3, state_social_3);
+//				switch(state_social_3) {
+//				case state_mail:
+//					social_3.setBackgroundResource(R.drawable.register_social_fb);
+//					state_social_3 = state_fb;
+//					break;
+//				case state_fb:
+//					social_3.setBackgroundResource(R.drawable.register_social_twitter);
+//					state_social_3 = state_tw;
+//					break;
+//				case state_tw:
+//					social_3.setBackgroundResource(R.drawable.register_social_mail);
+//					state_social_3 = state_mail;
+//					break;
+//				
+//				}
 			}
 		});
 		
@@ -305,7 +317,21 @@ public class RegistrationActivity extends MySuperScaler{
 		
 	}
 	
-	
+	private int toggleSocialButton(Button button, int currentBkg){
+		switch(currentBkg) {
+		case state_mail:
+			button.setBackgroundResource(R.drawable.register_social_fb);
+			return state_fb;
+		case state_fb:
+			button.setBackgroundResource(R.drawable.register_social_twitter);
+			return state_tw;
+		case state_tw:
+			button.setBackgroundResource(R.drawable.register_social_mail);
+			return state_mail;
+		default:
+			return state_fb;
+		}
+	}
 	
 	private void showUser(User user){
 		register_name.setText(user.getName());
@@ -314,8 +340,11 @@ public class RegistrationActivity extends MySuperScaler{
 		register_twitter.setText(user.getTwitter());
 		register_fb.setText(user.getFacebook());
 		register_bas_droit_1.setText(user.getFollower1());
+		toggleSocialButton(social_1, Integer.parseInt(user.getType1()));
 		register_bas_droit_2.setText(user.getFollower2());
+		toggleSocialButton(social_2, Integer.parseInt(user.getType2()));
 		register_bas_droit_3.setText(user.getFollower3());
+		toggleSocialButton(social_3, Integer.parseInt(user.getType3()));
 	}
 
 }

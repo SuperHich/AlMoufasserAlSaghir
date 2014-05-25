@@ -1,38 +1,30 @@
 package com.example.almoufasseralsaghir;
 
-import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.GridView;
-import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.almoufasseralsaghir.utils.CustomizedCalendarCells;
 import com.almoufasseralsaghir.utils.FontFitTextView;
@@ -81,6 +73,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		previous.bringToFront();
 		
 		previous = (Button) findViewById(R.id.previous);
+
 		previous.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
@@ -171,7 +164,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		
 		
 		
-		
+
 	}
 	
 	

@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.almoufasseralsaghir.external.TafseerManager;
+import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 
 /**
  * Herite de cette activité pour l'adapation automatique
@@ -20,6 +21,7 @@ public class MySuperScaler extends FragmentActivity {
 	public static float scale ;
 	public static boolean scaled = false;
 	protected TafseerManager mTafseerManager ;
+	protected AlMoufasserDB myDB;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class MySuperScaler extends FragmentActivity {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		mTafseerManager = TafseerManager.getInstance(this);
+		myDB = new AlMoufasserDB(this);
 		
 	}
 

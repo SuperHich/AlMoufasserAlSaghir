@@ -29,6 +29,7 @@ import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
+import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 import com.example.almoufasseralsaghir.entity.User;
 
 
@@ -76,7 +77,7 @@ public class MainActivity extends MySuperScaler{
 		//	name_logged_in.setText("Sedki Trimech");
 		//	name_logged_in.resizeText(600,200);
 
-		name_logged_in.setText(mTafseerManager.getSavedUser().getName());
+//		name_logged_in.setText(mTafseerManager.getSavedUser().getName());
 
 		herbes.bringToFront();
 
@@ -230,7 +231,7 @@ public class MainActivity extends MySuperScaler{
 					final ProgressDialog pd = new ProgressDialog(MainActivity.this);
 
 					if (Utils.isOnline(getApplicationContext())){
-						new AsyncTask<Void, JSONObject, JSONObject>() {
+						new AsyncTask<Void, Boolean, Boolean>() {
 
 							@Override
 							protected void onPreExecute() {
@@ -241,7 +242,7 @@ public class MainActivity extends MySuperScaler{
 							}
 
 							@Override
-							protected JSONObject doInBackground(Void... params) {
+							protected Boolean doInBackground(Void... params) {
 
 //								AlMoufasserDB db = new AlMoufasserDB(MainActivity.this);
 //								String partInfo = db.getPartsMoustafad(58, 1);
@@ -252,24 +253,45 @@ public class MainActivity extends MySuperScaler{
 //								Log.i("", "partNb " + suraNb);
 
 								String email = email_login.getText().toString();
-								if(email != null)
-									return mTafseerManager.loginUser(email);
-								else
-									return null;
+								JSONObject result = null;
+								if(email != null){
+									result = mTafseerManager.loginUser(email);
+								}	
+								
+								if(result != null)
+								{
+									myDB.login(email);
+									
+									User userLoggedIn = mTafseerManager.parseUser(result);
+									if(userLoggedIn != null)
+									{
+										mTafseerManager.setLoggedInUser(userLoggedIn);
+										
+										if(!myDB.isUserExist(email))
+											myDB.insertUser(userLoggedIn);
+										else
+											myDB.updateUser(userLoggedIn);
+									}
+									
+								}
+								
+								return result != null;
 							}
 
 							@Override
-							protected void onPostExecute(JSONObject result) {
+							protected void onPostExecute(Boolean result) {
 								pd.dismiss();
-								if(result != null)
+								if(result)
 								{	
-									User userLoggedIn = mTafseerManager.parseUser(result);
-									if(userLoggedIn != null){
-										mTafseerManager.saveUser(userLoggedIn);
-										name_logged_in.setText(userLoggedIn.getName());
+//									User userLoggedIn = mTafseerManager.parseUser(result);
+//									if(userLoggedIn != null){
+////										mTafseerManager.saveUser(userLoggedIn);
+									
+										
+										name_logged_in.setText(mTafseerManager.getLoggedInUser().getName());
 										logged_in_interface.setVisibility(View.VISIBLE);
 										logged_in_interface.bringToFront();
-									}
+//									}
 
 								}else{ 
 									register_interface.setVisibility(View.VISIBLE);
@@ -338,6 +360,8 @@ public class MainActivity extends MySuperScaler{
 				case MotionEvent.ACTION_UP: {
 					// Your action here on button click
 					//    	  name_logged_in.setText("");
+					
+					myDB.logOut(mTafseerManager.getLoggedInUser().getEmail());
 
 					logged_in_interface.setVisibility(View.GONE);
 					register_interface.setVisibility(View.GONE);
