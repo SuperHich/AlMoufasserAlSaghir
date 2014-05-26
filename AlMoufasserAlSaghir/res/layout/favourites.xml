@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/favourites_layout"
+    android:layout_width="1155px"
+    android:layout_height="800px"
+     android:background="@drawable/favourites_bg">
+    
+    
+    <Button
+        android:id="@+id/set_favorite"
+        android:layout_width="109px"
+        android:layout_height="94px"
+        android:layout_marginTop="135px"
+        android:layout_marginLeft="90px"
+        android:background="@drawable/fav_btn_new" 
+        />
+    
+    <ListView
+        android:id="@+id/favourites_listView"
+        android:layout_width="1082px"
+        android:layout_height="383px"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="410px"
+        android:cacheColorHint="#00000000"
+        android:listSelector="@drawable/selection" />
+    
+
+</RelativeLayout>
