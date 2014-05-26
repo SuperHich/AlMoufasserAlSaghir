@@ -3,7 +3,7 @@
    android:layout_width="1422px"
     android:layout_height="800px"
     android:layout_gravity="center" 
-    android:background="@drawable/calendar_bg" >
+    android:background="@drawable/calendar_bg_new" >
     
     <ImageView 
         android:id="@+id/herbes"
@@ -109,12 +109,22 @@
     
     <ListView
         android:id="@+id/calendar_listView1"
-        android:layout_width="300px"
-        android:layout_height="420px"
-        android:layout_marginLeft="595px"
-        android:layout_marginTop="200px"
+        android:layout_width="545px"
+        android:layout_height="338px"
+        android:layout_marginLeft="725px"
+        android:layout_marginTop="393px"
         android:cacheColorHint="#00000000"
         android:listSelector="@drawable/selection" />
+    
+    <ListView
+        android:id="@+id/calendar_listView2"
+        android:layout_width="545px"
+        android:layout_height="665px"
+        android:layout_marginLeft="132px"
+        android:layout_marginTop="65px"
+        android:cacheColorHint="#00000000"
+        android:listSelector="@drawable/selection"
+        />
     
 
 </RelativeLayout>

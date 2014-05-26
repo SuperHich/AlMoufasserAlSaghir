@@ -13,7 +13,7 @@ import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 
-public class InfoActivity extends MySuperScaler implements IClickCustomListener {
+public class InfoActivity extends MySuperScaler  {
 
 	private Button previous, more_apps, help ;
 	private ConfirmationDialog exitDialog ;
@@ -111,22 +111,7 @@ public class InfoActivity extends MySuperScaler implements IClickCustomListener 
 	}
 	
 	public void onBackPressed() {
-		 exitDialog();
+		 finish();
 	}
-	public  void exitDialog() {
-			exitDialog = new ConfirmationDialog(this,
-					R.style.CustomDialogTheme, 
-					 this);
-			exitDialog.setCancelable(false);
-			exitDialog.show();
-		}
-	@Override
-	public void onClickYes() {
-		exitDialog.dismiss();
-		finish();
-	}
-	@Override
-	public void onClickNo() {
-		exitDialog.dismiss();		
-	}
+	
 }

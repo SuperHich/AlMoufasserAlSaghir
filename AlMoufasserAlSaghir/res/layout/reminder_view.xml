@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="847px"
+    android:layout_height="517px"
+    android:id="@+id/reminder_popup"
+     android:background="@drawable/reminder_bg_new">
+    
+    
+    <TimePicker
+        android:id="@+id/reminder_timePicker"
+        android:layout_width="300px"
+        android:layout_height="250px"
+        android:gravity="center"
+        android:paddingTop="30px"
+        android:layout_marginTop="100px"
+        android:layout_marginLeft="120px" />
+    
+   <Button
+        android:id="@+id/reminder_learn"
+        android:layout_width="68px"
+        android:layout_height="65px"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="140px"
+        android:layout_marginRight="100px"
+        android:background="@drawable/popup_active_btn" 
+        />
+    <Button
+        android:id="@+id/reminder_revise"
+        android:layout_width="68px"
+        android:layout_height="65px"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="230px"
+        android:layout_marginRight="100px"
+        android:background="@drawable/popup_inactive_btn" 
+        />
+    
+    
+		<Button 
+            android:id="@+id/reminder_confirm"
+            android:layout_width="150px"
+            android:layout_height="65px"
+            android:layout_alignParentBottom="true"
+           	android:layout_alignParentLeft="true"
+            android:layout_marginBottom="80px"
+            android:layout_marginLeft="50px"
+            android:background="@drawable/reminder_confirm"
+            />
+        <Button 
+            android:id="@+id/reminder_cancel"
+            android:layout_width="150px"
+            android:layout_height="65px"
+           	android:layout_alignParentBottom="true"
+           	android:layout_alignParentLeft="true"
+            android:layout_marginBottom="80px"
+            android:layout_marginLeft="210px"
+            android:background="@drawable/reminder_cancel"
+            />
+        
+        <ImageView
+            android:id="@+id/reminder_state"
+            android:layout_width="211px"
+            android:layout_height="38px"
+           	android:layout_alignParentBottom="true"
+           	android:layout_alignParentLeft="true"
+            android:layout_marginBottom="95px"
+            android:layout_marginLeft="400px"
+            android:background="@drawable/start_reminder"
+            />
+        
+        <Button
+            android:id="@+id/reminder_start"
+            android:layout_width="67px"
+            android:layout_height="61px"
+           	android:layout_alignParentBottom="true"
+           	android:layout_alignParentLeft="true"
+            android:layout_marginBottom="85px"
+            android:layout_marginLeft="643px"
+            android:background="@drawable/reminder_off_part1"
+            />
+        
+        <Button
+            android:id="@+id/reminder_stop"
+            android:layout_width="67px"
+            android:layout_height="61px"
+           	android:layout_alignParentBottom="true"
+           	android:layout_alignParentLeft="true"
+            android:layout_marginBottom="85px"
+            android:layout_marginLeft="710px"
+            android:background="@drawable/reminder_off_part2"
+            />
+        
+</RelativeLayout>

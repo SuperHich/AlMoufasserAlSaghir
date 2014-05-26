@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -18,13 +20,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.almoufasseralsaghir.utils.CustomizedCalendarCells;
 import com.almoufasseralsaghir.utils.FontFitTextView;
@@ -54,6 +64,9 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	private boolean rescale = false;
 	private FontFitTextView myDay, myMonth, myYear ;
 	private Button previous ;
+	
+	private boolean reminder_active ;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,12 +115,12 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 ////////////////// NEW CALENDAR IMPLEMENTATION ////////////////////////////////////////////////////////////////		
 		
 		_calendar = Calendar.getInstance(Locale.getDefault());
-		month = _calendar.get(Calendar.MONTH) ;
+		month = _calendar.get(Calendar.MONTH) +1 ;
 		year = _calendar.get(Calendar.YEAR);
 		Log.d(tag, "Calendar Instance:= " + "Month: " + month + " " + "Year: "
 				+ year);
 
-    	int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month+1)), "string", CalendarActivity.this.getPackageName());
+    	int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month)), "string", CalendarActivity.this.getPackageName());
     	String month_arabe = CalendarActivity.this.getResources().getString(resourceId);
 		
 		myDay.setText(String.valueOf(_calendar.get(Calendar.DAY_OF_MONTH)));
@@ -131,6 +144,75 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 				R.id.calendar_day_gridcell, month, year);
 		adapter.notifyDataSetChanged();
 		calendarView.setAdapter(adapter);
+
+		
+//////////////////////////    ListViews   //////////////////////////////////////////////////////////////////////////////////////////////////		
+		
+		
+		
+		ListView list1, list2;
+		  final String[] time1 = {
+		      "00:00",
+		      "01:00",
+		      "02:00",
+		      "03:00",
+		      "04:00",
+		      "05:00",
+		      "06:00",
+		      "07:00"
+		  } ;
+		  final String[] time2 = {
+				    "08:00",
+				      "09:00",
+				      "10:00",
+				      "11:00",
+				      "12:00",
+				      "13:00",
+				      "14:00",
+				      "15:00",
+				      "16:00",
+				      "17:00",
+				      "18:00",
+				      "19:00",
+				      "20:00",
+				      "21:00",
+				      "22:00",
+				      "23:00",
+				  } ;
+		  
+		  Integer imageId =  R.drawable.calender_reminder_inactivated ;
+		
+		  CustomList adapter1 = new CustomList(CalendarActivity.this, time1, imageId);
+			    
+		  list1 = (ListView) findViewById(R.id.calendar_listView1);
+		  list1.setAdapter(adapter1);
+		  list1.setDivider(null);
+		  list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				 @Override
+				 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				  
+	/////////////////////// Reminder DIALOG //////////////////////////////////////////////////////////////////////				 
+					 
+					 setReminderPopup(time1, position); 
+//////////////////////////////////////////////////////////////////////////////////////////////					 
+				 }
+			  });
+		  
+		  CustomList adapter2 = new CustomList(CalendarActivity.this, time2, imageId);
+		
+		  list2 = (ListView) findViewById(R.id.calendar_listView2);
+		  list2.setAdapter(adapter2);
+		  list2.setDivider(null);
+		  list2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			 @Override
+			 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+			  
+/////////////////////// Reminder DIALOG //////////////////////////////////////////////////////////////////////				 
+				 setReminderPopup(time2, position); 
+//////////////////////////////////////////////////////////////////////////////////////////////				 
+			 }
+		  });
+		
 		
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 //		myCalendar = (CalendarView) findViewById(R.id.my_calendar);
@@ -450,17 +532,23 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View row = convertView;
+			View row ;
 			
-			if (row == null) {
+			if (convertView == null) {
 				LayoutInflater inflater = (LayoutInflater) _context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				row = inflater.inflate(R.layout.calendar_gridcell, parent, false);
 				if (rescale) MySuperScaler.scaleViewAndChildren(row, MySuperScaler.scale);
+			} else {
+				
+			row	= convertView;
 			}
 
 			// Get a reference to the Day gridcell
 			gridcell = (CustomizedCalendarCells) row.findViewById(R.id.calendar_day_gridcell);
+			
+			gridcell.bringToFront();
+	//		gridcell.setId(position);
 			gridcell.setOnClickListener(this);
 
 			// ACCOUNT FOR SPACING
@@ -492,6 +580,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 
 		@Override
 		public void onClick(View view) {
+			
 			String date_month_year = (String) view.getTag();
 			Log.e("Selected date", date_month_year);
 			try {
@@ -529,6 +618,216 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		public int getCurrentWeekDay() {
 			return currentWeekDay;
 		}
+	}
+	
+	public class CustomList extends ArrayAdapter<String>{
+		private final Activity context;
+		private final String[] time;
+		private final Integer imageId;
+		
+		public CustomList(Activity context, String[] web, Integer imageId) {
+			super(context, R.layout.calendar_list_row, web);
+			this.context = context;
+			this.time = web;
+			this.imageId = imageId;
+		}
+		@Override
+		public View getView(int position, View view, ViewGroup parent) {
+			View row ;
+			if(view == null)
+			  {
+			LayoutInflater inflater = context.getLayoutInflater();
+			row= inflater.inflate(R.layout.calendar_list_row, parent, false);
+			  }
+			else row = view ;
+			
+			
+			FontFitTextView txtTitle = (FontFitTextView) row.findViewById(R.id.reminder_time);
+			ImageView imageView = (ImageView) row.findViewById(R.id.reminder_time_signal);
+			txtTitle.setText(time[position]);
+			imageView.setImageResource(imageId);
+			
+			
+			return row;
+		}
+		}
+	
+	public void setReminderPopup(String[] time2,int position){
+
+		// Your action here on button click
+			final Dialog dialog = new Dialog(CalendarActivity.this);
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); 
+			dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+			dialog.setContentView(R.layout.reminder_view);
+			dialog.setCancelable(true);
+
+			RelativeLayout popup_view = (RelativeLayout) dialog.findViewById(R.id.reminder_popup);
+			popup_view.getLayoutParams().height = 517;
+			popup_view.getLayoutParams().width = 847;
+			MySuperScaler.scaleViewAndChildren(popup_view, MySuperScaler.scale);
+
+			TimePicker reminder_timepicker = (TimePicker) dialog.findViewById(R.id.reminder_timePicker);
+			
+			Button reminder_confirm = (Button) dialog.findViewById(R.id.reminder_confirm);
+			Button reminder_cancel = (Button) dialog.findViewById(R.id.reminder_cancel);
+			
+			
+			final Button reminder_start = (Button) dialog.findViewById(R.id.reminder_start);
+			final Button reminder_stop = (Button) dialog.findViewById(R.id.reminder_stop);
+
+/////////////////////// CHANGE TO GET REMINDER STATE
+			final ImageView reminder_state = (ImageView) dialog.findViewById(R.id.reminder_state);
+			
+			reminder_active = false ;
+			//// GET
+			if (reminder_active){
+//	change here			reminder_state.setBackgroundResource(R.drawable.stop_reminder);
+//				reminder_start.setBackgroundResource(R.drawable.reminder_on_part1);
+//				reminder_stop.setBackgroundResource(R.drawable.reminder_on_part2);
+//				
+//				reminder_active = true ;	
+			} else {
+//	change here			reminder_state.setBackgroundResource(R.drawable.start_reminder);
+//				reminder_start.setBackgroundResource(R.drawable.reminder_off_part1);
+//				reminder_stop.setBackgroundResource(R.drawable.reminder_off_part2);
+//				
+//				reminder_active = false ;
+			}
+			
+			final Button reminder_learn = (Button) dialog.findViewById(R.id.reminder_learn);
+			final Button reminder_revise = (Button) dialog.findViewById(R.id.reminder_revise);
+
+			reminder_learn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					reminder_learn.setBackgroundResource(R.drawable.popup_active_btn);
+					reminder_revise.setBackgroundResource(R.drawable.popup_inactive_btn);
+
+////////////////////// SET REMINDER Learn //////////////////////////////////////////////////////////////////			
+
+				}
+			});
+
+			reminder_revise.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					reminder_learn.setBackgroundResource(R.drawable.popup_inactive_btn);
+					reminder_revise.setBackgroundResource(R.drawable.popup_active_btn);
+
+////////////////////// SET REMINDER REVISE  //////////////////////////////////////////////////////////////////			
+
+				}
+			});
+
+			reminder_confirm.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN: {
+						Button view = (Button) v;
+						view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+						v.invalidate();
+						break;
+					}
+					case MotionEvent.ACTION_UP: {
+
+						if (reminder_active){
+////////////////////// SET REMiDER //////////////////////////////////////////////////////////////////
+						Toast.makeText(CalendarActivity.this, "reminder set at time ", Toast.LENGTH_SHORT).show();
+						
+						} else {
+						Toast.makeText(CalendarActivity.this, "reminder inactive", Toast.LENGTH_SHORT).show();
+
+						}
+					}
+					case MotionEvent.ACTION_CANCEL: {
+						Button view = (Button) v;
+						view.getBackground().clearColorFilter();
+						view.invalidate();
+						break;
+					}
+					}
+					return true;
+				}
+			});
+			
+			reminder_cancel.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN: {
+						Button view = (Button) v;
+						view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+						v.invalidate();
+						break;
+					}
+					case MotionEvent.ACTION_UP: {
+
+					dialog.dismiss();
+					}
+					case MotionEvent.ACTION_CANCEL: {
+						Button view = (Button) v;
+						view.getBackground().clearColorFilter();
+						view.invalidate();
+						break;
+					}
+					}
+					return true;
+				}
+			});
+			
+			reminder_start.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					reminder_state.setBackgroundResource(R.drawable.start_reminder);
+					reminder_start.setBackgroundResource(R.drawable.reminder_on_part1);
+					reminder_stop.setBackgroundResource(R.drawable.reminder_on_part2);
+					
+					reminder_active = true ;
+					
+					
+				}
+			});
+			
+			reminder_stop.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					reminder_state.setBackgroundResource(R.drawable.stop_reminder);
+					reminder_start.setBackgroundResource(R.drawable.reminder_off_part1);
+					reminder_stop.setBackgroundResource(R.drawable.reminder_off_part2);
+					
+					reminder_active = false ;
+					
+				}
+			});
+			
+			
+			String time = time2[position];
+		//	String hour[] = time.split(":");
+			
+			reminder_timepicker.setIs24HourView(true);
+	//		reminder_timepicker.setCurrentHour(Integer.getInteger(time));
+			 
+			SimpleDateFormat sdf = new SimpleDateFormat("hh:ss");
+		        Date date = null;
+		        try {
+		            date = sdf.parse(time);
+		        } catch (ParseException e) {
+		        }
+		        Calendar c = Calendar.getInstance();
+		        c.setTime(date);
+
+		        reminder_timepicker.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
+		        reminder_timepicker.setCurrentMinute(c.get(Calendar.MINUTE));
+			
+			
+			
+			dialog.show(); 
 	}
 	
 	public void onBackPressed() {
