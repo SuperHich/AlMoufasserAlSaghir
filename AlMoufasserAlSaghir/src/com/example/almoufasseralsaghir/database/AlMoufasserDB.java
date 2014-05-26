@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
+import com.almoufasseralsaghir.external.TafseerManager;
+import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
+import com.example.almoufasseralsaghir.entity.Reminder;
 import com.example.almoufasseralsaghir.entity.User;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
@@ -13,9 +16,17 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "Almufassir_1.0.sqlite";
     private static final int DATABASE_VERSION = 1;
+    
+    private TafseerManager mTafseerManager;
+    private AlarmManagerBroadcastReceiver alarmManager;
+    private Context context;
 
     public AlMoufasserDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
+        
+        mTafseerManager = TafseerManager.getInstance(context);
+        alarmManager = new AlarmManagerBroadcastReceiver();
     }
     
     public Cursor getSuras() {
@@ -53,6 +64,24 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		
 		return suraNb;
 
+	}
+    
+    public String getSuraName(int suraId) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {"c3name"}; 
+		String sqlTables = "quran_suras_content";
+
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, "c0idx = '"+suraId+"'", null,
+				null, null, null);
+
+		String suraName = null;
+		if(c.moveToFirst())
+			suraName = c.getString(0);
+		
+		return suraName;
 	}
     
     public int getPartNumber(int suraId) {
@@ -134,15 +163,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		values.put("PartNumber", String.valueOf(partNb));
 		values.put("UserID", String.valueOf(userId));
 		
-		String whereClause = "SuraID = ?";
-		String[] whereArgs = {String.valueOf(suraId)};
-		
-		long insertedId = 0;
-		
-		insertedId = db.update(sqlTable, values, whereClause, whereArgs);
-		
-		if(insertedId == 0)
-			insertedId = db.insert(sqlTable, null, values);
+		long insertedId = db.insertWithOnConflict(sqlTable, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		
 		return insertedId != -1;
     }
@@ -363,7 +384,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		values.put("DefaultReciter", user.getDefaultReciter());
 		values.put("LoggedIn", user.isLoggedIn()?"1":"0");
 		
-		long insertedId = db.insertOrThrow(sqlTable, null, values);
+		long insertedId = db.insertWithOnConflict(sqlTable, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		
 		return insertedId != -1;
     }
@@ -397,5 +418,138 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		return insertedId != -1;
     }
 
+  //**************************** REMINDER
+    
+    public boolean insertReminder(int partNb, int suraId, String rDate, String rTime, int type, boolean status){    	
+    	SQLiteDatabase db = getWritableDatabase();
+    	SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+    	
+		String sqlTable = "reminders";
+		
+		String[] sqlSelect = {"MAX(cast(ReminderID as int))"};
+		
+		qb.setTables(sqlTable);
+		Cursor c = qb.query(db, sqlSelect, null, null,
+				null, null, null);
+		
+		int newID = 0;
+		if(c.moveToFirst()){
+			try{
+				int qid = Integer.parseInt(c.getString(0));
+				if(qid != 0)
+					newID = qid + 1 ;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		ContentValues values = new ContentValues();
+		values.put("ReminderID", newID);
+		values.put("Part_number", String.valueOf(partNb));
+		values.put("Sura", String.valueOf(suraId));
+		values.put("RDate", rDate);
+		values.put("RTime", rTime);
+		values.put("Type", type);
+		values.put("Status", status?"1":"0");
+		values.put("UserID", mTafseerManager.getLoggedInUser().getUid());
+		
+		long insertedId = db.insertWithOnConflict(sqlTable, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		
+		if(status){
+			String notifMsg = prepareNotoficationText(suraId, partNb, type);
+			alarmManager.setReminder(context, newID, notifMsg);
+		}
+		
+		return insertedId != -1;
+    }
+
+    public String prepareNotoficationText(int suraId, int partNb, int type) {
+		String typeStr;
+		String suraName = getSuraName(suraId);
+		String partName = getPartName(partNb);
+		
+		if(type == 1)
+			typeStr = "حفظ";
+		else
+			typeStr = "مراجعة";
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(" المقطع ");
+		sb.append(partName);
+		sb.append(" سورة ");
+		sb.append(suraName);
+		sb.append(" لاتنس ");
+		sb.append(typeStr);
+		
+		return sb.toString();
+	}
+	
+	public boolean deleteReminder(int suraId, int partNb){    	
+    	SQLiteDatabase db = getWritableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		int reminderID = getReminderID(suraId, partNb);
+		String sqlTable = "reminders";
+		
+		String whereClause = "ReminderID = ?";
+		String[] whereArgs = {String.valueOf(reminderID)};
+		
+		//remove reminder from AlarmManager
+		alarmManager.cancelReminder(context, reminderID);
+		
+		//remove reminder from DB
+		qb.setTables(sqlTable);
+		long insertedId = db.delete(sqlTable, whereClause, whereArgs);
+		
+		return insertedId != -1;
+    }
+	
+	public int getReminderID(int suraId, int partNb) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {"ReminderID"}; 
+		String sqlTables = "reminders";
+		
+		String whereClause = "Sura = ? AND Part_number = ? AND UserID = ?";
+		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb), mTafseerManager.getLoggedInUser().getUid()};
+		
+
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs,
+				null, null, null);
+
+		int reminderID = -1;
+		if(c.moveToFirst())
+			reminderID = Integer.parseInt(c.getString(0));
+		
+		return reminderID;
+	}
+
+	public Reminder getReminder(int suraId, int partNb) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "reminders";
+		
+		String whereClause = "Sura = ? AND Part_number = ? AND UserID = ?";
+		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb), mTafseerManager.getLoggedInUser().getUid()};
+
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, null, whereClause, whereArgs,
+				null, null, null);
+
+		Reminder reminder = null;
+		if(c.moveToFirst()){
+			reminder = new Reminder();
+			reminder.setReminderID(Integer.parseInt(c.getString(0)));
+			reminder.setDate(c.getString(3));
+			reminder.setTime(c.getString(4));
+			reminder.setType(Integer.parseInt(c.getString(5)));
+			reminder.setStatus(c.getString(6).equals("1")?true:false);
+		}
+		
+		return reminder;
+	}
 
 }
