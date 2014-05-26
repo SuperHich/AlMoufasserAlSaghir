@@ -102,12 +102,12 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 ////////////////// NEW CALENDAR IMPLEMENTATION ////////////////////////////////////////////////////////////////		
 		
 		_calendar = Calendar.getInstance(Locale.getDefault());
-		month = _calendar.get(Calendar.MONTH) ;
+		month = _calendar.get(Calendar.MONTH) + 1;
 		year = _calendar.get(Calendar.YEAR);
 		Log.d(tag, "Calendar Instance:= " + "Month: " + month + " " + "Year: "
 				+ year);
 
-    	int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month+1)), "string", CalendarActivity.this.getPackageName());
+    	int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month)), "string", CalendarActivity.this.getPackageName());
     	String month_arabe = CalendarActivity.this.getResources().getString(resourceId);
 		
 		myDay.setText(String.valueOf(_calendar.get(Calendar.DAY_OF_MONTH)));
