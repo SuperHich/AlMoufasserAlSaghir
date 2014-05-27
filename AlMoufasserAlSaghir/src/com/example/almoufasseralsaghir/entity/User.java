@@ -2,7 +2,9 @@ package com.example.almoufasseralsaghir.entity;
 
 public class User {
 	
-	private String uid; 
+	private static final String DEFAULT_UID = "999999999";
+	
+	private String uid = DEFAULT_UID; 
 	private String udid;
 	private String name; 
 	private String email;
