@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1422px"
+    android:layout_height="800px"
+    android:layout_gravity="center"
+    android:background="@drawable/eyet_bg">
+    
+    
+    <WebView 
+        android:id="@+id/eyet_webview"
+        android:layout_width="1282px"
+        android:layout_height="544px"
+        android:layout_marginLeft="70px"
+        android:layout_marginTop="80px"
+        />
+    
+    <Button 
+	    android:id="@+id/select_favourite"
+        android:layout_width="134px"
+        android:layout_height="143px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="130px"
+        android:background="@drawable/set_fav_eya" 
+	    />
+    
+    <Button 
+	    android:id="@+id/repeat_eya"
+        android:layout_width="130px"
+        android:layout_height="144px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="134px"
+        android:background="@drawable/repeat_eya" 
+	    />
+    
+    <Button 
+	    android:id="@+id/next_eya"
+        android:layout_width="92px"
+        android:layout_height="90px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="510px"
+        android:background="@drawable/next_eya" 
+	    />
+    
+    
+    <Button 
+	    android:id="@+id/play_eya"
+        android:layout_width="125.5px"
+        android:layout_height="118px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="652px"
+        android:background="@drawable/play_eya" 
+	    />
+    
+	<Button 
+	    android:id="@+id/previous_eya"
+        android:layout_width="90px"
+        android:layout_height="88px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="835px"
+        android:background="@drawable/previous_eya" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e6_info"
+        android:layout_width="87px"
+        android:layout_height="86px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/e4_info" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e6_favourites"
+        android:layout_width="89px"
+        android:layout_height="88px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/e4_favourites" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e6_previous"
+        android:layout_width="89px"
+        android:layout_height="87px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/e4_previous" 
+	    />
+	
+	<Button 
+	    android:id="@+id/e6_home"
+        android:layout_width="87px"
+        android:layout_height="87px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/e4_home" 
+	    />
+	
+	
+	
+	
+</RelativeLayout>

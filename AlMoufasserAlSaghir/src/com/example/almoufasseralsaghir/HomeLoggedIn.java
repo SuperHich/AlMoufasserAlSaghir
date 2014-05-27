@@ -1,5 +1,6 @@
 package com.example.almoufasseralsaghir;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -255,6 +256,34 @@ public class HomeLoggedIn extends MySuperScaler{
 		    }
 		});
 		
+		favourites.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+		    	  final Dialog dialog = new FavouriteDialog(HomeLoggedIn.this);
+		    	  dialog.show();
+				
+		     
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
 		
 		home.setOnTouchListener(new OnTouchListener() {
 			

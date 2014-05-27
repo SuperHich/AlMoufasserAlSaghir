@@ -1,8 +1,5 @@
 package com.example.almoufasseralsaghir;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
@@ -16,26 +13,19 @@ import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
-import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
-import com.almoufasseralsaghir.utils.SwipeListView;
-import com.almoufasseralsaghir.utils.SwipeListView.SwipeListViewCallback;
 import com.almoufasseralsaghir.utils.Utils;
 import com.almoufasseralsaghir.wheelview.AbstractWheelTextAdapter;
 import com.almoufasseralsaghir.wheelview.OnWheelScrollListener;
@@ -61,7 +51,7 @@ public class SouraActivity extends MySuperScaler {
 	private Button maana_previous ;
 	private WebView maana_content ;
 	
-	private MyAdapter m_Adapter;
+	
 	
 	private static final int ALL_PARTS_DRAWABLE[] =
             new int[] {R.drawable.popup_soura_part1,R.drawable.popup_soura_part2,R.drawable.popup_soura_part3,R.drawable.popup_soura_part4 
@@ -341,6 +331,7 @@ public class SouraActivity extends MySuperScaler {
 		
 		mostafad.setOnTouchListener(new OnTouchListener() {
 			
+			@SuppressWarnings("deprecation")
 			@Override
 		    public boolean onTouch(View v, MotionEvent event) {
 		      switch (event.getAction()) {
@@ -367,15 +358,18 @@ public class SouraActivity extends MySuperScaler {
 		    	  mostafad_content = (WebView) dialog.findViewById(R.id.mostafad_content);
 		    	  mostafad_content.setBackgroundColor(0x00000000);
 //		    	  mostafad_content.getSettings().setJavaScriptEnabled(true);
-		    	 
+//		    	  WebSettings webSettings = mostafad_content.getSettings();
+//		    	  webSettings.setTextSize(WebSettings.TextSize.LARGER);
+		    	  
 		    	  new AsyncTask<Void, String, String>() {
 
 						@Override
 						protected String doInBackground(Void... params) {
 
+							
 //							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
 							String data = myDB.getPartsMoustafad(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
-							Log.i("mostafad_content", data);
+							
 
 							return data;
 						}
@@ -383,9 +377,16 @@ public class SouraActivity extends MySuperScaler {
 						@Override
 						protected void onPostExecute(String data) {
 							
+							String style = "<style type=\"text/css\">body {font-size: 27px;margin: 10px; direction: rtl;  text-align: justify; }</style>";
+							
+							String new_data = restructureData(data);
+							
+							Log.i("OLD mostafad_content", data);
+							Log.i("mostafad_content", new_data);
+							
 							if(data != null)
 							{	
-								mostafad_content.loadData("<html><body>"+data+"</body></html>", "text/html; charset=UTF-8", null);
+								mostafad_content.loadData("<html><head>"+style+"</head><body>"+new_data+"</body></html>", "text/html; charset=UTF-8", null);
 
 							}else{ 
 								mTafseerManager.showPopUp(SouraActivity.this, R.string.error_try_again);
@@ -468,6 +469,8 @@ public class SouraActivity extends MySuperScaler {
 ///////////////////   MAANA CONTENT //////////////////////////////////////////////////////////////////		    	  
 		    	  maana_content = (WebView) dialog.findViewById(R.id.maana_content);
 		    	  maana_content.setBackgroundColor(0x00000000);
+//		    	  WebSettings webSettings = maana_content.getSettings();
+//		    	  webSettings.setTextSize(WebSettings.TextSize.LARGER);
 		    	  
 		    	  new AsyncTask<Void, String, String>() {
 
@@ -484,10 +487,12 @@ public class SouraActivity extends MySuperScaler {
 
 						@Override
 						protected void onPostExecute(String data) {
-							
+							String style = "<style type=\"text/css\">body {font-size: 27px;margin: 10px; direction: rtl;  text-align: justify; }</style>";
+		
+									
 							if(data != null)
 							{	
-								 maana_content.loadData("<html><body>"+data+"</body></html>", "text/html; charset=UTF-8", null);
+								 maana_content.loadData("<html><head>"+style+"</head><body>"+data+"</body></html>", "text/html; charset=UTF-8", null);
 
 							}else{ 
 								mTafseerManager.showPopUp(SouraActivity.this, R.string.error_try_again);
@@ -561,7 +566,7 @@ public class SouraActivity extends MySuperScaler {
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
 					
-		    	  
+		    	  startActivity(new Intent(SouraActivity.this, EyetPlayerActivity.class));
 		    	  
 		    	  
 		      }
@@ -670,72 +675,8 @@ public class SouraActivity extends MySuperScaler {
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
-		    	  final Dialog dialog = new Dialog(SouraActivity.this);
-		    	  dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); 
-		    	  dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		    	  dialog.setContentView(R.layout.favourites);
-		    	  
-		    	  dialog.setCancelable(true);
-		    	  RelativeLayout popup_view = (RelativeLayout) dialog.findViewById(R.id.favourites_layout);
-		    	  popup_view.getLayoutParams().width = 1155;
-		    	  popup_view.getLayoutParams().height = 800;
-		    	  MySuperScaler.scaleViewAndChildren(popup_view, MySuperScaler.scale);
-		    	  
-		    	  
-		    	  Button set_fav = (Button) dialog.findViewById(R.id.set_favorite);
-		    	  final ListView fav_list = (ListView) dialog.findViewById(R.id.favourites_listView);
-		    	  fav_list.setDivider(null);
-		    	  
-		    	  SwipeListViewCallback mySwipeListViewCallback = new SwipeListViewCallback() {
-		    		  
-		    		  @Override
-		    		  public void onSwipeItem(boolean isRight, int position) {
-		    			  m_Adapter.onSwipeItem(isRight, position);
-		    		  }
-		    		  
-		    		  @Override
-		    		  public void onItemClickListener(ListAdapter adapter, int position) {
-		    		  }
-		    		  
-		    		  @Override
-		    		  public ListView getListView() {
-		    		   return fav_list;
-		    		  }
-		    		 };
-		    		 
-		    	SwipeListView l = new SwipeListView(SouraActivity.this, mySwipeListViewCallback);
-		    	l.exec();
-				m_Adapter = new MyAdapter();
-				fav_list.setAdapter(m_Adapter);
-				
-				set_fav.setOnTouchListener(new OnTouchListener() {
-					
-					@Override
-				    public boolean onTouch(View v, MotionEvent event) {
-				      switch (event.getAction()) {
-				      case MotionEvent.ACTION_DOWN: {
-				          Button view = (Button) v;
-				          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
-				          v.invalidate();
-				          break;
-				      }
-				      case MotionEvent.ACTION_UP: {
-
-				    	  m_Adapter.addItem("Item Item Item Item Item ");
-				      
-				      }
-				      case MotionEvent.ACTION_CANCEL: {
-				          Button view = (Button) v;
-				          view.getBackground().clearColorFilter();
-				          view.invalidate();
-				          break;
-				      }
-				      }
-				      return true;
-				    }
-				});
-				
-				dialog.show();
+		    	  final Dialog dialog = new FavouriteDialog(SouraActivity.this);
+		    	  dialog.show();
 				
 		     
 		      }
@@ -799,109 +740,83 @@ public class SouraActivity extends MySuperScaler {
 		
 	}
 	
-////////////////////////////// Favourite SwipeToDelete  ADAPTER///////////////////////////////////////////////
+ public String restructureData (String data){
+	 String new_data = "";
+		
+		if (data.contains("<div>")){
+		
+		String data_parts[] = data.split("<div>");
+		
+		data_parts[1] = "<div> •  "+ data_parts[1] ;
+		for (int i = 2; i < data_parts.length;i++){
+			
+			data_parts[i] = "<div><br><br> •  "+ data_parts[i] ;
+		}
+		
+		
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < data_parts.length; i++) {
+		   if(!data_parts[i].equals("<div><br><br> •  ")) result.append( data_parts[i] );
+		}
+		new_data = result.toString();
+		
+		
+		} 
+		if (data.contains("<br />")){
+			
+		String data_parts[] = data.split("<br />");
+		
+		String first[] = data_parts[0].split("p>");
+		first[1] = "p> •  "+first[1]+"<br><br>";
+		
+		StringBuilder result0 = new StringBuilder();
+		for (int i = 0; i < first.length; i++) {
+			   result0.append( first[i] );
+			}
+		data_parts[0] = result0.toString();
+		
+//		data_parts[0] = "<p> •  "+ data_parts[0] ;
+			
+		for (int i = 1; i < data_parts.length;i++){
+				
+				data_parts[i] = " • "+ data_parts[i] +  "<br><br>";
+			}
+		
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < data_parts.length; i++) {
+			   result.append( data_parts[i] );
+			}
+		new_data = result.toString();
+		}
+		
+		if (data.contains("<br/>")){
+			String data_parts[] = data.split("<br />");
+		
+		String first[] = data_parts[0].split("p>");
+		first[1] = "p> •  "+first[1]+"<br><br>";
+		
+		StringBuilder result0 = new StringBuilder();
+		for (int i = 0; i < first.length; i++) {
+			   result0.append( first[i] );
+			}
+		data_parts[0] = result0.toString();
+		
+//		data_parts[0] = "<p> •  "+ data_parts[0] ;
+			
+		for (int i = 1; i < data_parts.length;i++){
+				
+				data_parts[i] = " • "+ data_parts[i] +  "<br><br>";
+			}
+		
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < data_parts.length; i++) {
+			   result.append( data_parts[i] );
+			}
+		new_data = result.toString();
+		}
+		return new_data;
+ }	
 	
-	public class MyAdapter extends BaseAdapter {
-
-		protected List<String> m_List;
-		private final int INVALID = -1;
-		protected int DELETE_POS = -1;
-
-		public MyAdapter() {
-			// TODO Auto-generated constructor stub
-			m_List = new ArrayList<String>();
-		}
-
-		public void addItem(String item) {
-			m_List.add(item);
-			notifyDataSetChanged();
-		}
-
-		public void addItemAll(List<String> item) {
-			//
-			m_List.addAll(item);
-			notifyDataSetChanged();
-		}
-
-		public void onSwipeItem(boolean isRight, int position) {
-			// TODO Auto-generated method stub
-			if (isRight == false) {
-				DELETE_POS = position;
-			} else if (DELETE_POS == position) {
-				DELETE_POS = INVALID;
-			}
-			//
-			notifyDataSetChanged();
-		}
-
-		public void deleteItem(int pos) {
-			//
-			m_List.remove(pos);
-			DELETE_POS = INVALID;
-			notifyDataSetChanged();
-		}
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return m_List.size();
-		}
-
-		@Override
-		public String getItem(int position) {
-			// TODO Auto-generated method stub
-			return m_List.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
-			// TODO Auto-generated method stub
-			if (convertView == null) {
-				convertView = LayoutInflater.from(SouraActivity.this).inflate(
-						R.layout.favourite_list_row, null);
-			}
-			FontFitTextView text = ViewHolderPattern.get(convertView, R.id.reminder_time);
-			Button delete = ViewHolderPattern.get(convertView, R.id.swipe_delete);
-			if (DELETE_POS == position) {
-				delete.setVisibility(View.VISIBLE);
-			} else
-				delete.setVisibility(View.GONE);
-			delete.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					deleteItem(position);
-				}
-			});
-
-			text.setText(getItem(position));
-
-			return convertView;
-		}
-	}
-
-	public static class ViewHolderPattern {
-		@SuppressWarnings("unchecked")
-		public static <T extends View> T get(View view, int id) {
-			SparseArray<View> viewHolder = (SparseArray<View>) view.getTag();
-			if (viewHolder == null) {
-				viewHolder = new SparseArray<View>();
-				view.setTag(viewHolder);
-			}
-			View childView = viewHolder.get(id);
-			if (childView == null) {
-				childView = view.findViewById(id);
-				viewHolder.put(id, childView);
-			}
-			return (T) childView;
-		}
-	}
 	
 
 }

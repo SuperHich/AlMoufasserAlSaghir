@@ -11,10 +11,19 @@
         android:layout_width="109px"
         android:layout_height="94px"
         android:layout_marginTop="135px"
-        android:layout_marginLeft="90px"
+        android:layout_marginLeft="200px"
         android:background="@drawable/fav_btn_new" 
         />
-    
+    <Button 
+	    android:id="@+id/fav_previous"
+        android:layout_width="81px"
+        android:layout_height="81px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="160px"
+        android:background="@drawable/previous" 
+	    />
     <ListView
         android:id="@+id/favourites_listView"
         android:layout_width="1082px"

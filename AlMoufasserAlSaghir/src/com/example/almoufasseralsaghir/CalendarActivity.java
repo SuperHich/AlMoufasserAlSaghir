@@ -74,7 +74,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	String myhour, myminute ;
 	
 	private int suraId, partNb;
-	private Reminder currentReminder;
+	private Reminder currentReminder = new Reminder();
 	
 	private ListView list1, list2;
 	private CustomList adapter1, adapter2;
@@ -1064,31 +1064,42 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 //				  "16:00", "17:00", "18:00","19:00", "20:00","21:00","22:00", "23:00",
 //			  };
 			  
-			  time1.add(new ReminderListItem("00:00", false));
-			  time1.add(new ReminderListItem("01:00", false));
-			  time1.add(new ReminderListItem("02:00", false));
-			  time1.add(new ReminderListItem("03:00", false));
-			  time1.add(new ReminderListItem("04:00", false));
-			  time1.add(new ReminderListItem("05:00", false));
-			  time1.add(new ReminderListItem("06:00", false));
-			  time1.add(new ReminderListItem("07:00", false));
+			  time1.add(new ReminderListItem("00:00", isTimeSelected("00:00", currentReminder.getTime())));
+			  time1.add(new ReminderListItem("01:00", isTimeSelected("01:00", currentReminder.getTime())));
+			  time1.add(new ReminderListItem("02:00", isTimeSelected("02:00", currentReminder.getTime())));
+			  time1.add(new ReminderListItem("03:00", isTimeSelected("03:00", currentReminder.getTime())));
+			  time1.add(new ReminderListItem("04:00", isTimeSelected("04:00", currentReminder.getTime())));
+			  time1.add(new ReminderListItem("05:00", isTimeSelected("05:00", currentReminder.getTime())));
+			  time1.add(new ReminderListItem("06:00", isTimeSelected("06:00", currentReminder.getTime())));
+			  time1.add(new ReminderListItem("07:00", isTimeSelected("07:00", currentReminder.getTime())));
 			  
-			  time2.add(new ReminderListItem("08:00", false));
-			  time2.add(new ReminderListItem("09:00", false));
-			  time2.add(new ReminderListItem("10:00", false));
-			  time2.add(new ReminderListItem("11:00", false));
-			  time2.add(new ReminderListItem("12:00", false));
-			  time2.add(new ReminderListItem("13:00", false));
-			  time2.add(new ReminderListItem("14:00", false));
-			  time2.add(new ReminderListItem("15:00", false));
-			  time2.add(new ReminderListItem("16:00", false));
-			  time2.add(new ReminderListItem("17:00", false));
-			  time2.add(new ReminderListItem("18:00", false));
-			  time2.add(new ReminderListItem("19:00", false));
-			  time2.add(new ReminderListItem("20:00", false));
-			  time2.add(new ReminderListItem("21:00", false));
-			  time2.add(new ReminderListItem("22:00", false));
-			  time2.add(new ReminderListItem("23:00", false));
+			  time2.add(new ReminderListItem("08:00", isTimeSelected("08:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("09:00", isTimeSelected("09:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("10:00", isTimeSelected("10:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("11:00", isTimeSelected("11:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("12:00", isTimeSelected("12:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("13:00", isTimeSelected("13:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("14:00", isTimeSelected("14:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("15:00", isTimeSelected("15:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("16:00", isTimeSelected("16:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("17:00", isTimeSelected("17:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("18:00", isTimeSelected("18:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("19:00", isTimeSelected("19:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("20:00", isTimeSelected("20:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("21:00", isTimeSelected("21:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("22:00", isTimeSelected("22:00", currentReminder.getTime())));
+			  time2.add(new ReminderListItem("23:00", isTimeSelected("23:00", currentReminder.getTime())));
 			  
+	}
+	
+	private boolean isTimeSelected(String listTime, String reminderTime){
+		boolean isEqual = false;
+		if(reminderTime != null){
+			String[] listTimeSplit = listTime.split(":");
+			String[] reminderTimeSplit = reminderTime.split(":");
+			isEqual = listTimeSplit[0].equals(reminderTimeSplit[0]);
+		}
+				
+		return isEqual;
 	}
 }
