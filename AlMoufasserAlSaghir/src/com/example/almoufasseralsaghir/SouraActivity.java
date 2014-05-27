@@ -747,16 +747,16 @@ public class SouraActivity extends MySuperScaler {
 		
 		String data_parts[] = data.split("<div>");
 		
-		data_parts[1] = "<div> •  "+ data_parts[1] ;
+		data_parts[1] = "<div> â€¢  "+ data_parts[1] ;
 		for (int i = 2; i < data_parts.length;i++){
 			
-			data_parts[i] = "<div><br><br> •  "+ data_parts[i] ;
+			data_parts[i] = "<div><br><br> â€¢  "+ data_parts[i] ;
 		}
 		
 		
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < data_parts.length; i++) {
-		   if(!data_parts[i].equals("<div><br><br> •  ")) result.append( data_parts[i] );
+		   if(!data_parts[i].equals("<div><br><br> â€¢  ")) result.append( data_parts[i] );
 		}
 		new_data = result.toString();
 		
@@ -767,7 +767,7 @@ public class SouraActivity extends MySuperScaler {
 		String data_parts[] = data.split("<br />");
 		
 		String first[] = data_parts[0].split("p>");
-		first[1] = "p> •  "+first[1]+"<br><br>";
+		first[1] = "p> â€¢  "+first[1]+"<br><br>";
 		
 		StringBuilder result0 = new StringBuilder();
 		for (int i = 0; i < first.length; i++) {
@@ -775,11 +775,11 @@ public class SouraActivity extends MySuperScaler {
 			}
 		data_parts[0] = result0.toString();
 		
-//		data_parts[0] = "<p> •  "+ data_parts[0] ;
+//		data_parts[0] = "<p> â€¢  "+ data_parts[0] ;
 			
 		for (int i = 1; i < data_parts.length;i++){
 				
-				data_parts[i] = " • "+ data_parts[i] +  "<br><br>";
+				data_parts[i] = " â€¢ "+ data_parts[i] +  "<br><br>";
 			}
 		
 		StringBuilder result = new StringBuilder();
@@ -793,7 +793,7 @@ public class SouraActivity extends MySuperScaler {
 			String data_parts[] = data.split("<br />");
 		
 		String first[] = data_parts[0].split("p>");
-		first[1] = "p> •  "+first[1]+"<br><br>";
+		first[1] = "p> â€¢  "+first[1]+"<br><br>";
 		
 		StringBuilder result0 = new StringBuilder();
 		for (int i = 0; i < first.length; i++) {
@@ -801,11 +801,11 @@ public class SouraActivity extends MySuperScaler {
 			}
 		data_parts[0] = result0.toString();
 		
-//		data_parts[0] = "<p> •  "+ data_parts[0] ;
+//		data_parts[0] = "<p> â€¢  "+ data_parts[0] ;
 			
 		for (int i = 1; i < data_parts.length;i++){
 				
-				data_parts[i] = " • "+ data_parts[i] +  "<br><br>";
+				data_parts[i] = " â€¢ "+ data_parts[i] +  "<br><br>";
 			}
 		
 		StringBuilder result = new StringBuilder();
