@@ -32,7 +32,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.almoufasseralsaghir.utils.CustomizedCalendarCells;
@@ -70,6 +69,8 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	private Button previous ;
 	
 	private boolean reminder_active ;
+	
+	String myhour, myminute ;
 	
 	private int suraId, partNb;
 	private Reminder currentReminder;
@@ -661,8 +662,152 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 			popup_view.getLayoutParams().width = 847;
 			MySuperScaler.scaleViewAndChildren(popup_view, MySuperScaler.scale);
 
-			final TimePicker reminder_timepicker = (TimePicker) dialog.findViewById(R.id.reminder_timePicker);
+/////////////////////// MY CUSTOM TIMEPICKER ////////////////////////////////////////////////////////			
 			
+			
+			final Button hours_plus = (Button) dialog.findViewById(R.id.time_hours_plus);
+			final Button hours_minus = (Button) dialog.findViewById(R.id.time_hours_minus);
+			final FontFitTextView hours = (FontFitTextView) dialog.findViewById(R.id.time_hours);
+			
+			final Button minutes_plus = (Button) dialog.findViewById(R.id.time_minutes_plus);
+			final Button minutes_minus = (Button) dialog.findViewById(R.id.time_minutes_minus);
+			final FontFitTextView minutes = (FontFitTextView) dialog.findViewById(R.id.time_minutes);
+			
+			
+			String time = time2[position];
+			String time_parts[] = time.split(":");
+			
+			myhour = time_parts[0];
+			myminute = time_parts[1];
+			
+			Log.i("*******  HOUR *************", myhour);
+			Log.i("*******  MINUTE *************", myminute);
+			
+			hours.setText(myhour);
+			minutes.setText(myminute);
+			
+			hours_plus.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN: {
+						Button view = (Button) v;
+						view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+						v.invalidate();
+						break;
+					}
+					case MotionEvent.ACTION_UP: {
+						
+						int myhourValue = Integer.parseInt(myhour);
+						if (myhourValue < 23) myhourValue++ ;
+						myhour = String.valueOf(myhourValue);
+						if (myhourValue < 10) myhour = "0"+myhour;
+						hours.setText(myhour);
+					
+					}
+					case MotionEvent.ACTION_CANCEL: {
+						Button view = (Button) v;
+						view.getBackground().clearColorFilter();
+						view.invalidate();
+						break;
+					}
+					}
+					return true;
+				}
+			});
+			hours_minus.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN: {
+						Button view = (Button) v;
+						view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+						v.invalidate();
+						break;
+					}
+					case MotionEvent.ACTION_UP: {
+
+						int myhourValue = Integer.parseInt(myhour);
+						if (myhourValue > 0) myhourValue-- ;
+						myhour = String.valueOf(myhourValue);
+						if (myhourValue < 10) myhour = "0"+myhour;
+						hours.setText(myhour);
+					}
+					case MotionEvent.ACTION_CANCEL: {
+						Button view = (Button) v;
+						view.getBackground().clearColorFilter();
+						view.invalidate();
+						break;
+					}
+					}
+					return true;
+				}
+			});
+			minutes_plus.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN: {
+						Button view = (Button) v;
+						view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+						v.invalidate();
+						break;
+					}
+					case MotionEvent.ACTION_UP: {
+
+						int myminutesValue = Integer.parseInt(myminute);
+						if (myminutesValue < 59) myminutesValue++ ;
+						myminute = String.valueOf(myminutesValue);
+						if (myminutesValue < 10) myminute = "0"+myminute;
+						minutes.setText(myminute);
+					}
+					case MotionEvent.ACTION_CANCEL: {
+						Button view = (Button) v;
+						view.getBackground().clearColorFilter();
+						view.invalidate();
+						break;
+					}
+					}
+					return true;
+				}
+			});
+			minutes_minus.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN: {
+						Button view = (Button) v;
+						view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+						v.invalidate();
+						break;
+					}
+					case MotionEvent.ACTION_UP: {
+
+						int myminutesValue = Integer.parseInt(myminute);
+						if (myminutesValue > 0) myminutesValue++ ;
+						myminute = String.valueOf(myminutesValue);
+						if (myminutesValue < 10) myminute = "0"+myminute;
+						minutes.setText(myminute);
+					}
+					case MotionEvent.ACTION_CANCEL: {
+						Button view = (Button) v;
+						view.getBackground().clearColorFilter();
+						view.invalidate();
+						break;
+					}
+					}
+					return true;
+				}
+			});
+			
+			
+			
+			
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////			
 			Button reminder_confirm = (Button) dialog.findViewById(R.id.reminder_confirm);
 			Button reminder_cancel = (Button) dialog.findViewById(R.id.reminder_cancel);
 			
@@ -739,7 +884,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 					case MotionEvent.ACTION_UP: {
 						
 						////////////////////// SET REMiDER //////////////////////////////////////////////////////////////////
-						String time = reminder_timepicker.getCurrentHour() + ":" + reminder_timepicker.getCurrentMinute();
+						String time = myhour + ":" + myminute;
 						time = formatDoubleUnit(time, ":");
 						String date = myYear.getText().toString() +"-"+myNumericMonth+"-"+formatSingleUnit(myDay.getText().toString());
 						
@@ -815,23 +960,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 			});
 			
 			
-			String time = time2[position];
-		//	String hour[] = time.split(":");
 			
-			reminder_timepicker.setIs24HourView(true);
-	//		reminder_timepicker.setCurrentHour(Integer.getInteger(time));
-			 
-			SimpleDateFormat sdf = new SimpleDateFormat("hh:ss");
-		        Date date = null;
-		        try {
-		            date = sdf.parse(time);
-		        } catch (ParseException e) {
-		        }
-		        Calendar c = Calendar.getInstance();
-		        c.setTime(date);
-
-		        reminder_timepicker.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
-		        reminder_timepicker.setCurrentMinute(c.get(Calendar.MINUTE));
 			
 			
 			

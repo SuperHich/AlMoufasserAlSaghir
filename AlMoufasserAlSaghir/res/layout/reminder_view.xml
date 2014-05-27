@@ -6,15 +6,95 @@
      android:background="@drawable/reminder_bg_new">
     
     
-    <TimePicker
-        android:id="@+id/reminder_timePicker"
-        android:layout_width="300px"
-        android:layout_height="250px"
-        android:gravity="center"
-        android:paddingTop="30px"
-        android:layout_marginTop="100px"
-        android:layout_marginLeft="120px" />
+ <!--   timepicker hours substitute   -->
     
+    <Button
+        android:id="@+id/time_hours_plus"
+        android:layout_width="135.5px"
+        android:layout_height="51px"
+        android:layout_marginTop="100px"
+        android:layout_marginLeft="112px" 
+        android:background="@drawable/time_part_plus" />
+    
+    <RelativeLayout
+        android:layout_width="141px"
+        android:layout_height="151px"
+        android:layout_marginTop="150px"
+        android:layout_marginLeft="110px" 
+        android:background="@drawable/time_part_text">
+     
+     <com.almoufasseralsaghir.utils.FontFitTextView 
+            
+            android:id="@+id/time_hours"
+            android:layout_width="130px"
+            android:layout_height="140px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="200px"
+            android:textColor="#545454"
+            android:textStyle="bold"
+            android:ellipsize="none"
+            android:gravity="center"
+        	android:maxLines="1"
+        	android:textSize="50sp"
+            />
+    </RelativeLayout>
+     
+     <Button
+        android:id="@+id/time_hours_minus"
+        android:layout_width="136.6px"
+        android:layout_height="51px"
+        android:layout_marginTop="300px"
+        android:layout_marginLeft="111px" 
+        android:background="@drawable/time_part_minus" />
+
+
+<!--   timepicker minutes substitute   -->
+     <Button
+        android:id="@+id/time_minutes_plus"
+        android:layout_width="135.5px"
+        android:layout_height="51px"
+        android:layout_marginTop="100px"
+        android:layout_marginLeft="263px" 
+        android:background="@drawable/time_part_plus" />
+   
+     <RelativeLayout
+        android:layout_width="141px"
+        android:layout_height="151px"
+        android:layout_marginTop="150px"
+        android:layout_marginLeft="260px" 
+        android:background="@drawable/time_part_text">
+     
+     <com.almoufasseralsaghir.utils.FontFitTextView 
+            
+            android:id="@+id/time_minutes"
+            android:layout_width="130px"
+            android:layout_height="140px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="200px"
+            android:textColor="#545454"
+            android:textStyle="bold"
+            android:ellipsize="none"
+            android:gravity="center"
+        	android:maxLines="1"
+        	android:textSize="50sp"
+            />
+    </RelativeLayout>
+    
+     <Button
+        android:id="@+id/time_minutes_minus"
+        android:layout_width="136.6px"
+        android:layout_height="51px"
+        android:layout_marginTop="300px"
+        android:layout_marginLeft="261px" 
+        android:background="@drawable/time_part_minus" />
+
+     
+     
+     
    <Button
         android:id="@+id/reminder_learn"
         android:layout_width="68px"
