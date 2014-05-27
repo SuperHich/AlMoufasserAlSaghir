@@ -192,6 +192,22 @@ public class TafseerManager {
 		// return json
 		return json;
 	}
+	
+	public Sura getSuraById(int id){
+		
+		ArrayList<Sura> allLists = new ArrayList<Sura>();
+		allLists.addAll(part1_list);
+		allLists.addAll(part2_list);
+		allLists.addAll(part3_list);
+		allLists.addAll(part4_list);
+		
+		for(Sura sura : allLists){
+			if(sura.getSuraId() == id)
+				return sura;
+		}
+		
+		return null;
+	}
 
 	public Sura getSouraLabel(int part, int position) {
 
@@ -226,36 +242,6 @@ public class TafseerManager {
 		}
 
 		return null;
-	}
-
-	public void saveUser(User user) {
-		editor.putString("uid", user.getUid());
-		editor.putString("udid", user.getUdid());
-		editor.putString("name", user.getName());
-		editor.putString("email", user.getEmail());
-		editor.putString("twitter", user.getTwitter());
-		editor.putString("facebook", user.getFacebook());
-		editor.putString("follower1", user.getFollower1());
-		editor.putString("follower2", user.getFollower2());
-		editor.putString("follower3", user.getFollower3());
-
-		editor.commit();
-	}
-
-	public User getSavedUser() {
-		User user = new User();
-
-		user.setUid(settings.getString("uid", ""));
-		user.setUdid(settings.getString("udid", ""));
-		user.setName(settings.getString("name", ""));
-		user.setEmail(settings.getString("email", ""));
-		user.setTwitter(settings.getString("twitter", ""));
-		user.setFacebook(settings.getString("facebook", ""));
-		user.setFollower1(settings.getString("follower1", ""));
-		user.setFollower2(settings.getString("follower2", ""));
-		user.setFollower3(settings.getString("follower3", ""));
-
-		return user;
 	}
 	
 	public void setCurrentJuz2(int juz2){

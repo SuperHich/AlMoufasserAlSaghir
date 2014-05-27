@@ -20,10 +20,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -32,13 +32,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.almoufasseralsaghir.utils.CustomizedCalendarCells;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
+import com.example.almoufasseralsaghir.entity.Reminder;
 
 @SuppressLint("SimpleDateFormat")
 public class CalendarActivity extends MySuperScaler implements OnClickListener {
@@ -60,17 +60,31 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	@SuppressWarnings("unused")
 	private final DateFormat dateFormatter = new DateFormat();
 	private static final String dateTemplate = "MMMM yyyy";
+
+	public static final int REMINDER_LEARN = 1;
+	public static final int REMINDER_REVISE = 2;
 	
 	private boolean rescale = false;
 	private FontFitTextView myDay, myMonth, myYear ;
+	private String myNumericMonth;
 	private Button previous ;
 	
 	private boolean reminder_active ;
+	
+	private int suraId, partNb;
+	private Reminder currentReminder;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calendar_activity);
+		
+		if(getIntent().getExtras() != null){
+			suraId = getIntent().getExtras().getInt("suraId");
+			partNb = getIntent().getExtras().getInt("partNb");
+			
+			currentReminder = myDB.getReminder(suraId, partNb);
+		}
 		
 		previous = (Button) findViewById(R.id.previous);
 
@@ -116,6 +130,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		
 		_calendar = Calendar.getInstance(Locale.getDefault());
 		month = _calendar.get(Calendar.MONTH) +1 ;
+		myNumericMonth = formatSingleUnit(month+"");
 		year = _calendar.get(Calendar.YEAR);
 		Log.d(tag, "Calendar Instance:= " + "Month: " + month + " " + "Year: "
 				+ year);
@@ -578,6 +593,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 			myDay.setText(date[0]);
         	myYear.setText(date[2]);
         	myMonth.setText(month_arabe);
+        	myNumericMonth = formatSingleUnit(date[1]);
 			
 			
 		}
@@ -645,7 +661,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 			popup_view.getLayoutParams().width = 847;
 			MySuperScaler.scaleViewAndChildren(popup_view, MySuperScaler.scale);
 
-			TimePicker reminder_timepicker = (TimePicker) dialog.findViewById(R.id.reminder_timePicker);
+			final TimePicker reminder_timepicker = (TimePicker) dialog.findViewById(R.id.reminder_timePicker);
 			
 			Button reminder_confirm = (Button) dialog.findViewById(R.id.reminder_confirm);
 			Button reminder_cancel = (Button) dialog.findViewById(R.id.reminder_cancel);
@@ -657,24 +673,33 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 /////////////////////// CHANGE TO GET REMINDER STATE
 			final ImageView reminder_state = (ImageView) dialog.findViewById(R.id.reminder_state);
 			
-			reminder_active = false ;
+			
 			//// GET
-			if (reminder_active){
-//	change here			reminder_state.setBackgroundResource(R.drawable.stop_reminder);
-//				reminder_start.setBackgroundResource(R.drawable.reminder_on_part1);
-//				reminder_stop.setBackgroundResource(R.drawable.reminder_on_part2);
-//				
-//				reminder_active = true ;	
+			if (currentReminder.isStatus()){
+				reminder_state.setBackgroundResource(R.drawable.stop_reminder);
+				reminder_start.setBackgroundResource(R.drawable.reminder_on_part1);
+				reminder_stop.setBackgroundResource(R.drawable.reminder_on_part2);
+
+				currentReminder.setStatus(true);
 			} else {
-//	change here			reminder_state.setBackgroundResource(R.drawable.start_reminder);
-//				reminder_start.setBackgroundResource(R.drawable.reminder_off_part1);
-//				reminder_stop.setBackgroundResource(R.drawable.reminder_off_part2);
-//				
-//				reminder_active = false ;
+				reminder_state.setBackgroundResource(R.drawable.start_reminder);
+				reminder_start.setBackgroundResource(R.drawable.reminder_off_part1);
+				reminder_stop.setBackgroundResource(R.drawable.reminder_off_part2);
+
+				currentReminder.setStatus(false);
 			}
 			
 			final Button reminder_learn = (Button) dialog.findViewById(R.id.reminder_learn);
 			final Button reminder_revise = (Button) dialog.findViewById(R.id.reminder_revise);
+			
+			if(currentReminder.getType() == REMINDER_LEARN)
+			{
+				reminder_learn.setBackgroundResource(R.drawable.popup_active_btn);
+				reminder_revise.setBackgroundResource(R.drawable.popup_inactive_btn);
+			}else{
+				reminder_learn.setBackgroundResource(R.drawable.popup_inactive_btn);
+				reminder_revise.setBackgroundResource(R.drawable.popup_active_btn);
+			}
 
 			reminder_learn.setOnClickListener(new OnClickListener() {
 				@Override
@@ -684,7 +709,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 					reminder_revise.setBackgroundResource(R.drawable.popup_inactive_btn);
 
 ////////////////////// SET REMINDER Learn //////////////////////////////////////////////////////////////////			
-
+					currentReminder.setType(REMINDER_LEARN);
 				}
 			});
 
@@ -696,7 +721,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 					reminder_revise.setBackgroundResource(R.drawable.popup_active_btn);
 
 ////////////////////// SET REMINDER REVISE  //////////////////////////////////////////////////////////////////			
-
+					currentReminder.setType(REMINDER_REVISE);
 				}
 			});
 
@@ -712,15 +737,20 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 						break;
 					}
 					case MotionEvent.ACTION_UP: {
-
-						if (reminder_active){
-////////////////////// SET REMiDER //////////////////////////////////////////////////////////////////
-						Toast.makeText(CalendarActivity.this, "reminder set at time ", Toast.LENGTH_SHORT).show();
 						
-						} else {
-						Toast.makeText(CalendarActivity.this, "reminder inactive", Toast.LENGTH_SHORT).show();
+						////////////////////// SET REMiDER //////////////////////////////////////////////////////////////////
+						String time = reminder_timepicker.getCurrentHour() + ":" + reminder_timepicker.getCurrentMinute();
+						time = formatDoubleUnit(time, ":");
+						String date = myYear.getText().toString() +"-"+myNumericMonth+"-"+formatSingleUnit(myDay.getText().toString());
+						
+						boolean isOK = myDB.insertReminder(partNb, suraId, date, time, currentReminder.getType(), currentReminder.isStatus());
 
-						}
+						if (isOK)
+							Toast.makeText(CalendarActivity.this, "Reminder set", Toast.LENGTH_SHORT).show();
+						 else 
+							Toast.makeText(CalendarActivity.this, "Reminder not set", Toast.LENGTH_SHORT).show();
+						
+						dialog.dismiss();
 					}
 					case MotionEvent.ACTION_CANCEL: {
 						Button view = (Button) v;
@@ -766,8 +796,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 					reminder_start.setBackgroundResource(R.drawable.reminder_on_part1);
 					reminder_stop.setBackgroundResource(R.drawable.reminder_on_part2);
 					
-					reminder_active = true ;
-					
+					currentReminder.setStatus(true);
 					
 				}
 			});
@@ -780,7 +809,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 					reminder_start.setBackgroundResource(R.drawable.reminder_off_part1);
 					reminder_stop.setBackgroundResource(R.drawable.reminder_off_part2);
 					
-					reminder_active = false ;
+					currentReminder.setStatus(false);
 					
 				}
 			});
@@ -813,5 +842,25 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		 finish();
 	}
 	
+	private String formatDoubleUnit(String time, String delimiter){
+		StringBuilder result = new StringBuilder();
+		String[] timeSplit = time.split(delimiter);
+		
+		result.append(formatSingleUnit(timeSplit[0]));
+		result.append(":");
+		result.append(formatSingleUnit(timeSplit[1]));
+		
+		return result.toString();
+	}
+	
+	private String formatSingleUnit(String unit){
+		StringBuilder res = new StringBuilder();
+		if(unit.length()==1)
+			res.append("0"+unit);
+		else
+			res.append(unit);
+		
+		return res.toString();
+	}
 	
 }

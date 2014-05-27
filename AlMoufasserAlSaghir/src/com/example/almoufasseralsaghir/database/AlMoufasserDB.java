@@ -1,5 +1,10 @@
 package com.example.almoufasseralsaghir.database;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,7 +27,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
     private Context context;
 
     public AlMoufasserDB(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    	super(context, DATABASE_NAME, context.getExternalFilesDir(null).getAbsolutePath(), null, DATABASE_VERSION);
+//        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         
         mTafseerManager = TafseerManager.getInstance(context);
@@ -420,28 +426,46 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
   //**************************** REMINDER
     
-    public boolean insertReminder(int partNb, int suraId, String rDate, String rTime, int type, boolean status){    	
-    	SQLiteDatabase db = getWritableDatabase();
+    public int getNewReminderId(){
+    	SQLiteDatabase db = getReadableDatabase();
     	SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
     	
 		String sqlTable = "reminders";
-		
-		String[] sqlSelect = {"MAX(cast(ReminderID as int))"};
-		
 		qb.setTables(sqlTable);
-		Cursor c = qb.query(db, sqlSelect, null, null,
+		String[] sqlSelect = {"ReminderID"};
+    	Cursor c = qb.query(db, sqlSelect, null, null,
 				null, null, null);
-		
-		int newID = 0;
+    	
+//		String sql = "SELECT MAX(CAST(ReminderID AS Int)) FROM reminders";
+//		Cursor c = db.rawQuery(sql, null);
+    	
+    	int max = -1;
 		if(c.moveToFirst()){
-			try{
-				int qid = Integer.parseInt(c.getString(0));
-				if(qid != 0)
-					newID = qid + 1 ;
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			do{
+				try{
+					String qStr = c.getString(0);
+					int value =  Integer.parseInt(qStr);
+					if(value>max)
+						max = value;
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}while(c.moveToNext());
 		}
+		
+		return max;
+		
+    }
+    
+    public boolean insertReminder(int partNb, int suraId, String rDate, String rTime, int type, boolean status){    	
+    	SQLiteDatabase db = getWritableDatabase();
+    	
+    	String sqlTable = "reminders";
+    	
+    	int newID = 0;
+    	int qid = getNewReminderId();
+    	if(qid != -1)
+			newID = qid + 1 ;
 		
 		ContentValues values = new ContentValues();
 		values.put("ReminderID", newID);
@@ -457,7 +481,18 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		
 		if(status){
 			String notifMsg = prepareNotoficationText(suraId, partNb, type);
-			alarmManager.setReminder(context, newID, notifMsg);
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+			Date date;
+	         try {
+				date = formatter.parse(rDate+" "+rTime);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				date = new Date();
+			} 
+			
+			alarmManager.setReminder(context.getApplicationContext(), newID, suraId, partNb, notifMsg, date.getTime());
 		}
 		
 		return insertedId != -1;
@@ -466,7 +501,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
     public String prepareNotoficationText(int suraId, int partNb, int type) {
 		String typeStr;
 		String suraName = getSuraName(suraId);
-		String partName = getPartName(partNb);
+		String partName = getPartName(partNb+1);
 		
 		if(type == 1)
 			typeStr = "حفظ";
@@ -474,12 +509,13 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			typeStr = "مراجعة";
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(" المقطع ");
-		sb.append(partName);
-		sb.append(" سورة ");
-		sb.append(suraName);
 		sb.append(" لاتنس ");
 		sb.append(typeStr);
+		sb.append(" المقطع ");
+		sb.append(partName);
+		sb.append(" من  سورة ");
+		sb.append(suraName);
+		
 		
 		return sb.toString();
 	}
@@ -539,9 +575,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		Cursor c = qb.query(db, null, whereClause, whereArgs,
 				null, null, null);
 
-		Reminder reminder = null;
+		Reminder reminder = new Reminder();
 		if(c.moveToFirst()){
-			reminder = new Reminder();
 			reminder.setReminderID(Integer.parseInt(c.getString(0)));
 			reminder.setDate(c.getString(3));
 			reminder.setTime(c.getString(4));

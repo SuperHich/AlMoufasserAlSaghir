@@ -5,8 +5,8 @@ public class Reminder {
 	private int reminderID;
 	private String date;
 	private String time;
-	private int type;
-	private boolean status;
+	private int type = 1;
+	private boolean status = true;
 	
 	public int getReminderID() {
 		return reminderID;

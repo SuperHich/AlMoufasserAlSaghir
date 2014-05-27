@@ -12,15 +12,17 @@ import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import com.example.almoufasseralsaghir.MainActivity;
 import com.example.almoufasseralsaghir.R;
+import com.example.almoufasseralsaghir.SouraActivity;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
 	final public static String ONE_TIME = "onetime";
 	public static final String ACTION_NOTIF_CLICK = "ACTION_CLICK";
-	private static final String REMINDER_MESSAGE = "reminder";
-	private static final String REMINDER_ID = "reminder_id";
+	public static final String REMINDER_MESSAGE = "reminder";
+	public static final String REMINDER_ID = "reminder_id";
+	public static final String REMINDER_SURA_ID = "reminder_sura_id";
+	public static final String REMINDER_PART_NB = "reminder_part_nb";
 	
 	private NotificationManager mNotifyManager;
 	private NotificationCompat.Builder mBuilder;
@@ -29,8 +31,12 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		
 		if(intent.getAction().equals(ACTION_NOTIF_CLICK)){
-			Intent reminderIntent = new Intent(context, MainActivity.class);
-//			reminderIntent.putExtra("", value);
+			Intent reminderIntent = new Intent(context, SouraActivity.class);
+			reminderIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			int suraId = intent.getExtras().getInt(REMINDER_SURA_ID);
+			int partNb = intent.getExtras().getInt(REMINDER_PART_NB);
+			reminderIntent.putExtra(REMINDER_SURA_ID, suraId);
+			reminderIntent.putExtra(REMINDER_PART_NB, partNb);
 			context.startActivity(reminderIntent);
 			return;
 		}
@@ -49,8 +55,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         	 msgStr = extras.getString(REMINDER_MESSAGE);
         	 reminderID = extras.getInt(REMINDER_ID);
          }
-//         Format formatter = new SimpleDateFormat("hh:mm:ss a");
-//         msgStr.append(formatter.format(new Date()));
 
          Toast.makeText(context, msgStr, Toast.LENGTH_LONG).show();
 
@@ -60,33 +64,19 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
          wl.release();
          
 	}
-//	public void SetAlarm(Context context)
-//    {
-//        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-//        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-//        intent.putExtra(ONE_TIME, Boolean.FALSE);
-//        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-//        //After after 30 seconds
-//        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 5 , pi); 
-//    }
-//
-//    public void CancelAlarm(Context context)
-//    {
-//        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-//        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-//        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.cancel(sender);
-//    }
-    public void setReminder(Context context, int reminderID, String notifMsg){
+
+    public void setReminder(Context context, int reminderID, int suraId, int partNb, String notifMsg, long when){
     	AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
         intent.setData(Uri.parse("custom://" + reminderID));
         intent.setAction(String.valueOf(reminderID));
         intent.putExtra(REMINDER_ID, reminderID);
         intent.putExtra(REMINDER_MESSAGE, notifMsg);
+        intent.putExtra(REMINDER_SURA_ID, suraId);
+        intent.putExtra(REMINDER_PART_NB, partNb);
         
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
+        am.set(AlarmManager.RTC_WAKEUP, when, pi);
     }
     	
     public void cancelReminder(Context context, int reminderID){
@@ -105,10 +95,11 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 		mBuilder = new NotificationCompat.Builder(context);
 		mBuilder.setContentTitle(context.getResources().getString(R.string.app_name))
 		    .setContentText(msg)
-		    .setSmallIcon(R.drawable.ic_launcher);
+		    .setSmallIcon(R.drawable.logo);
 		
 		Intent resultIntent = new Intent(context, AlarmManagerBroadcastReceiver.class);
 		resultIntent.setAction(ACTION_NOTIF_CLICK);
+		resultIntent.putExtra(REMINDER_ID, reminderID);
 		
 		PendingIntent resultPendingIntent= PendingIntent.getBroadcast(context, 0, resultIntent, 0);
 		

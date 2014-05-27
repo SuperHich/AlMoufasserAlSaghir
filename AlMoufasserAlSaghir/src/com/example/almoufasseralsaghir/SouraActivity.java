@@ -31,6 +31,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.SwipeListView;
@@ -98,18 +99,25 @@ public class SouraActivity extends MySuperScaler {
 		home.bringToFront();
 		
 		
+		Bundle extras = getIntent().getExtras();
+		if(extras != null){
+			int remSuraId = extras.getInt(AlarmManagerBroadcastReceiver.REMINDER_SURA_ID);
+			int remPartNb = extras.getInt(AlarmManagerBroadcastReceiver.REMINDER_PART_NB);
+			currentSura = mTafseerManager.getSuraById(remSuraId);
+			int drawableResourceId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+remPartNb+1, "drawable", SouraActivity.this.getPackageName());
+	          soura_part_num.setBackgroundResource(drawableResourceId);
+			
+			if(currentSura == null)
+				finish();
+		}else
+		{
+			int s_position = mTafseerManager.getCurrentSura();
+			int quran_part_num = mTafseerManager.getCurrentJuz2();
+			
+			currentSura = mTafseerManager.getSouraLabel(quran_part_num, s_position) ;
+		}
 		
-//		Bundle extras = getIntent().getExtras();
-//		String q_part_number =(String) extras.get("quran_part");
-//		String soura_position =(String) extras.get("soura_position");
 		
-//		int s_position = Integer.parseInt(soura_position) ;
-//		int quran_part_num = Integer.parseInt(q_part_number) ;
-		
-		int s_position = mTafseerManager.getCurrentSura();
-		int quran_part_num = mTafseerManager.getCurrentJuz2();
-		
-		currentSura = mTafseerManager.getSouraLabel(quran_part_num, s_position) ;
 		
 		partsNumber = myDB.getPartNumber(currentSura.getSuraId());
 		
@@ -311,6 +319,8 @@ public class SouraActivity extends MySuperScaler {
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
 		    	  Intent in = new Intent(SouraActivity.this, CalendarActivity.class);
+		    	  in.putExtra("suraId", currentSura.getSuraId());
+		    	  in.putExtra("partNb", mTafseerManager.getCurrentSuraPart());
 					startActivity(in);
 					Utils.animateFad(SouraActivity.this);
 		    	  
@@ -363,7 +373,7 @@ public class SouraActivity extends MySuperScaler {
 						@Override
 						protected String doInBackground(Void... params) {
 
-							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
+//							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
 							String data = myDB.getPartsMoustafad(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
 							Log.i("mostafad_content", data);
 
