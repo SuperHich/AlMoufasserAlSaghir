@@ -38,6 +38,7 @@ import com.almoufasseralsaghir.utils.CustomizedCalendarCells;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.example.almoufasseralsaghir.entity.Reminder;
+import com.example.almoufasseralsaghir.entity.ReminderListItem;
 
 @SuppressLint("SimpleDateFormat")
 public class CalendarActivity extends MySuperScaler implements OnClickListener {
@@ -74,6 +75,12 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	
 	private int suraId, partNb;
 	private Reminder currentReminder;
+	
+	private ListView list1, list2;
+	private CustomList adapter1, adapter2;
+	
+	private ArrayList<ReminderListItem> time1 = new ArrayList<ReminderListItem>();
+	private ArrayList<ReminderListItem> time2 = new ArrayList<ReminderListItem>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -165,48 +172,39 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 //////////////////////////    ListViews   //////////////////////////////////////////////////////////////////////////////////////////////////		
 		
 		
-		
-		ListView list1, list2;
-		  final String[] time1 = {
-		      "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00"
-		  } ;
-		  final String[] time2 = {
-			  "08:00","09:00","10:00", "11:00", "12:00", "13:00","14:00", "15:00", 
-			  "16:00", "17:00", "18:00","19:00", "20:00","21:00","22:00", "23:00",
-		  } ;
+		fillTimeList();
+
+
+		adapter1 = new CustomList(CalendarActivity.this, time1);
+
+		list1 = (ListView) findViewById(R.id.calendar_listView1);
+		list1.setAdapter(adapter1);
+		list1.setDivider(null);
+		list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+
+				/////////////////////// Reminder DIALOG //////////////////////////////////////////////////////////////////////				 
+
+				setReminderPopup(time1, position); 
+				//////////////////////////////////////////////////////////////////////////////////////////////					 
+			}
+		});
 		  
-		  Integer imageId =  R.drawable.calender_reminder_inactivated ;
-		
-		  CustomList adapter1 = new CustomList(CalendarActivity.this, time1, imageId);
-			    
-		  list1 = (ListView) findViewById(R.id.calendar_listView1);
-		  list1.setAdapter(adapter1);
-		  list1.setDivider(null);
-		  list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-				 @Override
-				 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-				  
-	/////////////////////// Reminder DIALOG //////////////////////////////////////////////////////////////////////				 
-					 
-					 setReminderPopup(time1, position); 
-//////////////////////////////////////////////////////////////////////////////////////////////					 
-				 }
-			  });
-		  
-		  CustomList adapter2 = new CustomList(CalendarActivity.this, time2, imageId);
-		
-		  list2 = (ListView) findViewById(R.id.calendar_listView2);
-		  list2.setAdapter(adapter2);
-		  list2.setDivider(null);
-		  list2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			 @Override
-			 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-			  
-/////////////////////// Reminder DIALOG //////////////////////////////////////////////////////////////////////				 
-				 setReminderPopup(time2, position); 
-//////////////////////////////////////////////////////////////////////////////////////////////				 
-			 }
-		  });
+		adapter2 = new CustomList(CalendarActivity.this, time2);
+
+		list2 = (ListView) findViewById(R.id.calendar_listView2);
+		list2.setAdapter(adapter2);
+		list2.setDivider(null);
+		list2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+
+				/////////////////////// Reminder DIALOG //////////////////////////////////////////////////////////////////////				 
+				setReminderPopup(time2, position); 
+				//////////////////////////////////////////////////////////////////////////////////////////////				 
+			}
+		});
 		
 		
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
@@ -616,39 +614,40 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		}
 	}
 	
-	public class CustomList extends ArrayAdapter<String>{
+	public class CustomList extends ArrayAdapter<ReminderListItem>{
 		private final Activity context;
-		private final String[] time;
-		private final Integer imageId;
+		private final ArrayList<ReminderListItem> time;
 		
-		public CustomList(Activity context, String[] web, Integer imageId) {
+		public CustomList(Activity context, ArrayList<ReminderListItem> web) {
 			super(context, R.layout.calendar_list_row, web);
 			this.context = context;
 			this.time = web;
-			this.imageId = imageId;
 		}
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
 			View row ;
 			if(view == null)
-			  {
-			LayoutInflater inflater = context.getLayoutInflater();
-			row= inflater.inflate(R.layout.calendar_list_row, parent, false);
-			  }
+			{
+				LayoutInflater inflater = context.getLayoutInflater();
+				row= inflater.inflate(R.layout.calendar_list_row, parent, false);
+			}
 			else row = view ;
-			
-			
+
+			final ReminderListItem item = time.get(position);
+
 			FontFitTextView txtTitle = (FontFitTextView) row.findViewById(R.id.reminder_time);
 			ImageView imageView = (ImageView) row.findViewById(R.id.reminder_time_signal);
-			txtTitle.setText(time[position]);
-			imageView.setImageResource(imageId);
-			
+			txtTitle.setText(item.getLabel());
+			if(!item.isSelected())
+				imageView.setImageResource(R.drawable.calender_reminder_inactivated);
+			else
+				imageView.setImageResource(R.drawable.calender_reminder_activated);
 			
 			return row;
 		}
 		}
 	
-	public void setReminderPopup(String[] time2,int position){
+	public void setReminderPopup(final ArrayList<ReminderListItem> timeList, final int position){
 
 		// Your action here on button click
 			final Dialog dialog = new Dialog(CalendarActivity.this);
@@ -674,7 +673,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 			final FontFitTextView minutes = (FontFitTextView) dialog.findViewById(R.id.time_minutes);
 			
 			
-			String time = time2[position];
+			String time = timeList.get(position).getLabel();
 			String time_parts[] = time.split(":");
 			
 			myhour = time_parts[0];
@@ -895,6 +894,8 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 						 else 
 							Toast.makeText(CalendarActivity.this, "Reminder not set", Toast.LENGTH_SHORT).show();
 						
+						refreshTimeStatus(timeList.size(), position, true);
+						
 						dialog.dismiss();
 					}
 					case MotionEvent.ACTION_CANCEL: {
@@ -920,8 +921,12 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 						break;
 					}
 					case MotionEvent.ACTION_UP: {
+						
+						myDB.deleteReminder(suraId, partNb);
+						
+						refreshTimeStatus(timeList.size(), position, false);
 
-					dialog.dismiss();
+						dialog.dismiss();
 					}
 					case MotionEvent.ACTION_CANCEL: {
 						Button view = (Button) v;
@@ -960,10 +965,6 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 			});
 			
 			
-			
-			
-			
-			
 			dialog.show(); 
 	}
 	
@@ -992,4 +993,102 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		return res.toString();
 	}
 	
+	private void refreshTimeStatus(int listSize, int position, boolean status){
+		ArrayList<ReminderListItem> resultList = new ArrayList<ReminderListItem>();
+		if(listSize == 8){
+			for (int i = 0; i < time1.size(); i++) {
+				ReminderListItem item = time1.get(i);
+				if(i == position)
+					item.setSelected(status);
+				else
+					item.setSelected(false);
+				
+				resultList.add(i, item);
+			}
+			
+			time1.clear();
+			time1.addAll(resultList);
+			adapter1.notifyDataSetChanged();
+			
+			cleanTimeList(listSize);
+		}else
+		{
+			for (int i = 0; i < time2.size(); i++) {
+				ReminderListItem item = time2.get(i);
+				if(i == position)
+					item.setSelected(status);
+				else
+					item.setSelected(false);
+				
+				resultList.add(i, item);
+			}
+			
+			time2.clear();
+			time2.addAll(resultList);
+			adapter2.notifyDataSetChanged();
+			
+			cleanTimeList(listSize);
+		}
+	}
+	
+	private void cleanTimeList(int listSize){
+		ArrayList<ReminderListItem> resultList = new ArrayList<ReminderListItem>();
+		if(listSize != 8){
+			for (ReminderListItem item : time1) {
+				item.setSelected(false);
+				resultList.add(item);
+			}
+			
+			time1.clear();
+			time1.addAll(resultList);
+			adapter1.notifyDataSetChanged();
+		}else
+		{
+			for (ReminderListItem item : time2) {
+				item.setSelected(false);
+				resultList.add(item);
+			}
+			
+			time2.clear();
+			time2.addAll(resultList);
+			adapter2.notifyDataSetChanged();
+		}
+	}
+	
+	private void fillTimeList(){
+//		 final String[] time1 = {
+//			      "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00"
+//			  } ;
+//			  final String[] time2 = {
+//				  "08:00","09:00","10:00", "11:00", "12:00", "13:00","14:00", "15:00", 
+//				  "16:00", "17:00", "18:00","19:00", "20:00","21:00","22:00", "23:00",
+//			  };
+			  
+			  time1.add(new ReminderListItem("00:00", false));
+			  time1.add(new ReminderListItem("01:00", false));
+			  time1.add(new ReminderListItem("02:00", false));
+			  time1.add(new ReminderListItem("03:00", false));
+			  time1.add(new ReminderListItem("04:00", false));
+			  time1.add(new ReminderListItem("05:00", false));
+			  time1.add(new ReminderListItem("06:00", false));
+			  time1.add(new ReminderListItem("07:00", false));
+			  
+			  time2.add(new ReminderListItem("08:00", false));
+			  time2.add(new ReminderListItem("09:00", false));
+			  time2.add(new ReminderListItem("10:00", false));
+			  time2.add(new ReminderListItem("11:00", false));
+			  time2.add(new ReminderListItem("12:00", false));
+			  time2.add(new ReminderListItem("13:00", false));
+			  time2.add(new ReminderListItem("14:00", false));
+			  time2.add(new ReminderListItem("15:00", false));
+			  time2.add(new ReminderListItem("16:00", false));
+			  time2.add(new ReminderListItem("17:00", false));
+			  time2.add(new ReminderListItem("18:00", false));
+			  time2.add(new ReminderListItem("19:00", false));
+			  time2.add(new ReminderListItem("20:00", false));
+			  time2.add(new ReminderListItem("21:00", false));
+			  time2.add(new ReminderListItem("22:00", false));
+			  time2.add(new ReminderListItem("23:00", false));
+			  
+	}
 }

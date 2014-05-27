@@ -54,7 +54,7 @@ public class TafseerManager {
 	private JSONParser jsonParser;
 	private Context context ;
 	
-	private User loggedInUser;
+	private User loggedInUser = new User();
 	public User getLoggedInUser() {
 		return loggedInUser;
 	}

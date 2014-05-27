@@ -31,14 +31,18 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		
 		if(intent.getAction().equals(ACTION_NOTIF_CLICK)){
-			Intent reminderIntent = new Intent(context, SouraActivity.class);
-			reminderIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			int suraId = intent.getExtras().getInt(REMINDER_SURA_ID);
-			int partNb = intent.getExtras().getInt(REMINDER_PART_NB);
-			reminderIntent.putExtra(REMINDER_SURA_ID, suraId);
-			reminderIntent.putExtra(REMINDER_PART_NB, partNb);
-			context.startActivity(reminderIntent);
+			Bundle extras = getResultExtras(true);
+			if(extras != null){
+				Intent reminderIntent = new Intent(context, SouraActivity.class);
+				reminderIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				int suraId = extras.getInt(REMINDER_SURA_ID);
+				int partNb = extras.getInt(REMINDER_PART_NB);
+				reminderIntent.putExtra(REMINDER_SURA_ID, suraId);
+				reminderIntent.putExtra(REMINDER_PART_NB, partNb);
+				context.startActivity(reminderIntent);
+			}
 			return;
+			
 		}
 		
 		 PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -49,17 +53,19 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
          //You can do the processing here update the widget/remote views.
          Bundle extras = intent.getExtras();
          String msgStr = null;
-         int reminderID = -1;
+         int reminderID, suraID, partNB;
          
          if(extras != null){
         	 msgStr = extras.getString(REMINDER_MESSAGE);
         	 reminderID = extras.getInt(REMINDER_ID);
+        	 suraID = extras.getInt(REMINDER_SURA_ID);
+        	 partNB = extras.getInt(REMINDER_PART_NB);
+        	 
+        	 Toast.makeText(context, msgStr, Toast.LENGTH_LONG).show();
+
+             startNotification(context, msgStr, reminderID, suraID, partNB);
          }
 
-         Toast.makeText(context, msgStr, Toast.LENGTH_LONG).show();
-
-         startNotification(context, msgStr, reminderID);
-         
          //Release the lock
          wl.release();
          
@@ -89,7 +95,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         am.cancel(pi);
     }
     
-	private void startNotification(Context context, String msg, int reminderID){
+	private void startNotification(Context context, String msg, int reminderID, int suraId, int partNb){
 		mNotifyManager =
 		        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mBuilder = new NotificationCompat.Builder(context);
@@ -100,6 +106,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 		Intent resultIntent = new Intent(context, AlarmManagerBroadcastReceiver.class);
 		resultIntent.setAction(ACTION_NOTIF_CLICK);
 		resultIntent.putExtra(REMINDER_ID, reminderID);
+		resultIntent.putExtra(REMINDER_SURA_ID, suraId);
+		resultIntent.putExtra(REMINDER_PART_NB, partNb);
 		
 		PendingIntent resultPendingIntent= PendingIntent.getBroadcast(context, 0, resultIntent, 0);
 		
