@@ -70,6 +70,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		if(c.moveToFirst())
 			suraNb = Integer.valueOf(c.getString(0));
 		
+		c.close();
 		return suraNb;
 
 	}
@@ -89,6 +90,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		if(c.moveToFirst())
 			suraName = c.getString(0);
 		
+		c.close();
 		return suraName;
 	}
     
@@ -108,6 +110,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		if(c.moveToFirst())
 			partNb = c.getCount();
 		
+		c.close();
 		return partNb;
 
 	}
@@ -137,6 +140,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 				info.append("<h3>أسباب النزول</h3>" + reason); 		
 		}
 			
+		c.close();
 		return info.toString();
 	}
 
@@ -158,6 +162,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			info.append(c.getString(0));	
 		}
 			
+		c.close();
 		return info.toString();
 	}
     
@@ -174,9 +179,10 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		qb.setTables(sqlTable);
 		Cursor c = qb.query(db, null, whereClause, whereArgs, null, null, null);
 		
-		if(c.moveToFirst())
+		if(c.moveToFirst()){
+			c.close();
 			return true;
-		
+		}
 		return false;
     }
     
@@ -230,14 +236,16 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 				int partNb = Integer.parseInt(c.getString(1));
 				
 				fav.setSuraId(suraId);
-				fav.setSuraName(getSuraName(suraId));
+				fav.setSuraName("سورة ".concat(getSuraName(suraId)));
 				fav.setPartNb(partNb);
-				fav.setPartName(getPartName(partNb));
+				fav.setPartName("المقطع ".concat(getPartName(partNb)));
 				
 				result.add(fav);
 				
 			}while (c.moveToNext());
 		}
+		
+		c.close();
 					
 		return result;
     }
@@ -296,7 +304,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
                 break;	
 
         }
-        return "المقطع ".concat(str);//[NSString stringWithFormat:@"المقطع %@",str];
+        return str;//"المقطع ".concat(str)
 
     }
     
@@ -333,6 +341,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		if(c.moveToFirst())
 			reciter = Integer.valueOf(c.getString(0));
 		
+		c.close();
+		
 		return reciter;
     }
     
@@ -348,8 +358,31 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		Cursor c = qb.query(db, sqlSelect, "email ='"+email+"'", null,
 				null, null, null);
 			
-		if(c.moveToFirst())
+		if(c.moveToFirst()){
+			c.close();
 			return true;
+		}
+		
+		return false;
+    }
+    
+    public boolean whoIsLoggedIn(){
+    	SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "Users";
+		
+		String whereClause = "LoggedIn = '1'";
+		
+		qb.setTables(sqlTables);
+		qb.setDistinct(true);
+		Cursor c = qb.query(db, null, whereClause, null,
+				null, null, null);
+			
+		if(c.getCount() > 0){
+			c.close();
+			return true;
+		}
 		
 		return false;
     }
@@ -391,8 +424,11 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			int updated = db.update(sqlTables, values, whereClause, whereArgs);
 //			Log.i("", " LoggedIn: " + (updated > 0?"OK":"NOT"));
 			
+			c.close();
 			return updated > 0;
 		}
+		
+		c.close();
 		return false;
     }
     
@@ -496,6 +532,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			}while(c.moveToNext());
 		}
 		
+		c.close();
 		return max;
 		
     }
@@ -607,6 +644,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		if(c.moveToFirst())
 			reminderID = Integer.parseInt(c.getString(0));
 		
+		c.close();
+		
 		return reminderID;
 	}
 
@@ -631,6 +670,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			reminder.setType(Integer.parseInt(c.getString(5)));
 			reminder.setStatus(c.getString(6).equals("1")?true:false);
 		}
+		
+		c.close();
 		
 		return reminder;
 	}

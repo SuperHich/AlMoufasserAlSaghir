@@ -14,8 +14,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -88,22 +86,6 @@ public class FavouriteDialog extends Dialog {
   	  fav_list = (ListView) findViewById(R.id.favourites_listView);
   	  fav_list.setDivider(null);
   	  
-  	fav_list.setOnItemClickListener(new OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			
-			PartFavourite item = data.get(position);
-			
-			Intent intent = new Intent(getContext(), SouraActivity.class);
-			intent.putExtra(TafseerManager.SURA_ID, item.getSuraId());
-			intent.putExtra(TafseerManager.PART_NB, item.getPartNb());
-			getContext().startActivity(intent);
-			
-		}
-	});
-  	  
   	  SwipeListViewCallback mySwipeListViewCallback = new SwipeListViewCallback() {
   		  
   		  @Override
@@ -113,6 +95,15 @@ public class FavouriteDialog extends Dialog {
   		  
   		  @Override
   		  public void onItemClickListener(ListAdapter adapter, int position) {
+  			  
+  			  PartFavourite item = data.get(position);
+
+  			  Intent intent = new Intent(getContext(), SouraActivity.class);
+  			  intent.putExtra(TafseerManager.SURA_ID, item.getSuraId());
+  			  intent.putExtra(TafseerManager.PART_NB, item.getPartNb());
+  			  getContext().startActivity(intent);
+
+  			  dismiss();
   		  }
   		  
   		  @Override

@@ -32,7 +32,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		
 		if(intent.getAction().equals(ACTION_NOTIF_CLICK)){
-			Bundle extras = getResultExtras(true);
+			Bundle extras = intent.getExtras();
 			if(extras != null){
 				Intent reminderIntent = new Intent(context, SouraActivity.class);
 				reminderIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -353,6 +353,7 @@ public class MainActivity extends MySuperScaler{
 					//    	  name_logged_in.setText("");
 					
 					myDB.logOut(mTafseerManager.getLoggedInUser().getEmail());
+					mTafseerManager.setLoggedInUser(new User());
 
 					logged_in_interface.setVisibility(View.GONE);
 					register_interface.setVisibility(View.GONE);

@@ -66,6 +66,9 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		eya_repetitions.setText(String.valueOf(repetitions_nbr));
 		eya_repetitions.bringToFront();
 		
+		boolean isFav = myDB.isPartFavorite(suraId, partNb);
+		toggleFavourite(!isFav);
+
 		play_eya.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -338,7 +341,9 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		    	  else{
 		    		  myDB.addToPartFavorite(suraId, partNb);
 		    	  }
-		    	  set_favourite.setBackgroundResource(R.drawable.eya_dialog_favourite_active);
+		    	  
+		    	  toggleFavourite(isFav);
+		    	  
 
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -539,5 +544,14 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		    }
 		});
 		
+	}
+	
+	private void toggleFavourite(boolean isFav){
+	   	  if(isFav){
+	   		  set_favourite.setBackgroundResource(R.drawable.eya_dialog_favourite_inactive);
+	   	  }
+	   	  else{
+	   		  set_favourite.setBackgroundResource(R.drawable.eya_dialog_favourite_active);
+	   	  }
 	}
 }
