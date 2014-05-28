@@ -370,9 +370,9 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
     	SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-		String sqlTables = "Users";
+		String sqlTables = "Users_content";
 		
-		String whereClause = "LoggedIn = ?";
+		String whereClause = "c12LoggedIn = ?";
 		String[] whereArgs = {String.valueOf(1)};
 		
 		qb.setTables(sqlTables);
@@ -675,6 +675,39 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		c.close();
 		
 		return reminder;
+	}
+	
+	//**************************** SURA PART AYA
+	
+	public String getPartAyat (int suraId, int partNb){
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		
+		//CurrentlyUsedFonts = [[NSMutableArray alloc] init];
+	    //AyaAudioFileNames = [[NSMutableArray alloc] init];
+
+		
+		String partText = null;
+		String ayaFrom, ayaTo;
+
+		String sqlTables = "parts";
+		String[] sqlSelect = {"aya_from", "aya_to"};
+		
+		String whereClause = "sura = ? AND part_number = ?";
+		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb)};
+
+		qb.setTables(sqlTables);
+		qb.setDistinct(true);
+		Cursor c1 = qb.query(db, sqlSelect, whereClause, whereArgs,
+				null, null, null);
+
+		if(c1.moveToFirst()){
+			ayaFrom = c1.getString(0);
+			ayaTo = c1.getString(1);
+			c1.close();
+		}
+
+		return partText;
 	}
 
 }
