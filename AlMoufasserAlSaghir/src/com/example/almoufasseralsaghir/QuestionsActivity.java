@@ -1,5 +1,6 @@
 package com.example.almoufasseralsaghir;
 
+import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 
 import android.app.Dialog;
@@ -10,10 +11,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 public class QuestionsActivity extends MySuperScaler {
 
 	private Button info, favourites, previous, home ;
+	
+	private RelativeLayout myQuestionsBackground, results_format_3, results_format_4 ;
+	private FontFitTextView answer_1, answer_2, answer_3, question ;
+	private ImageView result_3_format_3, result_2_format_3, result_1_format_3,
+					   result_4_format_4, result_3_format_4, result_2_format_4, result_1_format_4 ;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +38,33 @@ public class QuestionsActivity extends MySuperScaler {
 		favourites.bringToFront();
 		previous.bringToFront();
 		home.bringToFront();
+		
+		myQuestionsBackground = (RelativeLayout) findViewById(R.id.my_questions_background);
+		results_format_3 = (RelativeLayout) findViewById(R.id.results_format_3);
+		results_format_4 = (RelativeLayout) findViewById(R.id.results_format_4);
+		
+		question = (FontFitTextView) findViewById(R.id.question);
+		answer_1 = (FontFitTextView) findViewById(R.id.proposition_1);
+		answer_2 = (FontFitTextView) findViewById(R.id.proposition_2);
+		answer_3 = (FontFitTextView) findViewById(R.id.proposition_3);
+		
+		result_3_format_3 = (ImageView) findViewById(R.id.result_3_format_3);
+		result_2_format_3 = (ImageView) findViewById(R.id.result_2_format_3);
+		result_1_format_3 = (ImageView) findViewById(R.id.result_1_format_3);
+		
+		result_4_format_4 = (ImageView) findViewById(R.id.result_4_format_4);
+		result_3_format_4 = (ImageView) findViewById(R.id.result_3_format_4);
+		result_2_format_4 = (ImageView) findViewById(R.id.result_2_format_4);
+		result_1_format_4 = (ImageView) findViewById(R.id.result_1_format_4);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		previous.setOnTouchListener(new OnTouchListener() {

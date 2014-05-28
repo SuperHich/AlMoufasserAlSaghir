@@ -58,6 +58,10 @@
             android:name="com.example.almoufasseralsaghir.EyetPlayerActivity"
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name="com.example.almoufasseralsaghir.QuestionsActivity"
+            android:screenOrientation="landscape" >
+        </activity>
         <receiver android:name="com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver">
             <intent-filter>
                 <action android:name="ACTION_CLICK" />

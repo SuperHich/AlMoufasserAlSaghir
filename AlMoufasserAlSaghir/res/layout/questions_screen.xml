@@ -3,37 +3,151 @@
     android:layout_width="1422px"
     android:layout_height="800px"
     android:layout_gravity="center"
-    android:background="@drawable/questions_bg_format_3">
+    android:id="@+id/my_questions_background"
+    android:background="@drawable/questions_bg_format_4">
     
-    
-    
-    
-    <Button 
-	    android:id="@+id/select_favourite"
-        android:layout_width="134px"
+    <RelativeLayout 
+        android:id="@+id/results_format_3"
+        android:layout_width="1085px"
+        android:layout_height="150px"
+        android:layout_marginLeft="180px"
+        android:visibility="gone"
+        >
+        
+        <ImageView 
+	    android:id="@+id/result_3_format_3"
+        android:layout_width="162px"
         android:layout_height="162px"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="130px"
-        android:background="@drawable/eya_dialog_favourite_inactive" 
+        android:layout_marginLeft="145px"
 	    />
+        
+        <ImageView 
+	    android:id="@+id/result_2_format_3"
+        android:layout_width="162px"
+        android:layout_height="162px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="455px"
+	    />
+        
+        <ImageView 
+	    android:id="@+id/result_1_format_3"
+        android:layout_width="162px"
+        android:layout_height="162px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="765px"
+	    />
+        
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/results_format_4"
+        android:layout_width="1085px"
+        android:layout_height="150px"
+        android:layout_marginLeft="180px"
+        android:visibility="visible"
+        >
+        
+        <ImageView 
+	    android:id="@+id/result_4_format_4"
+        android:layout_width="162px"
+        android:layout_height="162px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="145px"
+        android:layout_marginTop="20px"
+	    />
+        
+        <ImageView 
+	    android:id="@+id/result_3_format_4"
+        android:layout_width="162px"
+        android:layout_height="162px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="350px"
+	    android:layout_marginTop="20px"
+	    />
+        
+        <ImageView 
+	    android:id="@+id/result_2_format_4"
+        android:layout_width="162px"
+        android:layout_height="162px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="560px"
+	    android:layout_marginTop="20px"
+	    />
+        <ImageView 
+	    android:id="@+id/result_1_format_4"
+        android:layout_width="162px"
+        android:layout_height="162px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="765px"
+	    android:layout_marginTop="20px"
+	    />
+        
+    </RelativeLayout>
+    
     
     <com.almoufasseralsaghir.utils.FontFitTextView 
-            android:id="@+id/eya_repetitions"
-            android:layout_width="50px"
-            android:layout_height="50px"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="210px"
-            android:layout_marginBottom="120px"
+            android:id="@+id/proposition_1"
+            android:layout_width="750px"
+            android:layout_height="80px"
+            android:layout_marginLeft="300px"
+            android:layout_marginTop="160px"
             android:textColor="#FFF"
             android:ellipsize="none"
             android:gravity="center"
         	android:maxLines="1"
         	android:textStyle="bold"
-        	
+        	 android:text="ANSWER 1 FALSE" 
+            />
+    
+    <com.almoufasseralsaghir.utils.FontFitTextView 
+            android:id="@+id/proposition_2"
+            android:layout_width="750px"
+            android:layout_height="80px"
+            android:layout_marginLeft="300px"
+            android:layout_marginTop="280px"
+            android:textColor="#FFF"
+            android:ellipsize="none"
+            android:gravity="center"
+        	android:maxLines="1"
+        	android:textStyle="bold"
+        	 android:text="ANSWER 2 FALSE" 
+            />
+    <com.almoufasseralsaghir.utils.FontFitTextView 
+            android:id="@+id/proposition_3"
+            android:layout_width="750px"
+            android:layout_height="80px"
+            android:layout_marginLeft="300px"
+            android:layout_marginTop="390px"
+            android:textColor="#FFF"
+            android:ellipsize="none"
+            android:gravity="center"
+        	android:maxLines="1"
+        	android:textStyle="bold"
+        	 android:text="ANSWER 3 TRUE" 
             />
  
+    <com.almoufasseralsaghir.utils.FontFitTextView 
+            android:id="@+id/question"
+            android:layout_width="750px"
+            android:layout_height="120px"
+            android:layout_marginLeft="340px"
+            android:layout_marginTop="520px"
+            android:textColor="#000"
+            android:ellipsize="none"
+            android:gravity="center"
+        	android:maxLines="1"
+        	android:textStyle="bold"
+        	android:text="MY QUESTION"
+            />
+    
 	
 	<Button 
 	    android:id="@+id/questions_info"

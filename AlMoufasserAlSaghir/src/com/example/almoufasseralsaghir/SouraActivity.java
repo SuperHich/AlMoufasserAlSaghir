@@ -93,7 +93,7 @@ public class SouraActivity extends MySuperScaler {
 			int remSuraId = extras.getInt(TafseerManager.SURA_ID);
 			int remPartNb = extras.getInt(TafseerManager.PART_NB);
 			currentSura = mTafseerManager.getSuraById(remSuraId);
-			int drawableResourceId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+remPartNb+1, "drawable", SouraActivity.this.getPackageName());
+			int drawableResourceId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+remPartNb, "drawable", SouraActivity.this.getPackageName());
 	          soura_part_num.setBackgroundResource(drawableResourceId);
 			
 			if(currentSura == null)
@@ -263,6 +263,12 @@ public class SouraActivity extends MySuperScaler {
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+		if (myDB.whoIsLoggedIn() == false){
+			questions.getBackground().setColorFilter(0x77d0d0d0, PorterDuff.Mode.SRC_ATOP);
+		}
+		else {
+		
+		questions.getBackground().clearColorFilter();
 		questions.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
@@ -276,7 +282,9 @@ public class SouraActivity extends MySuperScaler {
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
-					
+		    	  Intent in = new Intent(SouraActivity.this, QuestionsActivity.class);
+					startActivity(in);
+					Utils.animateFad(SouraActivity.this);
 		    	  
 		    	  
 		    	  
@@ -291,7 +299,7 @@ public class SouraActivity extends MySuperScaler {
 		      return true;
 		    }
 		});
-		
+		}
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
 
 		calendar.setOnTouchListener(new OnTouchListener() {
