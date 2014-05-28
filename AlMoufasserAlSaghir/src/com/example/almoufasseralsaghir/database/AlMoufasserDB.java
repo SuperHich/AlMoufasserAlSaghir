@@ -372,14 +372,15 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 		String sqlTables = "Users";
 		
-		String whereClause = "LoggedIn = '1'";
+		String whereClause = "LoggedIn = ?";
+		String[] whereArgs = {String.valueOf(1)};
 		
 		qb.setTables(sqlTables);
 		qb.setDistinct(true);
-		Cursor c = qb.query(db, null, whereClause, null,
+		Cursor c = qb.query(db, null, whereClause, whereArgs,
 				null, null, null);
 			
-		if(c.getCount() > 0){
+		if(c.moveToFirst()){
 			c.close();
 			return true;
 		}
@@ -500,7 +501,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		
 		long insertedId = db.update(sqlTable, values, whereClause, whereArgs);
 		
-		return insertedId != -1;
+		return insertedId > 0;
     }
 
   //**************************** REMINDER

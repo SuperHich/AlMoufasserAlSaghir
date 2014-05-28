@@ -256,6 +256,7 @@ public class MainActivity extends MySuperScaler{
 									User userLoggedIn = mTafseerManager.parseUser(result);
 									if(userLoggedIn != null)
 									{
+										userLoggedIn.setLoggedIn(true);
 										mTafseerManager.setLoggedInUser(userLoggedIn);
 										
 										if(!myDB.isUserExist(email))
