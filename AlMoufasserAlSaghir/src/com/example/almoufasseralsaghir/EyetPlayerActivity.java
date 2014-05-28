@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 
-public class EyetPlayerActivity extends MySuperScaler{
+public class EyetPlayerActivity extends MySuperScaler  {
 
 	private Button info, favourites, previous, home ;
 	private Button repeat_eya, set_favourite, play_eya, next_eya, previous_eya ;
