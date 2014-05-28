@@ -104,6 +104,10 @@
             android:gravity="center"
         	android:maxLines="1"
         	android:textStyle="bold"
+        	android:shadowColor="#000"
+           android:shadowDx="1"
+            android:shadowDy="1"
+             android:shadowRadius="2" 
         	 android:text="ANSWER 1 FALSE" 
             />
     
@@ -118,6 +122,10 @@
             android:gravity="center"
         	android:maxLines="1"
         	android:textStyle="bold"
+        	android:shadowColor="#000"
+           android:shadowDx="1"
+            android:shadowDy="1"
+             android:shadowRadius="2" 
         	 android:text="ANSWER 2 FALSE" 
             />
     <com.almoufasseralsaghir.utils.FontFitTextView 
@@ -131,7 +139,11 @@
             android:gravity="center"
         	android:maxLines="1"
         	android:textStyle="bold"
-        	 android:text="ANSWER 3 TRUE" 
+        	android:shadowColor="#000"
+           	android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2" 
+        	android:text="ANSWER 3 TRUE" 
             />
  
     <com.almoufasseralsaghir.utils.FontFitTextView 
@@ -140,7 +152,7 @@
             android:layout_height="120px"
             android:layout_marginLeft="340px"
             android:layout_marginTop="520px"
-            android:textColor="#000"
+            android:textColor="#098c8e"
             android:ellipsize="none"
             android:gravity="center"
         	android:maxLines="1"
