@@ -25,23 +25,24 @@ public class SplashHome extends MySuperScaler {
 	private Handler splashHandler = new Handler() {
 	private	Intent intent  ;
 		
-		public void handleMessage(Message msg) {
+	public void handleMessage(Message msg) {
 
-			User user = myDB.whoIsLoggedIn();
-			mTafseerManager.setLoggedInUser(user);
-			
-			if (myDB.whoIsLoggedIn().isLoggedIn()){
-				intent = new Intent(SplashHome.this, SouraActivity.class);
-			} else 	
-			{
+		User user = myDB.whoIsLoggedIn();
+		mTafseerManager.setLoggedInUser(user);
+
+		if (user.isLoggedIn())
+		{
+			intent = new Intent(SplashHome.this, SouraActivity.class);
+		} else 	
+		{
 			intent = new Intent(SplashHome.this, MainActivity.class);
-			}
-			SplashHome.this.startActivity(intent);
-			Utils.animateSlide(SplashHome.this);
-			SplashHome.this.finish();
-
-			super.handleMessage(msg);
 		}
+		SplashHome.this.startActivity(intent);
+		Utils.animateSlide(SplashHome.this);
+		SplashHome.this.finish();
+
+		super.handleMessage(msg);
+	}
 	};
 
 	public void onCreate(Bundle savedInstanceState) {

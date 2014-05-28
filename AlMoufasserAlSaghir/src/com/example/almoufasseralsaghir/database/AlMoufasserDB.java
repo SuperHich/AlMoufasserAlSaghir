@@ -382,20 +382,20 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			
 		User user = new User();
 		if(c.moveToFirst()){
-			user.setUid(c.getString(0));
-			user.setUdid(c.getString(1));
-			user.setName(c.getString(2));
-			user.setEmail(c.getString(3));
-			user.setTwitter(c.getString(4));
-			user.setFacebook(c.getString(5));
-			user.setFollower1(c.getString(6));
-			user.setType1(c.getString(7));
-			user.setFollower2(c.getString(8));
-			user.setType1(c.getString(9));
-			user.setFollower3(c.getString(10));
-			user.setType1(c.getString(11));
-			user.setLoggedIn(true);
-			user.setDefaultReciter(c.getString(13));
+			user.setUid(c.getString(1));
+			user.setUdid(c.getString(2));
+			user.setName(c.getString(3));
+			user.setEmail(c.getString(4));
+			user.setTwitter(c.getString(5));
+			user.setFacebook(c.getString(6));
+			user.setFollower1(c.getString(7));
+			user.setType1(c.getString(8));
+			user.setFollower2(c.getString(9));
+			user.setType1(c.getString(10));
+			user.setFollower3(c.getString(11));
+			user.setType1(c.getString(12));
+			user.setLoggedIn(c.getString(13).equals("1")?true:false);
+			user.setDefaultReciter(c.getString(14));
 			
 			c.close();
 		}
@@ -721,6 +721,13 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 		if(cQuran.moveToFirst()){
 			do{
+				
+				String pageID = cQuran.getString(0);
+				String suraID = cQuran.getString(1);
+				String ayaID = cQuran.getString(2);
+				String ayaText = cQuran.getString(3);
+				String anchorTag = "<a class="+i+" href=local?SuraID="+suraID+"&AyaID="+ayaID+"&TrackID="+i+" style='font-family: P"+pageID+";'>";
+	            ayaText = anchorTag.concat(ayaText);
 				
 			}while(cQuran.moveToNext());
 		}
