@@ -366,7 +366,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		return false;
     }
     
-    public boolean whoIsLoggedIn(){
+    public User whoIsLoggedIn(){
     	SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
@@ -380,12 +380,27 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		Cursor c = qb.query(db, null, whereClause, whereArgs,
 				null, null, null);
 			
+		User user = new User();
 		if(c.moveToFirst()){
+			user.setUid(c.getString(0));
+			user.setUdid(c.getString(1));
+			user.setName(c.getString(2));
+			user.setEmail(c.getString(3));
+			user.setTwitter(c.getString(4));
+			user.setFacebook(c.getString(5));
+			user.setFollower1(c.getString(6));
+			user.setType1(c.getString(7));
+			user.setFollower2(c.getString(8));
+			user.setType1(c.getString(9));
+			user.setFollower3(c.getString(10));
+			user.setType1(c.getString(11));
+			user.setLoggedIn(true);
+			user.setDefaultReciter(c.getString(13));
+			
 			c.close();
-			return true;
 		}
 		
-		return false;
+		return user;
     }
 
     public boolean login(String email){
@@ -401,21 +416,6 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 //		User user = new User();
 		if(c.moveToFirst())
 		{
-//			user.setUid(c.getString(0));
-//			user.setUdid(c.getString(1));
-//			user.setName(c.getString(2));
-//			user.setEmail(c.getString(3));
-//			user.setTwitter(c.getString(4));
-//			user.setFacebook(c.getString(5));
-//			user.setFollower1(c.getString(6));
-//			user.setType1(c.getString(7));
-//			user.setFollower2(c.getString(8));
-//			user.setType1(c.getString(9));
-//			user.setFollower3(c.getString(10));
-//			user.setType1(c.getString(11));
-//			user.setLoggedIn(true);
-//			user.setDefaultReciter(c.getString(13));
-			
 			ContentValues values = new ContentValues();
 			values.put("LoggedIn", "1");
 			
@@ -688,7 +688,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 		
 		String partText = null;
-		String ayaFrom, ayaTo;
+		String ayaFrom = "", ayaTo = "";
 
 		String sqlTables = "parts";
 		String[] sqlSelect = {"aya_from", "aya_to"};
@@ -697,7 +697,6 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb)};
 
 		qb.setTables(sqlTables);
-		qb.setDistinct(true);
 		Cursor c1 = qb.query(db, sqlSelect, whereClause, whereArgs,
 				null, null, null);
 
@@ -706,7 +705,26 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			ayaTo = c1.getString(1);
 			c1.close();
 		}
+		
+		partText = "<span style='text-align: left !important;  float: left; margin-left: 60px;'>";
+		int i = 0;
+		
+		String sqlQuranTables = "quran_number";
+		String[] sqlQuranSelect = {"page", "sura", "cast(aya as int)", "mushaf_chr"};
+		
+		String whereQuranClause = "sura = ? AND cast(aya as int) >= ? AND cast(aya as int) <= ?";
+		String[] whereQuranArgs = {String.valueOf(suraId), ayaFrom, ayaTo};
 
+		qb.setTables(sqlQuranTables);
+		Cursor cQuran = qb.query(db, sqlQuranSelect, whereQuranClause, whereQuranArgs,
+				null, null, "cast(aya as int)");
+
+		if(cQuran.moveToFirst()){
+			do{
+				
+			}while(cQuran.moveToNext());
+		}
+		
 		return partText;
 	}
 
