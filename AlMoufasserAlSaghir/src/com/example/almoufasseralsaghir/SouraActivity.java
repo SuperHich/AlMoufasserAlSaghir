@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -50,7 +51,7 @@ public class SouraActivity extends MySuperScaler {
 	private Button maana_previous ;
 	private WebView maana_content ;
 	
-	
+	public static Activity soura_act ;
 	
 	private static final int ALL_PARTS_DRAWABLE[] =
             new int[] {R.drawable.popup_soura_part1,R.drawable.popup_soura_part2,R.drawable.popup_soura_part3,R.drawable.popup_soura_part4 
@@ -62,6 +63,7 @@ public class SouraActivity extends MySuperScaler {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.soura_activity);
 		
+		soura_act = this ;
 		soura_title = (ImageView) findViewById(R.id.soura_title);
 		
 		info = (Button) findViewById(R.id.info);
@@ -580,7 +582,7 @@ public class SouraActivity extends MySuperScaler {
 		    	  intent.putExtra("suraId", currentSura.getSuraId());
 		    	  intent.putExtra("partNb", mTafseerManager.getCurrentSuraPart()+1);
 		    	  startActivity(intent);
-		    	  
+		    	  Utils.animateFad(SouraActivity.this);
 		    	  
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -609,6 +611,8 @@ public class SouraActivity extends MySuperScaler {
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
+		    	  startActivity(new Intent(SouraActivity.this, HomeLoggedIn.class));
+					Utils.animateFad(SouraActivity.this);
 					finish();
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -634,9 +638,9 @@ public class SouraActivity extends MySuperScaler {
 		          break;
 		      }
 		      case MotionEvent.ACTION_UP: {
-		    	  	MainActivity.first_entry = false ;
+		    	  if (myDB.whoIsLoggedIn().isLoggedIn()) MainActivity.first_entry = false ;
 					startActivity(new Intent(SouraActivity.this, MainActivity.class));
-					
+					Utils.animateFad(SouraActivity.this);
 					finish();
 		      }
 		      case MotionEvent.ACTION_CANCEL: {

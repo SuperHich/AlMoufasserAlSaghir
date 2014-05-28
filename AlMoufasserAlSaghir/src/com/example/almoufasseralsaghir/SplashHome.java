@@ -35,6 +35,7 @@ public class SplashHome extends MySuperScaler {
 			intent = new Intent(SplashHome.this, SouraActivity.class);
 		} else 	
 		{
+			MainActivity.first_entry = true ;
 			intent = new Intent(SplashHome.this, MainActivity.class);
 		}
 		SplashHome.this.startActivity(intent);

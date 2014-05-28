@@ -96,6 +96,7 @@ public class HomeLoggedIn extends MySuperScaler{
 				Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
 				startActivity(in);
 				Utils.animateFad(HomeLoggedIn.this);
+				finish();
 			
 			}
 			
@@ -130,6 +131,7 @@ public class HomeLoggedIn extends MySuperScaler{
 					Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
 					startActivity(in);
 					Utils.animateFad(HomeLoggedIn.this);
+					finish();
 				}
 				
 			});
@@ -162,6 +164,7 @@ public class HomeLoggedIn extends MySuperScaler{
 						Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
 						startActivity(in);
 						Utils.animateFad(HomeLoggedIn.this);
+						finish();
 					
 					}
 					
@@ -195,6 +198,7 @@ public class HomeLoggedIn extends MySuperScaler{
 						Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
 						startActivity(in);
 						Utils.animateFad(HomeLoggedIn.this);
+						finish();
 					}
 						});	
 			
@@ -204,31 +208,7 @@ public class HomeLoggedIn extends MySuperScaler{
 		
 		
 //////////////////////////////////// UTIL BUTTONS	////////////////////////////////////////////////////////////////////////	
-		previous.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-		    public boolean onTouch(View v, MotionEvent event) {
-		      switch (event.getAction()) {
-		      case MotionEvent.ACTION_DOWN: {
-		          Button view = (Button) v;
-		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
-		          v.invalidate();
-		          break;
-		      }
-		      case MotionEvent.ACTION_UP: {
-		    	// Your action here on button click
-					finish();
-		      }
-		      case MotionEvent.ACTION_CANCEL: {
-		          Button view = (Button) v;
-		          view.getBackground().clearColorFilter();
-		          view.invalidate();
-		          break;
-		      }
-		      }
-		      return true;
-		    }
-		});
+		
 
 		info.setOnTouchListener(new OnTouchListener() {
 			
@@ -285,6 +265,35 @@ public class HomeLoggedIn extends MySuperScaler{
 		    }
 		});
 		
+		previous.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		      switch (event.getAction()) {
+		      case MotionEvent.ACTION_DOWN: {
+		          Button view = (Button) v;
+		          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+		          v.invalidate();
+		          break;
+		      }
+		      case MotionEvent.ACTION_UP: {
+		    	// Your action here on button click
+		    	  if (myDB.whoIsLoggedIn().isLoggedIn())MainActivity.first_entry = false ;
+		    	  startActivity(new Intent(HomeLoggedIn.this, MainActivity.class));
+		    	  Utils.animateFad(HomeLoggedIn.this);
+		    	  finish();
+					
+		      }
+		      case MotionEvent.ACTION_CANCEL: {
+		          Button view = (Button) v;
+		          view.getBackground().clearColorFilter();
+		          view.invalidate();
+		          break;
+		      }
+		      }
+		      return true;
+		    }
+		});
 		home.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
@@ -298,7 +307,11 @@ public class HomeLoggedIn extends MySuperScaler{
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
-					finish();
+		    	  if (myDB.whoIsLoggedIn().isLoggedIn())MainActivity.first_entry = false ;
+		    	  startActivity(new Intent(HomeLoggedIn.this, MainActivity.class));
+		    	  Utils.animateFad(HomeLoggedIn.this);
+		    	  finish();
+					
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
 		          Button view = (Button) v;

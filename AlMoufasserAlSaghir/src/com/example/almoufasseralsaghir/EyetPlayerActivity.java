@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
+import com.almoufasseralsaghir.utils.Utils;
 
 public class EyetPlayerActivity extends MySuperScaler  {
 
@@ -531,6 +532,10 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
+		    	  if (myDB.whoIsLoggedIn().isLoggedIn())MainActivity.first_entry = false ;
+		    	  SouraActivity.soura_act.finish();
+					startActivity(new Intent(EyetPlayerActivity.this, MainActivity.class));
+					Utils.animateFad(EyetPlayerActivity.this);
 					finish();
 		      }
 		      case MotionEvent.ACTION_CANCEL: {

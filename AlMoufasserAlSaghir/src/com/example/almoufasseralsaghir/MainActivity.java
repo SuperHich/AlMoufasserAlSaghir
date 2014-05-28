@@ -167,6 +167,9 @@ public class MainActivity extends MySuperScaler{
 			register_enter.setVisibility(View.INVISIBLE);
 			register_interface.setVisibility(View.INVISIBLE);
 			logged_in_interface.setVisibility(View.VISIBLE);
+			
+			name_logged_in.setText(mTafseerManager.getLoggedInUser().getName());
+			
 		}
 
 		///////////////FIRST HEADER VIEW : ENTER/////////////////////////////////////////////////////////
@@ -503,7 +506,7 @@ public class MainActivity extends MySuperScaler{
 		///////////////   LIST VIEW : HANDLING    /////////////////////////////////////////////////////////
 
 
-		Integer[] lListIcone={R.drawable.list_4 , R.drawable.list_3 ,R.drawable.list_2 ,R.drawable.list_1 };
+		Integer[] lListIcone={R.drawable.list_1 , R.drawable.list_2 ,R.drawable.list_3 ,R.drawable.list_4 };
 		ArrayAdapter<Integer> adapter = new ImageAdapter(this, R.layout.rowlv_module, lListIcone);
 
 		listViewArticles = (ListView) findViewById(R.id.listView1);
@@ -514,29 +517,45 @@ public class MainActivity extends MySuperScaler{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
-				mTafseerManager.setCurrentJuz2(position);
+				int position2 = 0;
+				
+				switch (position) {
+				case 0 : position2 = 3;
+				 break;
+				case 1 : position2 = 2;
+				 break;
+				case 2 : position2 = 1;
+				 break;
+				case 3 : position2 = 0;
+				 break;
+				}
+				 
+				mTafseerManager.setCurrentJuz2(position2);
 
 				switch (position) {
 				case 0:
 					Intent i1 = new Intent(MainActivity.this, HomeLoggedIn.class);
 					startActivity(i1);
 					Utils.animateSlide(MainActivity.this);
-
+					finish();
 					break;
 				case 1:
 					Intent i2 = new Intent(MainActivity.this, HomeLoggedIn.class);
 					startActivity(i2);
 					Utils.animateSlide(MainActivity.this);
+					finish();
 					break;
 				case 2:
 					Intent i3 = new Intent(MainActivity.this, HomeLoggedIn.class);
 					startActivity(i3);
 					Utils.animateSlide(MainActivity.this);
+					finish();
 					break;
 				case 3:
 					Intent i4 = new Intent(MainActivity.this, HomeLoggedIn.class);
 					startActivity(i4);
 					Utils.animateSlide(MainActivity.this);
+					finish();
 					break;
 				default:
 					break;
