@@ -58,6 +58,7 @@ public class TafseerManager {
 	private Context context ;
 	
 	private User loggedInUser = new User();
+	
 	public User getLoggedInUser() {
 		return loggedInUser;
 	}
@@ -163,9 +164,7 @@ public class TafseerManager {
 	
 	public int getSmallDrawable(String label) {
 		int drawableResourceId = 0;
-//		
-//		
-//		
+
 //		switch (part){
 //		case 1 : drawableResourceId = context.getResources().getIdentifier("p"+part+"_s5_"+label, "drawable", context.getPackageName());
 //		break  ;

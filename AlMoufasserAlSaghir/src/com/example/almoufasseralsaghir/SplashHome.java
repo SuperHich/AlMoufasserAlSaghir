@@ -2,6 +2,8 @@ package com.example.almoufasseralsaghir;
 
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
+import com.example.almoufasseralsaghir.database.AlMoufasserDB;
+import com.example.almoufasseralsaghir.entity.User;
 
 
 import android.annotation.SuppressLint;
@@ -21,10 +23,19 @@ public class SplashHome extends MySuperScaler {
 	private static final int STOPSPLASH = 0;
 	private static final long SPLASHTIME = 2000;
 	private Handler splashHandler = new Handler() {
+	private	Intent intent  ;
 		
 		public void handleMessage(Message msg) {
 
-			Intent intent = new Intent(SplashHome.this, MainActivity.class);
+			User user = myDB.whoIsLoggedIn();
+			mTafseerManager.setLoggedInUser(user);
+			
+			if (myDB.whoIsLoggedIn().isLoggedIn()){
+				intent = new Intent(SplashHome.this, SouraActivity.class);
+			} else 	
+			{
+			intent = new Intent(SplashHome.this, MainActivity.class);
+			}
 			SplashHome.this.startActivity(intent);
 			Utils.animateSlide(SplashHome.this);
 			SplashHome.this.finish();
