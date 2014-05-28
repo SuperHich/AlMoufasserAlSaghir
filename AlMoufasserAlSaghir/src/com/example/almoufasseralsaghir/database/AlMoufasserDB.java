@@ -2,6 +2,7 @@ package com.example.almoufasseralsaghir.database;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -13,6 +14,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
+import com.example.almoufasseralsaghir.entity.PartFavourite;
 import com.example.almoufasseralsaghir.entity.Reminder;
 import com.example.almoufasseralsaghir.entity.User;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
@@ -159,7 +161,26 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		return info.toString();
 	}
     
-    public boolean addToPartFavorite(int suraId, int partNb, int userId){    	
+    //**************************** PartFavorite
+    public boolean isPartFavorite(int suraId, int partNb){    	
+    	SQLiteDatabase db = getWritableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTable = "PartFavorite";
+		
+		String whereClause = "SuraID = ? AND PartNumber = ? AND UserID = ?";
+		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb), mTafseerManager.getLoggedInUser().getUid()};
+		
+		qb.setTables(sqlTable);
+		Cursor c = qb.query(db, null, whereClause, whereArgs, null, null, null);
+		
+		if(c.moveToFirst())
+			return true;
+		
+		return false;
+    }
+    
+    public boolean addToPartFavorite(int suraId, int partNb){    	
     	SQLiteDatabase db = getWritableDatabase();
 
 		String sqlTable = "PartFavorite";
@@ -167,39 +188,58 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		ContentValues values = new ContentValues();
 		values.put("SuraID", String.valueOf(suraId));
 		values.put("PartNumber", String.valueOf(partNb));
-		values.put("UserID", String.valueOf(userId));
+		values.put("UserID", mTafseerManager.getLoggedInUser().getUid());
 		
 		long insertedId = db.insertWithOnConflict(sqlTable, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		
 		return insertedId != -1;
     }
 
-    public boolean removeFromPartFavorite(int suraId, int partNb, int userId){    	
+    public boolean removeFromPartFavorite(int suraId, int partNb){    	
     	SQLiteDatabase db = getWritableDatabase();
-		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
 		String sqlTable = "PartFavorite";
 		
 		String whereClause = "SuraID = ? AND PartNumber = ? AND UserID = ?";
-		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb), String.valueOf(userId)};
+		String[] whereArgs = {String.valueOf(suraId), String.valueOf(partNb), mTafseerManager.getLoggedInUser().getUid()};
 		
-		qb.setTables(sqlTable);
 		long insertedId = db.delete(sqlTable, whereClause, whereArgs);
 		
 		return insertedId != -1;
     }
     
-    public Cursor getPartFavorite(int userId){
+    public ArrayList<PartFavourite> getPartFavorite(){
     	SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
 		String sqlTables = "PartFavorite";
+		String whereClause = "UserID = ?";
+		String[] whereArgs = {mTafseerManager.getLoggedInUser().getUid()};
 		
 		qb.setTables(sqlTables);
-		Cursor c = qb.query(db, null, "UserID ='"+userId+"'", null,
-				null, null, null);
+		Cursor c = qb.query(db, null, whereClause, whereArgs, null, null, null);
+		
+		ArrayList<PartFavourite> result = new ArrayList<PartFavourite>();
+		if(c.moveToFirst()){
+			int counter = 0;
+			do{
+				PartFavourite fav = new PartFavourite();
+				fav.setID(String.valueOf(counter++));
+				
+				int suraId = Integer.parseInt(c.getString(0));
+				int partNb = Integer.parseInt(c.getString(1));
+				
+				fav.setSuraId(suraId);
+				fav.setSuraName(getSuraName(suraId));
+				fav.setPartNb(partNb);
+				fav.setPartName(getPartName(partNb));
+				
+				result.add(fav);
+				
+			}while (c.moveToNext());
+		}
 					
-		return c;
+		return result;
     }
     
     public String getPartName(int partNumber){
@@ -251,9 +291,12 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
             case 15:
                 str = "الخامس عشر";
                 break;
+            default:
+            	str = "الأول";
+                break;	
 
         }
-        return str;//[NSString stringWithFormat:@"المقطع %@",str];
+        return "المقطع ".concat(str);//[NSString stringWithFormat:@"المقطع %@",str];
 
     }
     
@@ -457,35 +500,40 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		
     }
     
-    public boolean insertReminder(int partNb, int suraId, String rDate, String rTime, int type, boolean status){    	
+    public boolean insertReminder(Reminder reminder, int suraId, int partNb){    	
     	SQLiteDatabase db = getWritableDatabase();
     	
     	String sqlTable = "reminders";
     	
-    	int newID = 0;
-    	int qid = getNewReminderId();
-    	if(qid != -1)
-			newID = qid + 1 ;
+    	int newID = reminder.getReminderID();
+    	if(reminder.getReminderID() == -1)
+    	{
+    		newID = 0;
+    		int qid = getNewReminderId();
+    		if(qid != -1)
+    			newID = qid + 1 ;
+    	}else
+    		alarmManager.cancelReminder(context, newID);
 		
 		ContentValues values = new ContentValues();
 		values.put("ReminderID", newID);
 		values.put("Part_number", String.valueOf(partNb));
 		values.put("Sura", String.valueOf(suraId));
-		values.put("RDate", rDate);
-		values.put("RTime", rTime);
-		values.put("Type", type);
-		values.put("Status", status?"1":"0");
+		values.put("RDate", reminder.getDate());
+		values.put("RTime", reminder.getTime());
+		values.put("Type", reminder.getType());
+		values.put("Status", reminder.isStatus()?"1":"0");
 		values.put("UserID", mTafseerManager.getLoggedInUser().getUid());
 		
 		long insertedId = db.insertWithOnConflict(sqlTable, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		
-		if(status){
-			String notifMsg = prepareNotoficationText(suraId, partNb, type);
+		if(reminder.isStatus()){
+			String notifMsg = prepareNotoficationText(suraId, partNb, reminder.getType());
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 			Date date;
 	         try {
-				date = formatter.parse(rDate+" "+rTime);
+				date = formatter.parse(reminder.getDate()+" "+reminder.getTime());
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

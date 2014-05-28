@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -13,21 +14,29 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.SwipeListView;
 import com.almoufasseralsaghir.utils.SwipeListView.SwipeListViewCallback;
+import com.example.almoufasseralsaghir.database.AlMoufasserDB;
+import com.example.almoufasseralsaghir.entity.PartFavourite;
 
 public class FavouriteDialog extends Dialog {
 
+	private ListView fav_list;
 	private MyAdapter m_Adapter;
 	private Context context ;
+	private AlMoufasserDB myDB;
+	private ArrayList<PartFavourite> data;
 	
 	public FavouriteDialog(Context context) {
 	  
@@ -36,6 +45,9 @@ public class FavouriteDialog extends Dialog {
 	  requestWindowFeature(Window.FEATURE_NO_TITLE); 
   	  getWindow().setBackgroundDrawableResource(android.R.color.transparent);
   	  setContentView(R.layout.favourites);
+  	  
+  	  myDB = new AlMoufasserDB(context);
+  	  data = myDB.getPartFavorite();
   	  
   	  setCancelable(false);
   	  RelativeLayout popup_view = (RelativeLayout) findViewById(R.id.favourites_layout);
@@ -73,14 +85,30 @@ public class FavouriteDialog extends Dialog {
   	  
   	  
   	  Button set_fav = (Button) findViewById(R.id.set_favorite);
-  	  final ListView fav_list = (ListView) findViewById(R.id.favourites_listView);
+  	  fav_list = (ListView) findViewById(R.id.favourites_listView);
   	  fav_list.setDivider(null);
+  	  
+  	fav_list.setOnItemClickListener(new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			
+			PartFavourite item = data.get(position);
+			
+			Intent intent = new Intent(getContext(), SouraActivity.class);
+			intent.putExtra(TafseerManager.SURA_ID, item.getSuraId());
+			intent.putExtra(TafseerManager.PART_NB, item.getPartNb());
+			getContext().startActivity(intent);
+			
+		}
+	});
   	  
   	  SwipeListViewCallback mySwipeListViewCallback = new SwipeListViewCallback() {
   		  
   		  @Override
   		  public void onSwipeItem(boolean isRight, int position) {
-  			  onSwipeItem(isRight, position);
+  			 m_Adapter.onSwipeItem(isRight, position);
   		  }
   		  
   		  @Override
@@ -89,14 +117,14 @@ public class FavouriteDialog extends Dialog {
   		  
   		  @Override
   		  public ListView getListView() {
-  		   return fav_list;
+  			  return fav_list;
   		  }
-  		 };
+  	  };
   		 
-  	SwipeListView l = new SwipeListView(context, mySwipeListViewCallback);
-  	l.exec();
-		m_Adapter = new MyAdapter();
-		fav_list.setAdapter(m_Adapter);
+  	  SwipeListView l = new SwipeListView(context, mySwipeListViewCallback);
+  	  l.exec();
+  	  m_Adapter = new MyAdapter(data);
+  	  fav_list.setAdapter(m_Adapter);
 		
 //		set_fav.setOnTouchListener(new OnTouchListener() {
 //			
@@ -128,21 +156,21 @@ public class FavouriteDialog extends Dialog {
 	}
 	public class MyAdapter extends BaseAdapter {
 
-		protected List<String> m_List;
+		protected List<PartFavourite> m_List;
 		private final int INVALID = -1;
 		protected int DELETE_POS = -1;
 
-		public MyAdapter() {
+		public MyAdapter(ArrayList<PartFavourite> list) {
 			// TODO Auto-generated constructor stub
-			m_List = new ArrayList<String>();
+			m_List = list;
 		}
 
-		public void addItem(String item) {
+		public void addItem(PartFavourite item) {
 			m_List.add(item);
 			notifyDataSetChanged();
 		}
 
-		public void addItemAll(List<String> item) {
+		public void addItemAll(List<PartFavourite> item) {
 			//
 			m_List.addAll(item);
 			notifyDataSetChanged();
@@ -173,7 +201,7 @@ public class FavouriteDialog extends Dialog {
 		}
 
 		@Override
-		public String getItem(int position) {
+		public PartFavourite getItem(int position) {
 			// TODO Auto-generated method stub
 			return m_List.get(position);
 		}
@@ -201,11 +229,16 @@ public class FavouriteDialog extends Dialog {
 			delete.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					PartFavourite item = getItem(position);
+					myDB.removeFromPartFavorite(item.getSuraId(), item.getPartNb());
+					
 					deleteItem(position);
 				}
 			});
 
-			text.setText(getItem(position));
+			final PartFavourite item = getItem(position);
+			
+			text.setText(item.getSuraName() + " - " + item.getPartName());
 
 			return convertView;
 		}

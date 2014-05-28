@@ -29,7 +29,6 @@ import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 import com.example.almoufasseralsaghir.entity.User;
 
 
@@ -243,14 +242,6 @@ public class MainActivity extends MySuperScaler{
 
 							@Override
 							protected Boolean doInBackground(Void... params) {
-
-//								AlMoufasserDB db = new AlMoufasserDB(MainActivity.this);
-//								String partInfo = db.getPartsMoustafad(58, 1);
-//								Log.i("part info ", partInfo);
-//								String partInfo = db.getPartsInfo(75, 1);
-//								Log.i("part info ", partInfo);
-//								int suraNb = db.getPartNumber(75);
-//								Log.i("", "partNb " + suraNb);
 
 								String email = email_login.getText().toString();
 								JSONObject result = null;

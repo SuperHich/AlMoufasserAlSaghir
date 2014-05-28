@@ -18,13 +18,12 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
+import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 import com.almoufasseralsaghir.wheelview.AbstractWheelTextAdapter;
@@ -91,8 +90,8 @@ public class SouraActivity extends MySuperScaler {
 		
 		Bundle extras = getIntent().getExtras();
 		if(extras != null){
-			int remSuraId = extras.getInt(AlarmManagerBroadcastReceiver.REMINDER_SURA_ID);
-			int remPartNb = extras.getInt(AlarmManagerBroadcastReceiver.REMINDER_PART_NB);
+			int remSuraId = extras.getInt(TafseerManager.SURA_ID);
+			int remPartNb = extras.getInt(TafseerManager.PART_NB);
 			currentSura = mTafseerManager.getSuraById(remSuraId);
 			int drawableResourceId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+remPartNb+1, "drawable", SouraActivity.this.getPackageName());
 	          soura_part_num.setBackgroundResource(drawableResourceId);
@@ -566,7 +565,10 @@ public class SouraActivity extends MySuperScaler {
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
 					
-		    	  startActivity(new Intent(SouraActivity.this, EyetPlayerActivity.class));
+		    	  Intent intent = new Intent(SouraActivity.this, EyetPlayerActivity.class);
+		    	  intent.putExtra("suraId", currentSura.getSuraId());
+		    	  intent.putExtra("partNb", mTafseerManager.getCurrentSuraPart()+1);
+		    	  startActivity(intent);
 		    	  
 		    	  
 		      }

@@ -700,6 +700,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 						
 						int myhourValue = Integer.parseInt(myhour);
 						if (myhourValue < 23) myhourValue++ ;
+						else myhourValue = 0;
 						myhour = String.valueOf(myhourValue);
 						if (myhourValue < 10) myhour = "0"+myhour;
 						hours.setText(myhour);
@@ -730,6 +731,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 
 						int myhourValue = Integer.parseInt(myhour);
 						if (myhourValue > 0) myhourValue-- ;
+						else myhourValue = 23;
 						myhour = String.valueOf(myhourValue);
 						if (myhourValue < 10) myhour = "0"+myhour;
 						hours.setText(myhour);
@@ -758,7 +760,10 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 					case MotionEvent.ACTION_UP: {
 
 						int myminutesValue = Integer.parseInt(myminute);
-						if (myminutesValue < 59) myminutesValue++ ;
+						if (myminutesValue < 59)
+							myminutesValue++ ;
+						else
+							myminutesValue = 0;
 						myminute = String.valueOf(myminutesValue);
 						if (myminutesValue < 10) myminute = "0"+myminute;
 						minutes.setText(myminute);
@@ -787,7 +792,10 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 					case MotionEvent.ACTION_UP: {
 
 						int myminutesValue = Integer.parseInt(myminute);
-						if (myminutesValue > 0) myminutesValue++ ;
+						if (myminutesValue > 0) 
+							myminutesValue-- ;
+						else 
+							myminutesValue = 59;
 						myminute = String.valueOf(myminutesValue);
 						if (myminutesValue < 10) myminute = "0"+myminute;
 						minutes.setText(myminute);
@@ -887,13 +895,17 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 						time = formatDoubleUnit(time, ":");
 						String date = myYear.getText().toString() +"-"+myNumericMonth+"-"+formatSingleUnit(myDay.getText().toString());
 						
-						boolean isOK = myDB.insertReminder(partNb, suraId, date, time, currentReminder.getType(), currentReminder.isStatus());
+						currentReminder.setTime(time);
+						currentReminder.setDate(date);
+						
+						boolean isOK = myDB.insertReminder(currentReminder, suraId, partNb);
 
 						if (isOK)
 							Toast.makeText(CalendarActivity.this, "Reminder set", Toast.LENGTH_SHORT).show();
 						 else 
 							Toast.makeText(CalendarActivity.this, "Reminder not set", Toast.LENGTH_SHORT).show();
 						
+						currentReminder = myDB.getReminder(suraId, partNb);
 						refreshTimeStatus(timeList.size(), position, true);
 						
 						dialog.dismiss();

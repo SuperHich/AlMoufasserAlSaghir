@@ -6,9 +6,9 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -23,10 +23,19 @@ public class EyetPlayerActivity extends MySuperScaler{
 	private WebView eyet_webview ;
 	FontFitTextView eya_repetitions ;
 	int repetitions_nbr = 1 ;
+	
+	private int suraId, partNb;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.eyet_player_screen);
+		
+		if(getIntent().getExtras() != null)
+		{
+			suraId = getIntent().getExtras().getInt("suraId");
+			partNb = getIntent().getExtras().getInt("partNb");
+		}
 		
 		eyet_webview = (WebView) findViewById(R.id.eyet_webview);
 		
@@ -322,6 +331,13 @@ public class EyetPlayerActivity extends MySuperScaler{
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
+		    	  boolean isFav = myDB.isPartFavorite(suraId, partNb);
+		    	  if(isFav){
+		    		  myDB.removeFromPartFavorite(suraId, partNb);
+		    	  }
+		    	  else{
+		    		  myDB.addToPartFavorite(suraId, partNb);
+		    	  }
 		    	  set_favourite.setBackgroundResource(R.drawable.eya_dialog_favourite_active);
 
 		      }

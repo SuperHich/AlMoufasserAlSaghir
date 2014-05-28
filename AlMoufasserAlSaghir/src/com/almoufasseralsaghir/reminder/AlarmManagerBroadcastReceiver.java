@@ -12,6 +12,7 @@ import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import com.almoufasseralsaghir.external.TafseerManager;
 import com.example.almoufasseralsaghir.R;
 import com.example.almoufasseralsaghir.SouraActivity;
 
@@ -21,8 +22,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 	public static final String ACTION_NOTIF_CLICK = "ACTION_CLICK";
 	public static final String REMINDER_MESSAGE = "reminder";
 	public static final String REMINDER_ID = "reminder_id";
-	public static final String REMINDER_SURA_ID = "reminder_sura_id";
-	public static final String REMINDER_PART_NB = "reminder_part_nb";
+//	public static final String REMINDER_SURA_ID = "reminder_sura_id";
+//	public static final String REMINDER_PART_NB = "reminder_part_nb";
 	
 	private NotificationManager mNotifyManager;
 	private NotificationCompat.Builder mBuilder;
@@ -35,10 +36,10 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 			if(extras != null){
 				Intent reminderIntent = new Intent(context, SouraActivity.class);
 				reminderIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				int suraId = extras.getInt(REMINDER_SURA_ID);
-				int partNb = extras.getInt(REMINDER_PART_NB);
-				reminderIntent.putExtra(REMINDER_SURA_ID, suraId);
-				reminderIntent.putExtra(REMINDER_PART_NB, partNb);
+				int suraId = extras.getInt(TafseerManager.SURA_ID);
+				int partNb = extras.getInt(TafseerManager.PART_NB);
+				reminderIntent.putExtra(TafseerManager.SURA_ID, suraId);
+				reminderIntent.putExtra(TafseerManager.PART_NB, partNb);
 				context.startActivity(reminderIntent);
 			}
 			return;
@@ -58,8 +59,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
          if(extras != null){
         	 msgStr = extras.getString(REMINDER_MESSAGE);
         	 reminderID = extras.getInt(REMINDER_ID);
-        	 suraID = extras.getInt(REMINDER_SURA_ID);
-        	 partNB = extras.getInt(REMINDER_PART_NB);
+        	 suraID = extras.getInt(TafseerManager.SURA_ID);
+        	 partNB = extras.getInt(TafseerManager.PART_NB);
         	 
         	 Toast.makeText(context, msgStr, Toast.LENGTH_LONG).show();
 
@@ -78,8 +79,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         intent.setAction(String.valueOf(reminderID));
         intent.putExtra(REMINDER_ID, reminderID);
         intent.putExtra(REMINDER_MESSAGE, notifMsg);
-        intent.putExtra(REMINDER_SURA_ID, suraId);
-        intent.putExtra(REMINDER_PART_NB, partNb);
+        intent.putExtra(TafseerManager.SURA_ID, suraId);
+        intent.putExtra(TafseerManager.PART_NB, partNb);
         
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
         am.set(AlarmManager.RTC_WAKEUP, when, pi);
@@ -106,8 +107,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 		Intent resultIntent = new Intent(context, AlarmManagerBroadcastReceiver.class);
 		resultIntent.setAction(ACTION_NOTIF_CLICK);
 		resultIntent.putExtra(REMINDER_ID, reminderID);
-		resultIntent.putExtra(REMINDER_SURA_ID, suraId);
-		resultIntent.putExtra(REMINDER_PART_NB, partNb);
+		resultIntent.putExtra(TafseerManager.SURA_ID, suraId);
+		resultIntent.putExtra(TafseerManager.PART_NB, partNb);
 		
 		PendingIntent resultPendingIntent= PendingIntent.getBroadcast(context, 0, resultIntent, 0);
 		

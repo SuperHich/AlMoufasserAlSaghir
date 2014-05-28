@@ -42,6 +42,9 @@ public class TafseerManager {
 		return deviceID;
 	}
 	
+	public static final String SURA_ID = "sura_id";
+	public static final String PART_NB = "part_nb";
+	
 	private ArrayList<Sura> part1_list = new ArrayList<Sura>();
 	private ArrayList<Sura> part2_list = new ArrayList<Sura>();
 	private ArrayList<Sura> part3_list = new ArrayList<Sura>();

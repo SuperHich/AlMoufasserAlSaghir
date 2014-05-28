@@ -2,7 +2,7 @@ package com.example.almoufasseralsaghir.entity;
 
 public class Reminder {
 	
-	private int reminderID;
+	private int reminderID = -1;
 	private String date;
 	private String time;
 	private int type = 1;
