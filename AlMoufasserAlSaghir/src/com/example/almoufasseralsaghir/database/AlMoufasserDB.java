@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.util.Log;
 
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
@@ -742,6 +743,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 	            if (!mTafseerManager.getCurrentlyUsedFonts().contains(pageID)) 
 	            	mTafseerManager.getCurrentlyUsedFonts().add(pageID);
 	            
+	              
+	           
 	            suraID = "000".concat(suraID);
 	            suraID = suraID.substring(suraID.length() - 3);
 	            
@@ -754,7 +757,10 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 	            
 			}while(cQuran.moveToNext());
 			
+			
 			cQuran.close();
+			
+			 Log.i("********* MY FONT " + mTafseerManager.getCurrentlyUsedFonts().size(), mTafseerManager.getCurrentlyUsedFonts().toString())      ;   
 			
 			mTafseerManager.setNumberOfTracks(i);
 			
