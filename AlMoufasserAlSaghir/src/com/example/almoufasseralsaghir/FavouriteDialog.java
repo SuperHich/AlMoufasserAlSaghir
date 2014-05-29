@@ -97,7 +97,7 @@ public class FavouriteDialog extends Dialog {
   		  public void onItemClickListener(ListAdapter adapter, int position) {
   			  
   			  PartFavourite item = data.get(position);
-
+  			SouraActivity.soura_act.finish();
   			  Intent intent = new Intent(getContext(), SouraActivity.class);
   			  intent.putExtra(TafseerManager.SURA_ID, item.getSuraId());
   			  intent.putExtra(TafseerManager.PART_NB, item.getPartNb());

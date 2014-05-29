@@ -532,8 +532,8 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
-		    	  if (myDB.whoIsLoggedIn().isLoggedIn())MainActivity.first_entry = false ;
-		    	  SouraActivity.soura_act.finish();
+		    	   if (myDB.whoIsLoggedIn().isLoggedIn()) MainActivity.first_entry = false ;
+		    	   SouraActivity.soura_act.finish();
 					startActivity(new Intent(EyetPlayerActivity.this, MainActivity.class));
 					Utils.animateFad(EyetPlayerActivity.this);
 					finish();
