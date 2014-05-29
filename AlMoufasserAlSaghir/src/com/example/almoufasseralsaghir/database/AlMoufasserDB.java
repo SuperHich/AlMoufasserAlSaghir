@@ -679,15 +679,13 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 	
 	//**************************** SURA PART AYA
 	
-	public String getPartAyat (int suraId, int partNb){
+	public void populatePartText (int suraId, int partNb){
 		SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		
-		//CurrentlyUsedFonts = [[NSMutableArray alloc] init];
-	    //AyaAudioFileNames = [[NSMutableArray alloc] init];
-
-		
-		String partText = null;
+		mTafseerManager.setCurrentlyUsedFonts(new ArrayList<String>());
+		mTafseerManager.setAyaAudioFileNames(new ArrayList<String>());
+		mTafseerManager.setPartText("");
 		String ayaFrom = "", ayaTo = "";
 
 		String sqlTables = "parts";
@@ -706,8 +704,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			c1.close();
 		}
 		
-		partText = "<span style='text-align: left !important;  float: left; margin-left: 60px;'>";
-		int i = 0;
+		mTafseerManager.setPartText("<span style='text-align: left !important;  float: left; margin-left: 60px;'>");
+		int i = 1;
 		
 		String sqlQuranTables = "quran_number";
 		String[] sqlQuranSelect = {"page", "sura", "cast(aya as int)", "mushaf_chr"};
@@ -728,11 +726,41 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 				String ayaText = cQuran.getString(3);
 				String anchorTag = "<a class="+i+" href=local?SuraID="+suraID+"&AyaID="+ayaID+"&TrackID="+i+" style='font-family: P"+pageID+";'>";
 	            ayaText = anchorTag.concat(ayaText);
-				
+	            
+	            if (ayaID.equals("1")) {
+	                ayaText = "<a id=0 href=local class='bsmla' style='text-align: center !important; font-size: 40px; width: 800px; float: left;'>ﭚﭛﭜﭝ</a>".concat(ayaText);
+	            }
+	            
+	            ayaText = ayaText.substring(0, ayaText.length() - 1);
+	            ayaText = ayaText.concat("</a>");
+	            
+	            String tempStr = "</a></span>\n<span>".concat(anchorTag);
+	            ayaText = ayaText.replace("\n", tempStr);
+
+	            mTafseerManager.setPartText(mTafseerManager.getPartText().concat(ayaText));
+	            
+	            if (!mTafseerManager.getCurrentlyUsedFonts().contains(pageID)) 
+	            	mTafseerManager.getCurrentlyUsedFonts().add(pageID);
+	            
+	            suraID = "000".concat(suraID);
+	            suraID = suraID.substring(suraID.length() - 3);
+	            
+	            ayaID = "000".concat(ayaID);
+	            ayaID = ayaID.substring(ayaID.length() - 3);
+	            
+	            mTafseerManager.getAyaAudioFileNames().add(suraID.concat(ayaID));
+
+	            i++;
+	            
 			}while(cQuran.moveToNext());
+			
+			cQuran.close();
+			
+			mTafseerManager.setNumberOfTracks(i);
+			
+			mTafseerManager.setPartText(mTafseerManager.getPartText().concat("</span>"));
 		}
 		
-		return partText;
 	}
 
 }

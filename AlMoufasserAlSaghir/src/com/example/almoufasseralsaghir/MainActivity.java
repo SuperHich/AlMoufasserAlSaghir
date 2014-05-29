@@ -164,11 +164,19 @@ public class MainActivity extends MySuperScaler{
 
 		} else {
 			welcomer.setBackgroundResource(R.drawable.welcomer);
-			register_enter.setVisibility(View.INVISIBLE);
-			register_interface.setVisibility(View.INVISIBLE);
-			logged_in_interface.setVisibility(View.VISIBLE);
-			
-			name_logged_in.setText(mTafseerManager.getLoggedInUser().getName());
+			if(mTafseerManager.getLoggedInUser().isLoggedIn())
+			{
+				register_enter.setVisibility(View.INVISIBLE);
+				register_interface.setVisibility(View.INVISIBLE);
+				logged_in_interface.setVisibility(View.VISIBLE);
+
+				name_logged_in.setText(mTafseerManager.getLoggedInUser().getName());
+			}else
+			{
+				register_enter.setVisibility(View.VISIBLE);
+				register_interface.setVisibility(View.INVISIBLE);
+				logged_in_interface.setVisibility(View.INVISIBLE);
+			}
 			
 		}
 

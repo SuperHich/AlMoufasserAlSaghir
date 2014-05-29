@@ -57,6 +57,11 @@ public class TafseerManager {
 	private JSONParser jsonParser;
 	private Context context ;
 	
+	private ArrayList<String> currentlyUsedFonts = new ArrayList<String>();
+	private ArrayList<String> ayaAudioFileNames = new ArrayList<String>();
+	private int numberOfTracks = 0;
+	private String partText;
+	
 	private User loggedInUser = new User();
 	
 	public User getLoggedInUser() {
@@ -442,5 +447,37 @@ public class TafseerManager {
 		String response = jsonParser.getIntegerFromUrl(URL_ACTIVITY, params);
 		// return response
 		return response;
+	}
+
+	public ArrayList<String> getCurrentlyUsedFonts() {
+		return currentlyUsedFonts;
+	}
+
+	public void setCurrentlyUsedFonts(ArrayList<String> currentlyUsedFonts) {
+		this.currentlyUsedFonts = currentlyUsedFonts;
+	}
+
+	public ArrayList<String> getAyaAudioFileNames() {
+		return ayaAudioFileNames;
+	}
+
+	public void setAyaAudioFileNames(ArrayList<String> ayaAudioFileNames) {
+		this.ayaAudioFileNames = ayaAudioFileNames;
+	}
+
+	public int getNumberOfTracks() {
+		return numberOfTracks;
+	}
+
+	public void setNumberOfTracks(int numberOfTracks) {
+		this.numberOfTracks = numberOfTracks;
+	}
+
+	public String getPartText() {
+		return partText;
+	}
+
+	public void setPartText(String partText) {
+		this.partText = partText;
 	}
 }

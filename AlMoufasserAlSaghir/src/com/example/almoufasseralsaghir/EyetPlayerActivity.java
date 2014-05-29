@@ -3,12 +3,15 @@ package com.example.almoufasseralsaghir;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -27,6 +30,9 @@ public class EyetPlayerActivity extends MySuperScaler  {
 	
 	private int suraId, partNb;
 	
+	private String partText;
+	private int playingCounter = 1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,9 +42,18 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		{
 			suraId = getIntent().getExtras().getInt("suraId");
 			partNb = getIntent().getExtras().getInt("partNb");
+			
+			myDB.populatePartText(suraId, partNb);
+			partText = mTafseerManager.getPartText();
+			
 		}
 		
 		eyet_webview = (WebView) findViewById(R.id.eyet_webview);
+		eyet_webview.getSettings().setJavaScriptEnabled(true);
+		String style = "<head><script type='text/javascript' src='JS/jquery-1.10.2.min.js'></script><style type=\"text/css\">@font-face{font-family: P518;src: url('FONTS/QCF_P518.TTF')}@font-face{font-family: myFirstFontB; src: url('FONTS/QCF_BSML.TTF')}.sora, .bsmla{font-family:myFirstFontB;}.sora { width: 580px ; margin-top: 8px; background-size: 580px 51px; background-repeat: no-repeat; }.bsmla{ margin-top: -5px; display:block; }body {font-size: 56px;line-height:85px; margin: 0px; direction: rtl; background-color: blue|||; text-align: right;  }body a  { color: black; text-decoration: none; border:0 solid; border-radius:35px; padding: -15px 0; }</style></head>";
+		String htmlPart = "<html>"+style+"<body><div style='padding: 0; margin:0 60px 0 10px; background-color: red|||; width: 865px'>"+partText+"</div></body></html>";
+		Log.i("EyetPlayerActivity", htmlPart);
+		eyet_webview.loadDataWithBaseURL("file:///android_asset/", htmlPart, "text/html", "UTF-8", null);
 		
 		info = (Button) findViewById(R.id.e6_info);
 		favourites = (Button) findViewById(R.id.e6_favourites);
@@ -398,6 +413,11 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
+		    	  if(playingCounter++ <= mTafseerManager.getNumberOfTracks())
+		    	  {
+		    		  	playingCounter += 1;
+		    	  		HighLightPlayingAya(playingCounter);
+		    	  }
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
 		          Button view = (Button) v;
@@ -424,6 +444,11 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
+		    	  
+		    	  if(playingCounter-- >= 0){
+		    		  playingCounter -= 1;  
+		    		  HighLightPlayingAya(playingCounter);
+		    	  }
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
 		          Button view = (Button) v;
@@ -559,4 +584,26 @@ public class EyetPlayerActivity extends MySuperScaler  {
 	   		  set_favourite.setBackgroundResource(R.drawable.eya_dialog_favourite_active);
 	   	  }
 	}
+	
+	private void HighLightPlayingAya(int id){
+	    String jsString ="$('a').css('background-color','');";
+	    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+	        // In KitKat+ you should use the evaluateJavascript method
+
+	    	eyet_webview.evaluateJavascript(jsString, new ValueCallback<String>() {
+	    		@Override
+	    		public void onReceiveValue(String s) {
+	    			Log.d("LogName", s); // Prints: "this"
+	    		}
+	    	});
+	    	jsString = "$('."+id+"').css('background','rgba(153, 198, 215, .3)');";
+	    	eyet_webview.evaluateJavascript(jsString, new ValueCallback<String>() {
+	    		@Override
+	    		public void onReceiveValue(String s) {
+	    			Log.d("LogName", s); // Prints: "this"
+	    		}
+	    	});
+	    }
+	}
+
 }

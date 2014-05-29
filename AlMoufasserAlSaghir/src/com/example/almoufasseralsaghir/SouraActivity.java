@@ -193,7 +193,7 @@ public class SouraActivity extends MySuperScaler {
 //				    	  RelativeLayout soura_part_layout = (RelativeLayout) inflatedView.findViewById(R.id.soura_part_layout);
 //				    	  SanabilActivity.scaleViewAndChildren( soura_part_layout, SanabilActivity.scale);
 				    	  
-//				    	  mySouraParts.setCurrentItem(mTafseerManager.getCurrentSuraPart());
+				    	  mySouraParts.setCurrentItem(mTafseerManager.getCurrentSuraPart());
 				    	  
 				    	  mySouraParts.addScrollingListener( new OnWheelScrollListener() {
 				              public void onScrollingStarted(WheelView wheel) {
