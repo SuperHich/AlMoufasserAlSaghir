@@ -762,5 +762,101 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		}
 		
 	}
+		
+	public String getAyaText(int suraId, int ayaId) {
+    	
+    	SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {"text"}; 
+		String sqlTables = "quran_text";
+		
+		qb.setTables(sqlTables);
+		qb.setDistinct(true);
+		Cursor c = qb.query(db, sqlSelect, "(sura ='"+suraId+"') AND (aya ='"+ayaId+"')", null,
+				null, null, null);
+		
+		StringBuilder text = new StringBuilder();
+		if(c.moveToFirst())
+		{
+			text.append(c.getString(0));	
+		}
+			
+		c.close();
+		return text.toString();
+	}
+	
+	public String getAyaWordMeaning(int suraId, int ayaId) {
+    	
+    	SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {"word_mean"}; 
+		String sqlTables = "tafseer2";
+		
+		String ayaIndex = getAyaIndex(suraId, ayaId);
+		
+		qb.setTables(sqlTables);
+		qb.setDistinct(true);
+		Cursor c = qb.query(db, sqlSelect, "(aya_number ='"+ayaIndex+"')", null,
+				null, null, null);
+		
+		StringBuilder info = new StringBuilder();
+		if(c.moveToFirst())
+		{
+			info.append(c.getString(0));	
+		}
+			
+		c.close();
+		return info.toString();
+	}
+	
+	public String getAyaTafseer(int suraId, int ayaId) {
+    	
+    	SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {"tafseer"}; 
+		String sqlTables = "tafseer2";
+		
+		String ayaIndex = getAyaIndex(suraId, ayaId);
+		
+		qb.setTables(sqlTables);
+		qb.setDistinct(true);
+		Cursor c = qb.query(db, sqlSelect, "(aya_number ='"+ayaIndex+"')", null,
+				null, null, null);
+		
+		StringBuilder info = new StringBuilder();
+		if(c.moveToFirst())
+		{
+			info.append(c.getString(0));	
+		}
+			
+		c.close();
+		return info.toString();
+	}
+	
+	public String getAyaIndex(int suraId, int ayaId) {
+    	
+    	SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {"idx"}; 
+		String sqlTables = "quran_text";
+		
+		qb.setTables(sqlTables);
+		qb.setDistinct(true);
+		Cursor c = qb.query(db, sqlSelect, "(sura ='"+suraId+"') AND (aya ='"+ayaId+"')", null,
+				null, null, null);
+		
+		StringBuilder info = new StringBuilder();
+		if(c.moveToFirst())
+		{
+			info.append(c.getString(0));	
+		}
+			
+		c.close();
+		return info.toString();
+	}
 
 }

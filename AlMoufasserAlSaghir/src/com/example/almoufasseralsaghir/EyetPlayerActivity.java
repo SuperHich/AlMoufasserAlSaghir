@@ -10,17 +10,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.evgenii.jsevaluator.JsEvaluator;
-import com.evgenii.jsevaluator.interfaces.JsCallback;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class EyetPlayerActivity extends MySuperScaler  {
