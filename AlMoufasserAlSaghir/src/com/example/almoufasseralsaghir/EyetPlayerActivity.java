@@ -31,10 +31,10 @@ public class EyetPlayerActivity extends MySuperScaler  {
 	FontFitTextView eya_repetitions ;
 	int repetitions_sura_nbr = 1 ;
 	
-	private int suraId, partNb;
+	private int suraId, partNb, ayaID, trackID;
 	
 	private String partText;
-	private int playingCounter = 1;
+	private int playingTrack = 0;
 	private WebViewClient client;
 	
 	public static int repetitions_aya_nbr = 1;
@@ -73,10 +73,11 @@ public class EyetPlayerActivity extends MySuperScaler  {
 	        @Override 
 	        public boolean shouldOverrideUrlLoading(WebView view, String url) { 
 	        	
+	        	Log.e("webView Clicked ", url);
+	        	populateSelectedAya(url);
+	        	HighLightPlayingAya(trackID);
 	        	AyaDialog dialog = new AyaDialog(EyetPlayerActivity.this);
 	        	dialog.show();
-	        	Log.e("webView Clicked ", url);
-	        	HighLightPlayingAya(playingCounter);
 	        	return true;
 	        } 
 	    }; 
@@ -231,10 +232,10 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
-		    	  if(playingCounter++ <= mTafseerManager.getNumberOfTracks())
+		    	  if(playingTrack + 1 <= mTafseerManager.getNumberOfTracks())
 		    	  {
-		    		  	playingCounter += 1;
-		    	  		HighLightPlayingAya(playingCounter);
+		    		  playingTrack += 1;
+		    	  		HighLightPlayingAya(playingTrack);
 		    	  }
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -263,9 +264,9 @@ public class EyetPlayerActivity extends MySuperScaler  {
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
 		    	  
-		    	  if(playingCounter-- >= 0){
-		    		  playingCounter -= 1;  
-		    		  HighLightPlayingAya(playingCounter);
+		    	  if(playingTrack - 1 >= 0){
+		    		  playingTrack -= 1;  
+		    		  HighLightPlayingAya(playingTrack);
 		    	  }
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -405,56 +406,23 @@ public class EyetPlayerActivity extends MySuperScaler  {
 	
 	private void HighLightPlayingAya(int id){
 		
-		JsEvaluator jsEvaluator = new JsEvaluator(this);
-		jsEvaluator.evaluate("$('a').css('background-color','');", new JsCallback() {
-			
-			@Override
-			public void onResult(String arg0) {
-				Log.e("LogName", arg0);
-			}
-		});
-		
-		jsEvaluator.evaluate("$('."+id+"').css('background','rgba(153, 198, 215, .3)');", new JsCallback() {
-			
-			@Override
-			public void onResult(String arg0) {
-				Log.e("LogName", arg0);
-			}
-		});
+		eyet_webview.loadUrl("javascript:$('a').css('background-color','');");
+		eyet_webview.loadUrl("javascript:$('."+id+"').css('background','rgba(153, 198, 215, .3)');");
 		
 		
-//		eyet_webview.addJavascriptInterface(new JavaScriptInterface(), "myObj");
-//		jsEvaluator.callFunction(new JsCallback() {
-//			  @Override
-//			  public void onResult(final String result) {
-//			    // get result here
-//			  }
-//			}, "functionName", "parameter 1", "parameter 2", 912, 101.3);
-		
-//	    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//	        // In KitKat+ you should use the evaluateJavascript method
-//
-//	    	eyet_webview.evaluateJavascript(jsString, new ValueCallback<String>() {
-//	    		@Override
-//	    		public void onReceiveValue(String s) {
-//	    			Log.d("LogName", s); // Prints: "this"
-//	    		}
-//	    	});
-//	    	jsString = "$('."+id+"').css('background','rgba(153, 198, 215, .3)');";
-//	    	eyet_webview.evaluateJavascript(jsString, new ValueCallback<String>() {
-//	    		@Override
-//	    		public void onReceiveValue(String s) {
-//	    			Log.d("LogName", s); // Prints: "this"
-//	    		}
-//	    	});
-//	    }
 	}
 	
-	public class JavaScriptInterface {
-	    public void returnResult(String result) {
-	        // result from JavaScript
-	    }
-	}
 	
+	private void populateSelectedAya(String response){
+	//  "file:///android_asset/local?SuraID=50&AyaID=4&TrackID=4"
+	  response = response.substring(28, response.length());
+	  Log.i("response ", response);
+	  String[] splitResponse = response.split("&");
+	  ayaID = Integer.parseInt(splitResponse[1].substring(6, splitResponse[1].length()));
+	  trackID = Integer.parseInt(splitResponse[2].substring(8, splitResponse[2].length()));
+	  
+	  Log.i("ayaID", String.valueOf(ayaID));
+	  Log.i("trackID", String.valueOf(trackID)); 
+	 }
 
 }

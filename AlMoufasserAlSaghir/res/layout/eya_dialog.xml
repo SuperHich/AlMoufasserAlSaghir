@@ -5,80 +5,105 @@
     android:layout_height="800px"
      android:background="@drawable/eya_dialog_bg">
     
-     <Button 
-	    android:id="@+id/eya_network"
-        android:layout_width="196px"
-        android:layout_height="221px"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="80px"
-        android:layout_marginTop="270px"
-        android:background="@drawable/eya_dialog_network" 
-	    />
+    <RelativeLayout 
+    	android:id="@+id/eya_dialog_all_buttons"
+    	android:layout_width="match_parent"
+   		android:layout_height="match_parent"
+     	android:background="@drawable/eya_dialog_bg"
+     	android:visibility="gone">
+     
+	     <Button 
+		    android:id="@+id/eya_network"
+	        android:layout_width="196px"
+	        android:layout_height="221px"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginLeft="80px"
+	        android:layout_marginTop="270px"
+	        android:background="@drawable/eya_dialog_network" 
+		    />
+	    
+	     <Button 
+		    android:id="@+id/eya_copy"
+	        android:layout_width="196px"
+	        android:layout_height="214px"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginLeft="300px"
+	        android:layout_marginTop="270px"
+	        android:background="@drawable/eya_dialog_copy" 
+		    />
+	    
+	     <Button 
+		    android:id="@+id/eya_favourite"
+	        android:layout_width="197px"
+	        android:layout_height="239px"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginLeft="500px"
+	        android:layout_marginTop="270px"
+	        android:background="@drawable/eya_dialog_favourite_inactive" 
+		    />
+	     
+	     <Button 
+		    android:id="@+id/eya_listen"
+	        android:layout_width="197px"
+	        android:layout_height="222px"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginLeft="730px"
+	        android:layout_marginTop="270px"
+	        android:background="@drawable/eya_dialog_listen" 
+		    />
+	     
+	     <com.almoufasseralsaghir.utils.FontFitTextView 
+	            android:id="@+id/eya_dialog_repetitions"
+	            android:layout_width="60px"
+	            android:layout_height="60px"
+	            android:layout_marginLeft="765px"
+	            android:layout_marginTop="220px"
+	            android:textColor="#FFF"
+	            android:ellipsize="none"
+	            android:gravity="center"
+	        	android:maxLines="1"
+	        	android:textStyle="bold"
+	        	android:background="@drawable/notif"
+	            />
+	     
+	     <Button 
+		    android:id="@+id/eya_maana"
+	        android:layout_width="207px"
+	        android:layout_height="219px"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginLeft="930px"
+	        android:layout_marginTop="270px"
+	        android:background="@drawable/eya_dialog_maana" 
+		    />
+	     
+	      <Button 
+		    android:id="@+id/eya_mofradat"
+	        android:layout_width="204px"
+	        android:layout_height="222px"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginLeft="1150px"
+	        android:layout_marginTop="270px"
+	        android:background="@drawable/eya_dialog_mofradat" 
+		    />
+     </RelativeLayout>
     
-     <Button 
-	    android:id="@+id/eya_copy"
-        android:layout_width="196px"
-        android:layout_height="214px"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="300px"
-        android:layout_marginTop="270px"
-        android:background="@drawable/eya_dialog_copy" 
-	    />
+    <WebView 
+        android:id="@+id/aya_mofradat_webview"
+        android:layout_width="1100px"
+        android:layout_height="430px"
+        android:layout_marginLeft="150px"
+        android:layout_marginTop="180px"
+        android:visibility="gone"/>
     
-     <Button 
-	    android:id="@+id/eya_favourite"
-        android:layout_width="197px"
-        android:layout_height="239px"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="500px"
-        android:layout_marginTop="270px"
-        android:background="@drawable/eya_dialog_favourite_inactive" 
-	    />
-     
-     <Button 
-	    android:id="@+id/eya_listen"
-        android:layout_width="197px"
-        android:layout_height="222px"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="730px"
-        android:layout_marginTop="270px"
-        android:background="@drawable/eya_dialog_listen" 
-	    />
-     
-     <com.almoufasseralsaghir.utils.FontFitTextView 
-            android:id="@+id/eya_dialog_repetitions"
-            android:layout_width="60px"
-            android:layout_height="60px"
-            android:layout_marginLeft="765px"
-            android:layout_marginTop="220px"
-            android:textColor="#FFF"
-            android:ellipsize="none"
-            android:gravity="center"
-        	android:maxLines="1"
-        	android:textStyle="bold"
-        	android:background="@drawable/notif"
-            />
-     
-     <Button 
-	    android:id="@+id/eya_maana"
-        android:layout_width="207px"
-        android:layout_height="219px"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="930px"
-        android:layout_marginTop="270px"
-        android:background="@drawable/eya_dialog_maana" 
-	    />
-     
-      <Button 
-	    android:id="@+id/eya_mofradat"
-        android:layout_width="204px"
-        android:layout_height="222px"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="1150px"
-        android:layout_marginTop="270px"
-        android:background="@drawable/eya_dialog_mofradat" 
-	    />
-     
+    <WebView 
+        android:id="@+id/aya_maana_webview"
+         android:layout_width="1100px"
+        android:layout_height="430px"
+        android:layout_marginLeft="150px"
+        android:layout_marginTop="180px"
+        android:visibility="gone"/>
+    
+    
     <Button 
 	    android:id="@+id/eya_dialog_previous"
         android:layout_width="81px"

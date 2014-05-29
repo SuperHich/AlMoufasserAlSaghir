@@ -94,9 +94,12 @@ public class SouraActivity extends MySuperScaler {
 		if(extras != null){
 			int remSuraId = extras.getInt(TafseerManager.SURA_ID);
 			int remPartNb = extras.getInt(TafseerManager.PART_NB);
+			
+			Log.i("PART NUMBER", String.valueOf(remPartNb));
+			
 			currentSura = mTafseerManager.getSuraById(remSuraId);
 			int drawableResourceId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+remPartNb, "drawable", SouraActivity.this.getPackageName());
-	          soura_part_num.setBackgroundResource(drawableResourceId);
+	        soura_part_num.setBackgroundResource(drawableResourceId);
 			
 			if(currentSura == null)
 				finish();
@@ -111,6 +114,12 @@ public class SouraActivity extends MySuperScaler {
 		
 		
 		partsNumber = myDB.getPartNumber(currentSura.getSuraId());
+		
+		int currentPart = mTafseerManager.getCurrentSuraPart() + 1 ;
+		
+		int drawablepartId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+currentPart, "drawable", SouraActivity.this.getPackageName());
+        soura_part_num.setBackgroundResource(drawablepartId);
+		
 		
 		int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+currentSura.getLabel(), "drawable", this.getPackageName());
 		soura_title.setBackgroundResource(drawableResourceId);

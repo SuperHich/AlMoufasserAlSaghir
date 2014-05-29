@@ -705,7 +705,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		}
 		
 		mTafseerManager.setPartText("<span style='text-align: left !important;  float: left; margin-left: 60px;'>");
-		int i = 1;
+		int i = 0;
 		
 		String sqlQuranTables = "quran_number";
 		String[] sqlQuranSelect = {"page", "sura", "cast(aya as int)", "mushaf_chr"};
