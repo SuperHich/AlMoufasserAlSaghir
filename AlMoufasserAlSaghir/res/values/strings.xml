@@ -8,7 +8,9 @@
     <string name="user_already_registered">هذا المستخدم مسجل مسبقاً</string>
     <string name="register_success">تم التسجيل بنجاح</string>
     <string name="update_success">تم التعديل بنجاح</string>
-
+    <string name="copy_aya">لقد تم نسخ الاية بنجاح !</string>
+	<string name="share">شارك</string>
+    
     <string name="month_1">جانفي</string>
     <string name="month_2">فيفري</string>
     <string name="month_3">مارس</string>
