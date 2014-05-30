@@ -31,7 +31,7 @@ public class SplashHome extends MySuperScaler {
 		mTafseerManager.setLoggedInUser(user);
 
 		if (user.isLoggedIn())
-		{
+		{	
 			intent = new Intent(SplashHome.this, SouraActivity.class);
 		} else 	
 		{
@@ -62,6 +62,8 @@ public class SplashHome extends MySuperScaler {
 			splashHandler.removeMessages(STOPSPLASH);
 		}
 		return super.onKeyDown(keyCode, event);
+		
+		
 	}
 
 

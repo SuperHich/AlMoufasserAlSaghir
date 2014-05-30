@@ -10,7 +10,7 @@
     	android:layout_width="match_parent"
    		android:layout_height="match_parent"
      	android:background="@drawable/eya_dialog_bg"
-     	android:visibility="gone">
+     	android:visibility="visible">
      
 	     <Button 
 		    android:id="@+id/eya_network"
@@ -22,6 +22,17 @@
 	        android:background="@drawable/eya_dialog_network" 
 		    />
 	    
+	      <Button 
+	    android:id="@+id/dialog_play_eya"
+        android:layout_width="125.5px"
+        android:layout_height="118px"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="800px"
+        android:layout_marginTop="520px"
+        android:background="@drawable/play_eya" 
+	    />
+	     
+	     
 	     <Button 
 		    android:id="@+id/eya_copy"
 	        android:layout_width="196px"
@@ -89,18 +100,18 @@
     
     <WebView 
         android:id="@+id/aya_mofradat_webview"
-        android:layout_width="1100px"
-        android:layout_height="430px"
-        android:layout_marginLeft="150px"
-        android:layout_marginTop="180px"
+        android:layout_width="1071px"
+        android:layout_height="391px"
+      	 android:layout_marginLeft="150px"
+       	android:layout_marginTop="250px"
         android:visibility="gone"/>
     
     <WebView 
         android:id="@+id/aya_maana_webview"
-         android:layout_width="1100px"
-        android:layout_height="430px"
-        android:layout_marginLeft="150px"
-        android:layout_marginTop="180px"
+        android:layout_width="1071px"
+        android:layout_height="391px"
+       android:layout_marginLeft="150px"
+       android:layout_marginTop="250px"
         android:visibility="gone"/>
     
     

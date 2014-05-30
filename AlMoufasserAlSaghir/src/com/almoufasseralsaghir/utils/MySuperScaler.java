@@ -1,5 +1,7 @@
 package com.almoufasseralsaghir.utils;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -9,11 +11,13 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.almoufasseralsaghir.external.TafseerManager;
+import com.example.almoufasseralsaghir.HomeLoggedIn;
+import com.example.almoufasseralsaghir.MainActivity;
+import com.example.almoufasseralsaghir.SouraActivity;
 import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 
 /**
- * Herite de cette activité pour l'adapation automatique
- * @author wajdihh
+ * This is Super Scaler
  *
  */
 public class MySuperScaler extends FragmentActivity {
@@ -23,12 +27,15 @@ public class MySuperScaler extends FragmentActivity {
 	protected TafseerManager mTafseerManager ;
 	protected AlMoufasserDB myDB;
 	
+	private Activity thisAct ;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+		
+		thisAct = this ;
 		mTafseerManager = TafseerManager.getInstance(this);
 		myDB = new AlMoufasserDB(this);
 		
@@ -102,6 +109,22 @@ public class MySuperScaler extends FragmentActivity {
 
 	public void onBackPressed() {
 		super.onBackPressed();
-		finish();
+		
+		if(thisAct instanceof SouraActivity)
+		{
+			startActivity(new Intent(thisAct, HomeLoggedIn.class));
+			Utils.animateFad(thisAct);
+			finish();	
+		}
+		else if(thisAct instanceof HomeLoggedIn)
+		{
+			MainActivity.first_entry = false;
+			startActivity(new Intent(thisAct, MainActivity.class));
+			Utils.animateFad(thisAct);
+			finish();
+		}
+		else finish();
+		
+		
 	}
 }
