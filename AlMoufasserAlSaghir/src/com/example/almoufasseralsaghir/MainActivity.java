@@ -29,6 +29,7 @@ import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
+import com.example.almoufasseralsaghir.database.AlMoufasserDownloadManager;
 import com.example.almoufasseralsaghir.entity.User;
 
 
@@ -45,6 +46,9 @@ public class MainActivity extends MySuperScaler{
 
 	int i = 0 ;
 	public static boolean first_entry = true;
+	private String currentReceiter = "1";
+	
+	private AlMoufasserDownloadManager downloadManager;
 
 
 	@Override
@@ -52,6 +56,8 @@ public class MainActivity extends MySuperScaler{
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		downloadManager = new AlMoufasserDownloadManager(MainActivity.this);
 
 		herbes = (ImageView) findViewById(R.id.herbes);
 		welcomer = (ImageView) findViewById(R.id.welcomer);
@@ -442,6 +448,18 @@ public class MainActivity extends MySuperScaler{
 					Button popup_confirm = (Button) dialog.findViewById(R.id.popup_confirm);
 					final Button popup_reader1 = (Button) dialog.findViewById(R.id.popup_active_btn);
 					final Button popup_reader2 = (Button) dialog.findViewById(R.id.popup_inactive_btn);
+					
+					currentReceiter = mTafseerManager.getLoggedInUser().getDefaultReciter();
+					if(currentReceiter.equals("1"))
+					{
+						popup_reader1.setBackgroundResource(R.drawable.popup_active_btn);
+						popup_reader2.setBackgroundResource(R.drawable.popup_inactive_btn);
+					}
+					else
+					{
+						popup_reader1.setBackgroundResource(R.drawable.popup_inactive_btn);
+						popup_reader2.setBackgroundResource(R.drawable.popup_active_btn);
+					}
 
 					popup_reader1.setOnClickListener(new OnClickListener() {
 						@Override
@@ -449,6 +467,9 @@ public class MainActivity extends MySuperScaler{
 
 							popup_reader1.setBackgroundResource(R.drawable.popup_active_btn);
 							popup_reader2.setBackgroundResource(R.drawable.popup_inactive_btn);
+							
+							currentReceiter = "1";
+							
 
 							////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
 
@@ -459,8 +480,22 @@ public class MainActivity extends MySuperScaler{
 						@Override
 						public void onClick(View v) {
 
+							if(downloadManager.isDownloading())
+								return;
+								
 							popup_reader1.setBackgroundResource(R.drawable.popup_inactive_btn);
 							popup_reader2.setBackgroundResource(R.drawable.popup_active_btn);
+							
+							currentReceiter = "2";
+							
+							if(downloadManager.initializeDownload())
+							{
+								// show cancel download
+								dialog.setCancelable(false);
+							}
+//							Intent intent = new Intent(MainActivity.this, DownloadReceiter.class);
+//							intent.putExtra("receiver", new ReceiterDownloadReceiver(new Handler()));
+//							startService (intent);
 
 							////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
 
@@ -478,8 +513,13 @@ public class MainActivity extends MySuperScaler{
 								v.invalidate();
 								break;
 							}
-							case MotionEvent.ACTION_UP: {
+							case MotionEvent.ACTION_UP: {						
 
+								if(!downloadManager.isDownloading())
+								{	
+									mTafseerManager.getLoggedInUser().setDefaultReciter(currentReceiter);
+									dialog.dismiss(); 
+								}
 								////////////////////// SET READER IN MYAPPLICATION //////////////////////////////////////////////////////////////////
 
 							}
@@ -575,5 +615,11 @@ public class MainActivity extends MySuperScaler{
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+	}
+	
+	@Override
+	public void onBackPressed() {
+		
+		super.onBackPressed();
 	}
 }

@@ -98,10 +98,4 @@ public class MySuperScaler extends FragmentActivity {
 		}
 	}
 	
-	
-
-	public void onBackPressed() {
-		super.onBackPressed();
-		finish();
-	}
 }

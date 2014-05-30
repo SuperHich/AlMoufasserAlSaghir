@@ -183,6 +183,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			c.close();
 			return true;
 		}
+		
+		c.close();
 		return false;
     }
     
@@ -363,6 +365,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			return true;
 		}
 		
+		c.close();
 		return false;
     }
     
