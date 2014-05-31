@@ -65,6 +65,8 @@ public class TafseerManager {
 	private int numberOfTracks = 0;
 	private String partText;
 	
+	public static String SecondReceiterPath;
+	
 	private ArrayList<Question> questions = new ArrayList<Question>();
 	private LinkedHashMap<String, ArrayList<Answer>> answers = new LinkedHashMap<String, ArrayList<Answer>>();
 	

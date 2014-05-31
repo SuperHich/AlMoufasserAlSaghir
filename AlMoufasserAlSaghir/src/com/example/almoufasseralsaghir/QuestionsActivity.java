@@ -350,22 +350,28 @@ public class QuestionsActivity extends MySuperScaler {
 	
 	private void prepareQuestion(){
 		
+		if(answers_nbr == questions.size())
+		{	
+			onBackPressed();
+			return;
+		}
+		
 		if(questions.size()>2) { format_4 = true ; format_3 = false ; }
 		else {format_4 = false ; format_3 = true ;}
 		
 		if (questions.get(answers_nbr) != null) {
-			
-		currentQuestion = questions.get(answers_nbr);
-		currentAnswers.clear();
-		currentAnswers.addAll(answers.get(currentQuestion.getQuestionID()));
-		
-		Log.i("FORMAT", String.valueOf(questions.size()));
-		
-		question.setText(currentQuestion.getText());
-		
-		answer_1.setText(currentAnswers.get(0).getText());
-		answer_2.setText(currentAnswers.get(1).getText());
-		answer_3.setText(currentAnswers.get(2).getText());
+
+			currentQuestion = questions.get(answers_nbr);
+			currentAnswers.clear();
+			currentAnswers.addAll(answers.get(currentQuestion.getQuestionID()));
+
+			Log.i("FORMAT", String.valueOf(questions.size()));
+
+			question.setText(currentQuestion.getText());
+
+			answer_1.setText(currentAnswers.get(0).getText());
+			answer_2.setText(currentAnswers.get(1).getText());
+			answer_3.setText(currentAnswers.get(2).getText());
 		}
 	
 	}

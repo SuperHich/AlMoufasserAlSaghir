@@ -29,16 +29,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 import com.example.almoufasseralsaghir.database.AlMoufasserDownloadManager;
+import com.example.almoufasseralsaghir.database.DownloadNotifier;
 import com.example.almoufasseralsaghir.entity.User;
 
 
-public class MainActivity extends MySuperScaler{
+public class MainActivity extends MySuperScaler implements DownloadNotifier{
 
 	private Button  register_enter, login_btn, new_user,
 	deconnect, account_settings, settings;
@@ -48,13 +50,16 @@ public class MainActivity extends MySuperScaler{
 	private ListView listViewArticles;
 	private ImageView herbes, email_hint, welcomer ;
 	private MediaPlayer welcome_mp, welcome_mp2 ;
-
+	
+	private SeekBar popup_progress;
+	private LinearLayout download_layout;
+	
 	int i = 0 ;
 	public static boolean first_entry = true;
 	private String currentReceiter = "1";
 	
 	private AlMoufasserDownloadManager downloadManager;
-
+	private Dialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -439,7 +444,7 @@ public class MainActivity extends MySuperScaler{
 				}
 				case MotionEvent.ACTION_UP: {
 					// Your action here on button click
-					final Dialog dialog = new Dialog(MainActivity.this);
+					dialog = new Dialog(MainActivity.this);
 					dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); 
 					dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 					dialog.setContentView(R.layout.main_dialog_settings);
@@ -450,8 +455,8 @@ public class MainActivity extends MySuperScaler{
 					popup_view.getLayoutParams().width = 847;
 					MySuperScaler.scaleViewAndChildren(popup_view, MySuperScaler.scale);
 
-					final LinearLayout download_layout = (LinearLayout) dialog.findViewById(R.id.download_layout);
-					final SeekBar popup_progress = (SeekBar) dialog.findViewById(R.id.popup_progress);
+					download_layout = (LinearLayout) dialog.findViewById(R.id.download_layout);
+					popup_progress = (SeekBar) dialog.findViewById(R.id.popup_progress);
 					final Button popup_cancel = (Button) dialog.findViewById(R.id.popup_cancel);
 					
 					ShapeDrawable thumb = new ShapeDrawable(new RectShape());
@@ -460,7 +465,7 @@ public class MainActivity extends MySuperScaler{
 				    thumb.setIntrinsicWidth(30);
 				    popup_progress.setThumb(thumb);
 				    popup_progress.setMax(100);
-				    popup_progress.setProgress(50);
+//				    popup_progress.setProgress(50);
 				    
 					Button popup_confirm = (Button) dialog.findViewById(R.id.popup_confirm);
 					final Button popup_reader1 = (Button) dialog.findViewById(R.id.popup_active_btn);
@@ -482,7 +487,7 @@ public class MainActivity extends MySuperScaler{
 						@Override
 						public void onClick(View v) {
 
-							if(downloadManager.isDownloading())
+							if(downloadManager.isDownloading() || downloadManager.isUnzipping())
 								return;
 							
 							popup_reader1.setBackgroundResource(R.drawable.popup_active_btn);
@@ -500,23 +505,19 @@ public class MainActivity extends MySuperScaler{
 						@Override
 						public void onClick(View v) {
 
-							if(downloadManager.isDownloading())
+							if(downloadManager.isDownloading() || downloadManager.isUnzipping())
 								return;
 								
 							popup_reader1.setBackgroundResource(R.drawable.popup_inactive_btn);
 							popup_reader2.setBackgroundResource(R.drawable.popup_active_btn);
-							
-							currentReceiter = "2";
-							
+														
 							if(downloadManager.initializeDownload())
 							{
 								download_layout.setVisibility(View.VISIBLE);
 								dialog.setCancelable(false);
-							}
-//							Intent intent = new Intent(MainActivity.this, DownloadReceiter.class);
-//							intent.putExtra("receiver", new ReceiterDownloadReceiver(new Handler()));
-//							startService (intent);
-
+							}else
+								currentReceiter = "2";
+							
 							////////////////////// SET READER 2 IN MY APPLICATION //////////////////////////////////////////////////////////////////			
 
 						}
@@ -535,7 +536,7 @@ public class MainActivity extends MySuperScaler{
 							}
 							case MotionEvent.ACTION_UP: {						
 
-								if(!downloadManager.isDownloading())
+								if(!downloadManager.isDownloading() || downloadManager.isUnzipping())
 								{	
 									mTafseerManager.getLoggedInUser().setDefaultReciter(currentReceiter);
 									dialog.dismiss(); 
@@ -567,9 +568,19 @@ public class MainActivity extends MySuperScaler{
 							}
 							case MotionEvent.ACTION_UP: {						
 
-								downloadManager.cancelDownload();
-								download_layout.setVisibility(View.GONE);
-								dialog.setCancelable(true);
+								if(downloadManager.isDownloading())
+								{
+									downloadManager.cancelDownload();
+									download_layout.setVisibility(View.GONE);
+									dialog.setCancelable(true);
+								}
+								else if(downloadManager.isUnzipping())
+								{
+									Toast.makeText(MainActivity.this, "You should wait", Toast.LENGTH_LONG).show();
+//									downloadManager.cancelUnzip();
+								}
+								
+								
 								////////////////////// SET READER IN MYAPPLICATION //////////////////////////////////////////////////////////////////
 
 							}
@@ -668,8 +679,22 @@ public class MainActivity extends MySuperScaler{
 	}
 	
 	@Override
-	public void onBackPressed() {
+	public void onProgressDownload(int progress) {
+		popup_progress.setProgress(progress);
+	}
+
+	@Override
+	public void onDownloadComplete() {
+		downloadManager.setUnzipping(false);
+		dialog.setCancelable(true);
+		currentReceiter = "2";
+		download_layout.setVisibility(View.GONE);
+	}
+	
+	@Override
+	public void configureProgress(int maxSize) {
+		popup_progress.setMax(maxSize);
+		popup_progress.setProgress(0);
 		
-		super.onBackPressed();
 	}
 }
