@@ -277,7 +277,9 @@ public class SouraActivity extends MySuperScaler {
 //		if (!mTafseerManager.getLoggedInUser().isLoggedIn()){
 //			questions.getBackground().setColorFilter(0x77d0d0d0, PorterDuff.Mode.SRC_ATOP);
 //		}
-		if (!myDB.whoIsLoggedIn().isLoggedIn()){
+		myDB.populateQuestions(currentSura.getSuraId(), currentPart);
+		
+		if (!myDB.whoIsLoggedIn().isLoggedIn() || mTafseerManager.getQuestions().isEmpty()){
 			questions.getBackground().setColorFilter(0x77d0d0d0, PorterDuff.Mode.SRC_ATOP);
 		}
 		else {

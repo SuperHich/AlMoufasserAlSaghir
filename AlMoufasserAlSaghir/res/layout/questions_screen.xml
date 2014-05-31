@@ -108,7 +108,6 @@
            android:shadowDx="1"
             android:shadowDy="1"
              android:shadowRadius="2" 
-        	 android:text="ANSWER 1 FALSE" 
             />
     
     <com.almoufasseralsaghir.utils.FontFitTextView 
@@ -126,7 +125,6 @@
            android:shadowDx="1"
             android:shadowDy="1"
              android:shadowRadius="2" 
-        	 android:text="ANSWER 2 FALSE" 
             />
     <com.almoufasseralsaghir.utils.FontFitTextView 
             android:id="@+id/proposition_3"
@@ -143,7 +141,6 @@
            	android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2" 
-        	android:text="ANSWER 3 TRUE" 
             />
  
     <com.almoufasseralsaghir.utils.FontFitTextView 
@@ -157,7 +154,6 @@
             android:gravity="center"
         	android:maxLines="1"
         	android:textStyle="bold"
-        	android:text="MY QUESTION"
             />
     
 	

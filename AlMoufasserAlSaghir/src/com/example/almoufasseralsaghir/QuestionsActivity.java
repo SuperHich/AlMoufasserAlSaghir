@@ -166,7 +166,7 @@ public class QuestionsActivity extends MySuperScaler {
 			public void onClick(View v) {
 
 				if (format_3){
-					if (answers_nbr <3) 
+					if (answers_nbr <3 ) 
 					{
 						answerTreatment(2);
 					}
@@ -350,13 +350,15 @@ public class QuestionsActivity extends MySuperScaler {
 	
 	private void prepareQuestion(){
 		
-		if(answers_nbr == questions.size())
+		if(answers_nbr == questions.size() )
 		{	
 			onBackPressed();
 			return;
 		}
 		
-		if(questions.size()>2) { format_4 = true ; format_3 = false ; }
+		
+		
+		if(questions.size()>3) { format_4 = true ; format_3 = false ; }
 		else {format_4 = false ; format_3 = true ;}
 		
 		if (questions.get(answers_nbr) != null) {
@@ -371,7 +373,7 @@ public class QuestionsActivity extends MySuperScaler {
 
 			answer_1.setText(currentAnswers.get(0).getText());
 			answer_2.setText(currentAnswers.get(1).getText());
-			answer_3.setText(currentAnswers.get(2).getText());
+			if (currentAnswers.get(2) != null)answer_3.setText(currentAnswers.get(2).getText());
 		}
 	
 	}
