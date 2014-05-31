@@ -154,7 +154,7 @@ public class AlMoufasserDownloadManager {
 	public void cancelDownload(){
 		// remove this request
 		DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-		downloadManager.remove(downloadID);
+		isDownloading = downloadManager.remove(downloadID) > 0;
 		
 		unregisterReceiver();
 	}

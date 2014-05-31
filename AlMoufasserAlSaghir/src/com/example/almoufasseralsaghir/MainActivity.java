@@ -5,7 +5,10 @@ import org.json.JSONObject;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,8 +25,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ImageAdapter;
@@ -445,6 +450,18 @@ public class MainActivity extends MySuperScaler{
 					popup_view.getLayoutParams().width = 847;
 					MySuperScaler.scaleViewAndChildren(popup_view, MySuperScaler.scale);
 
+					final LinearLayout download_layout = (LinearLayout) dialog.findViewById(R.id.download_layout);
+					final SeekBar popup_progress = (SeekBar) dialog.findViewById(R.id.popup_progress);
+					final Button popup_cancel = (Button) dialog.findViewById(R.id.popup_cancel);
+					
+					ShapeDrawable thumb = new ShapeDrawable(new RectShape());
+				    thumb.getPaint().setColor(Color.rgb(0, 0, 0));
+				    thumb.setIntrinsicHeight(-80);
+				    thumb.setIntrinsicWidth(30);
+				    popup_progress.setThumb(thumb);
+				    popup_progress.setMax(100);
+				    popup_progress.setProgress(50);
+				    
 					Button popup_confirm = (Button) dialog.findViewById(R.id.popup_confirm);
 					final Button popup_reader1 = (Button) dialog.findViewById(R.id.popup_active_btn);
 					final Button popup_reader2 = (Button) dialog.findViewById(R.id.popup_inactive_btn);
@@ -465,6 +482,9 @@ public class MainActivity extends MySuperScaler{
 						@Override
 						public void onClick(View v) {
 
+							if(downloadManager.isDownloading())
+								return;
+							
 							popup_reader1.setBackgroundResource(R.drawable.popup_active_btn);
 							popup_reader2.setBackgroundResource(R.drawable.popup_inactive_btn);
 							
@@ -490,7 +510,7 @@ public class MainActivity extends MySuperScaler{
 							
 							if(downloadManager.initializeDownload())
 							{
-								// show cancel download
+								download_layout.setVisibility(View.VISIBLE);
 								dialog.setCancelable(false);
 							}
 //							Intent intent = new Intent(MainActivity.this, DownloadReceiter.class);
@@ -520,6 +540,36 @@ public class MainActivity extends MySuperScaler{
 									mTafseerManager.getLoggedInUser().setDefaultReciter(currentReceiter);
 									dialog.dismiss(); 
 								}
+								////////////////////// SET READER IN MYAPPLICATION //////////////////////////////////////////////////////////////////
+
+							}
+							case MotionEvent.ACTION_CANCEL: {
+								Button view = (Button) v;
+								view.getBackground().clearColorFilter();
+								view.invalidate();
+								break;
+							}
+							}
+							return true;
+						}
+					});
+					
+					popup_cancel.setOnTouchListener(new OnTouchListener() {
+
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							switch (event.getAction()) {
+							case MotionEvent.ACTION_DOWN: {
+								Button view = (Button) v;
+								view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+								v.invalidate();
+								break;
+							}
+							case MotionEvent.ACTION_UP: {						
+
+								downloadManager.cancelDownload();
+								download_layout.setVisibility(View.GONE);
+								dialog.setCancelable(true);
 								////////////////////// SET READER IN MYAPPLICATION //////////////////////////////////////////////////////////////////
 
 							}

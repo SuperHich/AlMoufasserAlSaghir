@@ -34,5 +34,37 @@
             android:layout_marginLeft="80px"
             android:background="@drawable/popup_confirm"
             />
-
+    
+    <LinearLayout
+        android:id="@+id/download_layout" 
+        android:layout_width="559px"
+        android:layout_height="52px"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@+id/popup_confirm"
+        android:layout_marginLeft="20px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="85px"
+        android:visibility="gone">
+        
+    <SeekBar  android:id="@+id/popup_progress"
+            android:layout_width="298px"
+            android:layout_height="26px"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/progressbar_download"
+            android:progressDrawable="@color/progress_color" />
+    
+    <Button 
+            android:id="@+id/popup_cancel"
+            android:layout_width="94px"
+            android:layout_height="39px"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/cancel_download"/>
+    
+    <ImageView 
+            android:id="@+id/popup_downloading"
+            android:layout_width="167px"
+            android:layout_height="52px"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/download_in_progress"/>
+	</LinearLayout>
 </RelativeLayout>
