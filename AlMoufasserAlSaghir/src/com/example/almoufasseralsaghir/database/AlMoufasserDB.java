@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import android.content.ContentValues;
@@ -11,10 +12,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.util.Log;
 
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
+import com.example.almoufasseralsaghir.entity.Answer;
 import com.example.almoufasseralsaghir.entity.PartFavourite;
+import com.example.almoufasseralsaghir.entity.Question;
 import com.example.almoufasseralsaghir.entity.Reminder;
 import com.example.almoufasseralsaghir.entity.User;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
@@ -861,5 +865,100 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		c.close();
 		return info.toString();
 	}
+	
+	//**************************** QUESTIONS & ANSWERS
+	
+	public ArrayList<Question> populateQuestions(int suraId, int partNb) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "com_qa";
+		
+		String whereClause;
+		String[] whereArgs;
+		String limit;
+		
+		if(suraId == 114){
+			whereClause = "cast(sura as int) >= ?";
+			whereArgs = new String[]{String.valueOf(suraId)};
+			limit = "1";
+		}else{
+			whereClause = "sura = ? AND part_number = ?";
+			whereArgs = new String[]{String.valueOf(suraId), String.valueOf(partNb)};
+			limit = null;
+			qb.setDistinct(true);
+		}
+
+		qb.setTables(sqlTables);
+
+		Cursor c = qb.query(db, null, whereClause, whereArgs, null, null, "RANDOM()", limit);
+
+		ArrayList<Question> questions = new ArrayList<Question>();
+		int i = 0;
+		if(c.moveToFirst()){
+			mTafseerManager.setAnswers(new LinkedHashMap<String, ArrayList<Answer>>());
+			int count = c.getCount();
+			do{
+				Question q = new Question();
+				
+				q.setID(i);
+				q.setQuestionID(c.getString(0));
+				q.setText(c.getString(3));
+				q.setStatus(false);
+				
+				Log.i("Question " + q.getQuestionID(), q.getText());
+				questions.add(q);
+				
+				populateAnswers(q.getQuestionID());
+				
+				i++;
+				
+			}while(c.moveToNext() && (i<count && count <= 4));
+			
+			mTafseerManager.setQuestions(questions);
+		}
+		
+		c.close();
+		
+		return questions;
+	}
+	
+	public ArrayList<Answer> populateAnswers(String questionID) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "com_an";
+		
+		String whereClause = "qid = ?";
+		String[] whereArgs = {questionID};
+		
+		qb.setTables(sqlTables);
+
+		Cursor c = qb.query(db, null, whereClause, whereArgs, null, null, null);
+
+		ArrayList<Answer> answers = new ArrayList<Answer>();
+		int i = 0;
+		if(c.moveToFirst()){
+			do{
+				Answer a = new Answer();
+				
+				a.setID(i);
+				a.setAnswerID(c.getString(1));
+				a.setText(c.getString(3));
+				a.setStatus(c.getString(4).equals("1") ? true:false);
+				
+				Log.e("Answers " + a.getAnswerID(), a.getText());
+				answers.add(a);
+				i++;
+			}while(c.moveToNext());
+			
+			mTafseerManager.getAnswers().put(questionID, answers);
+		}
+		
+		c.close();
+		
+		return answers;
+	}
+
 
 }

@@ -55,10 +55,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	private GridView calendarView;
 	private CalendarAdapter adapter;
 	private Calendar _calendar;
-	@SuppressLint("NewApi")
 	private int month, year;
-	@SuppressWarnings("unused")
-	private final DateFormat dateFormatter = new DateFormat();
 	private static final String dateTemplate = "MMMM yyyy";
 
 	public static final int REMINDER_LEARN = 1;
@@ -68,10 +65,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	private FontFitTextView myDay, myMonth, myYear ;
 	private String myNumericMonth;
 	private Button previous ;
-	
-	private boolean reminder_active ;
-	
-	String myhour, myminute ;
+	private String myhour, myminute ;
 	
 	private int suraId, partNb;
 	private Reminder currentReminder = new Reminder();

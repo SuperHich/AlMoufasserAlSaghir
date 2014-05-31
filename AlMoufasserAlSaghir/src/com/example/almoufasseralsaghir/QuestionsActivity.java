@@ -1,5 +1,8 @@
 package com.example.almoufasseralsaghir;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -15,6 +18,8 @@ import android.widget.RelativeLayout;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
+import com.example.almoufasseralsaghir.entity.Answer;
+import com.example.almoufasseralsaghir.entity.Question;
 
 public class QuestionsActivity extends MySuperScaler {
 
@@ -30,11 +35,25 @@ public class QuestionsActivity extends MySuperScaler {
 	private boolean format_3 = false;
 	private boolean answer ;
 	
+	private int suraId, partNb;
+	
+	private ArrayList<Question> questions = new ArrayList<Question>();
+	private LinkedHashMap<String, ArrayList<Answer>> answers;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.questions_screen);
 		
+		if(getIntent().getExtras() != null){
+			suraId = getIntent().getExtras().getInt("suraId");
+			partNb = getIntent().getExtras().getInt("partNb");
+			
+			myDB.populateQuestions(suraId, partNb+1);
+			
+			questions.addAll(mTafseerManager.getQuestions());
+			answers = new LinkedHashMap<String, ArrayList<Answer>>(mTafseerManager.getAnswers());
+		}
 		
 		info = (Button) findViewById(R.id.questions_info);
 		favourites = (Button) findViewById(R.id.questions_favourites);

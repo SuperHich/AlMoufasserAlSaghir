@@ -1,6 +1,7 @@
 package com.almoufasseralsaghir.external;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,6 +17,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
+import com.example.almoufasseralsaghir.entity.Answer;
+import com.example.almoufasseralsaghir.entity.Question;
 import com.example.almoufasseralsaghir.entity.Sura;
 import com.example.almoufasseralsaghir.entity.User;
 
@@ -61,6 +64,9 @@ public class TafseerManager {
 	private ArrayList<String> ayaAudioFileNames = new ArrayList<String>();
 	private int numberOfTracks = 0;
 	private String partText;
+	
+	private ArrayList<Question> questions = new ArrayList<Question>();
+	private LinkedHashMap<String, ArrayList<Answer>> answers = new LinkedHashMap<String, ArrayList<Answer>>();
 	
 	private User loggedInUser = new User();
 	
@@ -275,7 +281,7 @@ public class TafseerManager {
 	}
 	
 	public int getCurrentSuraPart(){
-		return settings.getInt("suraPart", 0);
+		return settings.getInt("suraPart", 1);
 	}
 
 	public void showPopUp(Context context, int message) {
@@ -479,5 +485,21 @@ public class TafseerManager {
 
 	public void setPartText(String partText) {
 		this.partText = partText;
+	}
+
+	public ArrayList<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(ArrayList<Question> questions) {
+		this.questions = questions;
+	}
+
+	public LinkedHashMap<String, ArrayList<Answer>> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(LinkedHashMap<String, ArrayList<Answer>> answers) {
+		this.answers = answers;
 	}
 }

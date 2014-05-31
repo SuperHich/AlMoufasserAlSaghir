@@ -83,8 +83,9 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 	        public boolean shouldOverrideUrlLoading(WebView view, String url) { 
 	        	
 	        	Log.e("webView Clicked ", url);
-	        	populateSelectedAya(url);
-	        	HighLightPlayingAya(trackID);
+	        	if(!populateSelectedAya(url))
+	        		return true;
+	        	
 	        	AyaDialog dialog = new AyaDialog(EyetPlayerActivity.this);
 	        	dialog.show();
 	        	
@@ -92,8 +93,6 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 	        	play_eya.getBackground().clearColorFilter();
 	        	play_eya.setBackgroundResource(R.drawable.play_eya);
 	        	AyaDialog.eya_dialog_play.getBackground().clearColorFilter();
-	        	
-	        	playingTrack = trackID;
 	        	
 	        	return true;
 	        } 
@@ -233,7 +232,8 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		    	  if(playingTrack + 1 <= mTafseerManager.getNumberOfTracks())
 		    	  {
 		    		  playingTrack += 1;
-		    	  		preparePlayer(playingTrack);
+		    		  preparePlayer(playingTrack);
+		    		  play_eya.setBackgroundResource(R.drawable.pause_eya);
 		    	  }
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -265,6 +265,7 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		    	  if(playingTrack - 1 >= 0){
 		    		  playingTrack -= 1;  
 		    		  preparePlayer(playingTrack);
+		    		  play_eya.setBackgroundResource(R.drawable.pause_eya);
 		    	  }
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -414,8 +415,11 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		eyet_webview.loadUrl("javascript:$('a').css('background-color','');");
 	}
 	
-	private void populateSelectedAya(String response){
+	private boolean populateSelectedAya(String response){
 	//  "file:///android_asset/local?SuraID=50&AyaID=4&TrackID=4"
+		
+		if(!response.contains("&"))
+			return false;
 	  response = response.substring(28, response.length());
 	  Log.i("response ", response);
 	  String[] splitResponse = response.split("&");
@@ -431,6 +435,8 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
   		ayat.get(trackID);
   	
 	  Log.i("track Name********", ayat.get(trackID)); 
+	  
+	  return true;
 	 }
 
 	@Override
@@ -441,14 +447,14 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 			
 			if(repetition_mode){
 				if(repetitions_aya_nbr > 0){
-					preparePlayer(trackID);
+					prepareDialogPlayer(trackID);
 					repetitions_aya_nbr-- ;
 					AyaDialog.eya_dialog_repetitions.setText(String.valueOf(EyetPlayerActivity.repetitions_aya_nbr));
 
 				}else {
 					AyaDialog.eya_dialog_play.setBackgroundResource(R.drawable.play_eya);
 					AyaDialog.eya_dialog_play.getBackground().clearColorFilter();
-					}
+				}
 			}else{
 				playingTrack++;
 				preparePlayer(playingTrack);
@@ -467,6 +473,13 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 			
 		}
 
+	}
+	
+	public void prepareDialogPlayer(int playingTrack){
+		String song = mPlayer.formatAssetSong(mTafseerManager.getAyaAudioFileNames().get(playingTrack));
+		mPlayer.playWithCompletion(song);
+		
+		Log.i("MY SONG PATH", song);
 	}
 	
 	public void preparePlayer(int playingTrack){

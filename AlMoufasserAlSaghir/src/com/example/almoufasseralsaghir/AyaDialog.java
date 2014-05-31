@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
-import android.text.Html;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -274,7 +272,7 @@ public class AyaDialog extends Dialog{
 					
 					if (!((EyetPlayerActivity) mcontext).mPlayer.isPlaying()){
 						eya_dialog_play.setBackgroundResource(R.drawable.pause_eya);	
-						((EyetPlayerActivity) mcontext).preparePlayer(EyetPlayerActivity.trackID);
+						((EyetPlayerActivity) mcontext).prepareDialogPlayer(EyetPlayerActivity.trackID);
 
 					} else {
 						((EyetPlayerActivity) mcontext).mPlayer.stop();
@@ -440,18 +438,9 @@ public class AyaDialog extends Dialog{
 				}
 				case MotionEvent.ACTION_UP: {
 					if (isEntry) {
-						
-						if((!((EyetPlayerActivity) mcontext).mPlayer.isPlaying())){
-							((EyetPlayerActivity) mcontext).play_eya.getBackground().clearColorFilter();
-							((EyetPlayerActivity) mcontext).play_eya.setBackgroundResource(R.drawable.play_eya);
-						}else {
-							((EyetPlayerActivity) mcontext).play_eya.getBackground().clearColorFilter();
-							((EyetPlayerActivity) mcontext).play_eya.setBackgroundResource(R.drawable.pause_eya);
-						}
-						((EyetPlayerActivity) mcontext).repetition_mode = false ;
 						dismiss();
 					}
-					
+					else 
 					
 					if (isMofradat || isMaana){
 						all_buttons.setVisibility(View.VISIBLE);
@@ -477,6 +466,13 @@ public class AyaDialog extends Dialog{
 			}
 		});
 
+	}
+	
+	@Override
+	public void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		((EyetPlayerActivity) mcontext).mPlayer.stop();
+		((EyetPlayerActivity) mcontext).repetition_mode = false ;
 	}
 
 	private void toggleFavourite(boolean isFav){

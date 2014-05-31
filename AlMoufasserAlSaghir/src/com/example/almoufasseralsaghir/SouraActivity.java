@@ -115,7 +115,7 @@ public class SouraActivity extends MySuperScaler {
 		
 		partsNumber = myDB.getPartNumber(currentSura.getSuraId());
 		
-		int currentPart = mTafseerManager.getCurrentSuraPart() + 1 ;
+		int currentPart = mTafseerManager.getCurrentSuraPart() ;
 		
 		int drawablepartId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+currentPart, "drawable", SouraActivity.this.getPackageName());
         soura_part_num.setBackgroundResource(drawablepartId);
@@ -202,7 +202,7 @@ public class SouraActivity extends MySuperScaler {
 //				    	  RelativeLayout soura_part_layout = (RelativeLayout) inflatedView.findViewById(R.id.soura_part_layout);
 //				    	  SanabilActivity.scaleViewAndChildren( soura_part_layout, SanabilActivity.scale);
 				    	  
-				    	  mySouraParts.setCurrentItem(mTafseerManager.getCurrentSuraPart());
+				    	  mySouraParts.setCurrentItem(mTafseerManager.getCurrentSuraPart()-1);
 				    	  
 				    	  mySouraParts.addScrollingListener( new OnWheelScrollListener() {
 				              public void onScrollingStarted(WheelView wheel) {
@@ -234,7 +234,7 @@ public class SouraActivity extends MySuperScaler {
 				    		      }
 				    		      case MotionEvent.ACTION_UP: {
 				    		    	  
-				    		    	  mTafseerManager.setCurrentSuraPart(mySouraParts.getCurrentItem());
+				    		    	  mTafseerManager.setCurrentSuraPart(mySouraParts.getCurrentItem()+1);
 				    		    	  dialog.dismiss();
 				    		    	  objectAnimator.reverse();
 				    		    	  
@@ -297,6 +297,8 @@ public class SouraActivity extends MySuperScaler {
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
 		    	  Intent in = new Intent(SouraActivity.this, QuestionsActivity.class);
+		    	  in.putExtra("suraId", currentSura.getSuraId());
+		    	  in.putExtra("partNb", mTafseerManager.getCurrentSuraPart());
 					startActivity(in);
 					Utils.animateFad(SouraActivity.this);
 		    	  
@@ -389,7 +391,7 @@ public class SouraActivity extends MySuperScaler {
 
 							
 //							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
-							String data = myDB.getPartsMoustafad(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
+							String data = myDB.getPartsMoustafad(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()));
 							
 
 							return data;
@@ -498,9 +500,9 @@ public class SouraActivity extends MySuperScaler {
 						@Override
 						protected String doInBackground(Void... params) {
 
-							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
+//							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
 							
-							String data = myDB.getPartsInfo(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()+1));
+							String data = myDB.getPartsInfo(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()));
 							Log.i("maana_content", data);
 
 							return data;
