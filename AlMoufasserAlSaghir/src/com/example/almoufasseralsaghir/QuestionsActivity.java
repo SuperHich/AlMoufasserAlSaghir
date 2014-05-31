@@ -3,14 +3,24 @@ package com.example.almoufasseralsaghir;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,9 +31,18 @@ import com.almoufasseralsaghir.utils.Utils;
 import com.example.almoufasseralsaghir.entity.Answer;
 import com.example.almoufasseralsaghir.entity.Question;
 
+
 public class QuestionsActivity extends MySuperScaler {
 
 	private Button info, favourites, previous, home ;
+	public  MediaPlayer mp;
+	private ImageView  indication;
+	private AnimationSet animation;
+	Activity act;
+	ClipData data;
+	private static final long active = 2000;
+	private static final int STOP = 0;
+	
 	
 	private RelativeLayout myQuestionsBackground, results_format_3, results_format_4 ;
 	private FontFitTextView answer_1, answer_2, answer_3, question ;
@@ -39,6 +58,8 @@ public class QuestionsActivity extends MySuperScaler {
 	
 	private ArrayList<Question> questions = new ArrayList<Question>();
 	private LinkedHashMap<String, ArrayList<Answer>> answers;
+	private Question currentQuestion;
+	private ArrayList<Answer> currentAnswers = new ArrayList<Answer>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +75,8 @@ public class QuestionsActivity extends MySuperScaler {
 			questions.addAll(mTafseerManager.getQuestions());
 			answers = new LinkedHashMap<String, ArrayList<Answer>>(mTafseerManager.getAnswers());
 		}
+		
+		
 		
 		info = (Button) findViewById(R.id.questions_info);
 		favourites = (Button) findViewById(R.id.questions_favourites);
@@ -83,6 +106,22 @@ public class QuestionsActivity extends MySuperScaler {
 		result_2_format_4 = (ImageView) findViewById(R.id.result_2_format_4);
 		result_1_format_4 = (ImageView) findViewById(R.id.result_1_format_4);
 		
+		indication = (ImageView) findViewById(R.id.indication);
+		
+		Animation fadeIn = new AlphaAnimation(0, 1);
+		fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+		fadeIn.setDuration(1000);
+
+		Animation fadeOut = new AlphaAnimation(1, 0);
+		fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+		fadeOut.setStartOffset(2500);//3500
+		fadeOut.setDuration(1000);
+
+		animation = new AnimationSet(true); //change to false
+		animation.addAnimation(fadeIn);
+		animation.addAnimation(fadeOut);
+		
+		prepareQuestion();
 		
 		selectformat();
 		
@@ -93,20 +132,15 @@ public class QuestionsActivity extends MySuperScaler {
 				 if (format_3){
 			    	  if (answers_nbr <3) 
 			    	  {
-			    	   answers_nbr++ ;
-			    	  answer = false ;
-			    	  indicatePlay(answer);
+			    		  answerTreatment(0);
 			    	  }
 		    	  }
 		    	  if (format_4){
 			    	  if (answers_nbr <4) 
 			    	  {
-			    	   answers_nbr++ ;
-			    	  answer = false ;
-			    	  indicatePlay(answer);
+			    		  answerTreatment(0);
 			    	  }
 			       }	
-				
 			}
 		});
 		answer_2.setOnClickListener(new OnClickListener() {
@@ -116,20 +150,15 @@ public class QuestionsActivity extends MySuperScaler {
 				 if (format_3){
 			    	  if (answers_nbr <3) 
 			    	  {
-			    	   answers_nbr++ ;
-			    	  answer = false ;
-			    	  indicatePlay(answer);
+			    		  answerTreatment(1);
 			    	  }
 		    	  }
 		    	  if (format_4){
 			    	  if (answers_nbr <4) 
 			    	  {
-			    	   answers_nbr++ ;
-			    	  answer = false ;
-			    	  indicatePlay(answer);
+			    		  answerTreatment(1);
 			    	  }
 			       }
-				
 			}
 		});
 		answer_3.setOnClickListener(new OnClickListener() {
@@ -137,21 +166,17 @@ public class QuestionsActivity extends MySuperScaler {
 			public void onClick(View v) {
 
 				if (format_3){
-			    	  if (answers_nbr <3) 
-			    	  {
-			    	   answers_nbr++ ;
-			    	  answer = true ;
-			    	  indicatePlay(answer);
-			    	  }
-		    	  }
-		    	  if (format_4){
-			    	  if (answers_nbr <4) 
-			    	  {
-			    	   answers_nbr++ ;
-			    	  answer = true ;
-			    	  indicatePlay(answer);
-			    	  }
-			       }	
+					if (answers_nbr <3) 
+					{
+						answerTreatment(2);
+					}
+				}
+				if (format_4){
+					if (answers_nbr <4) 
+					{
+						answerTreatment(2);
+					}
+				}	
 				
 			}
 		});
@@ -308,18 +333,89 @@ public class QuestionsActivity extends MySuperScaler {
 	
 	private void selectformat(){
 		
-	//	if( format 3)
+		if( format_3 && !format_4){
 		myQuestionsBackground.setBackgroundResource(R.drawable.questions_bg_format_3);
 		format_3 = true ; format_4 = false ;
 		results_format_3.setVisibility(View.VISIBLE);
 		results_format_4.setVisibility(View.GONE);
+		}
+		else	
+		{
+		myQuestionsBackground.setBackgroundResource(R.drawable.questions_bg_format_4);
+		format_4 = true ; format_3 = false ;
+		results_format_3.setVisibility(View.GONE);
+		results_format_4.setVisibility(View.VISIBLE);
+		}
+	}
 	
-		//	else	
+	private void prepareQuestion(){
 		
-//		myQuestionsBackground.setBackgroundResource(R.drawable.questions_bg_format_4);
-//		format_4 = true ; format_3 = false ;
-//		results_format_3.setVisibility(View.GONE);
-//		results_format_4.setVisibility(View.VISIBLE);
+		if(questions.size()>2) { format_4 = true ; format_3 = false ; }
+		else {format_4 = false ; format_3 = true ;}
+		
+		if (questions.get(answers_nbr) != null) {
+			
+		currentQuestion = questions.get(answers_nbr);
+		currentAnswers.clear();
+		currentAnswers.addAll(answers.get(currentQuestion.getQuestionID()));
+		
+		Log.i("FORMAT", String.valueOf(questions.size()));
+		
+		question.setText(currentQuestion.getText());
+		
+		answer_1.setText(currentAnswers.get(0).getText());
+		answer_2.setText(currentAnswers.get(1).getText());
+		answer_3.setText(currentAnswers.get(2).getText());
+		}
+	
+	}
+	
+	
+	private void answerTreatment(int i){
+		
+		answers_nbr++ ;
+		answer = currentAnswers.get(i).isStatus();
+		indicatePlay(answer);
+		
+		if (answer){
+			if(mp != null) mp.release();
+			mp = MediaPlayer
+					.create(this, R.raw.success_answer);
+			mp.start();	
+			
+			indication.setBackgroundResource(R.drawable.success);
+			indication.setVisibility(View.VISIBLE);
+			indication.startAnimation(animation);
+			indication.setVisibility(View.INVISIBLE);
+			
+			mp.setOnCompletionListener(new OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+
+					prepareQuestion() ;
+				}
+			});
+
+		} else {
+
+			if(mp != null) mp.release();
+			mp = MediaPlayer
+					.create(this, R.raw.fail_answer);
+			mp.start();	
+			indication.setBackgroundResource(R.drawable.fail);
+			indication.setVisibility(View.VISIBLE);
+			indication.startAnimation(animation);
+			indication.setVisibility(View.INVISIBLE);
+			
+			mp.setOnCompletionListener(new OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+
+					prepareQuestion() ;
+				}
+			});
+		}
+		
 	}
 	
 }
