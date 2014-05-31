@@ -51,7 +51,7 @@
             android:layout_height="26px"
             android:layout_gravity="center_vertical"
             android:background="@drawable/progressbar_download"
-            android:progressDrawable="@color/progress_color" />
+            android:progressDrawable="@drawable/seek_bar_steps" />
     
     <Button 
             android:id="@+id/popup_cancel"
