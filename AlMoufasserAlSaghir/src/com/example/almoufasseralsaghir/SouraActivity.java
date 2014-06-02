@@ -197,10 +197,6 @@ public class SouraActivity extends MySuperScaler {
 				    	  mySouraParts.setVisibleItems(3);
 				    	  mySouraParts.setViewAdapter(new MyWheelAdapter(SouraActivity.this, getPartsDrawable(partsNumber)));  
 				    	  
-//				    	  View inflatedView = dialog.getLayoutInflater().inflate(R.layout.s_part_layout, null);
-//				    	  
-//				    	  RelativeLayout soura_part_layout = (RelativeLayout) inflatedView.findViewById(R.id.soura_part_layout);
-//				    	  SanabilActivity.scaleViewAndChildren( soura_part_layout, SanabilActivity.scale);
 				    	  
 				    	  mySouraParts.setCurrentItem(mTafseerManager.getCurrentSuraPart()-1);
 				    	  
@@ -274,9 +270,6 @@ public class SouraActivity extends MySuperScaler {
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		if (!mTafseerManager.getLoggedInUser().isLoggedIn()){
-//			questions.getBackground().setColorFilter(0x77d0d0d0, PorterDuff.Mode.SRC_ATOP);
-//		}
 		myDB.populateQuestions(currentSura.getSuraId(), currentPart);
 		
 		if (!myDB.whoIsLoggedIn().isLoggedIn() || mTafseerManager.getQuestions().isEmpty()){
@@ -356,7 +349,6 @@ public class SouraActivity extends MySuperScaler {
 		
 		mostafad.setOnTouchListener(new OnTouchListener() {
 			
-			@SuppressWarnings("deprecation")
 			@Override
 		    public boolean onTouch(View v, MotionEvent event) {
 		      switch (event.getAction()) {
@@ -382,19 +374,13 @@ public class SouraActivity extends MySuperScaler {
 ///////////////////   MOSTAFAD CONTENT //////////////////////////////////////////////////////////////////		    	  
 		    	  mostafad_content = (WebView) dialog.findViewById(R.id.mostafad_content);
 		    	  mostafad_content.setBackgroundColor(0x00000000);
-//		    	  mostafad_content.getSettings().setJavaScriptEnabled(true);
-//		    	  WebSettings webSettings = mostafad_content.getSettings();
-//		    	  webSettings.setTextSize(WebSettings.TextSize.LARGER);
 		    	  
 		    	  new AsyncTask<Void, String, String>() {
 
 						@Override
 						protected String doInBackground(Void... params) {
-
 							
-//							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
 							String data = myDB.getPartsMoustafad(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()));
-							
 
 							return data;
 						}
@@ -494,16 +480,12 @@ public class SouraActivity extends MySuperScaler {
 ///////////////////   MAANA CONTENT //////////////////////////////////////////////////////////////////		    	  
 		    	  maana_content = (WebView) dialog.findViewById(R.id.maana_content);
 		    	  maana_content.setBackgroundColor(0x00000000);
-//		    	  WebSettings webSettings = maana_content.getSettings();
-//		    	  webSettings.setTextSize(WebSettings.TextSize.LARGER);
 		    	  
 		    	  new AsyncTask<Void, String, String>() {
 
 						@Override
 						protected String doInBackground(Void... params) {
 
-//							Log.i("mostafad_content", currentSura.getSuraId() + " ... " + (mTafseerManager.getCurrentSuraPart()+1));
-							
 							String data = myDB.getPartsInfo(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()));
 							Log.i("maana_content", data);
 
@@ -589,7 +571,6 @@ public class SouraActivity extends MySuperScaler {
 		          break;
 		      }
 		      case MotionEvent.ACTION_UP: {
-		    	// Your action here on button click
 					
 		    	  Intent intent = new Intent(SouraActivity.this, EyetPlayerActivity.class);
 		    	  intent.putExtra("suraId", currentSura.getSuraId());
@@ -623,7 +604,7 @@ public class SouraActivity extends MySuperScaler {
 		          break;
 		      }
 		      case MotionEvent.ACTION_UP: {
-		    	// Your action here on button click
+
 		    	  startActivity(new Intent(SouraActivity.this, HomeLoggedIn.class));
 					Utils.animateFad(SouraActivity.this);
 					finish();

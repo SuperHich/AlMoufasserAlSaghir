@@ -16,7 +16,6 @@ import android.util.Log;
 public class AlMoufasserDownloadManager {
 	
 	final static String URL_FILE = "http://islam.ws/tafseer/basfar.zip";
-//	final static String URL_FILE = "https://sites.google.com/site/compiletimeerrorcom/android-programming/CameraApp.rar";
 
 	private static final String TAG = null;
 	private static AlMoufasserDownloadManager mInstance;
@@ -29,7 +28,6 @@ public class AlMoufasserDownloadManager {
 	
 	private ProgressThread progressThread;
 	private DecompressAsynck decompressAsync;
-	private ZipManager zipManager = new ZipManager();
 	
 	String thePath;
 	String zipFile;
@@ -244,7 +242,6 @@ public class AlMoufasserDownloadManager {
 	                try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	            }

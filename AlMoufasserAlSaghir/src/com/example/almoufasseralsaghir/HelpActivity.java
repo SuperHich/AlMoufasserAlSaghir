@@ -10,14 +10,11 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.almoufasseralsaghir.utils.ConfirmationDialog;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.example.almoufasseralsaghir.pager.HelpFragmentAdapter;
 
 public class HelpActivity extends MySuperScaler {
 
-	private ConfirmationDialog exitDialog ;
-	
 	private Button previous ;
 	private HelpFragmentAdapter mAdapter;
 	private ViewPager mPager;

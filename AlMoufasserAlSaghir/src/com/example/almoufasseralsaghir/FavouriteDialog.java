@@ -81,8 +81,6 @@ public class FavouriteDialog extends Dialog {
 		});
   	  
   	  
-  	  
-  	  Button set_fav = (Button) findViewById(R.id.set_favorite);
   	  fav_list = (ListView) findViewById(R.id.favourites_listView);
   	  fav_list.setDivider(null);
   	  
@@ -152,7 +150,6 @@ public class FavouriteDialog extends Dialog {
 		protected int DELETE_POS = -1;
 
 		public MyAdapter(ArrayList<PartFavourite> list) {
-			// TODO Auto-generated constructor stub
 			m_List = list;
 		}
 
@@ -168,7 +165,6 @@ public class FavouriteDialog extends Dialog {
 		}
 
 		public void onSwipeItem(boolean isRight, int position) {
-			// TODO Auto-generated method stub
 			if (isRight == false) {
 				DELETE_POS = position;
 			} else if (DELETE_POS == position) {
@@ -187,26 +183,22 @@ public class FavouriteDialog extends Dialog {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return m_List.size();
 		}
 
 		@Override
 		public PartFavourite getItem(int position) {
-			// TODO Auto-generated method stub
 			return m_List.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
-			// TODO Auto-generated method stub
 			if (convertView == null) {
 				convertView = LayoutInflater.from(context).inflate(
 						R.layout.favourite_list_row, null);

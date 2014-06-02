@@ -9,14 +9,11 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 
-import com.almoufasseralsaghir.utils.ConfirmationDialog;
-import com.almoufasseralsaghir.utils.IClickCustomListener;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 
 public class InfoActivity extends MySuperScaler  {
 
 	private Button previous, more_apps, help ;
-	private ConfirmationDialog exitDialog ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -40,8 +40,6 @@ public class QuestionsActivity extends MySuperScaler {
 	private AnimationSet animation;
 	Activity act;
 	ClipData data;
-	private static final long active = 2000;
-	private static final int STOP = 0;
 	
 	
 	private RelativeLayout myQuestionsBackground, results_format_3, results_format_4 ;
