@@ -43,7 +43,8 @@ import com.example.almoufasseralsaghir.entity.ReminderListItem;
 @SuppressLint("SimpleDateFormat")
 public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	private ImageView herbes, cal_compl ;
-//	private CalendarView myCalendar ;
+	
+	private String month_arabe ;
 	
 	public static String[] day_color ;
 	
@@ -138,7 +139,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 				+ year);
 
     	int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month)), "string", CalendarActivity.this.getPackageName());
-    	String month_arabe = CalendarActivity.this.getResources().getString(resourceId);
+    	month_arabe = CalendarActivity.this.getResources().getString(resourceId);
 		
 		myDay.setText(String.valueOf(_calendar.get(Calendar.DAY_OF_MONTH)));
     	myYear.setText(String.valueOf(year));
@@ -148,9 +149,16 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		prevMonth.setOnClickListener(this);
 
 		currentMonth = (FontFitTextView) this.findViewById(R.id.currentMonth);
-		currentMonth.setText(DateFormat.format(dateTemplate,
-				_calendar.getTime()));
+		
+///////////////////////////////////////////////////////////////////////////////////////////////////////		
+		
+		
+		currentMonth.setText(month_arabe+" "+String.valueOf(year));
 
+		Log.i("come here", (String) DateFormat.format(dateTemplate,_calendar.getTime()));
+		
+/////////////////////////////////////////////////////////////////////////////////////////////////////////		
+		
 		nextMonth = (ImageView) this.findViewById(R.id.nextMonth);
 		nextMonth.setOnClickListener(this);
 
@@ -199,38 +207,6 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 				//////////////////////////////////////////////////////////////////////////////////////////////				 
 			}
 		});
-		
-		
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
-//		myCalendar = (CalendarView) findViewById(R.id.my_calendar);
-//		myDay = (FontFitTextView) findViewById(R.id.selected_day);
-//		myMonth = (FontFitTextView) findViewById(R.id.selected_month);
-//		myYear = (FontFitTextView) findViewById(R.id.selected_year);
-//		
-//		myCalendar.setMinDate(01/01/2013);
-//		
-//		customizeCalendarHeader();
-//		
-//		
-////	Toast.makeText(CalendarActivity.this, String.valueOf(myCalendar.getDate()), Toast.LENGTH_LONG).show();
-////		Log.i("DATE***************", String.valueOf(myCalendar.getDate()));
-////		
-//		myCalendar.setOnDateChangeListener(new OnDateChangeListener() {
-//
-//            @Override
-//            public void onSelectedDayChange(CalendarView view, int year, int month,
-//                    int dayOfMonth) {
-//            	
-//            	int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month+1)), "string", CalendarActivity.this.getPackageName());
-//            	String month_arabe = CalendarActivity.this.getResources().getString(resourceId);
-//            	
-//            	myDay.setText(String.valueOf(dayOfMonth));
-//            	myYear.setText(String.valueOf(year));
-//            	myMonth.setText(month_arabe);
-//            	
-//            }
-//        });
-		
 		
 		
 
@@ -296,8 +272,11 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		adapter = new CalendarAdapter(getApplicationContext(),
 				R.id.calendar_day_gridcell, month, year);
 		_calendar.set(year, month - 1, _calendar.get(Calendar.DAY_OF_MONTH));
-		currentMonth.setText(DateFormat.format(dateTemplate,
-				_calendar.getTime()));
+		
+		int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month)), "string", CalendarActivity.this.getPackageName());
+    	String up_month_arabe = CalendarActivity.this.getResources().getString(resourceId);
+		
+		currentMonth.setText(up_month_arabe+" "+String.valueOf(year));
 		adapter.notifyDataSetChanged();
 		calendarView.setAdapter(adapter);
 	}
@@ -348,6 +327,8 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		private static final int DAY_OFFSET = 1;
 		private final String[] weekdays = new String[] { "Sun", "Mon", "Tue",
 				"Wed", "Thu", "Fri", "Sat" };
+		
+		
 		private final String[] months = { "January", "February", "March",
 				"April", "May", "June", "July", "August", "September",
 				"October", "November", "December" };
@@ -1062,13 +1043,6 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	}
 	
 	private void fillTimeList(){
-//		 final String[] time1 = {
-//			      "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00"
-//			  } ;
-//			  final String[] time2 = {
-//				  "08:00","09:00","10:00", "11:00", "12:00", "13:00","14:00", "15:00", 
-//				  "16:00", "17:00", "18:00","19:00", "20:00","21:00","22:00", "23:00",
-//			  };
 			  
 			  time1.add(new ReminderListItem("00:00", isTimeSelected("00:00", currentReminder.getTime())));
 			  time1.add(new ReminderListItem("01:00", isTimeSelected("01:00", currentReminder.getTime())));
