@@ -36,8 +36,8 @@ import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.database.AlMoufasserDownloadManager;
 import com.example.almoufasseralsaghir.database.DownloadNotifier;
+import com.example.almoufasseralsaghir.database.ReceiterDownloadManager;
 import com.example.almoufasseralsaghir.entity.User;
 
 
@@ -59,8 +59,10 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 	public static boolean first_entry = true;
 	private String currentReceiter = "1";
 	
-	private AlMoufasserDownloadManager downloadManager;
+	private ReceiterDownloadManager downloadManager;
 	private Dialog dialog;
+	
+	public static boolean play_welcomer = false ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		downloadManager = new AlMoufasserDownloadManager(MainActivity.this);
+		downloadManager = new ReceiterDownloadManager(MainActivity.this);
 
 		herbes = (ImageView) findViewById(R.id.herbes);
 		welcomer = (ImageView) findViewById(R.id.welcomer);
@@ -107,36 +109,38 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 			register_interface.setVisibility(View.INVISIBLE);
 			logged_in_interface.setVisibility(View.INVISIBLE);
 
+			if (play_welcomer){
+
 				welcome_mp = new MediaPlayer();
 				welcome_mp = MediaPlayer.create(this, R.raw.welcome_msg_1);
 				welcome_mp.start();
 
-			new CountDownTimer(4000, 60) {
+				new CountDownTimer(4000, 60) {
 
-				public void onTick(long millisUntilFinished) {
+					public void onTick(long millisUntilFinished) {
 
-					if (i == 6) i = 0;
+						if (i == 6) i = 0;
 
-					switch (i)  {
-					case 0 : welcomer.setBackgroundResource(R.drawable.welcomer_1_modified);
-					break ;
-					case 1 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
-					break ;
-					case 2 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
-					break ;
-					case 3 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
-					break ;
-					case 4 : welcomer.setBackgroundResource(R.drawable.welcomer_3_modified);
-					break ;
-					case 5 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
-					break ;
+						switch (i)  {
+						case 0 : welcomer.setBackgroundResource(R.drawable.welcomer_1_modified);
+						break ;
+						case 1 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+						break ;
+						case 2 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+						break ;
+						case 3 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+						break ;
+						case 4 : welcomer.setBackgroundResource(R.drawable.welcomer_3_modified);
+						break ;
+						case 5 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+						break ;
+						}
+						i++ ;
 					}
-					i++ ;
-				}
-				public void onFinish() {
-					welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
-				}
-			}.start();
+					public void onFinish() {
+						welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+					}
+				}.start();
 
 
 				welcome_mp.setOnCompletionListener(new OnCompletionListener() {
@@ -147,36 +151,36 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 						welcome_mp.start();
 						i = 0 ;
 						new CountDownTimer(4000, 60) {
-			
-						     public void onTick(long millisUntilFinished) {
-						    	
-						    	 if (i == 6) i = 0;
-						    	 
-						    	 switch (i)  {
-						    	 case 0 : welcomer.setBackgroundResource(R.drawable.welcomer_1_modified);
-						    		 break ;
-						    	 case 1 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
-						    		 break ;
-						    	 case 2 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
-						    		 break ;
-						    	 case 3 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
-						    		 break ;
-						    	 case 4 : welcomer.setBackgroundResource(R.drawable.welcomer_3_modified);
-					    		 	 break ;
-						    	 case 5 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
-					    		   	 break ;
-						    	 }
-						    	 i++ ;
-						     }
-			
-						     public void onFinish() {
-						     welcomer.setBackgroundResource(R.drawable.welcomer);
-						     }
-						  }.start();
-						
+
+							public void onTick(long millisUntilFinished) {
+
+								if (i == 6) i = 0;
+
+								switch (i)  {
+								case 0 : welcomer.setBackgroundResource(R.drawable.welcomer_1_modified);
+								break ;
+								case 1 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+								break ;
+								case 2 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+								break ;
+								case 3 : welcomer.setBackgroundResource(R.drawable.welcomer_4_modified);
+								break ;
+								case 4 : welcomer.setBackgroundResource(R.drawable.welcomer_3_modified);
+								break ;
+								case 5 : welcomer.setBackgroundResource(R.drawable.welcomer_2_modified);
+								break ;
+								}
+								i++ ;
+							}
+
+							public void onFinish() {
+								welcomer.setBackgroundResource(R.drawable.welcomer);
+							}
+						}.start();
+
 					}
 				});
-
+			}
 
 
 		} else {
@@ -194,7 +198,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 				register_interface.setVisibility(View.INVISIBLE);
 				logged_in_interface.setVisibility(View.INVISIBLE);
 			}
-			
+
 		}
 
 		///////////////FIRST HEADER VIEW : ENTER/////////////////////////////////////////////////////////
@@ -466,7 +470,6 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 				    thumb.setIntrinsicWidth(30);
 				    popup_progress.setThumb(thumb);
 				    popup_progress.setMax(100);
-//				    popup_progress.setProgress(50);
 				    
 					Button popup_confirm = (Button) dialog.findViewById(R.id.popup_confirm);
 					final Button popup_reader1 = (Button) dialog.findViewById(R.id.popup_active_btn);

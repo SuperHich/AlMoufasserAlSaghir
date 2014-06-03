@@ -1,9 +1,49 @@
-<RelativeLayout
-       xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="1422px"
-        android:layout_height="800px"
-        android:layout_gravity="center" 
-        android:background="@drawable/splashhome">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1422px"
+    android:layout_height="800px"
+    android:layout_gravity="center"
+    android:background="@drawable/splashhome" >
 
+    <RelativeLayout
+        android:id="@+id/downloaderLayout"
+        android:layout_width="300px"
+        android:layout_height="100px"
+        android:layout_marginLeft="360px"
+        android:layout_marginTop="450px"
+        android:layout_weight="0"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.almoufasseralsaghir.utils.FontFitTextView
+            android:id="@+id/statusText"
+            android:layout_width="200px"
+            android:layout_height="50px"
+            android:layout_marginBottom="10px"
+            android:layout_marginLeft="5px"
+            android:layout_marginTop="10px"
+            android:textStyle="bold" />
+
+        <com.almoufasseralsaghir.utils.FontFitTextView
+            android:id="@+id/progressAsPercentage"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="200px"
+            android:layout_height="50px"
+            android:layout_alignRight="@+id/progressBar"
+            android:text="0%" 
+            android:layout_toRightOf="@+id/statusText"/>
+
+        <SeekBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="298px"
+            android:layout_height="26px"
+            android:layout_below="@+id/progressAsPercentage"
+            android:layout_marginBottom="10px"
+            android:layout_marginLeft="10px"
+            android:layout_marginRight="10px"
+            android:layout_marginTop="10px"
+            android:layout_weight="1"
+            android:progressDrawable="@drawable/seek_bar_steps" />
+    </RelativeLayout>
 
 </RelativeLayout>

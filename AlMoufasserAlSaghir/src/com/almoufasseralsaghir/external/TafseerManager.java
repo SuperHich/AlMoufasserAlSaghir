@@ -65,6 +65,7 @@ public class TafseerManager {
 	private int numberOfTracks = 0;
 	private String partText;
 	
+	public static String MainReceiterPath;
 	public static String SecondReceiterPath;
 	
 	private ArrayList<Question> questions = new ArrayList<Question>();

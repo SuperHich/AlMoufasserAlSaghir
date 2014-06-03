@@ -1,8 +1,8 @@
 package com.example.almoufasseralsaghir.database;
 
 import java.io.File;
-
-import com.almoufasseralsaghir.external.TafseerManager;
+import java.io.IOException;
+import java.util.zip.ZipFile;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -15,11 +15,11 @@ import android.util.Log;
 
 public class AlMoufasserDownloadManager {
 	
-	final static String URL_FILE = "http://islam.ws/tafseer/basfar.zip";
+	protected String URL_FILE;
 
 	private static final String TAG = null;
 	private static AlMoufasserDownloadManager mInstance;
-	private Context context;
+	protected Context context;
 	private long downloadID;
 	private boolean isDownloading = false;
 	private boolean isUnzipping = false;
@@ -29,8 +29,14 @@ public class AlMoufasserDownloadManager {
 	private ProgressThread progressThread;
 	private DecompressAsynck decompressAsync;
 	
-	String thePath;
-	String zipFile;
+	protected String thePath;
+	protected String zipFile;
+	
+	protected String folderName;
+	protected String zipFileName;
+	protected String description;
+	
+	protected int numberOfFiles = -1;
 	
 	public synchronized static AlMoufasserDownloadManager getInstance(Context context) {
 		if (mInstance == null)
@@ -114,48 +120,64 @@ public class AlMoufasserDownloadManager {
 	
 	public boolean initializeDownload(){
 		
-		File d = context.getExternalFilesDir(null);
-		String basePath = d.getAbsolutePath() + File.separator;
-		thePath = basePath + "basfar" + File.separator;
-		zipFile = d.getAbsolutePath() + File.separator + "basfar.zip";
-		
-		TafseerManager.SecondReceiterPath = thePath;
-		
-		if(_isFileExist(thePath))
+		if(_isFileExist(thePath) && (isNumberOfFilesComplete() && numberOfFiles != -1))
 			return false;
-		else if(_isFileExist(zipFile))
-		{			
-			decompressAsync = new DecompressAsynck(zipFile, thePath, notifier);
-	    	decompressAsync.execute();
-			setUnzipping(true);
+		else if(_isFileExist(zipFile) )
+		{	
+			try {
 
-    		return true;
+				ZipFile zip = new ZipFile(zipFile);
+
+				if(zip.size() == numberOfFiles){
+					decompressAsync = new DecompressAsynck(zipFile, thePath, notifier);
+					decompressAsync.execute();
+					setUnzipping(true);
+
+					return true;
+				}else
+				{
+					File file = new File(zipFile);
+					file.delete();
+				}
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else
+		{
+			File file = new File(zipFile);
+			file.delete();
 		}
-		
-	
+
+
 		DownloadManager.Request request = new DownloadManager.Request(Uri.parse(URL_FILE));
 
 		// only download via WIFI
 		request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
-		request.setTitle("basfar");
-		request.setDescription("Downloading basfar MP3's songs");
+		request.setTitle(folderName);
+		request.setDescription(description);
 
 		// we just want to download silently
 		request.setVisibleInDownloadsUi(false);
 		request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-		request.setDestinationInExternalFilesDir(context, null, "basfar.zip");
-		
+		request.setDestinationInExternalFilesDir(context, null, zipFileName);
+
 		// enqueue this request
 		downloadID = downloadManager.enqueue(request);
-		
+
 		// when initialize
 		context.registerReceiver(downloadCompleteReceiver, downloadCompleteIntentFilter);
-		
+
 		isDownloading = true;
-		
+
 		progressThread = new ProgressThread();
 		progressThread.start();
-		
+
+
+
+
+
 		return true;
 	}
 	
@@ -247,6 +269,16 @@ public class AlMoufasserDownloadManager {
 	            }
 
 	        }
+	}
+	
+	protected boolean isNumberOfFilesComplete(){
+		File dir = new File(thePath);
+		File childfile[] = dir.listFiles();
+		
+		if(childfile != null)
+			return childfile.length == numberOfFiles - 1;
+		
+		return false;
 	}
 
 }
