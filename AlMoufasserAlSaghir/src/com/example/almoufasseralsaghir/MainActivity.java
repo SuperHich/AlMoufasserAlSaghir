@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -20,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -111,6 +113,8 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 
 			if (play_welcomer){
 
+				play_welcomer= false;
+				
 				welcome_mp = new MediaPlayer();
 				welcome_mp = MediaPlayer.create(this, R.raw.welcome_msg_1);
 				welcome_mp.start();
@@ -258,6 +262,10 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 					break;
 				}
 				case MotionEvent.ACTION_UP: {
+					
+					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(email_login.getWindowToken(), 0);
+					
 					// Your action here on button click
 					final ProgressDialog pd = new ProgressDialog(MainActivity.this);
 
