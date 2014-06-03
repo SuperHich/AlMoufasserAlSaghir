@@ -87,7 +87,6 @@ public class HomeLoggedIn extends MySuperScaler{
 			
 			part1_listView.setAdapter(adapter);
 			part1_listView.setDivider(null);
-			
 			part1_listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -123,7 +122,6 @@ public class HomeLoggedIn extends MySuperScaler{
 			
 			part2_listView.setAdapter(adapter2);
 			part2_listView.setDivider(null);
-
 			part2_listView.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -156,7 +154,6 @@ public class HomeLoggedIn extends MySuperScaler{
 					
 					part3_listView.setAdapter(adapter3);
 					part3_listView.setDivider(null);
-					
 					part3_listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -190,7 +187,6 @@ public class HomeLoggedIn extends MySuperScaler{
 					
 					part4_listView.setAdapter(adapter4);
 					part4_listView.setDivider(null);
-					
 					part4_listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {

@@ -70,6 +70,8 @@
 	        android:layout_marginLeft="300px"
 	        android:layout_marginTop="150px"
 	        android:cacheColorHint="#00000000"
+	        android:stackFromBottom="true"
+	        android:transcriptMode="alwaysScroll"
 	        android:listSelector="@drawable/selection" />
     </RelativeLayout>
     
@@ -93,6 +95,8 @@
 	        android:layout_marginLeft="850px"
 	        android:layout_marginTop="150px"
 	        android:cacheColorHint="#00000000"
+	        android:stackFromBottom="true"
+	        android:transcriptMode="alwaysScroll"
 	        android:listSelector="@drawable/selection" />
     </RelativeLayout>
     
@@ -116,6 +120,8 @@
 	        android:layout_marginLeft="540px"
 	        android:layout_marginTop="150px"
 	        android:cacheColorHint="#00000000"
+	        android:stackFromBottom="true"
+	        android:transcriptMode="alwaysScroll"
 	        android:listSelector="@drawable/selection" />
     </RelativeLayout>
     
@@ -139,6 +145,8 @@
 	        android:layout_marginLeft="850px"
 	        android:layout_marginTop="150px"
 	        android:cacheColorHint="#00000000"
+	        android:stackFromBottom="true"
+	        android:transcriptMode="alwaysScroll"
 	        android:listSelector="@drawable/selection" />
     </RelativeLayout>
 	
