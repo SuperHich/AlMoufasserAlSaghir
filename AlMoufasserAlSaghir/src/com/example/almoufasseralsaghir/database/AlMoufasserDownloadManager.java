@@ -74,30 +74,6 @@ public class AlMoufasserDownloadManager {
 	    	    isDownloading = false;
 	    	    return;
 	    	} 
-
-//	    	int uriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
-//	    	String downloadedPackageUriString = cursor.getString(uriIndex);
-//	    	
-//	    	Log.v("downloadedPackageUriString", downloadedPackageUriString);
-//	    	
-//	    	File downloadZipFile = new File(downloadedPackageUriString);
-////	    	String thePath = downloadZipFile.getAbsolutePath() + File.separator;
-//	    	
-//	    	File d = context.getExternalFilesDir(null); 
-//	    	String thePath;
-//	    	if(d != null){
-//	    		thePath = d.getAbsolutePath() + File.separator;
-//	    		
-//	    		zipManager.unzip(downloadZipFile.getAbsolutePath(), thePath);
-//	    		
-//	    		Decompress z = new Decompress (downloadZipFile.getAbsolutePath(), thePath );
-//				z.unzip();
-//
-//				// no need of the zip file, then remove it
-//				downloadZipFile.delete();
-//		    	
-//		    	TafseerManager.getInstance(context).getLoggedInUser().setDefaultReciter("2");
-//	    	}
 	    	
 	    	decompressAsync = new DecompressAsynck(zipFile, thePath, notifier);
 	    	decompressAsync.execute();

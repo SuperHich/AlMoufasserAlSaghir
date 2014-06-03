@@ -25,21 +25,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.almoufasseralsaghir.external.TafseerMediaPlayer;
 import com.almoufasseralsaghir.utils.FontFitTextView;
+import com.almoufasseralsaghir.utils.IMediaPlayerNotifier;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 import com.example.almoufasseralsaghir.entity.Answer;
 import com.example.almoufasseralsaghir.entity.Question;
 
 
-public class QuestionsActivity extends MySuperScaler {
-
+public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNotifier {
+	
 	private Button info, favourites, previous, home ;
 	public  MediaPlayer mp;
 	private ImageView  indication;
 	private AnimationSet animation;
 	Activity act;
 	ClipData data;
+	
+	private TafseerMediaPlayer mPlayer;
 	
 	
 	private RelativeLayout myQuestionsBackground, results_format_3, results_format_4 ;
@@ -292,6 +296,10 @@ public class QuestionsActivity extends MySuperScaler {
 		    }
 		});
 		
+		
+		mPlayer = new TafseerMediaPlayer(this);
+		mPlayer.playFromSdcard(mPlayer.shuffleAdviceSong());
+		
 	}
 	
 	private void indicatePlay(boolean answer){
@@ -423,5 +431,19 @@ public class QuestionsActivity extends MySuperScaler {
 		}
 		
 	}
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		
+		mPlayer.stop();
+	}
+
+	@Override
+	public void onCompletion() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 }

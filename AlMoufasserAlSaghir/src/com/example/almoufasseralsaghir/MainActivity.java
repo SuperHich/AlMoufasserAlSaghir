@@ -263,8 +263,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 				}
 				case MotionEvent.ACTION_UP: {
 					
-					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(email_login.getWindowToken(), 0);
+					hideKeyboard();
 					
 					// Your action here on button click
 					final ProgressDialog pd = new ProgressDialog(MainActivity.this);
@@ -361,6 +360,9 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 				}
 				case MotionEvent.ACTION_UP: {
 					// Your action here on button click
+					
+					hideKeyboard();
+					
 					startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
 					//		Utils.animateFad(RegistrationActivity.this);
 				}
@@ -690,6 +692,11 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 
 	}
 	
+	protected void hideKeyboard() {
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(email_login.getWindowToken(), 0);
+	}
+
 	@Override
 	public void onProgressDownload(int progress) {
 		popup_progress.setProgress(progress);

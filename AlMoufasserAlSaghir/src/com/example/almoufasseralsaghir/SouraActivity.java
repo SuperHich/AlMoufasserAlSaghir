@@ -53,6 +53,8 @@ public class SouraActivity extends MySuperScaler {
 	
 	public static Activity soura_act ;
 	
+	int currentPart = 0;
+	
 	private static final int ALL_PARTS_DRAWABLE[] =
             new int[] {R.drawable.popup_soura_part1,R.drawable.popup_soura_part2,R.drawable.popup_soura_part3,R.drawable.popup_soura_part4 
 				,R.drawable.popup_soura_part5 ,R.drawable.popup_soura_part6 ,R.drawable.popup_soura_part7 };
@@ -115,9 +117,7 @@ public class SouraActivity extends MySuperScaler {
 		
 		partsNumber = myDB.getPartNumber(currentSura.getSuraId());
 		
-		int currentPart = mTafseerManager.getCurrentSuraPart() ;
-		
-		int drawablepartId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_"+currentPart, "drawable", SouraActivity.this.getPackageName());
+		int drawablepartId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_1", "drawable", SouraActivity.this.getPackageName());
         soura_part_num.setBackgroundResource(drawablepartId);
 		
 		
@@ -198,7 +198,7 @@ public class SouraActivity extends MySuperScaler {
 				    	  mySouraParts.setViewAdapter(new MyWheelAdapter(SouraActivity.this, getPartsDrawable(partsNumber)));  
 				    	  
 				    	  
-				    	  mySouraParts.setCurrentItem(mTafseerManager.getCurrentSuraPart()-1);
+				    	  mySouraParts.setCurrentItem(currentPart);
 				    	  
 				    	  mySouraParts.addScrollingListener( new OnWheelScrollListener() {
 				              public void onScrollingStarted(WheelView wheel) {
@@ -229,8 +229,8 @@ public class SouraActivity extends MySuperScaler {
 				    		          break;
 				    		      }
 				    		      case MotionEvent.ACTION_UP: {
-				    		    	  
-				    		    	  mTafseerManager.setCurrentSuraPart(mySouraParts.getCurrentItem()+1);
+				    		    	  currentPart = mySouraParts.getCurrentItem();
+				    		    	  mTafseerManager.setCurrentSuraPart(currentPart+1);
 				    		    	  dialog.dismiss();
 				    		    	  objectAnimator.reverse();
 				    		    	  
@@ -270,7 +270,7 @@ public class SouraActivity extends MySuperScaler {
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		myDB.populateQuestions(currentSura.getSuraId(), currentPart);
+		myDB.populateQuestions(currentSura.getSuraId(), mTafseerManager.getCurrentSuraPart());
 		
 		if (!myDB.whoIsLoggedIn().isLoggedIn() || mTafseerManager.getQuestions().isEmpty()){
 			questions.getBackground().setColorFilter(0x77d0d0d0, PorterDuff.Mode.SRC_ATOP);
@@ -380,7 +380,7 @@ public class SouraActivity extends MySuperScaler {
 						@Override
 						protected String doInBackground(Void... params) {
 							
-							String data = myDB.getPartsMoustafad(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()));
+							String data = myDB.getPartsMoustafad(currentSura.getSuraId(), currentPart+1);
 
 							return data;
 						}
@@ -486,7 +486,7 @@ public class SouraActivity extends MySuperScaler {
 						@Override
 						protected String doInBackground(Void... params) {
 
-							String data = myDB.getPartsInfo(currentSura.getSuraId(), (mTafseerManager.getCurrentSuraPart()));
+							String data = myDB.getPartsInfo(currentSura.getSuraId(), currentPart+1);
 							Log.i("maana_content", data);
 
 							return data;
@@ -574,7 +574,7 @@ public class SouraActivity extends MySuperScaler {
 					
 		    	  Intent intent = new Intent(SouraActivity.this, EyetPlayerActivity.class);
 		    	  intent.putExtra("suraId", currentSura.getSuraId());
-		    	  intent.putExtra("partNb", mTafseerManager.getCurrentSuraPart()+1);
+		    	  intent.putExtra("partNb", currentPart+1);
 		    	  startActivity(intent);
 		    	  Utils.animateFad(SouraActivity.this);
 		    	  
@@ -751,82 +751,82 @@ public class SouraActivity extends MySuperScaler {
 		
 	}
 	
- public String restructureData (String data){
-	 String new_data = "";
-		
+	public String restructureData (String data){
+		String new_data = "";
+
 		if (data.contains("<div>")){
-		
-		String data_parts[] = data.split("<div>");
-		
-		data_parts[1] = "<div> â€¢  "+ data_parts[1] ;
-		for (int i = 2; i < data_parts.length;i++){
-			
-			data_parts[i] = "<div><br><br> â€¢  "+ data_parts[i] ;
-		}
-		
-		
-		StringBuilder result = new StringBuilder();
-		for (int i = 0; i < data_parts.length; i++) {
-		   if(!data_parts[i].equals("<div><br><br> â€¢  ")) result.append( data_parts[i] );
-		}
-		new_data = result.toString();
-		
-		
+
+			String data_parts[] = data.split("<div>");
+
+			data_parts[1] = "<div> •  "+ data_parts[1] ;
+			for (int i = 2; i < data_parts.length;i++){
+
+				data_parts[i] = "<div><br><br> •  "+ data_parts[i] ;
+			}
+
+
+			StringBuilder result = new StringBuilder();
+			for (int i = 0; i < data_parts.length; i++) {
+				if(!data_parts[i].equals("<div><br><br> •  ")) result.append( data_parts[i] );
+			}
+			new_data = result.toString();
+
+
 		} 
 		if (data.contains("<br />")){
-			
-		String data_parts[] = data.split("<br />");
-		
-		String first[] = data_parts[0].split("p>");
-		first[1] = "p> â€¢  "+first[1]+"<br><br>";
-		
-		StringBuilder result0 = new StringBuilder();
-		for (int i = 0; i < first.length; i++) {
-			   result0.append( first[i] );
+
+			String data_parts[] = data.split("<br />");
+
+			String first[] = data_parts[0].split("p>");
+			first[1] = "p> •  "+first[1]+"<br><br>";
+
+			StringBuilder result0 = new StringBuilder();
+			for (int i = 0; i < first.length; i++) {
+				result0.append( first[i] );
 			}
-		data_parts[0] = result0.toString();
-		
-//		data_parts[0] = "<p> â€¢  "+ data_parts[0] ;
-			
-		for (int i = 1; i < data_parts.length;i++){
-				
-				data_parts[i] = " â€¢ "+ data_parts[i] +  "<br><br>";
+			data_parts[0] = result0.toString();
+
+			//		data_parts[0] = "<p> •  "+ data_parts[0] ;
+
+			for (int i = 1; i < data_parts.length;i++){
+
+				data_parts[i] = " • "+ data_parts[i] +  "<br><br>";
 			}
-		
-		StringBuilder result = new StringBuilder();
-		for (int i = 0; i < data_parts.length; i++) {
-			   result.append( data_parts[i] );
+
+			StringBuilder result = new StringBuilder();
+			for (int i = 0; i < data_parts.length; i++) {
+				result.append( data_parts[i] );
 			}
-		new_data = result.toString();
+			new_data = result.toString();
 		}
-		
+
 		if (data.contains("<br/>")){
 			String data_parts[] = data.split("<br />");
-		
-		String first[] = data_parts[0].split("p>");
-		first[1] = "p> â€¢  "+first[1]+"<br><br>";
-		
-		StringBuilder result0 = new StringBuilder();
-		for (int i = 0; i < first.length; i++) {
-			   result0.append( first[i] );
+
+			String first[] = data_parts[0].split("p>");
+			first[1] = "p> •  "+first[1]+"<br><br>";
+
+			StringBuilder result0 = new StringBuilder();
+			for (int i = 0; i < first.length; i++) {
+				result0.append( first[i] );
 			}
-		data_parts[0] = result0.toString();
-		
-//		data_parts[0] = "<p> â€¢  "+ data_parts[0] ;
-			
-		for (int i = 1; i < data_parts.length;i++){
-				
-				data_parts[i] = " â€¢ "+ data_parts[i] +  "<br><br>";
+			data_parts[0] = result0.toString();
+
+			//		data_parts[0] = "<p> •  "+ data_parts[0] ;
+
+			for (int i = 1; i < data_parts.length;i++){
+
+				data_parts[i] = " • "+ data_parts[i] +  "<br><br>";
 			}
-		
-		StringBuilder result = new StringBuilder();
-		for (int i = 0; i < data_parts.length; i++) {
-			   result.append( data_parts[i] );
+
+			StringBuilder result = new StringBuilder();
+			for (int i = 0; i < data_parts.length; i++) {
+				result.append( data_parts[i] );
 			}
-		new_data = result.toString();
+			new_data = result.toString();
 		}
 		return new_data;
- }	
+	}	
 	
 	
 

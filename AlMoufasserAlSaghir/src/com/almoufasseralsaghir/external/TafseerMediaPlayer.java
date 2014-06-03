@@ -1,13 +1,14 @@
 package com.almoufasseralsaghir.external;
 
 import java.io.IOException;
-
-import com.almoufasseralsaghir.utils.IMediaPlayerNotifier;
+import java.util.Random;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+
+import com.almoufasseralsaghir.utils.IMediaPlayerNotifier;
 
 public class TafseerMediaPlayer {
 
@@ -59,44 +60,121 @@ public class TafseerMediaPlayer {
 		}
 		
 	}
+	
 	public void playWithCompletion(String audio){
 		try{
-		stop();
-		
-	    AssetFileDescriptor afd = context.getAssets().openFd(audio);
-	    
-	    player = new MediaPlayer();
-	    player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-	    
-	    player.setOnCompletionListener(new OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				
-				notifier.onCompletion();
-				
-			}
-		});
-	    
-	    player.prepare();
-	    player.start();
-		
-		}catch(IOException ex){ex.printStackTrace();}
-		catch(IllegalStateException ex){ex.printStackTrace();}
+			stop();
+
+			AssetFileDescriptor afd = context.getAssets().openFd(audio);
+
+			player = new MediaPlayer();
+			player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+
+			player.setOnCompletionListener(new OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+
+					notifier.onCompletion();
+
+				}
+			});
+
+			player.prepare();
+			player.start();
+
+		}catch(IOException ex) {
+			ex.printStackTrace();
+		}
+		catch(IllegalStateException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
-	public void play(String audio) throws IOException{
-		
-		stop();
-		
-	    AssetFileDescriptor afd = context.getAssets().openFd(audio);
-	    
-	    player = new MediaPlayer();
-	    player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-	    player.prepare();
-	    player.start();
+	public void playFromSdcardWithCompletion(String audio){
+		try{
+			stop();
+
+			player = new MediaPlayer();
+			player.setDataSource(audio);
+
+			player.setOnCompletionListener(new OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+
+					notifier.onCompletion();
+
+				}
+			});
+
+			player.prepare();
+			player.start();
+
+		}catch(IOException ex) {
+			ex.printStackTrace();
+		}
+		catch(IllegalStateException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	public void play(String audio) {
+		try{
+			stop();
+
+			AssetFileDescriptor afd = context.getAssets().openFd(audio);
+
+			player = new MediaPlayer();
+			player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+			player.prepare();
+			player.start();
+		}catch(IOException ex) {
+			ex.printStackTrace();
+		}
+		catch(IllegalStateException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void playFromSdcard(String audio) {
+		try{
+			stop();
+
+			player = new MediaPlayer();
+			player.setDataSource(audio);
+			player.prepare();
+			player.start();
+
+		}catch(IOException ex) {
+			ex.printStackTrace();
+		}
+		catch(IllegalStateException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public String formatAssetSong(String track){
 		return "PLAYER/"+track+".mp3";
+	}
+	
+	public String formatReceiterSDCardSong(String track, String defaultReceiter){
+	
+		if(defaultReceiter.equals("2")){
+			
+			return TafseerManager.SecondReceiterPath + track + ".mp3";
+		}
+		
+		return TafseerManager.MainReceiterPath + track + ".mp3";
+	}
+	
+	public String shuffleAdviceSong(){
+
+		int track = 1;
+		do{
+			Random random = new Random();
+			track = random.nextInt(TafseerManager.MAX_ADVICES_MP3);
+		}while(TafseerManager.EXCLUDED_ADVICES_MP3.contains(track));
+	
+		return TafseerManager.AdvicesPath + track + ".mp3";
 	}
 }

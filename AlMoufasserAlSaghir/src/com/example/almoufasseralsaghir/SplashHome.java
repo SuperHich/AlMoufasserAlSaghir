@@ -1,7 +1,6 @@
 package com.example.almoufasseralsaghir;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
@@ -17,6 +16,7 @@ import android.widget.SeekBar;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
+import com.example.almoufasseralsaghir.database.AdviceDownloadManager;
 import com.example.almoufasseralsaghir.database.DownloadNotifier;
 import com.example.almoufasseralsaghir.database.MainReceiterDownloadManager;
 import com.example.almoufasseralsaghir.entity.User;
@@ -29,7 +29,8 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	private static final int STOPSPLASH = 0;
 	private static final long SPLASHTIME = 2000;
 	
-	private MainReceiterDownloadManager downloadManager;
+	private MainReceiterDownloadManager receiterDownloadManager;
+	private AdviceDownloadManager adviceDownloadManager;
 
 	private SeekBar mPB;
 
@@ -37,8 +38,9 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	private FontFitTextView mProgressPercent;
 
 	private View mDownloaderLayout;
-
-	private Dialog mCellDialog;
+	
+	private int step = 1;
+	private int totalSteps = 4;
 	
 	private Handler splashHandler = new Handler() {
 		private	Intent intent  ;
@@ -69,15 +71,14 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splashhome);
 		
-		downloadManager = new MainReceiterDownloadManager(this);
+		receiterDownloadManager = new MainReceiterDownloadManager(this);
+		adviceDownloadManager = new AdviceDownloadManager(this);
 		
 		mPB = (SeekBar) findViewById(R.id.progressBar);
 		mStatusText = (FontFitTextView) findViewById(R.id.statusText);
 		mProgressPercent = (FontFitTextView) findViewById(R.id.progressAsPercentage);
 		mDownloaderLayout = findViewById(R.id.downloaderLayout);
 
-		mCellDialog = new Dialog(this);
-		
 		ShapeDrawable thumb = new ShapeDrawable(new RectShape());
 	    thumb.getPaint().setColor(Color.rgb(0, 0, 0));
 	    thumb.setIntrinsicHeight(-80);
@@ -85,11 +86,18 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	    mPB.setThumb(thumb);
 	    mPB.setMax(100);
 		
-		if(downloadManager.initializeDownload()) {
+		if(receiterDownloadManager.initializeDownload()) {
 			
 			mDownloaderLayout.setVisibility(View.VISIBLE);
 			mStatusText.setVisibility(View.VISIBLE);	
-			mStatusText.setText("Downloading");
+			mStatusText.setText("Step " + step + " / " + totalSteps);
+		}
+		else if(adviceDownloadManager.initializeDownload())
+		{
+			mDownloaderLayout.setVisibility(View.VISIBLE);
+			mStatusText.setVisibility(View.VISIBLE);	
+			totalSteps = 2;
+			mStatusText.setText("Step " + step + " / " + totalSteps);
 		}
 		else
 		{
@@ -103,53 +111,15 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			splashHandler.removeMessages(STOPSPLASH);
-			if(downloadManager.isDownloading())
-				downloadManager.cancelDownload();
-			else if(downloadManager.isUnzipping())
-				downloadManager.cancelUnzip();
+			if(receiterDownloadManager.isDownloading())
+				receiterDownloadManager.cancelDownload();
+			else if(receiterDownloadManager.isUnzipping())
+				receiterDownloadManager.cancelUnzip();
 		}
 		return super.onKeyDown(keyCode, event);
 
 
 	}	
-	
-//	private void showCellPopup(Context context) {
-//		
-//		// Alert dialogue
-//		mCellDialog = new Dialog(context);
-//		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-//				context);
-//		// set dialog message
-//		alertDialogBuilder
-//				.setTitle("Warning !")
-//				.setMessage(getString(R.string.text_paused_cellular) + "\n" + getString(R.string.text_paused_cellular_2))
-//				.setCancelable(false)
-//				.setPositiveButton(R.string.text_button_resume_cellular, new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int id) {
-//						
-//						mRemoteService.setDownloadFlags(IDownloaderService.FLAGS_DOWNLOAD_OVER_CELLULAR);
-//						mRemoteService.requestContinueDownload();
-//						dismissCellPopup();
-//						
-//					}
-//				})
-//				.setNegativeButton(R.string.text_button_wifi_settings, new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int id) {
-//						
-//						startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-//						
-//					}
-//				});
-//						
-//		// show it
-//		mCellDialog = alertDialogBuilder.show();
-//	}
-//	
-//	private void dismissCellPopup(){
-//		if(mCellDialog != null){
-//			mCellDialog.dismiss();
-//		}
-//	}
 	
 	@Override
 	public void onProgressDownload(final int progress) {
@@ -162,7 +132,7 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 			}
 		});
 		
-		Log.e(TAG, "progress " + mPB.getProgress());
+//		Log.e(TAG, "progress " + mPB.getProgress());
 	}
 
 	@Override
@@ -170,8 +140,28 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 		
 		Log.e(TAG, "download and unzip completed ");
 		
-		downloadManager.setUnzipping(false);
-		
+		if(receiterDownloadManager.isUnzipping())
+		{
+			step++;
+			receiterDownloadManager.setUnzipping(false);
+			
+			if(adviceDownloadManager.initializeDownload())
+			{
+				SplashHome.this.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						mPB.setProgress(0);				
+						mStatusText.setText("Step " + step + " / " + totalSteps);
+					}
+				});
+			}
+			
+		}
+		else if(adviceDownloadManager.isUnzipping())
+			adviceDownloadManager.setUnzipping(false);
+
+		// All data ready... We can launch app
 		SplashHome.this.runOnUiThread(new Runnable() {
 			
 			@Override
@@ -189,15 +179,15 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	
 	@Override
 	public void configureProgress(final int maxSize) {
+		
+		step++;
 				
 		SplashHome.this.runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
-				mPB.setProgress(0);
-				
-				mStatusText.setVisibility(View.VISIBLE);
-				mStatusText.setText("Unzipping");
+				mPB.setProgress(0);				
+				mStatusText.setText("Step " + step + " / " + totalSteps);
 			}
 		});
 		

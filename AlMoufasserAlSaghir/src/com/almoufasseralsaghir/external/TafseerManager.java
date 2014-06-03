@@ -48,6 +48,9 @@ public class TafseerManager {
 	public static final String SURA_ID = "sura_id";
 	public static final String PART_NB = "part_nb";
 	
+	public static final int MAX_ADVICES_MP3 = 349;
+	public static ArrayList<Integer> EXCLUDED_ADVICES_MP3 = new ArrayList<Integer>();
+	
 	private ArrayList<Sura> part1_list = new ArrayList<Sura>();
 	private ArrayList<Sura> part2_list = new ArrayList<Sura>();
 	private ArrayList<Sura> part3_list = new ArrayList<Sura>();
@@ -67,6 +70,7 @@ public class TafseerManager {
 	
 	public static String MainReceiterPath;
 	public static String SecondReceiterPath;
+	public static String AdvicesPath;
 	
 	private ArrayList<Question> questions = new ArrayList<Question>();
 	private LinkedHashMap<String, ArrayList<Answer>> answers = new LinkedHashMap<String, ArrayList<Answer>>();
@@ -89,6 +93,12 @@ public class TafseerManager {
 		deviceID = "DS" + Secure.getString(context.getContentResolver(),  Secure.ANDROID_ID).toUpperCase(Locale.US);
 
 		this.context = context ;
+		
+		EXCLUDED_ADVICES_MP3.add(70);
+		EXCLUDED_ADVICES_MP3.add(71);
+		EXCLUDED_ADVICES_MP3.add(72);
+		EXCLUDED_ADVICES_MP3.add(73);
+		EXCLUDED_ADVICES_MP3.add(74);
 		
 ////////////////////    PART 1   //////////////////////////////////////////////////////////////////////////////////////////		
 	

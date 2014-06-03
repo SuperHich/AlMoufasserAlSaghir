@@ -476,16 +476,18 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 	}
 	
 	public void prepareDialogPlayer(int playingTrack){
-		String song = mPlayer.formatAssetSong(mTafseerManager.getAyaAudioFileNames().get(playingTrack));
-		mPlayer.playWithCompletion(song);
+		String song = mPlayer.formatReceiterSDCardSong(mTafseerManager.getAyaAudioFileNames().get(playingTrack), 
+				mTafseerManager.getLoggedInUser().getDefaultReciter());
+		mPlayer.playFromSdcardWithCompletion(song);
 		
 		Log.i("MY SONG PATH", song);
 	}
 	
 	public void preparePlayer(int playingTrack){
-		String song = mPlayer.formatAssetSong(mTafseerManager.getAyaAudioFileNames().get(playingTrack));
+		String song = mPlayer.formatReceiterSDCardSong(mTafseerManager.getAyaAudioFileNames().get(playingTrack), 
+				mTafseerManager.getLoggedInUser().getDefaultReciter());
 		HighLightPlayingAya(playingTrack);
-		mPlayer.playWithCompletion(song);
+		mPlayer.playFromSdcardWithCompletion(song);
 		
 		Log.i("MY SONG PATH", song);
 	}
