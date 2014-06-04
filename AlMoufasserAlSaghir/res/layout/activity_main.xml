@@ -64,6 +64,7 @@
             android:textColor="#062e4b"
             android:textSize="25px"
             android:textStyle="bold"
+            android:singleLine="true"
             android:background="@drawable/ident_edittext_bg"
             />
         <ImageView 
