@@ -17,7 +17,7 @@ public class AdviceDownloadManager extends AlMoufasserDownloadManager {
 		
 		numberOfFiles = 350;
 		
-		URL_FILE = "https://islam.ws/tafseer/AdviceMP3s.zip";
+		URL_FILE = "http://islam.ws/tafseer/AdviceMP3s.zip";
 		
 		File d = context.getExternalFilesDir(null);
 		String basePath = d.getAbsolutePath() + File.separator;

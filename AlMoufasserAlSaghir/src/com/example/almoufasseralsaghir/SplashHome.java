@@ -86,26 +86,26 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	    mPB.setThumb(thumb);
 	    mPB.setMax(100);
 		
-//		if(receiterDownloadManager.initializeDownload()) {
-//			
-//			mDownloaderLayout.setVisibility(View.VISIBLE);
-//			mStatusText.setVisibility(View.VISIBLE);	
-//			mStatusText.setText("Step " + step + " / " + totalSteps);
-//		}
-//		else if(adviceDownloadManager.initializeDownload())
-//		{
-//			mDownloaderLayout.setVisibility(View.VISIBLE);
-//			mStatusText.setVisibility(View.VISIBLE);	
-//			totalSteps = 2;
-//			mStatusText.setText("Step " + step + " / " + totalSteps);
-//		}
-//		else
-//		{
+		if(receiterDownloadManager.initializeDownload()) {
+			
+			mDownloaderLayout.setVisibility(View.VISIBLE);
+			mStatusText.setVisibility(View.VISIBLE);	
+			mStatusText.setText("Step " + step + " / " + totalSteps);
+		}
+		else if(adviceDownloadManager.initializeDownload())
+		{
+			mDownloaderLayout.setVisibility(View.VISIBLE);
+			mStatusText.setVisibility(View.VISIBLE);	
+			totalSteps = 2;
+			mStatusText.setText("Step " + step + " / " + totalSteps);
+		}
+		else
+		{
 			Message msg = new Message();
 			msg.what = STOPSPLASH;
 
 			splashHandler.sendMessageDelayed(msg, SPLASHTIME);
-	//	}
+		}
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -34,5 +34,17 @@ public class ReceiterDownloadManager extends AlMoufasserDownloadManager {
 		
 		return super.initializeDownload();
 	}
+	
+	@Override
+	protected boolean isNumberOfFilesComplete() {
+		File dir = new File(thePath);
+		File childfile[] = dir.listFiles();
+
+		if(childfile != null)
+			return childfile.length == numberOfFiles;
+
+		return false;
+
+	}
 
 }

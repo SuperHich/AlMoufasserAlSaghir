@@ -72,7 +72,7 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			suraId = getIntent().getExtras().getInt("suraId");
 			partNb = getIntent().getExtras().getInt("partNb");
 			
-			myDB.populateQuestions(suraId, partNb+1);
+			myDB.populateQuestions(suraId, partNb);
 			
 			questions.addAll(mTafseerManager.getQuestions());
 			answers = new LinkedHashMap<String, ArrayList<Answer>>(mTafseerManager.getAnswers());

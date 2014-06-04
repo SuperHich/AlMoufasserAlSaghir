@@ -368,8 +368,7 @@ public class TafseerManager {
 		// Building Parameters
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		if (user.getUid() != null)
-			params.add(new BasicNameValuePair("User[uid]", String.valueOf(user
-					.getUid())));
+			params.add(new BasicNameValuePair("User[uid]", user.getUid()));
 
 		params.add(new BasicNameValuePair("User[udid]", user.getUdid()));
 		params.add(new BasicNameValuePair("User[name]", user.getName()));
@@ -396,8 +395,7 @@ public class TafseerManager {
 	public String updateUser(User user) {
 		// Building Parameters
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("User[uid]", String.valueOf(user
-				.getUid())));
+		params.add(new BasicNameValuePair("User[uid]", user.getUid()));
 		params.add(new BasicNameValuePair("User[udid]", user.getUdid()));
 		params.add(new BasicNameValuePair("User[name]", user.getName()));
 		params.add(new BasicNameValuePair("User[email]", user.getEmail()));

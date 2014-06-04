@@ -293,7 +293,7 @@ public class SouraActivity extends MySuperScaler {
 		    	// Your action here on button click
 		    	  Intent in = new Intent(SouraActivity.this, QuestionsActivity.class);
 		    	  in.putExtra("suraId", currentSura.getSuraId());
-		    	  in.putExtra("partNb", mTafseerManager.getCurrentSuraPart());
+		    	  in.putExtra("partNb", currentPart+1);
 					startActivity(in);
 					Utils.animateFad(SouraActivity.this);
 		    	  
@@ -328,7 +328,7 @@ public class SouraActivity extends MySuperScaler {
 		    	// Your action here on button click
 		    	  Intent in = new Intent(SouraActivity.this, CalendarActivity.class);
 		    	  in.putExtra("suraId", currentSura.getSuraId());
-		    	  in.putExtra("partNb", mTafseerManager.getCurrentSuraPart());
+		    	  in.putExtra("partNb", currentPart+1);
 					startActivity(in);
 					Utils.animateFad(SouraActivity.this);
 		    	  
