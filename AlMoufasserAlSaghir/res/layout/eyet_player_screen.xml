@@ -51,37 +51,38 @@
         android:background="@drawable/repeat_eya" 
 	    />
     
-    <Button 
-	    android:id="@+id/next_eya"
-        android:layout_width="92px"
-        android:layout_height="90px"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="510px"
-        android:background="@drawable/next_eya" 
-	    />
     
-    
-    <Button 
-	    android:id="@+id/play_eya"
-        android:layout_width="125.5px"
-        android:layout_height="118px"
+    <RelativeLayout
+        android:layout_width="410px"
+        android:layout_height="120px"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="652px"
-        android:background="@drawable/play_eya" 
-	    />
+        android:layout_centerInParent="true" >
+
+        <Button
+            android:id="@+id/next_eya"
+            android:layout_width="92px"
+            android:layout_height="90px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/next_eya" />
+
+        <Button
+            android:id="@+id/play_eya"
+            android:layout_width="125.5px"
+            android:layout_height="118px"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/play_eya" />
+
+        <Button
+            android:id="@+id/previous_eya"
+            android:layout_width="90px"
+            android:layout_height="88px"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/previous_eya" />
+    </RelativeLayout>
     
-	<Button 
-	    android:id="@+id/previous_eya"
-        android:layout_width="90px"
-        android:layout_height="88px"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="835px"
-        android:background="@drawable/previous_eya" 
-	    />
-	
 	<Button 
 	    android:id="@+id/e6_info"
         android:layout_width="87px"

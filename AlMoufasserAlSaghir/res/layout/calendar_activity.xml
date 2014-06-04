@@ -30,7 +30,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="65px"
-        android:layout_marginRight="355px"
+        android:layout_marginRight="380px"
         />
     
 
@@ -95,7 +95,7 @@
         android:layout_width="545px"
         android:layout_height="338px"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="145px"
+        android:layout_marginRight="170px"
         android:layout_marginTop="393px"
         android:cacheColorHint="#00000000"
         android:listSelector="@drawable/selection" />

@@ -78,7 +78,7 @@ public class MySuperScaler extends FragmentActivity {
 			if(! (thisAct instanceof QuestionsActivity))
 			{
 			RelativeLayout souraLayout = (RelativeLayout) findViewById(R.id.principal_layout);
-			souraLayout.getLayoutParams().width = screen_width ;
+	//		souraLayout.getLayoutParams().width = screen_width ;
 			souraLayout.getLayoutParams().height = screen_height ;
 			}
 			container.setTag("IsScaled");

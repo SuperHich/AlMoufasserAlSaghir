@@ -92,8 +92,8 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		
 		myQuestionsBackground = (RelativeLayout) findViewById(R.id.my_questions_background);
 		
-		myQuestionsBackground.getLayoutParams().width = screen_width ;
-		myQuestionsBackground.getLayoutParams().height = screen_height ;
+//		myQuestionsBackground.getLayoutParams().width = screen_width ;
+//		myQuestionsBackground.getLayoutParams().height = screen_height ;
 		
 		results_format_3 = (RelativeLayout) findViewById(R.id.results_format_3);
 		results_format_4 = (RelativeLayout) findViewById(R.id.results_format_4);
