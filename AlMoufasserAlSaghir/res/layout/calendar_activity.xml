@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/principal_layout"
    android:layout_width="1422px"
     android:layout_height="800px"
     android:layout_gravity="center" 
@@ -27,8 +28,9 @@
         android:layout_width="300px"
         android:layout_height="370px"
         android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="65px"
-        android:layout_marginLeft="775px"
+        android:layout_marginRight="355px"
         />
     
 
@@ -92,7 +94,8 @@
         android:id="@+id/calendar_listView1"
         android:layout_width="545px"
         android:layout_height="338px"
-        android:layout_marginLeft="725px"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="145px"
         android:layout_marginTop="393px"
         android:cacheColorHint="#00000000"
         android:listSelector="@drawable/selection" />

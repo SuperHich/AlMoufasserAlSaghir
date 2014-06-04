@@ -1,18 +1,24 @@
 package com.almoufasseralsaghir.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.example.almoufasseralsaghir.HomeLoggedIn;
 import com.example.almoufasseralsaghir.MainActivity;
+import com.example.almoufasseralsaghir.QuestionsActivity;
+import com.example.almoufasseralsaghir.R;
 import com.example.almoufasseralsaghir.SouraActivity;
 import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 
@@ -20,6 +26,7 @@ import com.example.almoufasseralsaghir.database.AlMoufasserDB;
  * This is Super Scaler
  *
  */
+@SuppressLint("NewApi")
 public class MySuperScaler extends FragmentActivity {
 	
 	public static float scale ;
@@ -28,6 +35,9 @@ public class MySuperScaler extends FragmentActivity {
 	protected AlMoufasserDB myDB;
 	
 	private Activity thisAct ;
+	
+	public static int screen_width;
+	public static int screen_height;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +48,9 @@ public class MySuperScaler extends FragmentActivity {
 		thisAct = this ;
 		mTafseerManager = TafseerManager.getInstance(this);
 		myDB = new AlMoufasserDB(this);
+		
+		
+		
 		
 	}
 
@@ -54,8 +67,20 @@ public class MySuperScaler extends FragmentActivity {
 			 scale = Math.min(xScale, yScale);
 			scaleViewAndChildren(rootView, scale);
 			
-
 			
+			Display display = getWindowManager().getDefaultDisplay();
+			Point size = new Point();
+			display.getSize(size);
+			screen_width = size.x;
+			screen_height = size.y;
+			
+			
+			if(! (thisAct instanceof QuestionsActivity))
+			{
+			RelativeLayout souraLayout = (RelativeLayout) findViewById(R.id.principal_layout);
+			souraLayout.getLayoutParams().width = screen_width ;
+			souraLayout.getLayoutParams().height = screen_height ;
+			}
 			container.setTag("IsScaled");
 			scaled = true ;
 			
