@@ -553,6 +553,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 								if(!downloadManager.isDownloading() || downloadManager.isUnzipping())
 								{	
 									mTafseerManager.getLoggedInUser().setDefaultReciter(currentReceiter);
+									myDB.setUserDefaultReciter(currentReceiter, mTafseerManager.getLoggedInUser().getUid());
 									dialog.dismiss(); 
 								}
 								////////////////////// SET READER IN MYAPPLICATION //////////////////////////////////////////////////////////////////

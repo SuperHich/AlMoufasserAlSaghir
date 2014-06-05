@@ -302,7 +302,8 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		
 		
 		mPlayer = new TafseerMediaPlayer(this);
-		mPlayer.playFromSdcard(mPlayer.shuffleAdviceSong());
+		String randomAdvice = myDB.getRandomAdviceMP3(suraId, partNb);
+		mPlayer.playFromSdcard(mPlayer.shuffleAdviceSong(randomAdvice));
 		
 	}
 	
@@ -383,7 +384,8 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 
 			answer_1.setText(currentAnswers.get(0).getText());
 			answer_2.setText(currentAnswers.get(1).getText());
-			if (currentAnswers.get(2) != null)answer_3.setText(currentAnswers.get(2).getText());
+			if(currentAnswers.size() > 2)
+				answer_3.setText(currentAnswers.get(2).getText());
 		}
 	
 	}

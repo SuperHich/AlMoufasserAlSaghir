@@ -217,7 +217,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		
 		long insertedId = db.delete(sqlTable, whereClause, whereArgs);
 		
-		return insertedId != -1;
+		return insertedId > 0;
     }
     
     public ArrayList<PartFavourite> getPartFavorite(){
@@ -316,23 +316,23 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
     
     //**************************** USERS
      
-    public boolean setUserDefaultReciter(int reciterId, int userId){    	
+    public boolean setUserDefaultReciter(String reciterId, String userId){    	
     	SQLiteDatabase db = getWritableDatabase();
 
 		String sqlTable = "Users";
 		
 		ContentValues values = new ContentValues();
-		values.put("DefaultReciter", String.valueOf(reciterId));
+		values.put("DefaultReciter", reciterId);
 		
 		String whereClause = "uid = ?";
-		String[] whereArgs = {String.valueOf(userId)};
+		String[] whereArgs = {userId};
 		
 		long insertedId = db.update(sqlTable, values, whereClause, whereArgs);
 		
-		return insertedId != -1;
+		return insertedId > 0;
     }
     
-    public int getUserDefaultReciter(int userId){
+    public int getUserDefaultReciter(String userId){
     	SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
@@ -404,8 +404,9 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			user.setLoggedIn(c.getString(13).equals("1")?true:false);
 			user.setDefaultReciter(c.getString(14));
 			
-			c.close();
 		}
+		
+		c.close();
 		
 		return user;
     }
@@ -958,6 +959,261 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		c.close();
 		
 		return answers;
+	}
+	
+	public String getRandomAdviceMP3(int suraId, int partNb) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "advices";
+		String[] sqlSelect = {"id"};
+		
+		String whereClause = "sura = ? AND part_number = ?";
+		String[] whereArgs = new String[]{String.valueOf(suraId), String.valueOf(partNb)};
+		String limit = "1";		
+
+		qb.setTables(sqlTables);
+
+		Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, "RANDOM()", limit);
+
+		String adviceMP3 = null;
+		if(c.moveToFirst()){
+			adviceMP3 = c.getString(0);
+		}
+		
+		c.close();
+		
+		return adviceMP3;
+	}
+	
+	public String getElementID(int suraId, int partNb) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "QuizElements";
+		String[] sqlSelect = {"ElementID"};
+		
+		String whereClause = "sura = ? AND part_number = ?";
+		String[] whereArgs = new String[]{String.valueOf(suraId), String.valueOf(partNb)};
+
+		qb.setTables(sqlTables);
+
+		Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+		
+		String elementID = null;
+		if(c.moveToFirst()){
+			elementID = c.getString(0);
+		}
+		
+		c.close();
+		
+		return elementID;
+	}
+	
+	public boolean setElementStatus(int suraId, int partNb, boolean status) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "UserQuizElements";
+		String elementID = getElementID(suraId, partNb);
+		
+		ContentValues values = new ContentValues();
+		values.put("Status", status?"1":"0");
+		
+		String whereClause = "ElementID = ? AND UserID = ?";
+		String[] whereArgs = new String[]{elementID, mTafseerManager.getLoggedInUser().getUid()};
+
+		int updated = db.update(sqlTables, values, whereClause, whereArgs);
+		return updated > 0;
+	}
+	
+	public boolean getElementStatus(String elementId) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "UserQuizElements";
+		String[] sqlSelect = {"Status"};
+		
+		String whereClause = "ElementID = ? AND UserID = ?";
+		String[] whereArgs = new String[]{elementId, mTafseerManager.getLoggedInUser().getUid()};
+
+		qb.setTables(sqlTables);
+
+		Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+		
+		boolean status = false;
+		if(c.moveToFirst()){
+			status = c.getString(0).equals("1")?true:false;
+		}
+		
+		c.close();
+		
+		return status;
+	}
+	
+	public boolean setElementLocatedStatus(int suraId, int partNb, boolean status) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "UserQuizElements";
+		String elementID = getElementID(suraId, partNb);
+		
+		ContentValues values = new ContentValues();
+		values.put("Located", status?"1":"0");
+		
+		String whereClause = "ElementID = ? AND UserID = ?";
+		String[] whereArgs = new String[]{elementID, mTafseerManager.getLoggedInUser().getUid()};
+
+		int updated = db.update(sqlTables, values, whereClause, whereArgs);
+		return updated > 0;
+	}
+	
+	public boolean getElementLocatedStatus(String elementId) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTables = "UserQuizElements";
+		String[] sqlSelect = {"Located"};
+		
+		String whereClause = "ElementID = ? AND UserID = ?";
+		String[] whereArgs = new String[]{elementId, mTafseerManager.getLoggedInUser().getUid()};
+
+		qb.setTables(sqlTables);
+
+		Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+		
+		boolean status = false;
+		if(c.moveToFirst()){
+			status = c.getString(0).equals("1")?true:false;
+		}
+		
+		c.close();
+		
+		return status;
+	}
+
+
+	public boolean CheckQuizAvailability(int suraId, int partNb) {
+		
+		if(suraId == 114)
+			return true;
+		
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		
+		String sqlTables = "UserQuizElements";
+		qb.setTables(sqlTables);
+		
+		boolean result1 = true;
+		boolean result2 = true;
+		int suraID = suraId + 1;
+		String previousSuraStr = String.valueOf(suraID);
+		String elementID = getElementID(suraID, partNb);
+		
+		if(getElementStatus(elementID)){
+
+			String[] sqlSelect = {"COUNT(*)"};
+
+			String whereClause = "cast(Status as int) >'1' AND cast(ElementID as int) < ? AND UserID = ?";
+			String[] whereArgs = new String[]{elementID, mTafseerManager.getLoggedInUser().getUid()};
+
+			Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+			if(c.moveToFirst()){
+				int count = Integer.valueOf(c.getString(0));
+				if(count >= 3)
+					result1 = false;
+				else
+					result1 = true;
+			}
+
+			c.close();
+		}
+		
+		int element = Integer.valueOf(elementID) - 1;
+		
+		String[] sqlSelect = {"Located", "Status"};
+
+		String whereClause = "ElementID = ? AND UserID = ?";
+		String[] whereArgs = new String[]{String.valueOf(element), mTafseerManager.getLoggedInUser().getUid()};
+
+		Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+		if(c.moveToFirst()){
+			boolean located = (c.getString(0).equals("1") || c.getString(0).equals("2"))?true:false;
+			boolean status = c.getString(1).equals("1")?true:false;
+			
+			if(status && located)
+				result2 = true;
+			else
+				result2 = false;
+			
+		}
+
+		return result1 && result2;
+	}
+
+	public boolean CheckQuizAvailability2(int suraId, int partNb) {
+		
+		if(suraId == 114)
+			return true;
+		
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		
+		String sqlTables = "UserQuizElements";
+		qb.setTables(sqlTables);
+		
+		boolean step2 = false;
+		boolean result = true;
+		int suraID = suraId + 1;
+		String SuraStr = String.valueOf(suraID);
+		String elementID = getElementID(suraID, partNb);
+		
+		if(getElementStatus(elementID)){
+
+			String[] sqlSelect = {"Located"};
+
+			String whereClause = "ElementID = ? AND UserID = ?";
+			String[] whereArgs = new String[]{elementID, mTafseerManager.getLoggedInUser().getUid()};
+
+
+			Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+			if(c.moveToFirst()){
+				String located = c.getString(0);
+				if(located.equals("0"))
+					result = false;
+				else
+					step2 = true;
+			}
+
+			c.close();
+		}
+
+		if(step2){
+
+			int element = Integer.valueOf(elementID) - 1;
+
+			String[] sqlSelect = {"Status"};
+
+			String whereClause = "ElementID = ? AND UserID = ?";
+			String[] whereArgs = new String[]{String.valueOf(element), mTafseerManager.getLoggedInUser().getUid()};
+
+			Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+			if(c.moveToFirst()){
+				boolean status = c.getString(0).equals("1")?true:false;
+
+				if(status)
+					result = false;
+				else
+					result = true;
+
+			}
+		}
+
+		return result;
 	}
 
 

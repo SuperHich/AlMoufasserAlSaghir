@@ -72,7 +72,7 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		}
 		
 		String style = "<head><script type='text/javascript' src='JS/jquery-1.10.2.min.js'></script><style type=\"text/css\">"+myFonts+"@font-face{font-family: myFirstFontB; src: url('FONTS/QCF_BSML.TTF')}.sora, .bsmla{font-family:myFirstFontB;} .sora{ width: 100% ; margin-top: 8px; background-size: 100% 51px; background-repeat: no-repeat; }.bsmla{ margin-top: -5px; display:block; text-align: center; } body{width : 100% !important; font-size: 56px;line-height:85px; margin: 0px; direction: rtl; background-color: blue|||; text-align: right;  } body a{ color: black; text-decoration: none; border:0 solid; border-radius:35px; padding: -15px 0; }</style></head>";
-		String htmlPart = "<html>"+style+"<body><div style='padding-right: 20px; margin:0 0px 0 0px !important; text-align: center !important; background-color: red|||; width: 90%'>"+partText+"</div></body></html>";
+		String htmlPart = "<html>"+style+"<body><div style='padding-right: 20px; margin:0 0px 0 0px !important; text-align: justify !important; background-color: red|||; width: 90%'>"+partText+"</div></body></html>";
 		
 		Log.i("EyetPlayerActivity", htmlPart);
 		eyet_webview.loadDataWithBaseURL("file:///android_asset/", htmlPart, "text/html", "UTF-8", null);

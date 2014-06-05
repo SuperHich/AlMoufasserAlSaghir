@@ -155,7 +155,7 @@
             android:textColor="#098c8e"
             android:ellipsize="none"
             android:gravity="center"
-        	android:maxLines="1"
+        	android:maxLines="2"
         	android:textStyle="bold"
         	android:textSize="50sp"
             />

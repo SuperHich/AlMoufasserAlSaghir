@@ -234,6 +234,8 @@ public class SouraActivity extends MySuperScaler {
 				    		    	  dialog.dismiss();
 				    		    	  objectAnimator.reverse();
 				    		    	  
+				    		    	  checkQuestionAvailability();
+				    		    	  
 				    		      }
 				    		      case MotionEvent.ACTION_CANCEL: {
 				    		          Button view = (Button) v;
@@ -270,14 +272,8 @@ public class SouraActivity extends MySuperScaler {
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		myDB.populateQuestions(currentSura.getSuraId(), mTafseerManager.getCurrentSuraPart());
+		checkQuestionAvailability();
 		
-		if (!myDB.whoIsLoggedIn().isLoggedIn() || mTafseerManager.getQuestions().isEmpty()){
-			questions.getBackground().setColorFilter(0x77d0d0d0, PorterDuff.Mode.SRC_ATOP);
-		}
-		else {
-		
-		questions.getBackground().clearColorFilter();
 		questions.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
@@ -310,7 +306,7 @@ public class SouraActivity extends MySuperScaler {
 		      return true;
 		    }
 		});
-		}
+		
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
 
 		calendar.setOnTouchListener(new OnTouchListener() {
@@ -706,6 +702,18 @@ public class SouraActivity extends MySuperScaler {
 		
 	}
 	
+	private void checkQuestionAvailability() {
+		if(!myDB.CheckQuizAvailability(currentSura.getSuraId(), currentPart+1))
+		{
+			questions.setEnabled(false);
+			questions.getBackground().setColorFilter(0x77d0d0d0, PorterDuff.Mode.SRC_ATOP);
+		}
+		else {
+			questions.setEnabled(true);
+			questions.getBackground().clearColorFilter();
+		}
+	}
+
 	private class MyWheelAdapter extends AbstractWheelTextAdapter {
 		
 		private int parts[];
@@ -758,16 +766,16 @@ public class SouraActivity extends MySuperScaler {
 
 			String data_parts[] = data.split("<div>");
 
-			data_parts[1] = "<div> *  "+ data_parts[1] ;
+			data_parts[1] = "<div> •  "+ data_parts[1] ;
 			for (int i = 2; i < data_parts.length;i++){
 
-				data_parts[i] = "<div><br><br> *  "+ data_parts[i] ;
+				data_parts[i] = "<div><br><br> •  "+ data_parts[i] ;
 			}
 
 
 			StringBuilder result = new StringBuilder();
 			for (int i = 0; i < data_parts.length; i++) {
-				if(!data_parts[i].equals("<div><br><br> *  ")) result.append( data_parts[i] );
+				if(!data_parts[i].equals("<div><br><br> •  ")) result.append( data_parts[i] );
 			}
 			new_data = result.toString();
 
@@ -778,7 +786,7 @@ public class SouraActivity extends MySuperScaler {
 			String data_parts[] = data.split("<br />");
 
 			String first[] = data_parts[0].split("p>");
-			first[1] = "p> *  "+first[1]+"<br><br>";
+			first[1] = "p> •  "+first[1]+"<br><br>";
 
 			StringBuilder result0 = new StringBuilder();
 			for (int i = 0; i < first.length; i++) {
@@ -786,11 +794,11 @@ public class SouraActivity extends MySuperScaler {
 			}
 			data_parts[0] = result0.toString();
 
-			//		data_parts[0] = "<p> �  "+ data_parts[0] ;
+			//		data_parts[0] = "<p> •  "+ data_parts[0] ;
 
 			for (int i = 1; i < data_parts.length;i++){
 
-				data_parts[i] = " * "+ data_parts[i] +  "<br><br>";
+				data_parts[i] = " • "+ data_parts[i] +  "<br><br>";
 			}
 
 			StringBuilder result = new StringBuilder();
@@ -804,7 +812,7 @@ public class SouraActivity extends MySuperScaler {
 			String data_parts[] = data.split("<br />");
 
 			String first[] = data_parts[0].split("p>");
-			first[1] = "p> *  "+first[1]+"<br><br>";
+			first[1] = "p> •  "+first[1]+"<br><br>";
 
 			StringBuilder result0 = new StringBuilder();
 			for (int i = 0; i < first.length; i++) {
@@ -812,11 +820,11 @@ public class SouraActivity extends MySuperScaler {
 			}
 			data_parts[0] = result0.toString();
 
-			//		data_parts[0] = "<p> �  "+ data_parts[0] ;
+			//		data_parts[0] = "<p> •  "+ data_parts[0] ;
 
 			for (int i = 1; i < data_parts.length;i++){
 
-				data_parts[i] = " * "+ data_parts[i] +  "<br><br>";
+				data_parts[i] = " • "+ data_parts[i] +  "<br><br>";
 			}
 
 			StringBuilder result = new StringBuilder();

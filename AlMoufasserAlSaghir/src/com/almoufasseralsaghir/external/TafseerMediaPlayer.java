@@ -167,14 +167,14 @@ public class TafseerMediaPlayer {
 		return TafseerManager.MainReceiterPath + track + ".mp3";
 	}
 	
-	public String shuffleAdviceSong(){
-
-		int track = 1;
-		do{
-			Random random = new Random();
-			track = random.nextInt(TafseerManager.MAX_ADVICES_MP3);
-		}while(TafseerManager.EXCLUDED_ADVICES_MP3.contains(track));
-	
+	public String shuffleAdviceSong(String track){
 		return TafseerManager.AdvicesPath + track + ".mp3";
+//		int track = 1;
+//		do{
+//			Random random = new Random();
+//			track = random.nextInt(TafseerManager.MAX_ADVICES_MP3);
+//		}while(TafseerManager.EXCLUDED_ADVICES_MP3.contains(track));
+//	
+//		return TafseerManager.AdvicesPath + track + ".mp3";
 	}
 }
