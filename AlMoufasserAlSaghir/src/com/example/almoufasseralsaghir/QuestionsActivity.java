@@ -341,21 +341,21 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		}
 		
 	}
-	
+
 	private void selectformat(){
-		
+
 		if( format_3 && !format_4){
-		myQuestionsBackground.setBackgroundResource(R.drawable.questions_bg_format_3);
-		format_3 = true ; format_4 = false ;
-		results_format_3.setVisibility(View.VISIBLE);
-		results_format_4.setVisibility(View.GONE);
+			myQuestionsBackground.setBackgroundResource(R.drawable.questions_bg_format_3);
+			format_3 = true ; format_4 = false ;
+			results_format_3.setVisibility(View.VISIBLE);
+			results_format_4.setVisibility(View.GONE);
 		}
 		else	
 		{
-		myQuestionsBackground.setBackgroundResource(R.drawable.questions_bg_format_4);
-		format_4 = true ; format_3 = false ;
-		results_format_3.setVisibility(View.GONE);
-		results_format_4.setVisibility(View.VISIBLE);
+			myQuestionsBackground.setBackgroundResource(R.drawable.questions_bg_format_4);
+			format_4 = true ; format_3 = false ;
+			results_format_3.setVisibility(View.GONE);
+			results_format_4.setVisibility(View.VISIBLE);
 		}
 	}
 	
