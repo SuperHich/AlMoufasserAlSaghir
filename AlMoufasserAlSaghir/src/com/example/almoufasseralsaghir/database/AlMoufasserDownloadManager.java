@@ -71,6 +71,7 @@ public class AlMoufasserDownloadManager {
 	    	int statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
 	    	if (DownloadManager.STATUS_SUCCESSFUL != cursor.getInt(statusIndex)) {
 	    	    Log.w(TAG, "Download Failed");
+	    	    notifier.onErrorDownload();
 	    	    isDownloading = false;
 	    	    return;
 	    	} 
@@ -175,8 +176,10 @@ public class AlMoufasserDownloadManager {
 		DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 		isDownloading = downloadManager.remove(downloadID) == 0;
 		
-		progressThread.interrupt();
-		progressThread = null;
+		if(progressThread != null){
+			progressThread.interrupt();
+			progressThread = null;
+		}
 		
 		unregisterReceiver();
 	}

@@ -1,6 +1,9 @@
 package com.example.almoufasseralsaghir;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
@@ -191,6 +194,32 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 			}
 		});
 		
+	}
+	
+	@Override
+	public void onErrorDownload() {
+		receiterDownloadManager.cancelDownload();
+		adviceDownloadManager.cancelDownload();
+		
+		showPopUp(this, R.string.error_download);
+	};
+	
+	public void showPopUp(Context context, int message) {
+
+		// Alert dialogue
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				context);
+		// set dialog message
+		alertDialogBuilder
+				.setMessage(context.getResources().getString(message))
+				.setCancelable(false)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						finish();
+					}
+				});
+		// show it
+		alertDialogBuilder.show();
 	}
 
 }

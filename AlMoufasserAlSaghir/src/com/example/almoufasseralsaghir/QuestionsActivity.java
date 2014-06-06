@@ -51,7 +51,7 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	private ImageView result_3_format_3, result_2_format_3, result_1_format_3,
 					   result_4_format_4, result_3_format_4, result_2_format_4, result_1_format_4 ;
 	
-	private int answers_nbr = 0 ;
+	private int currentQuestionIndex = 0, correctCurrentAnswersCount = 0, correctAnswersCount = 0 ;
 	private boolean format_4 = false;
 	private boolean format_3 = false;
 	private boolean answer ;
@@ -136,13 +136,13 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			public void onClick(View v) {
 
 				 if (format_3){
-			    	  if (answers_nbr <3) 
+			    	  if (currentQuestionIndex <3) 
 			    	  {
 			    		  answerTreatment(0);
 			    	  }
 		    	  }
 		    	  if (format_4){
-			    	  if (answers_nbr <4) 
+			    	  if (currentQuestionIndex <4) 
 			    	  {
 			    		  answerTreatment(0);
 			    	  }
@@ -154,13 +154,13 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			public void onClick(View v) {
 
 				 if (format_3){
-			    	  if (answers_nbr <3) 
+			    	  if (currentQuestionIndex <3) 
 			    	  {
 			    		  answerTreatment(1);
 			    	  }
 		    	  }
 		    	  if (format_4){
-			    	  if (answers_nbr <4) 
+			    	  if (currentQuestionIndex <4) 
 			    	  {
 			    		  answerTreatment(1);
 			    	  }
@@ -172,13 +172,13 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			public void onClick(View v) {
 
 				if (format_3){
-					if (answers_nbr <3 ) 
+					if (currentQuestionIndex <3 ) 
 					{
 						answerTreatment(2);
 					}
 				}
 				if (format_4){
-					if (answers_nbr <4) 
+					if (currentQuestionIndex <4) 
 					{
 						answerTreatment(2);
 					}
@@ -310,7 +310,7 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	private void indicatePlay(boolean answer){
 		
 		if (format_4){
-			switch (answers_nbr){
+			switch (currentQuestionIndex){
 			case 1 : if (answer) result_1_format_4.setBackgroundResource(R.drawable.answer_correct);
 						else  result_1_format_4.setBackgroundResource(R.drawable.answer_false);
 				break;
@@ -327,7 +327,7 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			}
 		}
 		if (format_3){
-			switch (answers_nbr){
+			switch (currentQuestionIndex){
 			case 1 : if (answer) result_1_format_3.setBackgroundResource(R.drawable.answer_correct);
 			else  result_1_format_3.setBackgroundResource(R.drawable.answer_false);
 				break;
@@ -361,7 +361,7 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	
 	private void prepareQuestion(){
 		
-		if(answers_nbr == questions.size() )
+		if(currentQuestionIndex == questions.size() )
 		{	
 			onBackPressed();
 			return;
@@ -372,9 +372,9 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		if(questions.size()>3) { format_4 = true ; format_3 = false ; }
 		else {format_4 = false ; format_3 = true ;}
 		
-		if (questions.get(answers_nbr) != null) {
+		if (questions.get(currentQuestionIndex) != null) {
 
-			currentQuestion = questions.get(answers_nbr);
+			currentQuestion = questions.get(currentQuestionIndex);
 			currentAnswers.clear();
 			currentAnswers.addAll(answers.get(currentQuestion.getQuestionID()));
 
@@ -393,11 +393,20 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	
 	private void answerTreatment(int i){
 		
-		answers_nbr++ ;
+		currentQuestionIndex++ ;
 		answer = currentAnswers.get(i).isStatus();
 		indicatePlay(answer);
 		
 		if (answer){
+			correctAnswersCount++;
+			if(currentQuestionIndex + 1 == questions.size()){
+				if(suraId == 114)
+					correctCurrentAnswersCount++;
+				else
+					setElementStatus(1);
+			}else
+				correctCurrentAnswersCount++;
+			
 			if(mp != null) mp.release();
 			mp = MediaPlayer
 					.create(this, R.raw.success_answer);
@@ -418,6 +427,10 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 
 		} else {
 
+			if(currentQuestionIndex + 1 == questions.size() && suraId != 114)
+				setElementStatus(2);
+			
+			
 			if(mp != null) mp.release();
 			mp = MediaPlayer
 					.create(this, R.raw.fail_answer);
@@ -448,6 +461,15 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	@Override
 	public void onCompletion() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	private void setElementStatus(int status){
+		
+		int partNB = myDB.getPartNumberByQuestionID(currentQuestion.getQuestionID());
+		int suraNB = myDB.getSuraNumberByQuestionID(currentQuestion.getQuestionID());
+		
+		myDB.setElementStatus(suraNB, partNB, status);
 		
 	}
 	

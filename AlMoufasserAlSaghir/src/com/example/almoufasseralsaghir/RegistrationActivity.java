@@ -11,6 +11,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
@@ -149,7 +150,19 @@ public class RegistrationActivity extends MySuperScaler{
 							String follower3 		= register_bas_droit_3.getText().toString();
 							String type3 			= String.valueOf(state_social_3);
 							
-							if(email.equals(email_confirm)){
+							if(email_confirm.length() == 0)
+								return "10";
+							
+							if(follower1.length() == 0)
+								return "20";
+							
+							if(follower2.length() == 0)
+								return "30";
+							
+							if(follower3.length() == 0)
+								return "40";
+							
+							else if(email.equals(email_confirm)){
 								loggedInUser.setUdid(mTafseerManager.getDeviceID());
 								loggedInUser.setName(name);
 								loggedInUser.setEmail(email);
@@ -166,16 +179,33 @@ public class RegistrationActivity extends MySuperScaler{
 									return mTafseerManager.registerUser(loggedInUser);
 								else
 									return mTafseerManager.updateUser(loggedInUser);
-							}
-							return null;
+							}else
+								return "50";
+							
 						}
 						
 						@Override
 						protected void onPostExecute(String result) {
 							if(result != null)
 							{
-								if(result.equals("2"))
+								if(result.equals("2")){
 									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.user_already_registered);
+								} 
+								else if(result.equals("10")){
+									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_confirm_email);
+								}
+								else if(result.equals("20")){
+									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_follower1);
+								}
+								else if(result.equals("30")){
+									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_follower2);
+								}
+								else if(result.equals("40")){
+									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_follower3);
+								}
+								else if(result.equals("50")){
+									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_request_confirm_email);
+								}
 								else{
 									loggedInUser.setUid(result);
 									
@@ -185,6 +215,8 @@ public class RegistrationActivity extends MySuperScaler{
 										if(myDB.updateUser(loggedInUser))
 											mTafseerManager.setLoggedInUser(loggedInUser);
 									}
+									
+									Toast.makeText(RegistrationActivity.this, R.string.register_success, Toast.LENGTH_LONG).show();
 									finish();
 								}
 							}else
@@ -216,21 +248,6 @@ public class RegistrationActivity extends MySuperScaler{
 			@Override
 			public void onClick(View v) {
 				state_social_1 = toggleSocialButton(social_1, state_social_1);
-//				switch(state_social_1) {
-//				case state_mail:
-//					social_1.setBackgroundResource(R.drawable.register_social_fb);
-//					state_social_1 = state_fb;
-//					break;
-//				case state_fb:
-//					social_1.setBackgroundResource(R.drawable.register_social_twitter);
-//					state_social_1 = state_tw;
-//					break;
-//				case state_tw:
-//					social_1.setBackgroundResource(R.drawable.register_social_mail);
-//					state_social_1 = state_mail;
-//					break;
-//				
-//				}
 			}
 		});
 		
@@ -238,21 +255,6 @@ public class RegistrationActivity extends MySuperScaler{
 			@Override
 			public void onClick(View v) {
 				state_social_2 = toggleSocialButton(social_2, state_social_2);
-//				switch(state_social_2) {
-//				case state_mail:
-//					social_2.setBackgroundResource(R.drawable.register_social_fb);
-//					state_social_2 = state_fb;
-//					break;
-//				case state_fb:
-//					social_2.setBackgroundResource(R.drawable.register_social_twitter);
-//					state_social_2 = state_tw;
-//					break;
-//				case state_tw:
-//					social_2.setBackgroundResource(R.drawable.register_social_mail);
-//					state_social_2 = state_mail;
-//					break;
-//				
-//				}
 			}
 		});
 		
@@ -260,21 +262,6 @@ public class RegistrationActivity extends MySuperScaler{
 			@Override
 			public void onClick(View v) {
 				state_social_3 = toggleSocialButton(social_3, state_social_3);
-//				switch(state_social_3) {
-//				case state_mail:
-//					social_3.setBackgroundResource(R.drawable.register_social_fb);
-//					state_social_3 = state_fb;
-//					break;
-//				case state_fb:
-//					social_3.setBackgroundResource(R.drawable.register_social_twitter);
-//					state_social_3 = state_tw;
-//					break;
-//				case state_tw:
-//					social_3.setBackgroundResource(R.drawable.register_social_mail);
-//					state_social_3 = state_mail;
-//					break;
-//				
-//				}
 			}
 		});
 		

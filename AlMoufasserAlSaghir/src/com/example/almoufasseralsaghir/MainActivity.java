@@ -591,7 +591,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 								}
 								else if(downloadManager.isUnzipping())
 								{
-									Toast.makeText(MainActivity.this, "You should wait", Toast.LENGTH_LONG).show();
+									Toast.makeText(MainActivity.this, R.string.wait, Toast.LENGTH_LONG).show();
 //									downloadManager.cancelUnzip();
 								}
 								
@@ -716,5 +716,14 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 		popup_progress.setMax(maxSize);
 		popup_progress.setProgress(0);
 		
+	}
+	
+	@Override
+	public void onErrorDownload() {
+		
+		mTafseerManager.showPopUp(this, R.string.error_download);
+		downloadManager.cancelDownload();
+		dialog.setCancelable(true);
+		download_layout.setVisibility(View.GONE);
 	}
 }
