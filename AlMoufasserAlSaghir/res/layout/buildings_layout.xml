@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1365px"
+    android:layout_height="800px"
+    android:id="@+id/principal_layout"
+    android:layout_gravity="right" >
+    
+    <Button android:id="@+id/back"
+        android:layout_width="66px"
+        android:layout_height="61px"
+        android:layout_marginLeft="500px"
+        android:layout_marginTop="40px"
+        android:background="@drawable/building_back_btn"/>
+    
+    <Button android:id="@+id/all_buildings"
+        android:layout_width="106px"
+        android:layout_height="73px"
+        android:layout_marginLeft="630px"
+        android:layout_marginTop="40px"
+        android:background="@drawable/building_final"/>
+    
+    <com.almoufasseralsaghir.utils.RightHorizontalScrollView
+        android:id="@+id/horizontal_scroll"
+ 		android:layout_width="1365px"
+    	android:layout_height="800px">
+    	
+<!--     	<RelativeLayout -->
+<!--             android:id="@+id/layout_draggable" -->
+<!--             android:layout_width="8192px" -->
+<!--             android:layout_height="800px"  -->
+<!--             android:layout_gravity="right" -->
+<!--             android:clipToPadding="true"> -->
+
+            <ImageView
+                android:id="@+id/img_draggable"
+                android:layout_width="8192px"
+                android:layout_height="800px"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@null"
+                android:src="@drawable/buildings_black_white" />
+<!--         </RelativeLayout> -->
+
+    </com.almoufasseralsaghir.utils.RightHorizontalScrollView>
+    
+    <ImageView android:id="@+id/building_draggable"
+        android:layout_width="1365px"
+        android:layout_height="275px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-220px"
+        android:background="@drawable/building_draggable"/>
+    
+</RelativeLayout>

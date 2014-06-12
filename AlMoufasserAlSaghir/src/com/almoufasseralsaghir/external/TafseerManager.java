@@ -1,6 +1,8 @@
 package com.almoufasseralsaghir.external;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +21,7 @@ import android.provider.Settings.Secure;
 
 import com.example.almoufasseralsaghir.entity.Answer;
 import com.example.almoufasseralsaghir.entity.Question;
+import com.example.almoufasseralsaghir.entity.QuizElement;
 import com.example.almoufasseralsaghir.entity.Sura;
 import com.example.almoufasseralsaghir.entity.User;
 
@@ -68,9 +71,13 @@ public class TafseerManager {
 	private int numberOfTracks = 0;
 	private String partText;
 	
+	private ArrayList<QuizElement> quizElements = new ArrayList<QuizElement>();
+	
 	public static String MainReceiterPath;
 	public static String SecondReceiterPath;
 	public static String AdvicesPath;
+	public static String QuizPNGPath;
+	public static String QuizPNGGrayPath;
 	
 	private ArrayList<Question> questions = new ArrayList<Question>();
 	private LinkedHashMap<String, ArrayList<Answer>> answers = new LinkedHashMap<String, ArrayList<Answer>>();
@@ -512,5 +519,20 @@ public class TafseerManager {
 
 	public void setAnswers(LinkedHashMap<String, ArrayList<Answer>> answers) {
 		this.answers = answers;
+	}
+	
+	public String getDateTime() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
+
+	public ArrayList<QuizElement> getQuizElements() {
+		return quizElements;
+	}
+
+	public void setQuizElements(ArrayList<QuizElement> quizElements) {
+		this.quizElements = quizElements;
 	}
 }

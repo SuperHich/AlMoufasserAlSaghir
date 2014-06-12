@@ -19,6 +19,8 @@ import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
 import com.example.almoufasseralsaghir.entity.Answer;
 import com.example.almoufasseralsaghir.entity.PartFavourite;
 import com.example.almoufasseralsaghir.entity.Question;
+import com.example.almoufasseralsaghir.entity.QuizElement;
+import com.example.almoufasseralsaghir.entity.QuizElementToAdd;
 import com.example.almoufasseralsaghir.entity.Reminder;
 import com.example.almoufasseralsaghir.entity.User;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
@@ -480,6 +482,9 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		
 		long insertedId = db.insertWithOnConflict(sqlTable, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		
+		if(insertedId != -1)
+			initiateUserQuizelements(user.getUid());
+		
 		return insertedId != -1;
     }
 
@@ -907,7 +912,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 				q.setText(c.getString(3));
 				q.setStatus(false);
 				
-				Log.i("Question " + q.getQuestionID(), q.getText());
+//				Log.i("Question " + q.getQuestionID(), q.getText());
 				questions.add(q);
 				
 				populateAnswers(q.getQuestionID());
@@ -1105,7 +1110,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		boolean result1 = true;
 		boolean result2 = true;
 		int suraID = suraId + 1;
-		String previousSuraStr = String.valueOf(suraID);
+//		String previousSuraStr = String.valueOf(suraID);
 		String elementID = getElementID(suraID, partNb);
 		
 		if(getElementStatus(elementID) == 0){
@@ -1151,10 +1156,10 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		return result1 && result2;
 	}
 	
-	public void initiateUserQuizelements(){
+	public void initiateUserQuizelements(String uid){
 		SQLiteDatabase db = getReadableDatabase();
 
-		String uid = mTafseerManager.getLoggedInUser().getUid();
+//		String uid = mTafseerManager.getLoggedInUser().getUid();
 		db.execSQL("INSERT INTO UserQuizElements(ElementID,Part_numberStr,SuraStr,Status,Located,UserID) SELECT ElementID,Part_numberStr,SuraStr,'0','0','"+uid+"' FROM QuizElements");
 	}
 	
@@ -1269,5 +1274,139 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 //		return result;
 //	}
 
+	public boolean insertQuizHistory(int suraId, int partNb, String historyDetails){
+		
+		SQLiteDatabase db = getWritableDatabase();
 
+		String sqlTable = "quiz_history";
+		
+		ContentValues values = new ContentValues();
+		values.put("pat_number", String.valueOf(partNb));
+		values.put("sura", String.valueOf(suraId));
+		values.put("result", historyDetails);
+		values.put("quiz_date", mTafseerManager.getDateTime());
+		values.put("UserID", mTafseerManager.getLoggedInUser().getUid());
+				
+		long insertedId = db.insertWithOnConflict(sqlTable, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		
+		return insertedId != -1;
+	}
+	
+	public void populateQuizElements(){
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		
+		mTafseerManager.setQuizElements(new ArrayList<QuizElement>());
+		
+		String sqlTables = "QuizElements";
+				qb.setTables(sqlTables);
+		Cursor c = qb.query(db, null, null, null, null, null, null);
+
+		if(c.moveToFirst()){
+			do{
+				QuizElement qe = new QuizElement();
+				qe.setQuizIdx(c.getString(0));
+				qe.setQuizWidth(c.getString(3));
+				qe.setQuizHeight(c.getString(4));
+				qe.setQuizLeft(c.getString(5));
+				qe.setQuizTop(c.getString(6));
+				
+	            int i = Integer.valueOf(qe.getQuizIdx());
+	            String idx = "";
+	            if (i<10) {
+	                idx = "00" + i;
+	            }
+	            if (i<100 && i> 9) {
+	                idx= "0" + i;
+	            }
+	            if (i> 99) {
+	                idx=""+i;
+	            }
+	            
+	            String FileName = "/QuizElement" + idx + "@2x~ipad.png";
+	            String GrayFileName = "/QuizElement" + idx + "-gray@2x~ipad.png";
+	            
+	            qe.setQuizFileName(FileName);
+	            qe.setQuizGrayFileName(GrayFileName);
+	            
+	            
+	            String f6 = "0";
+	            String f7 = "0";
+	   
+				Cursor cQ = getQuizElementStatusLocated(qe.getQuizIdx());
+				
+				if(cQ.moveToFirst()){
+					f6 = cQ.getString(0);
+					f7 = cQ.getString(1);
+				}
+				
+				qe.setQuizStatus(f6.equals("1"));
+				qe.setQuizStatus(f7.equals("1"));
+				
+				mTafseerManager.getQuizElements().add(qe);
+//				Log.i("QuizElement", qe.toString());
+	            				
+			}while(c.moveToNext());
+		}
+	}
+	
+	 public Cursor getQuizElementStatusLocated(String elementID) {
+
+			SQLiteDatabase db = getReadableDatabase();
+			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+			String [] sqlSelect = {"Status", "Located"}; 
+			String sqlTables = "UserQuizElements";
+			
+			String whereClause = "ElementID = ? AND UserID = ?";
+			String[] whereArgs = new String[]{String.valueOf(elementID), mTafseerManager.getLoggedInUser().getUid()};
+
+			qb.setTables(sqlTables);
+			Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+			return c;
+
+		}
+	 
+	 public QuizElementToAdd getQuizElementInfos(int suraId, int partNb) {
+
+			SQLiteDatabase db = getReadableDatabase();
+			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+			String sqlTables = "QuizElements";
+			
+			String whereClause = "sura = ? AND part_number = ?";
+			String[] whereArgs = new String[]{String.valueOf(suraId), String.valueOf(partNb)};
+
+			qb.setTables(sqlTables);
+			Cursor c = qb.query(db, null, whereClause, whereArgs, null, null, null);
+			
+			QuizElementToAdd qe = null;
+			if(c.moveToFirst()){
+				qe = new QuizElementToAdd();
+				qe.setQuizIdx(c.getString(0));
+				qe.setQuizWidth(Float.valueOf(c.getString(3)) / 2);
+				qe.setQuizHeight(Float.valueOf(c.getString(4)) / 2);
+				qe.setQuizElementX(Float.valueOf(c.getString(5)) / 2);
+				qe.setQuizElementY(Float.valueOf(c.getString(6)) / 2);
+				
+				int i = Integer.valueOf(qe.getQuizIdx());
+	            String idx = "";
+	            if (i<10) {
+	                idx = "00" + i;
+	            }
+	            if (i<100 && i> 9) {
+	                idx= "0" + i;
+	            }
+	            if (i> 99) {
+	                idx=""+i;
+	            }
+	            
+	            String FileName = "/QuizElement" + idx + "@2x~ipad.png";
+	            qe.setQuizFileName(FileName);
+			}
+
+			return qe;
+
+		}
 }

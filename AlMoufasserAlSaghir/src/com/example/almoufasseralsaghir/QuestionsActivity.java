@@ -63,6 +63,9 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	private Question currentQuestion;
 	private ArrayList<Answer> currentAnswers = new ArrayList<Answer>();
 	
+	private String quizHistoryStr;
+	private String currentElementStatus;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -311,16 +314,16 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		
 		if (format_4){
 			switch (currentQuestionIndex){
-			case 1 : if (answer) result_1_format_4.setBackgroundResource(R.drawable.answer_correct);
+			case 0 : if (answer) result_1_format_4.setBackgroundResource(R.drawable.answer_correct);
 						else  result_1_format_4.setBackgroundResource(R.drawable.answer_false);
 				break;
-			case 2 : if (answer) result_2_format_4.setBackgroundResource(R.drawable.answer_correct);
+			case 1 : if (answer) result_2_format_4.setBackgroundResource(R.drawable.answer_correct);
 						else  result_2_format_4.setBackgroundResource(R.drawable.answer_false);
 				break;
-			case 3 : if (answer) result_3_format_4.setBackgroundResource(R.drawable.answer_correct);
+			case 2 : if (answer) result_3_format_4.setBackgroundResource(R.drawable.answer_correct);
 						else  result_3_format_4.setBackgroundResource(R.drawable.answer_false);
 				break ;
-			case 4 : if (answer) result_4_format_4.setBackgroundResource(R.drawable.answer_correct);
+			case 3 : if (answer) result_4_format_4.setBackgroundResource(R.drawable.answer_correct);
 						else  result_4_format_4.setBackgroundResource(R.drawable.answer_false);
 				break ;
 			
@@ -328,13 +331,13 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		}
 		if (format_3){
 			switch (currentQuestionIndex){
-			case 1 : if (answer) result_1_format_3.setBackgroundResource(R.drawable.answer_correct);
+			case 0 : if (answer) result_1_format_3.setBackgroundResource(R.drawable.answer_correct);
 			else  result_1_format_3.setBackgroundResource(R.drawable.answer_false);
 				break;
-			case 2 : if (answer) result_2_format_3.setBackgroundResource(R.drawable.answer_correct);
+			case 1 : if (answer) result_2_format_3.setBackgroundResource(R.drawable.answer_correct);
 						else  result_2_format_3.setBackgroundResource(R.drawable.answer_false);
 				break;
-			case 3 :if (answer) result_3_format_3.setBackgroundResource(R.drawable.answer_correct);
+			case 2 :if (answer) result_3_format_3.setBackgroundResource(R.drawable.answer_correct);
 						else  result_3_format_3.setBackgroundResource(R.drawable.answer_false);
 				break ;
 		}
@@ -363,14 +366,17 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		
 		if(currentQuestionIndex == questions.size() )
 		{	
-			onBackPressed();
+			// Game finished ...
+			goToElementBuilder();
 			return;
 		}
 		
-		
-		
-		if(questions.size()>3) { format_4 = true ; format_3 = false ; }
-		else {format_4 = false ; format_3 = true ;}
+		if(questions.size()>3) { 
+			format_4 = true ; format_3 = false ; 
+		}
+		else {
+			format_4 = false ; format_3 = true ;
+		}
 		
 		if (questions.get(currentQuestionIndex) != null) {
 
@@ -390,10 +396,9 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	
 	}
 	
-	
 	private void answerTreatment(int i){
 		
-		currentQuestionIndex++ ;
+		String correctAnswer;
 		answer = currentAnswers.get(i).isStatus();
 		indicatePlay(answer);
 		
@@ -424,6 +429,8 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 					prepareQuestion() ;
 				}
 			});
+			
+			correctAnswer = "1";
 
 		} else {
 
@@ -447,7 +454,13 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 					prepareQuestion() ;
 				}
 			});
+			
+			correctAnswer = "0";
 		}
+		
+		prepareQuizHistory(i, correctAnswer);
+		
+		currentQuestionIndex++ ;
 		
 	}
 	
@@ -472,6 +485,63 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		myDB.setElementStatus(suraNB, partNB, status);
 		
 	}
+	
+	private void prepareQuizHistory(int choosenAnswerIndex, String correctAnswer){
+	
+	    String questionID = currentQuestion.getQuestionID();
+	    String answerID = currentAnswers.get(choosenAnswerIndex).getAnswerID();
+	    String quizHistoryStep = questionID + answerID + correctAnswer;
+	    
+	    quizHistoryStr += quizHistoryStep;
+	    
+	}
+	
+	private void goToElementBuilder() {
+		
+		quizHistoryStr = quizHistoryStr.substring(0, quizHistoryStr.length() - 1);
+		myDB.insertQuizHistory(suraId, partNb, quizHistoryStr);
+		
+		currentElementStatus = "3";
+		
+		int numberOfQuestionsBelogingToThisPart ;
+		if (suraId == 114) {
+			numberOfQuestionsBelogingToThisPart = questions.size();
+		} else {
+			numberOfQuestionsBelogingToThisPart = questions.size() - 1;
+		}
+		
+		if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart) {
+	        // all questions are answered correctly .. colored element
+			myDB.setElementStatus(suraId, partNb, 1);
+	        currentElementStatus = "1";
+	        Intent intent = new Intent(this, ElementBuilderActivity.class);
+	        intent.putExtra("suraId", suraId);
+	        intent.putExtra("partNb", partNb);
+	        startActivity(intent);
+	        finish();
+	    }
+		
+		else if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart-1) {
+	        // all questions are answered partially .. colored element
+			myDB.setElementStatus(suraId, partNb, 2);
+	        currentElementStatus = "2";
+	        Intent intent = new Intent(this, ElementBuilderActivity.class);
+	        intent.putExtra("suraId", suraId);
+	        intent.putExtra("partNb", partNb);
+	        startActivity(intent);
+	        finish();
+	    }
+		
+//		else if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart-2) {
+		else {
+	        // fail
+	        currentElementStatus = "3";
+	        myDB.setElementStatus(suraId, partNb, 3);
+	        
+	        finish();
+	    }
+	}
+
 	
 	
 }
