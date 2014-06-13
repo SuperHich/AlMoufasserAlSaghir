@@ -714,8 +714,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		if(c1.moveToFirst()){
 			ayaFrom = c1.getString(0);
 			ayaTo = c1.getString(1);
-			c1.close();
 		}
+		c1.close();
 		
 		mTafseerManager.setPartText("<span style='text-align: left !important;  float: left; margin-left: 60px;'>");
 		int i = 0;
@@ -891,7 +891,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		}else{
 			whereClause = "sura = ? AND part_number = ?";
 			whereArgs = new String[]{String.valueOf(suraId), String.valueOf(partNb)};
-			limit = null;
+			limit = "4";
 			qb.setDistinct(true);
 		}
 
@@ -903,7 +903,6 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		int i = 0;
 		if(c.moveToFirst()){
 			mTafseerManager.setAnswers(new LinkedHashMap<String, ArrayList<Answer>>());
-			int count = c.getCount();
 			do{
 				Question q = new Question();
 				
@@ -912,14 +911,14 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 				q.setText(c.getString(3));
 				q.setStatus(false);
 				
-//				Log.i("Question " + q.getQuestionID(), q.getText());
+				Log.i("Question " + q.getQuestionID(), q.getText());
 				questions.add(q);
 				
 				populateAnswers(q.getQuestionID());
 				
 				i++;
 				
-			}while(c.moveToNext() && (i<count && count <= 4));
+			}while(c.moveToNext());
 			
 			mTafseerManager.setQuestions(questions);
 		}
@@ -1152,6 +1151,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 				result2 = false;
 			
 		}
+		
+		c.close();
 
 		return result1 && result2;
 	}
@@ -1161,6 +1162,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 //		String uid = mTafseerManager.getLoggedInUser().getUid();
 		db.execSQL("INSERT INTO UserQuizElements(ElementID,Part_numberStr,SuraStr,Status,Located,UserID) SELECT ElementID,Part_numberStr,SuraStr,'0','0','"+uid+"' FROM QuizElements");
+	
 	}
 	
 	public int getPartNumberByQuestionID(String QID){
@@ -1340,6 +1342,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 					f7 = cQ.getString(1);
 				}
 				
+				cQ.close();
+				
 				qe.setQuizStatus(f6.equals("1"));
 				qe.setQuizStatus(f7.equals("1"));
 				
@@ -1347,6 +1351,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 //				Log.i("QuizElement", qe.toString());
 	            				
 			}while(c.moveToNext());
+			
+			c.close();
 		}
 	}
 	
@@ -1367,48 +1373,50 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		return c;
 
 	}
-	 
-	 public QuizElementToAdd getQuizElementInfos(int suraId, int partNb) {
 
-			SQLiteDatabase db = getReadableDatabase();
-			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+	public QuizElementToAdd getQuizElementInfos(int suraId, int partNb) {
 
-			String sqlTables = "QuizElements";
-			
-			String whereClause = "sura = ? AND part_number = ?";
-			String[] whereArgs = new String[]{String.valueOf(suraId), String.valueOf(partNb)};
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-			qb.setTables(sqlTables);
-			Cursor c = qb.query(db, null, whereClause, whereArgs, null, null, null);
-			
-			QuizElementToAdd qe = null;
-			if(c.moveToFirst()){
-				qe = new QuizElementToAdd();
-				qe.setQuizIdx(c.getString(0));
-				qe.setQuizWidth(Float.valueOf(c.getString(3)) / 2);
-				qe.setQuizHeight(Float.valueOf(c.getString(4)) / 2);
-				qe.setQuizElementX(Float.valueOf(c.getString(5)) / 2);
-				qe.setQuizElementY(Float.valueOf(c.getString(6)) / 2);
-				
-				int i = Integer.valueOf(qe.getQuizIdx());
-	            String idx = "";
-	            if (i<10) {
-	                idx = "00" + i;
-	            }
-	            if (i<100 && i> 9) {
-	                idx= "0" + i;
-	            }
-	            if (i> 99) {
-	                idx=""+i;
-	            }
-	            
-	            String FileName = "/QuizElement" + idx + "@2x~ipad.png";
-	            qe.setQuizFileName(FileName);
+		String sqlTables = "QuizElements";
+
+		String whereClause = "sura = ? AND part_number = ?";
+		String[] whereArgs = new String[]{String.valueOf(suraId), String.valueOf(partNb)};
+
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, null, whereClause, whereArgs, null, null, null);
+
+		QuizElementToAdd qe = null;
+		if(c.moveToFirst()){
+			qe = new QuizElementToAdd();
+			qe.setQuizIdx(c.getString(0));
+			qe.setQuizWidth(Float.valueOf(c.getString(3)) / 2);
+			qe.setQuizHeight(Float.valueOf(c.getString(4)) / 2);
+			qe.setQuizElementX(Float.valueOf(c.getString(5)) / 2);
+			qe.setQuizElementY(Float.valueOf(c.getString(6)) / 2);
+
+			int i = Integer.valueOf(qe.getQuizIdx());
+			String idx = "";
+			if (i<10) {
+				idx = "00" + i;
+			}
+			if (i<100 && i> 9) {
+				idx= "0" + i;
+			}
+			if (i> 99) {
+				idx=""+i;
 			}
 
-			return qe;
-
+			String FileName = "/QuizElement" + idx + "@2x~ipad.png";
+			qe.setQuizFileName(FileName);
 		}
+
+		c.close();
+
+		return qe;
+
+	}
 	 
 	 
 	 public String getElementPartName(String elementId) {
@@ -1429,7 +1437,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		 if(c.moveToFirst()){
 			 partName = c.getString(0);
 		 }
-
+		 
+		 c.close();
 		 return partName;
 	 }
 	 
@@ -1451,7 +1460,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		 if(c.moveToFirst()){
 			 suraName = c.getString(0);
 		 }
-
+		 
+		 c.close();
 		 return suraName;
 	 }
 	 
@@ -1473,7 +1483,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		 if(c.moveToFirst()){
 			 partNb = Integer.valueOf(c.getString(0));
 		 }
-
+		 
+		 c.close();
 		 return partNb;
 	 }
 	 
@@ -1496,6 +1507,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			 suraId = Integer.valueOf(c.getString(0));
 		 }
 
+		 c.close();
 		 return suraId;
 	 }
 }

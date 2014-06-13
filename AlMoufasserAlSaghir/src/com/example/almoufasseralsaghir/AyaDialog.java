@@ -473,6 +473,8 @@ public class AyaDialog extends Dialog{
 		super.onDetachedFromWindow();
 		((EyetPlayerActivity) mcontext).mPlayer.stop();
 		((EyetPlayerActivity) mcontext).repetition_mode = false ;
+		
+		myDB.close();
 	}
 
 	private void toggleFavourite(boolean isFav){

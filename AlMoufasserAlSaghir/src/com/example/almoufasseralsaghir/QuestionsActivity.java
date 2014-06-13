@@ -74,14 +74,7 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		if(getIntent().getExtras() != null){
 			suraId = getIntent().getExtras().getInt("suraId");
 			partNb = getIntent().getExtras().getInt("partNb");
-			
-			myDB.populateQuestions(suraId, partNb);
-			
-			questions.addAll(mTafseerManager.getQuestions());
-			answers = new LinkedHashMap<String, ArrayList<Answer>>(mTafseerManager.getAnswers());
 		}
-		
-		
 		
 		info = (Button) findViewById(R.id.questions_info);
 		favourites = (Button) findViewById(R.id.questions_favourites);
@@ -130,9 +123,6 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		animation.addAnimation(fadeIn);
 		animation.addAnimation(fadeOut);
 		
-		prepareQuestion();
-		
-		selectformat();
 		
 		answer_1.setOnClickListener(new OnClickListener() {
 			@Override
@@ -305,6 +295,22 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		
 		
 		mPlayer = new TafseerMediaPlayer(this);
+				
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		myDB.populateQuestions(suraId, partNb);
+		
+		questions.addAll(mTafseerManager.getQuestions());
+		answers = new LinkedHashMap<String, ArrayList<Answer>>(mTafseerManager.getAnswers());
+		
+		prepareQuestion();
+		
+		selectformat();
+		
 		String randomAdvice = myDB.getRandomAdviceMP3(suraId, partNb);
 		mPlayer.playFromSdcard(mPlayer.shuffleAdviceSong(randomAdvice));
 		

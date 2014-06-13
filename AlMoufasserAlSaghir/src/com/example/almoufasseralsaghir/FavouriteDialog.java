@@ -244,4 +244,10 @@ public class FavouriteDialog extends Dialog {
 		}
 	}
 
+	@Override
+	public void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		
+		myDB.close();
+	}
 }

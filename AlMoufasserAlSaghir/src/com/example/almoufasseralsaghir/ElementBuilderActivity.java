@@ -64,10 +64,6 @@ public class ElementBuilderActivity extends MySuperScaler{
 		if(getIntent().getExtras() != null){
 			suraId = getIntent().getExtras().getInt("suraId");
 			partNb = getIntent().getExtras().getInt("partNb");
-			
-			myDB.populateQuizElements();
-			
-			currentQuizElement = myDB.getQuizElementInfos(suraId, partNb);
 		}
 		
 		TafseerManager.QuizPNGPath = getExternalFilesDir(null) + File.separator + "_QuizPNGS" + File.separator;
@@ -230,6 +226,18 @@ public class ElementBuilderActivity extends MySuperScaler{
 				return false;
 			}
 		});
+		
+		
+	}
+	
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		myDB.populateQuizElements();
+		
+		currentQuizElement = myDB.getQuizElementInfos(suraId, partNb);
 		
 		prepareElementToAdd();
 	}

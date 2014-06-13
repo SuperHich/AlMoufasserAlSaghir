@@ -47,11 +47,14 @@ public class MySuperScaler extends FragmentActivity {
 		
 		thisAct = this ;
 		mTafseerManager = TafseerManager.getInstance(this);
+		
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
 		myDB = new AlMoufasserDB(this);
-		
-		
-		
-		
 	}
 
 	@Override
@@ -149,5 +152,12 @@ public class MySuperScaler extends FragmentActivity {
 		else finish();
 		
 		
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		
+		myDB.close();
 	}
 }

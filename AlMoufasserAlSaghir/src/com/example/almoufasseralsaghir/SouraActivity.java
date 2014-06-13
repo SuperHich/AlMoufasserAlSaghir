@@ -110,11 +110,7 @@ public class SouraActivity extends MySuperScaler {
 			
 			currentSura = mTafseerManager.getSouraLabel(quran_part_num, s_position) ;
 		}
-		
-		
-		
-		partsNumber = myDB.getPartNumber(currentSura.getSuraId());
-		
+			
 		int drawablepartId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_1", "drawable", SouraActivity.this.getPackageName());
         soura_part_num.setBackgroundResource(drawablepartId);
 		
@@ -269,8 +265,6 @@ public class SouraActivity extends MySuperScaler {
 		});
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		checkQuestionAvailability();
 		
 		questions.setOnTouchListener(new OnTouchListener() {
 			
@@ -701,8 +695,15 @@ public class SouraActivity extends MySuperScaler {
 		    }
 		});
 		
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		partsNumber = myDB.getPartNumber(currentSura.getSuraId());
 		
-		
+		checkQuestionAvailability();
 	}
 	
 	private void checkQuestionAvailability() {

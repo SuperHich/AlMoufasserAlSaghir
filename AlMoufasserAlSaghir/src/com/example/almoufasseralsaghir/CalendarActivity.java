@@ -85,8 +85,6 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		if(getIntent().getExtras() != null){
 			suraId = getIntent().getExtras().getInt("suraId");
 			partNb = getIntent().getExtras().getInt("partNb");
-			
-			currentReminder = myDB.getReminder(suraId, partNb);
 		}
 		
 		previous = (Button) findViewById(R.id.previous);
@@ -172,11 +170,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 
 		
 //////////////////////////    ListViews   //////////////////////////////////////////////////////////////////////////////////////////////////		
-		
-		
-		fillTimeList();
-
-
+				
 		adapter1 = new CustomList(CalendarActivity.this, time1);
 
 		list1 = (ListView) findViewById(R.id.calendar_listView1);
@@ -210,6 +204,15 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		
 		
 
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		currentReminder = myDB.getReminder(suraId, partNb);
+		
+		fillTimeList();
 	}
 	
 	
