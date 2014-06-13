@@ -285,13 +285,18 @@ public class SouraActivity extends MySuperScaler {
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
-		    	  Intent in = new Intent(SouraActivity.this, QuestionsActivity.class);
+		    	  Intent in;
+		    	  
+		    	  String elementId = myDB.getElementID(currentSura.getSuraId(), currentPart+1);
+		    	  if(myDB.getElementLocatedStatus(elementId) && myDB.getElementStatus(elementId)==1){
+		    		  in = new Intent(SouraActivity.this, ElementBuilderActivity.class);
+		    	  }else
+		    		  in = new Intent(SouraActivity.this, QuestionsActivity.class);
+		    	  
 		    	  in.putExtra("suraId", currentSura.getSuraId());
 		    	  in.putExtra("partNb", currentPart+1);
 		    	  startActivity(in);
 		    	  Utils.animateFad(SouraActivity.this);
-		    	  
-		    	  
 		    	  
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -701,6 +706,13 @@ public class SouraActivity extends MySuperScaler {
 	}
 	
 	private void checkQuestionAvailability() {
+		
+		if(!myDB.whoIsLoggedIn().isLoggedIn()){
+			questions.setEnabled(false);
+			questions.getBackground().setColorFilter(0x77d0d0d0, PorterDuff.Mode.SRC_ATOP);
+			return;
+		}
+		
 		if(!myDB.CheckQuizAvailability(currentSura.getSuraId(), currentPart+1))
 		{
 			questions.setEnabled(false);

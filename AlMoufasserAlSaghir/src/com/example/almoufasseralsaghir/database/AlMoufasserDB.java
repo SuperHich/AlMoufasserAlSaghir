@@ -1350,23 +1350,23 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		}
 	}
 	
-	 public Cursor getQuizElementStatusLocated(String elementID) {
+	public Cursor getQuizElementStatusLocated(String elementID) {
 
-			SQLiteDatabase db = getReadableDatabase();
-			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-			String [] sqlSelect = {"Status", "Located"}; 
-			String sqlTables = "UserQuizElements";
-			
-			String whereClause = "ElementID = ? AND UserID = ?";
-			String[] whereArgs = new String[]{String.valueOf(elementID), mTafseerManager.getLoggedInUser().getUid()};
+		String [] sqlSelect = {"Status", "Located"}; 
+		String sqlTables = "UserQuizElements";
 
-			qb.setTables(sqlTables);
-			Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+		String whereClause = "ElementID = ? AND UserID = ?";
+		String[] whereArgs = new String[]{String.valueOf(elementID), mTafseerManager.getLoggedInUser().getUid()};
 
-			return c;
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
 
-		}
+		return c;
+
+	}
 	 
 	 public QuizElementToAdd getQuizElementInfos(int suraId, int partNb) {
 
@@ -1409,4 +1409,93 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 			return qe;
 
 		}
+	 
+	 
+	 public String getElementPartName(String elementId) {
+
+		 SQLiteDatabase db = getReadableDatabase();
+		 SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		 String sqlTables = "QuizElements";
+		 String[] sqlSelect = {"Part_numberStr"};
+
+		 String whereClause = "ElementID = ?";
+		 String[] whereArgs = new String[]{elementId};
+
+		 qb.setTables(sqlTables);
+		 Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+		 String partName = null;
+		 if(c.moveToFirst()){
+			 partName = c.getString(0);
+		 }
+
+		 return partName;
+	 }
+	 
+	 public String getElementSuraName(String elementId) {
+
+		 SQLiteDatabase db = getReadableDatabase();
+		 SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		 String sqlTables = "QuizElements";
+		 String[] sqlSelect = {"SuraStr"};
+
+		 String whereClause = "ElementID = ?";
+		 String[] whereArgs = new String[]{elementId};
+
+		 qb.setTables(sqlTables);
+		 Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+		 String suraName = null;
+		 if(c.moveToFirst()){
+			 suraName = c.getString(0);
+		 }
+
+		 return suraName;
+	 }
+	 
+	 public int getElementPartNumber(String elementId) {
+
+		 SQLiteDatabase db = getReadableDatabase();
+		 SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		 String sqlTables = "QuizElements";
+		 String[] sqlSelect = {"Part_number"};
+
+		 String whereClause = "ElementID = ?";
+		 String[] whereArgs = new String[]{elementId};
+
+		 qb.setTables(sqlTables);
+		 Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+		 int partNb = -1;
+		 if(c.moveToFirst()){
+			 partNb = Integer.valueOf(c.getString(0));
+		 }
+
+		 return partNb;
+	 }
+	 
+	 public int getElementSuraId(String elementId) {
+
+		 SQLiteDatabase db = getReadableDatabase();
+		 SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		 String sqlTables = "QuizElements";
+		 String[] sqlSelect = {"Sura"};
+
+		 String whereClause = "ElementID = ?";
+		 String[] whereArgs = new String[]{elementId};
+
+		 qb.setTables(sqlTables);
+		 Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+		 int suraId = -1;
+		 if(c.moveToFirst()){
+			 suraId = Integer.valueOf(c.getString(0));
+		 }
+
+		 return suraId;
+	 }
 }
