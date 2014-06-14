@@ -11,7 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +28,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.MySuperScaler;
@@ -33,11 +38,13 @@ import com.example.almoufasseralsaghir.entity.QuizElementToAdd;
 
 public class ElementBuilderActivity extends MySuperScaler{
 	
+	private RelativeLayout all_buildings_layout, all_builds_imgs;
+	private ImageView puller;
+	private SeekBar seek_buildings;
 	private RelativeLayout principal_layout; 
-//	private RelativeLayout layout_draggable;
 	private RightHorizontalScrollView horizontal_scroll;
 	private Button back, all_buildings;
-	private ImageView building_draggable, img_draggable;
+	private ImageView img_draggable;
 	
 	private ObjectAnimator objectAnimator;
 	
@@ -71,16 +78,46 @@ public class ElementBuilderActivity extends MySuperScaler{
 		
 		
 		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
-//		layout_draggable = (RelativeLayout) findViewById(R.id.layout_draggable);
 		horizontal_scroll = (RightHorizontalScrollView) findViewById(R.id.horizontal_scroll);
 		back = (Button) findViewById(R.id.back);
 		all_buildings = (Button) findViewById(R.id.all_buildings);
-		building_draggable = (ImageView) findViewById(R.id.building_draggable);
 		img_draggable = (ImageView) findViewById(R.id.img_draggable);
+		
+		///// Bottom Layout
+		all_buildings_layout = (RelativeLayout) findViewById(R.id.all_buildings_layout);
+		all_builds_imgs = (RelativeLayout) findViewById(R.id.all_builds_imgs);
+		puller = (ImageView) findViewById(R.id.puller);
+		seek_buildings = (SeekBar) findViewById(R.id.seek_buildings);
+//		seek_buildings.setMax(all_buildings_layout.getLayoutParams().width);
+		seek_buildings.setMax(1365);
+		puller.bringToFront();
+		
+		seek_buildings.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				
+				int real_progress = getRealProgress(seekBar.getProgress());
+				horizontal_scroll.smoothScrollTo(real_progress, 0);
+				Log.v(""," "+ seekBar.getProgress() + " ... " + real_progress + " ... " + horizontal_scroll.getMaxScrollAmount() + " ... " + horizontal_scroll.getMeasuredWidth());
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		back.bringToFront();
 		all_buildings.bringToFront();
-		building_draggable.bringToFront();
 		
 		back.setOnTouchListener(new OnTouchListener() {
 			
@@ -96,7 +133,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		      case MotionEvent.ACTION_UP: {
 		    	  if(isScrollEnabled){
 		    		  isScrollEnabled = false;
-		    		  building_draggable.setVisibility(View.VISIBLE);
+		    		  all_buildings_layout.setVisibility(View.VISIBLE);
 		    		  all_buildings.setVisibility(View.VISIBLE);
 		    	  }else
 		    		  finish();
@@ -125,7 +162,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		      }
 		      case MotionEvent.ACTION_UP: {
 					isScrollEnabled = true;
-					building_draggable.setVisibility(View.GONE);
+					all_buildings_layout.setVisibility(View.GONE);
 					all_buildings.setVisibility(View.GONE);
 		      }
 		      case MotionEvent.ACTION_CANCEL: {
@@ -149,7 +186,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		});
 		
 		  
-		building_draggable.setOnTouchListener(new OnTouchListener() {
+		puller.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -164,8 +201,8 @@ public class ElementBuilderActivity extends MySuperScaler{
 			    	  
 			    	  if(!isAllBuildingsShown){
 			    		  isAllBuildingsShown = true;
-			    		  objectAnimator = ObjectAnimator.ofFloat(building_draggable, "translationY", 0, -136);
-			    		  objectAnimator.setDuration(1000);
+			    		  objectAnimator = ObjectAnimator.ofFloat(all_buildings_layout, "translationY", 0, -all_builds_imgs.getLayoutParams().height);
+			    		  objectAnimator.setDuration(700);
 			    		  objectAnimator.start();
 
 			    		  objectAnimator.addListener(new AnimatorListener() {
@@ -261,6 +298,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 			@Override
 			public void run() {
 				horizontal_scroll.smoothScrollTo((int)newX, 0);
+				seek_buildings.setProgress(getSeekProgress((int)newX));
 			}
 		},300);
 
@@ -342,15 +380,28 @@ public class ElementBuilderActivity extends MySuperScaler{
 						owner.removeView(view4);
 
 						RelativeLayout container = (RelativeLayout) v;
-//						container.addView(view4);
-//						view4.setVisibility(View.VISIBLE);
+						container.addView(view4);
+						view4.setVisibility(View.VISIBLE);
 						
 						isDragOk = true;
 						
-						ImageView img = (ImageView) view4.findViewWithTag(currentQuizElement.getQuizFileName());
-						Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
+//						 ImageView img = (ImageView) view4.findViewWithTag(currentQuizElement.getQuizFileName());
+//					      Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
+//					      
+//					/// HERE................
+//					      					      
+//					      Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.buildings_coloried_to_crop);
+//					      Bitmap resizedbitmap1 = Bitmap.createBitmap(bmp,(int)currentQuizElement.getQuizElementX(),(int) currentQuizElement.getQuizElementY(),(int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight());
+//					      
+//					      drawBitmapOnPosition(cropBitmap1(), getFixedX((int)currentQuizElement.getQuizElementX()), getScaledY(currentQuizElement.getQuizElementY()));
+					      
+					      
+					     
 						
-						drawBitmapOnPosition(bitmap, currentQuizElement.getQuizElementX(), currentQuizElement.getQuizElementY());
+//						ImageView img = (ImageView) view4.findViewWithTag(currentQuizElement.getQuizFileName());
+//						Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
+//						
+//						drawBitmapOnPosition(bitmap, currentQuizElement.getQuizElementX(), currentQuizElement.getQuizElementY());
 						
 						
 					}
@@ -386,6 +437,88 @@ public class ElementBuilderActivity extends MySuperScaler{
 		
 		return (int)f;
 	}
+	
+	private int getRealProgress(double progress){
+		
+		double dPercent = (double) (progress * 100.0 / 1365.0);
+		double f = (double) (dPercent * img_draggable.getMeasuredWidth() / 100.0);
+		
+		return (int)f;
+	}
+	
+	private int getSeekProgress(double scroll){
+		
+		double dPercent = (double) (scroll * 100.0 / img_draggable.getMeasuredWidth() );
+		double f = (double) (dPercent * 1365.0 / 100.0);
+		
+		return (int)f;
+	}
+	
+	
+	
+	private Bitmap cropBitmap1()
+	 {
+		  
+		     Bitmap bmp2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.buildings_coloried_to_crop); 
+		     Bitmap bmOverlay = Bitmap.createBitmap((int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight(), Bitmap.Config.ARGB_8888);
+
+		     Paint p = new Paint();
+		     p.setXfermode(new PorterDuffXfermode(Mode.CLEAR));              
+		     Canvas c = new Canvas(bmOverlay); 
+		     c.drawBitmap(bmp2,  (int)currentQuizElement.getQuizElementX(), (int)currentQuizElement.getQuizElementY(), null); 
+		     c.drawRect((int)currentQuizElement.getQuizElementX(), (int)currentQuizElement.getQuizElementY(), (int)(currentQuizElement.getQuizElementX()+currentQuizElement.getQuizWidth()), (int)(currentQuizElement.getQuizElementY()+currentQuizElement.getQuizHeight()), p);
+
+		     return bmOverlay;
+		     
+//	     Bitmap bmp2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.buildings_coloried_to_crop); 
+//	     Bitmap bmOverlay = Bitmap.createBitmap((int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight(), Bitmap.Config.ARGB_8888);
+//
+//	     Paint p = new Paint();
+//	     p.setXfermode(new PorterDuffXfermode(Mode.CLEAR));              
+//	     Canvas c = new Canvas(bmOverlay); 
+//	     c.drawBitmap(bmp2, 0, 0, null); 
+//	     c.drawRect((int)currentQuizElement.getQuizElementX(), (int)currentQuizElement.getQuizElementY(), (int)(currentQuizElement.getQuizElementX()+currentQuizElement.getQuizWidth()), (int)(currentQuizElement.getQuizElementY()+currentQuizElement.getQuizHeight()), p);
+
+//		try{
+//			 
+//            Paint paint = new Paint();
+//            paint.setFilterBitmap(true);
+//            Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(),R.drawable.buildings_coloried_to_crop);
+// 
+//            int targetX  = (int)currentQuizElement.getQuizElementX();
+//            int targetY = (int)currentQuizElement.getQuizElementY();
+//            int targetWidth  = (int)currentQuizElement.getQuizWidth();
+//            int targetHeight = (int)currentQuizElement.getQuizHeight();
+// 
+// 
+//            Bitmap targetBitmap = Bitmap.createBitmap(targetWidth, targetHeight,Bitmap.Config.ARGB_8888);
+// 
+//            RectF rectf = new RectF(0, 0, 100, 100);
+// 
+//            Canvas canvas = new Canvas(targetBitmap);
+//            Path path = new Path();
+// 
+//            path.addRect(rectf, Path.Direction.CW);
+//            canvas.clipPath(path);
+// 
+//            canvas.drawBitmap( bitmapOrg, new Rect(targetX, targetY, bitmapOrg.getWidth(), bitmapOrg.getHeight()),
+//                            new Rect(targetX, targetY, targetWidth, targetHeight), paint);
+// 
+// 
+// 
+//            Matrix matrix = new Matrix();
+//            matrix.postScale(1f, 1f);
+//            Bitmap resizedBitmap = Bitmap.createBitmap(targetBitmap, 0, 0, 100, 100, matrix, true);
+// 
+//            return resizedBitmap;
+// 
+//        }
+//        catch(Exception e){
+//            System.out.println("Error1 : " + e.getMessage() + e.toString());
+//      }
+//		
+//	     return null;
+	 }
 	
 	public void drawBitmapOnPosition(Bitmap bm, float left, float top){
 		

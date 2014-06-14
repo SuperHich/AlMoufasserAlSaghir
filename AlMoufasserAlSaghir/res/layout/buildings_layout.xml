@@ -42,12 +42,53 @@
 <!--         </RelativeLayout> -->
 
     </com.almoufasseralsaghir.utils.RightHorizontalScrollView>
-    
-    <ImageView android:id="@+id/building_draggable"
+
+    <RelativeLayout
+        android:id="@+id/all_buildings_layout"
         android:layout_width="1365px"
-        android:layout_height="275px"
+        android:layout_height="285px"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-220px"
-        android:background="@drawable/building_draggable"/>
-    
+        android:layout_marginBottom="-228px" >
+
+        <ImageView
+            android:id="@+id/puller"
+            android:layout_width="79px"
+            android:layout_height="57px"
+            android:background="@drawable/all_buildings_puller" 
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-25px"/>
+
+        <RelativeLayout
+            android:id="@+id/all_builds_imgs"
+            android:layout_width="1365px"
+            android:layout_height="243px"
+            android:layout_below="@+id/puller"
+            android:layout_alignParentBottom="true">
+
+            <RelativeLayout
+                android:layout_width="1365px"
+                android:layout_height="243px"
+                android:background="@drawable/all_buildings_holder" >
+
+                <SeekBar
+                    android:id="@+id/seek_buildings"
+                    android:layout_width="1365px"
+                    android:layout_height="66px"
+                    android:layout_alignParentTop="true"
+                    android:background="@android:color/transparent"
+                    android:progressDrawable="@android:color/transparent"
+                    android:thumb="@drawable/all_buildings_indexer"
+                    android:layout_marginTop="25px"/>
+
+                <ImageView
+                    android:layout_width="1365px"
+                    android:layout_height="154px"
+                    android:layout_alignParentBottom="true"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/all_buildings_image"
+                    android:layout_below="@+id/seek_buildings" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>

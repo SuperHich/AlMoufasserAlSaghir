@@ -399,10 +399,18 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			if(currentAnswers.size() > 2)
 				answer_3.setText(currentAnswers.get(2).getText());
 		}
+		
+		answer_1.setEnabled(true);
+		answer_2.setEnabled(true);
+		answer_3.setEnabled(true);
 	
 	}
 	
 	private void answerTreatment(int i){
+		
+		answer_1.setEnabled(false);
+		answer_2.setEnabled(false);
+		answer_3.setEnabled(false);
 		
 		String correctAnswer;
 		answer = currentAnswers.get(i).isStatus();
@@ -516,36 +524,36 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			numberOfQuestionsBelogingToThisPart = questions.size() - 1;
 		}
 		
-		if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart) {
+		
+		
+		if(correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart - 2 || correctCurrentAnswersCount == 0){
+			// fail 
+	        myDB.setElementStatus(suraId, partNb, 3);
+	        currentElementStatus = "3";
+	        
+	        finish();
+	        return;
+		}
+		
+		else if (correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart - 1) {
+			 // all questions are answered partially .. colored element
+			myDB.setElementStatus(suraId, partNb, 2);
+	        currentElementStatus = "2";
+	    }
+		
+		else if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart || correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart+1) {
 	        // all questions are answered correctly .. colored element
 			myDB.setElementStatus(suraId, partNb, 1);
 	        currentElementStatus = "1";
-	        Intent intent = new Intent(this, ElementBuilderActivity.class);
-	        intent.putExtra("suraId", suraId);
-	        intent.putExtra("partNb", partNb);
-	        startActivity(intent);
-	        finish();
+	      
 	    }
 		
-		else if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart-1) {
-	        // all questions are answered partially .. colored element
-			myDB.setElementStatus(suraId, partNb, 2);
-	        currentElementStatus = "2";
-	        Intent intent = new Intent(this, ElementBuilderActivity.class);
-	        intent.putExtra("suraId", suraId);
-	        intent.putExtra("partNb", partNb);
-	        startActivity(intent);
-	        finish();
-	    }
-		
-//		else if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart-2) {
-		else {
-	        // fail
-	        currentElementStatus = "3";
-	        myDB.setElementStatus(suraId, partNb, 3);
-	        
-	        finish();
-	    }
+		Intent intent = new Intent(this, ElementBuilderActivity.class);
+		intent.putExtra("suraId", suraId);
+		intent.putExtra("partNb", partNb);
+		startActivity(intent);
+		finish();
+	
 	}
 
 	
