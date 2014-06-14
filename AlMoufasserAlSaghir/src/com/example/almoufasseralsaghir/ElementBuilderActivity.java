@@ -1,30 +1,18 @@
 package com.example.almoufasseralsaghir;
 
-import java.io.File;
+import java.util.ArrayList;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
-import android.content.ClipData;
-import android.content.ClipDescription;
+import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.DragShadowBuilder;
-import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -32,19 +20,22 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.almoufasseralsaghir.external.TafseerManager;
-import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.RightHorizontalScrollView;
+import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 import com.example.almoufasseralsaghir.entity.QuizElementToAdd;
 
-public class ElementBuilderActivity extends MySuperScaler{
+public class ElementBuilderActivity extends Activity{
 	
-	private RelativeLayout all_buildings_layout, all_builds_imgs;
+	private RelativeLayout all_buildings_layout, all_builds_imgs, layout_scroll;
 	private ImageView puller;
 	private SeekBar seek_buildings;
 	private RelativeLayout principal_layout; 
 	private RightHorizontalScrollView horizontal_scroll;
 	private Button back, all_buildings;
-	private ImageView img_draggable;
+//	private ImageView img_draggable;
+	
+	private AlMoufasserDB myDB;
+	private TafseerManager mTafseerManager;
 	
 	private ObjectAnimator objectAnimator;
 	
@@ -62,6 +53,8 @@ public class ElementBuilderActivity extends MySuperScaler{
 	
 	private Bitmap bmToDrag;
 	
+	private ArrayList<QuizElementToAdd> defectiveElements;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,15 +66,15 @@ public class ElementBuilderActivity extends MySuperScaler{
 			partNb = getIntent().getExtras().getInt("partNb");
 		}
 		
-		TafseerManager.QuizPNGPath = getExternalFilesDir(null) + File.separator + "_QuizPNGS" + File.separator;
-		TafseerManager.QuizPNGGrayPath = getExternalFilesDir(null) + File.separator + "_QuizPNGsGray" + File.separator;
-		
+		mTafseerManager = new TafseerManager(this);
+		myDB = new AlMoufasserDB(this);
 		
 		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		horizontal_scroll = (RightHorizontalScrollView) findViewById(R.id.horizontal_scroll);
+		layout_scroll = (RelativeLayout) findViewById(R.id.layout_scroll);
 		back = (Button) findViewById(R.id.back);
 		all_buildings = (Button) findViewById(R.id.all_buildings);
-		img_draggable = (ImageView) findViewById(R.id.img_draggable);
+//		img_draggable = (ImageView) findViewById(R.id.img_draggable);
 		
 		///// Bottom Layout
 		all_buildings_layout = (RelativeLayout) findViewById(R.id.all_buildings_layout);
@@ -97,9 +90,9 @@ public class ElementBuilderActivity extends MySuperScaler{
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				
-				int real_progress = getRealProgress(seekBar.getProgress());
-				horizontal_scroll.smoothScrollTo(real_progress, 0);
-				Log.v(""," "+ seekBar.getProgress() + " ... " + real_progress + " ... " + horizontal_scroll.getMaxScrollAmount() + " ... " + horizontal_scroll.getMeasuredWidth());
+//				int real_progress = getRealProgress(seekBar.getProgress());
+//				horizontal_scroll.smoothScrollTo(real_progress, 0);
+//				Log.v(""," "+ seekBar.getProgress() + " ... " + real_progress + " ... " + horizontal_scroll.getMaxScrollAmount() + " ... " + horizontal_scroll.getMeasuredWidth());
 			}
 			
 			@Override
@@ -253,16 +246,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 //		img_draggable.setImageBitmap(bm);
 //		img_draggable.setBackgroundDrawable(d);
 		
-		img_draggable.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					Log.v("", "x="+event.getX() + " y="+event.getY());
-				}
-				return false;
-			}
-		});
+		
 		
 		
 	}
@@ -276,268 +260,218 @@ public class ElementBuilderActivity extends MySuperScaler{
 		
 		currentQuizElement = myDB.getQuizElementInfos(suraId, partNb);
 		
-		prepareElementToAdd();
+		populateElements();
+//		prepareElementToAdd();
 	}
-
-	private void prepareElementToAdd() {
-		//==========================================================================================
-	    //  scroll the view to a suitable position according to the new element position
-	    //==========================================================================================
+	
+	private void populateElements(){
 		
-		newX = currentQuizElement.getQuizElementX() - horizontal_scroll.getLayoutParams().width/2 + currentQuizElement.getQuizWidth()/2;
+		defectiveElements = new ArrayList<QuizElementToAdd>();
+		int i = 0;
 		
-		int diff = img_draggable.getLayoutParams().width - horizontal_scroll.getLayoutParams().width;
-		if (newX > diff) 
-			newX = (float) diff;
-
-		if (newX<0f) newX=0f;
-		
-//		newX = currentQuizElement.getQuizWidth();
-
-		horizontal_scroll.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				horizontal_scroll.smoothScrollTo((int)newX, 0);
-				seek_buildings.setProgress(getSeekProgress((int)newX));
-			}
-		},300);
-
-		 Log.i("prepareElementToAdd", "newX 3  " + newX);
-		 
-//		 horizontal_scroll.setLeft((int)newX/6);
-		 
-		 imgToDrag = new ImageView(this);
-		 imgToDrag.setTag(currentQuizElement.getQuizFileName());
-		 bmToDrag = BitmapFactory.decodeFile(TafseerManager.QuizPNGPath + currentQuizElement.getQuizFileName());
-		 imgToDrag.setImageBitmap(bmToDrag);
-		 imgToDrag.setOnTouchListener(new OnTouchListener() {
-		 
-			public boolean onTouch(View view, MotionEvent motionEvent) {
-
-				if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !isDragOk) {
-					
-					// create it from the object's tag
-					
-					ClipData.Item item = new ClipData.Item((CharSequence)view.getTag());
-					
-					String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
-
-					ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
-
-					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-
-
-					view.startDrag( data, //data to be dragged
-							shadowBuilder, //drag shadow
-							view, //local data about the drag and drop operation
-							0   //no needed flags
-							);
-
-					view.setVisibility(View.INVISIBLE);
-
-					return true;
-				}
-
-				else {
-					imgToDrag.setVisibility(View.VISIBLE);
-					return false;
-				}
-			}
-		});
-		 
-		
-		 float scale = currentQuizElement.getQuizHeight()/100;
-		 float smallWidth = currentQuizElement.getQuizWidth()/scale;
-		 float smallHeight = currentQuizElement.getQuizHeight()/scale;
-
-		 viewToDragFrom = new RelativeLayout(this);
-		 RelativeLayout.LayoutParams smallParams = new RelativeLayout.LayoutParams((int)smallWidth, (int)smallHeight);
-		 viewToDragFrom.setLayoutParams(smallParams);
-		 
-		 viewToDragFrom.addView(imgToDrag);
-		 
-		 viewToDragIn = new RelativeLayout(this);
-		 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight());
-		 params.setMargins(getFixedX((int)currentQuizElement.getQuizElementX()), getScaledY(currentQuizElement.getQuizElementY()), 0, 0);
-		 viewToDragIn.setLayoutParams(params);
-		 viewToDragIn.setOnDragListener(new OnDragListener() {
+		for(QuizElementToAdd elementToAdd : mTafseerManager.getQuizElements()){
+			ImageView imgInsideLoop = new ImageView(this);
 			
-			@Override
-			public boolean onDrag(View v, DragEvent event) {
-				switch (event.getAction()) {
-				case DragEvent.ACTION_DRAG_STARTED:
-					break;
-				case DragEvent.ACTION_DRAG_ENTERED:
-					break;
-				case DragEvent.ACTION_DRAG_EXITED:
-					break;
-				case DragEvent.ACTION_DROP:
-					// if the view is the viewToDragIn, we accept the drag item
-					if(v == viewToDragIn) {
+			imgInsideLoop.setTag(i+1);
+			
+			float x = elementToAdd.getQuizElementX();
+			float y = elementToAdd.getQuizElementY();
+			float width = elementToAdd.getQuizWidth();
+			float height = elementToAdd.getQuizHeight();
+			
+			Bitmap bm = originalResolution(TafseerManager.QuizPNGGrayPath + elementToAdd.getQuizGrayFileName(), (int)width, (int)height);
+			imgInsideLoop.setImageBitmap(bm);
 
-						View view4 = (View) event.getLocalState();
-						ViewGroup owner = (ViewGroup) view4.getParent();
-						owner.removeView(view4);
 
-						RelativeLayout container = (RelativeLayout) v;
-						container.addView(view4);
-						view4.setVisibility(View.VISIBLE);
-						
-						isDragOk = true;
-						
-//						 ImageView img = (ImageView) view4.findViewWithTag(currentQuizElement.getQuizFileName());
-//					      Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
-//					      
-//					/// HERE................
-//					      					      
-//					      Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.buildings_coloried_to_crop);
-//					      Bitmap resizedbitmap1 = Bitmap.createBitmap(bmp,(int)currentQuizElement.getQuizElementX(),(int) currentQuizElement.getQuizElementY(),(int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight());
-//					      
-//					      drawBitmapOnPosition(cropBitmap1(), getFixedX((int)currentQuizElement.getQuizElementX()), getScaledY(currentQuizElement.getQuizElementY()));
-					      
-					      
-					     
-						
-//						ImageView img = (ImageView) view4.findViewWithTag(currentQuizElement.getQuizFileName());
-//						Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
-//						
-//						drawBitmapOnPosition(bitmap, currentQuizElement.getQuizElementX(), currentQuizElement.getQuizElementY());
-						
-						
-					}
-					break;
-				case DragEvent.ACTION_DRAG_ENDED:
-				default:
-					break;
-				}
-				return true;
-			}
-		});
-		 
-		 principal_layout.addView(viewToDragFrom);
-		 principal_layout.addView(viewToDragIn);
-	}
-	
-	private int getScaledX(double x){
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)width, (int)height);
+			params.setMargins((int)x, (int)y, 0, 0);
+			imgInsideLoop.setLayoutParams(params);
+
+			layout_scroll.addView(imgInsideLoop);
+			
+			i++;
+			
+//			if(i == 10)
+//				break;
+			
+		}
 		
-		double dx = Double.valueOf(x);
-		
-		double dPercent = (double) (dx * 100.0 / 6144.0);
-		double f = (double) (dPercent * img_draggable.getLayoutParams().width / 100.0);
-		
-		return (int)f;
 	}
 
-	private int getScaledY(double y){
-		
-		double dy = Double.valueOf(y);
-		
-		double dPercent = (double) (dy * 100.0 / 768.0);
-		double f = (double) (dPercent * img_draggable.getLayoutParams().height / 100.0);
-		
-		return (int)f;
-	}
-	
-	private int getRealProgress(double progress){
-		
-		double dPercent = (double) (progress * 100.0 / 1365.0);
-		double f = (double) (dPercent * img_draggable.getMeasuredWidth() / 100.0);
-		
-		return (int)f;
-	}
-	
-	private int getSeekProgress(double scroll){
-		
-		double dPercent = (double) (scroll * 100.0 / img_draggable.getMeasuredWidth() );
-		double f = (double) (dPercent * 1365.0 / 100.0);
-		
-		return (int)f;
-	}
-	
-	
-	
-	private Bitmap cropBitmap1()
-	 {
-		  
-		     Bitmap bmp2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.buildings_coloried_to_crop); 
-		     Bitmap bmOverlay = Bitmap.createBitmap((int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight(), Bitmap.Config.ARGB_8888);
-
-		     Paint p = new Paint();
-		     p.setXfermode(new PorterDuffXfermode(Mode.CLEAR));              
-		     Canvas c = new Canvas(bmOverlay); 
-		     c.drawBitmap(bmp2,  (int)currentQuizElement.getQuizElementX(), (int)currentQuizElement.getQuizElementY(), null); 
-		     c.drawRect((int)currentQuizElement.getQuizElementX(), (int)currentQuizElement.getQuizElementY(), (int)(currentQuizElement.getQuizElementX()+currentQuizElement.getQuizWidth()), (int)(currentQuizElement.getQuizElementY()+currentQuizElement.getQuizHeight()), p);
-
-		     return bmOverlay;
-		     
-//	     Bitmap bmp2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.buildings_coloried_to_crop); 
-//	     Bitmap bmOverlay = Bitmap.createBitmap((int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight(), Bitmap.Config.ARGB_8888);
-//
-//	     Paint p = new Paint();
-//	     p.setXfermode(new PorterDuffXfermode(Mode.CLEAR));              
-//	     Canvas c = new Canvas(bmOverlay); 
-//	     c.drawBitmap(bmp2, 0, 0, null); 
-//	     c.drawRect((int)currentQuizElement.getQuizElementX(), (int)currentQuizElement.getQuizElementY(), (int)(currentQuizElement.getQuizElementX()+currentQuizElement.getQuizWidth()), (int)(currentQuizElement.getQuizElementY()+currentQuizElement.getQuizHeight()), p);
-
-//		try{
-//			 
-//            Paint paint = new Paint();
-//            paint.setFilterBitmap(true);
-//            Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(),R.drawable.buildings_coloried_to_crop);
-// 
-//            int targetX  = (int)currentQuizElement.getQuizElementX();
-//            int targetY = (int)currentQuizElement.getQuizElementY();
-//            int targetWidth  = (int)currentQuizElement.getQuizWidth();
-//            int targetHeight = (int)currentQuizElement.getQuizHeight();
-// 
-// 
-//            Bitmap targetBitmap = Bitmap.createBitmap(targetWidth, targetHeight,Bitmap.Config.ARGB_8888);
-// 
-//            RectF rectf = new RectF(0, 0, 100, 100);
-// 
-//            Canvas canvas = new Canvas(targetBitmap);
-//            Path path = new Path();
-// 
-//            path.addRect(rectf, Path.Direction.CW);
-//            canvas.clipPath(path);
-// 
-//            canvas.drawBitmap( bitmapOrg, new Rect(targetX, targetY, bitmapOrg.getWidth(), bitmapOrg.getHeight()),
-//                            new Rect(targetX, targetY, targetWidth, targetHeight), paint);
-// 
-// 
-// 
-//            Matrix matrix = new Matrix();
-//            matrix.postScale(1f, 1f);
-//            Bitmap resizedBitmap = Bitmap.createBitmap(targetBitmap, 0, 0, 100, 100, matrix, true);
-// 
-//            return resizedBitmap;
-// 
-//        }
-//        catch(Exception e){
-//            System.out.println("Error1 : " + e.getMessage() + e.toString());
-//      }
+//	private void prepareElementToAdd() {
+//		//==========================================================================================
+//	    //  scroll the view to a suitable position according to the new element position
+//	    //==========================================================================================
 //		
-//	     return null;
-	 }
+//		newX = currentQuizElement.getQuizElementX() - horizontal_scroll.getLayoutParams().width/2 + currentQuizElement.getQuizWidth()/2;
+//		
+//		int diff = img_draggable.getLayoutParams().width - horizontal_scroll.getLayoutParams().width;
+//		if (newX > diff) 
+//			newX = (float) diff;
+//
+//		if (newX<0f) newX=0f;
+//		
+////		newX = currentQuizElement.getQuizWidth();
+//
+//		horizontal_scroll.postDelayed(new Runnable() {
+//			@Override
+//			public void run() {
+//				horizontal_scroll.smoothScrollTo((int)newX, 0);
+//				seek_buildings.setProgress(getSeekProgress((int)newX));
+//			}
+//		},300);
+//
+//		 Log.i("prepareElementToAdd", "newX 3  " + newX);
+//		 
+////		 horizontal_scroll.setLeft((int)newX/6);
+//		 
+//		 imgToDrag = new ImageView(this);
+//		 imgToDrag.setTag(currentQuizElement.getQuizFileName());
+//		 bmToDrag = BitmapFactory.decodeFile(TafseerManager.QuizPNGPath + currentQuizElement.getQuizFileName());
+//		 imgToDrag.setImageBitmap(bmToDrag);
+//		 imgToDrag.setOnTouchListener(new OnTouchListener() {
+//		 
+//			public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//				if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !isDragOk) {
+//					
+//					// create it from the object's tag
+//					
+//					ClipData.Item item = new ClipData.Item((CharSequence)view.getTag());
+//					
+//					String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
+//
+//					ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
+//
+//					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+//
+//
+//					view.startDrag( data, //data to be dragged
+//							shadowBuilder, //drag shadow
+//							view, //local data about the drag and drop operation
+//							0   //no needed flags
+//							);
+//
+//					view.setVisibility(View.INVISIBLE);
+//
+//					return true;
+//				}
+//
+//				else {
+//					imgToDrag.setVisibility(View.VISIBLE);
+//					return false;
+//				}
+//			}
+//		});
+//		 
+//		
+//		 float scale = currentQuizElement.getQuizHeight()/100;
+//		 float smallWidth = currentQuizElement.getQuizWidth()/scale;
+//		 float smallHeight = currentQuizElement.getQuizHeight()/scale;
+//
+//		 viewToDragFrom = new RelativeLayout(this);
+//		 RelativeLayout.LayoutParams smallParams = new RelativeLayout.LayoutParams((int)smallWidth, (int)smallHeight);
+//		 viewToDragFrom.setLayoutParams(smallParams);
+//		 
+//		 viewToDragFrom.addView(imgToDrag);
+//		 
+//		 viewToDragIn = new RelativeLayout(this);
+//		 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight());
+//		 params.setMargins(getFixedX((int)currentQuizElement.getQuizElementX()), getScaledY(currentQuizElement.getQuizElementY()), 0, 0);
+//		 viewToDragIn.setLayoutParams(params);
+//		 viewToDragIn.setOnDragListener(new OnDragListener() {
+//			
+//			@Override
+//			public boolean onDrag(View v, DragEvent event) {
+//				switch (event.getAction()) {
+//				case DragEvent.ACTION_DRAG_STARTED:
+//					break;
+//				case DragEvent.ACTION_DRAG_ENTERED:
+//					break;
+//				case DragEvent.ACTION_DRAG_EXITED:
+//					break;
+//				case DragEvent.ACTION_DROP:
+//					// if the view is the viewToDragIn, we accept the drag item
+//					if(v == viewToDragIn) {
+//
+//						View view4 = (View) event.getLocalState();
+//						ViewGroup owner = (ViewGroup) view4.getParent();
+//						owner.removeView(view4);
+//
+//						RelativeLayout container = (RelativeLayout) v;
+//						container.addView(view4);
+//						view4.setVisibility(View.VISIBLE);
+//						
+//						isDragOk = true;
+//
+//					}
+//					break;
+//				case DragEvent.ACTION_DRAG_ENDED:
+//				default:
+//					break;
+//				}
+//				return true;
+//			}
+//		});
+//		 
+//		 principal_layout.addView(viewToDragFrom);
+//		 principal_layout.addView(viewToDragIn);
+//	}
 	
-	public void drawBitmapOnPosition(Bitmap bm, float left, float top){
-		
-		Bitmap bitmap = ((BitmapDrawable)img_draggable.getDrawable()).getBitmap();
-		Bitmap mutableBitmap = bitmap.copy(Config.ARGB_8888, true);
-		
-//		Bitmap bm = Bitmap.createScaledBitmap(bitmapToDraw, (int)currentQuizElement.getQuizElementX(), (int)currentQuizElement.getQuizElementY(), false);
-
-		Canvas canvas = new Canvas();
-		canvas.setBitmap(mutableBitmap);
-//		canvas.drawBitmap(bitmapToDraw, new Matrix(), null);
-		
-//		Bitmap bitmapToDraw = decodeSampledBitmapFromDescriptor(bmToDrag, (int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight());
-
-		canvas.drawBitmap(bm, left, top, null);
-	
-		img_draggable.setImageBitmap(mutableBitmap);
-		
-	}
+//	private int getScaledX(double x){
+//		
+//		double dx = Double.valueOf(x);
+//		
+//		double dPercent = (double) (dx * 100.0 / 6144.0);
+//		double f = (double) (dPercent * img_draggable.getLayoutParams().width / 100.0);
+//		
+//		return (int)f;
+//	}
+//
+//	private int getScaledY(double y){
+//		
+//		double dy = Double.valueOf(y);
+//		
+//		double dPercent = (double) (dy * 100.0 / 768.0);
+//		double f = (double) (dPercent * img_draggable.getLayoutParams().height / 100.0);
+//		
+//		return (int)f;
+//	}
+//	
+//	private int getRealProgress(double progress){
+//		
+//		double dPercent = (double) (progress * 100.0 / 1365.0);
+//		double f = (double) (dPercent * img_draggable.getMeasuredWidth() / 100.0);
+//		
+//		return (int)f;
+//	}
+//	
+//	private int getSeekProgress(double scroll){
+//		
+//		double dPercent = (double) (scroll * 100.0 / img_draggable.getMeasuredWidth() );
+//		double f = (double) (dPercent * 1365.0 / 100.0);
+//		
+//		return (int)f;
+//	}
+//
+//	public void drawBitmapOnPosition(Bitmap bm, float left, float top){
+//		
+//		Bitmap bitmap = ((BitmapDrawable)img_draggable.getDrawable()).getBitmap();
+//		Bitmap mutableBitmap = bitmap.copy(Config.ARGB_8888, true);
+//		
+////		Bitmap bm = Bitmap.createScaledBitmap(bitmapToDraw, (int)currentQuizElement.getQuizElementX(), (int)currentQuizElement.getQuizElementY(), false);
+//
+//		Canvas canvas = new Canvas();
+//		canvas.setBitmap(mutableBitmap);
+////		canvas.drawBitmap(bitmapToDraw, new Matrix(), null);
+//		
+////		Bitmap bitmapToDraw = decodeSampledBitmapFromDescriptor(bmToDrag, (int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight());
+//
+//		canvas.drawBitmap(bm, left, top, null);
+//	
+//		img_draggable.setImageBitmap(mutableBitmap);
+//		
+//	}
 	
 	private int getFixedX(int x){
 		int diff = 6144 - x;

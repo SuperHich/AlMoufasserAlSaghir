@@ -1298,7 +1298,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		
-		mTafseerManager.setQuizElements(new ArrayList<QuizElement>());
+		mTafseerManager.setQuizElements(new ArrayList<QuizElementToAdd>());
 		
 		String sqlTables = "QuizElements";
 				qb.setTables(sqlTables);
@@ -1306,12 +1306,12 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 		if(c.moveToFirst()){
 			do{
-				QuizElement qe = new QuizElement();
+				QuizElementToAdd qe = new QuizElementToAdd();
 				qe.setQuizIdx(c.getString(0));
-				qe.setQuizWidth(c.getString(3));
-				qe.setQuizHeight(c.getString(4));
-				qe.setQuizLeft(c.getString(5));
-				qe.setQuizTop(c.getString(6));
+				qe.setQuizWidth(Float.valueOf(c.getString(3)) / 2);
+				qe.setQuizHeight(Float.valueOf(c.getString(4)) / 2);
+				qe.setQuizElementX(Float.valueOf(c.getString(5)) / 2);
+				qe.setQuizElementY(Float.valueOf(c.getString(6)) / 2);
 				
 	            int i = Integer.valueOf(qe.getQuizIdx());
 	            String idx = "";

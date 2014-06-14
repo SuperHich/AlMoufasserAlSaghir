@@ -18,6 +18,9 @@
 	<string name="register_follower1">الرجاء إدخال الحساب رقم ١</string>
     <string name="register_follower2">الرجاء إدخال الحساب رقم ٢</string>
     <string name="register_follower3">الرجاء إدخال الحساب رقم ٣</string>
+    <string name="downloading">جاري التحميل</string>
+    <string name="unzipping">إعداد الملفات</string>
+    <string name="error_starting">خطأ في تنزيل الملف.. الرجاء إعادة المحاولة لاحقا</string>
     
     <string name="month_1">جانفي</string>
     <string name="month_2">فيفري</string>

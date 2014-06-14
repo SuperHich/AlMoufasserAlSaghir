@@ -4,10 +4,13 @@ public class QuizElementToAdd {
 	
 	private String QuizIdx;
 	private String QuizFileName;
+	private String QuizGrayFileName;
 	private float QuizWidth;
 	private float QuizHeight;
 	private float QuizElementX;
 	private float QuizElementY;
+	private boolean QuizStatus;
+	private boolean QuizLocated;
 	
 	public String getQuizIdx() {
 		return QuizIdx;
@@ -20,6 +23,12 @@ public class QuizElementToAdd {
 	}
 	public void setQuizFileName(String quizFileName) {
 		QuizFileName = quizFileName;
+	}
+	public String getQuizGrayFileName() {
+		return QuizGrayFileName;
+	}
+	public void setQuizGrayFileName(String quizGrayFileName) {
+		QuizGrayFileName = quizGrayFileName;
 	}
 	public float getQuizWidth() {
 		return QuizWidth;
@@ -46,6 +55,18 @@ public class QuizElementToAdd {
 		QuizElementY = quizElementY;
 	}
 
+	public boolean isQuizStatus() {
+		return QuizStatus;
+	}
+	public void setQuizStatus(boolean quizStatus) {
+		QuizStatus = quizStatus;
+	}
+	public boolean isQuizLocated() {
+		return QuizLocated;
+	}
+	public void setQuizLocated(boolean quizLocated) {
+		QuizLocated = quizLocated;
+	}
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

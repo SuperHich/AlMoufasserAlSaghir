@@ -24,22 +24,21 @@
  		android:layout_width="1365px"
     	android:layout_height="800px">
     	
-<!--     	<RelativeLayout -->
-<!--             android:id="@+id/layout_draggable" -->
-<!--             android:layout_width="8192px" -->
-<!--             android:layout_height="800px"  -->
-<!--             android:layout_gravity="right" -->
-<!--             android:clipToPadding="true"> -->
+    	<RelativeLayout
+            android:id="@+id/layout_scroll"
+            android:layout_width="6144px"
+            android:layout_height="768px"
+            android:background="@drawable/complete_colored">
 
-            <ImageView
-                android:id="@+id/img_draggable"
-                android:layout_width="8192px"
-                android:layout_height="800px"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@null"
-                android:src="@drawable/buildings_black_white" />
-<!--         </RelativeLayout> -->
+<!--             <ImageView -->
+<!--                 android:id="@+id/img_draggable" -->
+<!--                 android:layout_width="8192px" -->
+<!--                 android:layout_height="800px" -->
+<!--                 android:adjustViewBounds="true" -->
+<!--                 android:layout_gravity="center_vertical" -->
+<!--                 android:contentDescription="@null" -->
+<!--                 android:src="@drawable/buildings_black_white" /> -->
+        </RelativeLayout>
 
     </com.almoufasseralsaghir.utils.RightHorizontalScrollView>
 

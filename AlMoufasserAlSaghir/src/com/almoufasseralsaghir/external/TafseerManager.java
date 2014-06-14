@@ -22,6 +22,7 @@ import android.provider.Settings.Secure;
 import com.example.almoufasseralsaghir.entity.Answer;
 import com.example.almoufasseralsaghir.entity.Question;
 import com.example.almoufasseralsaghir.entity.QuizElement;
+import com.example.almoufasseralsaghir.entity.QuizElementToAdd;
 import com.example.almoufasseralsaghir.entity.Sura;
 import com.example.almoufasseralsaghir.entity.User;
 
@@ -71,13 +72,15 @@ public class TafseerManager {
 	private int numberOfTracks = 0;
 	private String partText;
 	
-	private ArrayList<QuizElement> quizElements = new ArrayList<QuizElement>();
+	private ArrayList<QuizElementToAdd> quizElements = new ArrayList<QuizElementToAdd>();
 	
+	public static String ExternalsPath;
 	public static String MainReceiterPath;
 	public static String SecondReceiterPath;
 	public static String AdvicesPath;
 	public static String QuizPNGPath;
 	public static String QuizPNGGrayPath;
+	public static String FontsPath;
 	
 	private ArrayList<Question> questions = new ArrayList<Question>();
 	private LinkedHashMap<String, ArrayList<Answer>> answers = new LinkedHashMap<String, ArrayList<Answer>>();
@@ -528,11 +531,11 @@ public class TafseerManager {
 		return dateFormat.format(date);
 	}
 
-	public ArrayList<QuizElement> getQuizElements() {
+	public ArrayList<QuizElementToAdd> getQuizElements() {
 		return quizElements;
 	}
 
-	public void setQuizElements(ArrayList<QuizElement> quizElements) {
+	public void setQuizElements(ArrayList<QuizElementToAdd> quizElements) {
 		this.quizElements = quizElements;
 	}
 }

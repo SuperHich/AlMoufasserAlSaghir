@@ -16,6 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
+import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.external.TafseerMediaPlayer;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.IMediaPlayerNotifier;
@@ -387,10 +388,10 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		
 		StringBuilder myFonts = new StringBuilder();
 		for(String page : mTafseerManager.getCurrentlyUsedFonts()){
-			myFonts.append("@font-face{font-family: P"+page+";src: url('FONTS/QCF_P"+page+".TTF')}");
+			myFonts.append("@font-face{font-family: P"+page+";src: url('"+TafseerManager.FontsPath+"QCF_P"+page+".TTF')}");
 		}
 		
-		String style = "<head><script type='text/javascript' src='JS/jquery-1.10.2.min.js'></script><style type=\"text/css\">"+myFonts+"@font-face{font-family: myFirstFontB; src: url('FONTS/QCF_BSML.TTF')}.sora, .bsmla{font-family:myFirstFontB;} .sora{ width: 100% ; margin-top: 8px; background-size: 100% 51px; background-repeat: no-repeat; }.bsmla{ margin-top: -5px; display:block; text-align: center; } body{width : 100% !important; font-size: 56px;line-height:85px; margin: 0px; direction: rtl; background-color: blue|||; text-align: right;  } body a{ color: black; text-decoration: none; border:0 solid; border-radius:35px; padding: -15px 0; }</style></head>";
+		String style = "<head><script type='text/javascript' src='JS/jquery-1.10.2.min.js'></script><style type=\"text/css\">"+myFonts+"@font-face{font-family: myFirstFontB; src: url('"+TafseerManager.FontsPath+"QCF_BSML.TTF')}.sora, .bsmla{font-family:myFirstFontB;} .sora{ width: 100% ; margin-top: 8px; background-size: 100% 51px; background-repeat: no-repeat; }.bsmla{ margin-top: -5px; display:block; text-align: center; } body{width : 100% !important; font-size: 56px;line-height:85px; margin: 0px; direction: rtl; background-color: blue|||; text-align: right;  } body a{ color: black; text-decoration: none; border:0 solid; border-radius:35px; padding: -15px 0; }</style></head>";
 		String htmlPart = "<html>"+style+"<body><div style='padding-right: 20px; margin:0 0px 0 0px !important; text-align: justify !important; background-color: red|||; width: 90%'>"+partText+"</div></body></html>";
 		
 		Log.i("EyetPlayerActivity", htmlPart);

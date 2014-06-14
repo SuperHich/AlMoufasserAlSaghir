@@ -7,31 +7,31 @@
 
     <RelativeLayout
         android:id="@+id/downloaderLayout"
-        android:layout_width="300px"
-        android:layout_height="100px"
+        android:layout_width="350px"
+        android:layout_height="150px"
         android:layout_marginLeft="360px"
-        android:layout_marginTop="450px"
-        android:layout_weight="0"
+        android:layout_marginTop="470px"
         android:orientation="vertical"
         android:visibility="gone">
 
         <com.almoufasseralsaghir.utils.FontFitTextView
             android:id="@+id/statusText"
-            android:layout_width="200px"
-            android:layout_height="50px"
-            android:layout_marginBottom="10px"
-            android:layout_marginLeft="5px"
-            android:layout_marginTop="10px"
-            android:textStyle="bold" />
+            android:layout_width="250px"
+            android:layout_height="60px"
+            android:layout_marginBottom="5px"
+            android:layout_marginTop="5px"
+            android:textStyle="bold" 
+            android:text="@string/downloading"
+            android:layout_alignParentRight="true"/>
 
         <com.almoufasseralsaghir.utils.FontFitTextView
             android:id="@+id/progressAsPercentage"
             style="@android:style/TextAppearance.Small"
-            android:layout_width="200px"
+            android:layout_width="170px"
             android:layout_height="50px"
-            android:layout_alignRight="@+id/progressBar"
             android:text="0%" 
-            android:layout_toRightOf="@+id/statusText"/>
+            android:layout_toLeftOf="@+id/statusText"
+            android:layout_margin="5px"/>
 
         <SeekBar
             android:id="@+id/progressBar"
@@ -39,11 +39,7 @@
             android:layout_width="298px"
             android:layout_height="26px"
             android:layout_below="@+id/progressAsPercentage"
-            android:layout_marginBottom="10px"
-            android:layout_marginLeft="10px"
-            android:layout_marginRight="10px"
-            android:layout_marginTop="10px"
-            android:layout_weight="1"
+            android:layout_margin="5px"
             android:progressDrawable="@drawable/seek_bar_steps" />
     </RelativeLayout>
 

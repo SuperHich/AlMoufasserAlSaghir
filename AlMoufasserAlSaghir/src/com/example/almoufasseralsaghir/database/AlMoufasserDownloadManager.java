@@ -38,6 +38,8 @@ public class AlMoufasserDownloadManager {
 	
 	protected int numberOfFiles = -1;
 	
+	protected boolean isDataReady = true;
+	
 	public synchronized static AlMoufasserDownloadManager getInstance(Context context) {
 		if (mInstance == null)
 			mInstance = new AlMoufasserDownloadManager(context);
@@ -215,6 +217,15 @@ public class AlMoufasserDownloadManager {
 		this.isUnzipping = isUnzipping;
 	}
 
+	public boolean isDataReady() {
+		return isDataReady;
+	}
+
+	public void setDataReady(boolean isDataReady) {
+		this.isDataReady = isDataReady;
+	}
+
+	
 	class ProgressThread extends Thread{
 		 @Override
 	        public void run() {

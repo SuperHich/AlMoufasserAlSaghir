@@ -25,8 +25,8 @@ public class ReceiterDownloadManager extends AlMoufasserDownloadManager {
 		folderName = "basfar";
 		zipFileName = "basfar.zip";
 		
-		thePath = basePath + folderName + File.separator;
-		zipFile = d.getAbsolutePath() + File.separator + zipFileName;
+		thePath = TafseerManager.ExternalsPath + folderName + File.separator;
+		zipFile = basePath + zipFileName;
 		
 		description = "Downloading "+ folderName +" MP3's songs";
 		
