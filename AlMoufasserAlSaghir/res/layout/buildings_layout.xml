@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="1365px"
+    android:layout_width="1310px"
     android:layout_height="800px"
     android:id="@+id/principal_layout"
     android:layout_gravity="right" >
@@ -21,30 +21,32 @@
     
     <com.almoufasseralsaghir.utils.RightHorizontalScrollView
         android:id="@+id/horizontal_scroll"
- 		android:layout_width="1365px"
-    	android:layout_height="800px">
+ 		android:layout_width="1310px"
+    	android:layout_height="800px"
+    	android:layout_alignParentBottom="true">
     	
     	<RelativeLayout
             android:id="@+id/layout_scroll"
-            android:layout_width="6144px"
-            android:layout_height="768px"
-            android:background="@drawable/complete_colored">
+            android:layout_width="4096px"
+            android:layout_height="512px"
+            android:layout_gravity="bottom">
 
-<!--             <ImageView -->
-<!--                 android:id="@+id/img_draggable" -->
-<!--                 android:layout_width="8192px" -->
-<!--                 android:layout_height="800px" -->
-<!--                 android:adjustViewBounds="true" -->
-<!--                 android:layout_gravity="center_vertical" -->
-<!--                 android:contentDescription="@null" -->
-<!--                 android:src="@drawable/buildings_black_white" /> -->
+            <ImageView
+                android:id="@+id/img_draggable"
+                android:layout_width="4096px"
+                android:layout_height="512px"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@null"
+                android:src="@drawable/complete_colored"
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
     </com.almoufasseralsaghir.utils.RightHorizontalScrollView>
 
     <RelativeLayout
         android:id="@+id/all_buildings_layout"
-        android:layout_width="1365px"
+        android:layout_width="1310px"
         android:layout_height="285px"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="-228px" >
@@ -60,7 +62,7 @@
 
         <RelativeLayout
             android:id="@+id/all_builds_imgs"
-            android:layout_width="1365px"
+            android:layout_width="1310px"
             android:layout_height="243px"
             android:layout_below="@+id/puller"
             android:layout_alignParentBottom="true">
@@ -72,7 +74,7 @@
 
                 <SeekBar
                     android:id="@+id/seek_buildings"
-                    android:layout_width="1365px"
+                    android:layout_width="1310px"
                     android:layout_height="66px"
                     android:layout_alignParentTop="true"
                     android:background="@android:color/transparent"
@@ -81,7 +83,7 @@
                     android:layout_marginTop="25px"/>
 
                 <ImageView
-                    android:layout_width="1365px"
+                    android:layout_width="1310px"
                     android:layout_height="154px"
                     android:layout_alignParentBottom="true"
                     android:adjustViewBounds="true"

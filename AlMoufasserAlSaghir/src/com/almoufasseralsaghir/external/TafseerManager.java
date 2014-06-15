@@ -19,9 +19,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
+import com.example.almoufasseralsaghir.R;
 import com.example.almoufasseralsaghir.entity.Answer;
 import com.example.almoufasseralsaghir.entity.Question;
-import com.example.almoufasseralsaghir.entity.QuizElement;
 import com.example.almoufasseralsaghir.entity.QuizElementToAdd;
 import com.example.almoufasseralsaghir.entity.Sura;
 import com.example.almoufasseralsaghir.entity.User;
@@ -316,7 +316,7 @@ public class TafseerManager {
 		alertDialogBuilder
 				.setMessage(context.getResources().getString(message))
 				.setCancelable(false)
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						return;
 					}

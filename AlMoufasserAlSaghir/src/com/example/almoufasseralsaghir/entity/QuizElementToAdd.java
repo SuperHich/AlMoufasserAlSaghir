@@ -9,7 +9,7 @@ public class QuizElementToAdd {
 	private float QuizHeight;
 	private float QuizElementX;
 	private float QuizElementY;
-	private boolean QuizStatus;
+	private int QuizStatus;
 	private boolean QuizLocated;
 	
 	public String getQuizIdx() {
@@ -55,10 +55,10 @@ public class QuizElementToAdd {
 		QuizElementY = quizElementY;
 	}
 
-	public boolean isQuizStatus() {
+	public int getQuizStatus() {
 		return QuizStatus;
 	}
-	public void setQuizStatus(boolean quizStatus) {
+	public void setQuizStatus(int quizStatus) {
 		QuizStatus = quizStatus;
 	}
 	public boolean isQuizLocated() {

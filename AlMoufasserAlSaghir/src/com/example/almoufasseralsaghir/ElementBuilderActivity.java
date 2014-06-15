@@ -5,14 +5,21 @@ import java.util.ArrayList;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,11 +27,12 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.almoufasseralsaghir.external.TafseerManager;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.RightHorizontalScrollView;
-import com.example.almoufasseralsaghir.database.AlMoufasserDB;
+import com.almoufasseralsaghir.utils.Utils;
 import com.example.almoufasseralsaghir.entity.QuizElementToAdd;
 
-public class ElementBuilderActivity extends Activity{
+public class ElementBuilderActivity extends MySuperScaler{
 	
 	private RelativeLayout all_buildings_layout, all_builds_imgs, layout_scroll;
 	private ImageView puller;
@@ -34,8 +42,8 @@ public class ElementBuilderActivity extends Activity{
 	private Button back, all_buildings;
 //	private ImageView img_draggable;
 	
-	private AlMoufasserDB myDB;
-	private TafseerManager mTafseerManager;
+//	private AlMoufasserDB myDB;
+//	private TafseerManager mTafseerManager;
 	
 	private ObjectAnimator objectAnimator;
 	
@@ -66,8 +74,8 @@ public class ElementBuilderActivity extends Activity{
 			partNb = getIntent().getExtras().getInt("partNb");
 		}
 		
-		mTafseerManager = new TafseerManager(this);
-		myDB = new AlMoufasserDB(this);
+//		mTafseerManager = new TafseerManager(this);
+//		myDB = new AlMoufasserDB(this);
 		
 		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		horizontal_scroll = (RightHorizontalScrollView) findViewById(R.id.horizontal_scroll);
@@ -266,35 +274,120 @@ public class ElementBuilderActivity extends Activity{
 	
 	private void populateElements(){
 		
+		Rect visibleArea = new Rect();
+		layout_scroll.getGlobalVisibleRect(visibleArea);
+		
+		Log.i("", "visibleArea " + visibleArea.width() + " / " + visibleArea.height());
+		
 		defectiveElements = new ArrayList<QuizElementToAdd>();
 		int i = 0;
+		ImageView imgInsideLoop;
 		
 		for(QuizElementToAdd elementToAdd : mTafseerManager.getQuizElements()){
-			ImageView imgInsideLoop = new ImageView(this);
 			
+			imgInsideLoop = new ImageView(this);
 			imgInsideLoop.setTag(i+1);
 			
-			float x = elementToAdd.getQuizElementX();
-			float y = elementToAdd.getQuizElementY();
-			float width = elementToAdd.getQuizWidth();
-			float height = elementToAdd.getQuizHeight();
+			float x = (float) (elementToAdd.getQuizElementX()/1.5);
+			float y = (float) (elementToAdd.getQuizElementY()/1.5);
+			float width = (float) (elementToAdd.getQuizWidth()/1.5);
+			float height = (float) (elementToAdd.getQuizHeight()/1.5);
 			
-			Bitmap bm = originalResolution(TafseerManager.QuizPNGGrayPath + elementToAdd.getQuizGrayFileName(), (int)width, (int)height);
-			imgInsideLoop.setImageBitmap(bm);
+//			if(visibleArea.contains((int)x, (int)y))
+//			{
+				Bitmap bm;
+				if(!elementToAdd.isQuizLocated()){
+					bm = originalResolution(TafseerManager.QuizPNGGrayPath + elementToAdd.getQuizGrayFileName(), (int)width, (int)height);
 
+				}
+				else {
+					bm = originalResolution(TafseerManager.QuizPNGPath + elementToAdd.getQuizFileName(), (int)width, (int)height);
 
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)width, (int)height);
-			params.setMargins((int)x, (int)y, 0, 0);
-			imgInsideLoop.setLayoutParams(params);
+					if(elementToAdd.getQuizStatus() == 2){
+						defectiveElements.add(elementToAdd);
+						Animation mFlashingAnimation = AnimationUtils.loadAnimation(this, R.anim.flashing);
+						imgInsideLoop.startAnimation(mFlashingAnimation);
+					}
+				}
 
-			layout_scroll.addView(imgInsideLoop);
+				imgInsideLoop.setImageBitmap(bm);
+
+				RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)width, (int)height);
+				params.setMargins((int)x, (int)y, 0, 0);
+				imgInsideLoop.setLayoutParams(params);
+
+				layout_scroll.addView(imgInsideLoop);
+//			}
+			
+//			Utils.clearImageView(imgInsideLoop);
+//			imgInsideLoop = null;
 			
 			i++;
-			
-//			if(i == 10)
-//				break;
-			
 		}
+		
+		float x=900;
+	    float gap = 20;
+	    
+	    ImageView imgDefectiveElement;
+	    
+	    for(QuizElementToAdd elementDef : defectiveElements){
+	    	
+	    	int idx = Integer.valueOf(elementDef.getQuizIdx());
+	        
+	        float realWidth  = elementDef.getQuizWidth();
+	        float realHeight = elementDef.getQuizHeight();
+	        float scale=(float) (realHeight/70.0);
+	        float smallWidth=realWidth/scale;
+	        float smallHeight=realHeight/scale;
+	        
+	        x=x-smallWidth-gap;
+
+	        imgDefectiveElement = new ImageView(this);
+	        imgDefectiveElement.setTag(idx);
+			
+	        Bitmap bm = originalResolution(TafseerManager.QuizPNGPath + elementDef.getQuizFileName(), (int)smallWidth, (int)smallHeight);
+	        imgDefectiveElement.setImageBitmap(bm);
+
+
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)smallWidth, (int)smallHeight);
+			params.setMargins((int)x, 20, 0, 0);
+			imgDefectiveElement.setLayoutParams(params);
+			imgDefectiveElement.setBackgroundColor(Color.TRANSPARENT);
+			Animation mFlashingAnimation = AnimationUtils.loadAnimation(this, R.anim.flashing);
+			imgDefectiveElement.startAnimation(mFlashingAnimation);
+			
+			imgDefectiveElement.setOnTouchListener(new OnTouchListener() {
+				
+				@Override
+			    public boolean onTouch(View v, MotionEvent event) {
+			      switch (event.getAction()) {
+			      case MotionEvent.ACTION_DOWN: {
+			          ImageView view = (ImageView) v;
+			          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+			          v.invalidate();
+			          break;
+			      }
+			      case MotionEvent.ACTION_UP: {
+						
+			    	  openDefectiveElement((Integer)v.getTag());
+			    	  
+			      }
+			      case MotionEvent.ACTION_CANCEL: {
+			    	  ImageView view = (ImageView) v;
+			          view.getBackground().clearColorFilter();
+			          view.invalidate();
+			          break;
+			      }
+			      }
+			      return true;
+			    }
+			});
+			
+			layout_scroll.addView(imgDefectiveElement);
+			
+//			Utils.clearImageView(imgDefectiveElement);
+//			imgDefectiveElement = null;
+	    }
 		
 	}
 
@@ -473,6 +566,56 @@ public class ElementBuilderActivity extends Activity{
 //		
 //	}
 	
+	private void openDefectiveElement(int tag) {
+		
+		QuizElementToAdd elementSelected = defectiveElements.get(tag);
+		String elementId = elementSelected.getQuizIdx();
+		
+		if(elementSelected.isQuizLocated())
+			if(elementSelected.getQuizStatus() == 2){
+				
+				String partName = myDB.getElementPartName(elementId);
+				String suraName = myDB.getElementSuraName(elementId);
+				
+				String msg = suraName + getString(R.string.defective_msg2) + partName + getString(R.string.defective_msg1);
+				
+				int partNbToOpen = myDB.getElementPartNumber(elementId);
+				int suraIdToOpen = myDB.getElementSuraId(elementId);
+				
+				showAlertDialog(msg, suraIdToOpen, partNbToOpen);
+			}
+		
+		
+
+	}
+
+	private void showAlertDialog(String msg, final int suraId, final int partNb){
+		
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		// set dialog message
+		alertDialogBuilder
+		.setMessage(msg)
+		.setCancelable(false)
+		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				Intent intent = new Intent(ElementBuilderActivity.this, SouraActivity.class);
+				intent.putExtra(TafseerManager.SURA_ID, suraId);
+				intent.putExtra(TafseerManager.PART_NB, partNb);
+				startActivity(intent);
+				finish();
+				return;
+			}
+		})
+		.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				return;
+			}
+		});
+		// show it
+		alertDialogBuilder.show();
+		
+	}
+
 	private int getFixedX(int x){
 		int diff = 6144 - x;
 		return 1365 - diff;		
@@ -520,5 +663,12 @@ public class ElementBuilderActivity extends Activity{
 			inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
 		}
 		return inSampleSize;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Utils.cleanViews(principal_layout);
 	}
 }

@@ -19,7 +19,6 @@ import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
 import com.example.almoufasseralsaghir.entity.Answer;
 import com.example.almoufasseralsaghir.entity.PartFavourite;
 import com.example.almoufasseralsaghir.entity.Question;
-import com.example.almoufasseralsaghir.entity.QuizElement;
 import com.example.almoufasseralsaghir.entity.QuizElementToAdd;
 import com.example.almoufasseralsaghir.entity.Reminder;
 import com.example.almoufasseralsaghir.entity.User;
@@ -1301,7 +1300,8 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		mTafseerManager.setQuizElements(new ArrayList<QuizElementToAdd>());
 		
 		String sqlTables = "QuizElements";
-				qb.setTables(sqlTables);
+		qb.setTables(sqlTables);
+		
 		Cursor c = qb.query(db, null, null, null, null, null, null);
 
 		if(c.moveToFirst()){
@@ -1344,11 +1344,11 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 				
 				cQ.close();
 				
-				qe.setQuizStatus(f6.equals("1"));
-				qe.setQuizStatus(f7.equals("1"));
+				qe.setQuizStatus(Integer.valueOf(f6));
+				qe.setQuizLocated(f7.equals("1"));
 				
 				mTafseerManager.getQuizElements().add(qe);
-//				Log.i("QuizElement", qe.toString());
+				Log.i("QuizElement", qe.toString());
 	            				
 			}while(c.moveToNext());
 			

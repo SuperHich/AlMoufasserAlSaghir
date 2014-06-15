@@ -12,6 +12,7 @@
     <string name="copy_aya">لقد تم نسخ الاية بنجاح !</string>
 	<string name="share">شارك</string>
 	<string name="ok">حسنا</string>
+	<string name="no">لا أرغب</string>
 	<string name="wait">يرجى الانتظار</string>
 	<string name="register_request_confirm_email">البريد الالكتروني وتأكيد البريد الالكتروني غير متطابقين</string>
 	<string name="register_confirm_email">الرجاء تأكيد البريد الالكتروني</string>
@@ -21,6 +22,8 @@
     <string name="downloading">جاري التحميل</string>
     <string name="unzipping">إعداد الملفات</string>
     <string name="error_starting">خطأ في تنزيل الملف.. الرجاء إعادة المحاولة لاحقا</string>
+    <string name="defective_msg1">سيتم تحولك إلى المقطع</string>
+    <string name="defective_msg2">من سورة</string>
     
     <string name="month_1">جانفي</string>
     <string name="month_2">فيفري</string>
