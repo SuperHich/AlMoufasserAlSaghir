@@ -6,18 +6,24 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.DragShadowBuilder;
+import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -40,7 +46,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 	private RelativeLayout principal_layout; 
 	private RightHorizontalScrollView horizontal_scroll;
 	private Button back, all_buildings;
-//	private ImageView img_draggable;
+	private ImageView img_draggable;
 	
 //	private AlMoufasserDB myDB;
 //	private TafseerManager mTafseerManager;
@@ -62,6 +68,8 @@ public class ElementBuilderActivity extends MySuperScaler{
 	private Bitmap bmToDrag;
 	
 	private ArrayList<QuizElementToAdd> defectiveElements;
+	private Animation mFlashingAnimation;
+	private ProgressDialog progressDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,20 +85,22 @@ public class ElementBuilderActivity extends MySuperScaler{
 //		mTafseerManager = new TafseerManager(this);
 //		myDB = new AlMoufasserDB(this);
 		
+		mFlashingAnimation = AnimationUtils.loadAnimation(ElementBuilderActivity.this, R.anim.flashing);
+		
 		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		horizontal_scroll = (RightHorizontalScrollView) findViewById(R.id.horizontal_scroll);
 		layout_scroll = (RelativeLayout) findViewById(R.id.layout_scroll);
 		back = (Button) findViewById(R.id.back);
 		all_buildings = (Button) findViewById(R.id.all_buildings);
-//		img_draggable = (ImageView) findViewById(R.id.img_draggable);
+		img_draggable = (ImageView) findViewById(R.id.img_draggable);
 		
 		///// Bottom Layout
 		all_buildings_layout = (RelativeLayout) findViewById(R.id.all_buildings_layout);
 		all_builds_imgs = (RelativeLayout) findViewById(R.id.all_builds_imgs);
 		puller = (ImageView) findViewById(R.id.puller);
 		seek_buildings = (SeekBar) findViewById(R.id.seek_buildings);
-//		seek_buildings.setMax(all_buildings_layout.getLayoutParams().width);
-		seek_buildings.setMax(1365);
+		seek_buildings.setMax(all_buildings_layout.getLayoutParams().width);
+//		seek_buildings.setMax(800);
 		puller.bringToFront();
 		
 		seek_buildings.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -269,303 +279,331 @@ public class ElementBuilderActivity extends MySuperScaler{
 		currentQuizElement = myDB.getQuizElementInfos(suraId, partNb);
 		
 		populateElements();
-//		prepareElementToAdd();
+		prepareElementToAdd();
 	}
 	
 	private void populateElements(){
 		
-		Rect visibleArea = new Rect();
-		layout_scroll.getGlobalVisibleRect(visibleArea);
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setCancelable(false);
+		progressDialog.show();
 		
-		Log.i("", "visibleArea " + visibleArea.width() + " / " + visibleArea.height());
-		
-		defectiveElements = new ArrayList<QuizElementToAdd>();
-		int i = 0;
-		ImageView imgInsideLoop;
-		
-		for(QuizElementToAdd elementToAdd : mTafseerManager.getQuizElements()){
+		new Thread(new Runnable() {
 			
-			imgInsideLoop = new ImageView(this);
-			imgInsideLoop.setTag(i+1);
-			
-			float x = (float) (elementToAdd.getQuizElementX()/1.5);
-			float y = (float) (elementToAdd.getQuizElementY()/1.5);
-			float width = (float) (elementToAdd.getQuizWidth()/1.5);
-			float height = (float) (elementToAdd.getQuizHeight()/1.5);
-			
-//			if(visibleArea.contains((int)x, (int)y))
-//			{
-				Bitmap bm;
-				if(!elementToAdd.isQuizLocated()){
-					bm = originalResolution(TafseerManager.QuizPNGGrayPath + elementToAdd.getQuizGrayFileName(), (int)width, (int)height);
-
-				}
-				else {
-					bm = originalResolution(TafseerManager.QuizPNGPath + elementToAdd.getQuizFileName(), (int)width, (int)height);
-
-					if(elementToAdd.getQuizStatus() == 2){
-						defectiveElements.add(elementToAdd);
-						Animation mFlashingAnimation = AnimationUtils.loadAnimation(this, R.anim.flashing);
-						imgInsideLoop.startAnimation(mFlashingAnimation);
-					}
-				}
-
-				imgInsideLoop.setImageBitmap(bm);
-
-				RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)width, (int)height);
-				params.setMargins((int)x, (int)y, 0, 0);
-				imgInsideLoop.setLayoutParams(params);
-
-				layout_scroll.addView(imgInsideLoop);
-//			}
-			
-//			Utils.clearImageView(imgInsideLoop);
-//			imgInsideLoop = null;
-			
-			i++;
-		}
-		
-		float x=900;
-	    float gap = 20;
-	    
-	    ImageView imgDefectiveElement;
-	    
-	    for(QuizElementToAdd elementDef : defectiveElements){
-	    	
-	    	int idx = Integer.valueOf(elementDef.getQuizIdx());
-	        
-	        float realWidth  = elementDef.getQuizWidth();
-	        float realHeight = elementDef.getQuizHeight();
-	        float scale=(float) (realHeight/70.0);
-	        float smallWidth=realWidth/scale;
-	        float smallHeight=realHeight/scale;
-	        
-	        x=x-smallWidth-gap;
-
-	        imgDefectiveElement = new ImageView(this);
-	        imgDefectiveElement.setTag(idx);
-			
-	        Bitmap bm = originalResolution(TafseerManager.QuizPNGPath + elementDef.getQuizFileName(), (int)smallWidth, (int)smallHeight);
-	        imgDefectiveElement.setImageBitmap(bm);
-
-
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)smallWidth, (int)smallHeight);
-			params.setMargins((int)x, 20, 0, 0);
-			imgDefectiveElement.setLayoutParams(params);
-			imgDefectiveElement.setBackgroundColor(Color.TRANSPARENT);
-			Animation mFlashingAnimation = AnimationUtils.loadAnimation(this, R.anim.flashing);
-			imgDefectiveElement.startAnimation(mFlashingAnimation);
-			
-			imgDefectiveElement.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public void run() {
+				defectiveElements = new ArrayList<QuizElementToAdd>();
+				int i = 0;
 				
-				@Override
-			    public boolean onTouch(View v, MotionEvent event) {
-			      switch (event.getAction()) {
-			      case MotionEvent.ACTION_DOWN: {
-			          ImageView view = (ImageView) v;
-			          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
-			          v.invalidate();
-			          break;
-			      }
-			      case MotionEvent.ACTION_UP: {
+				for(QuizElementToAdd elementToAdd : mTafseerManager.getQuizElements()){
+					
+					final ImageView imgInsideLoop = new ImageView(ElementBuilderActivity.this);
+					imgInsideLoop.setTag(i+1);
+					
+					float x = (float) (elementToAdd.getQuizElementX()/1.5);
+					float y = (float) (elementToAdd.getQuizElementY()/1.5);
+					float width = (float) (elementToAdd.getQuizWidth()/1.5);
+					float height = (float) (elementToAdd.getQuizHeight()/1.5);
+
+					final Bitmap bm;
+					if(!elementToAdd.isQuizLocated()){
+						bm = originalResolution(TafseerManager.QuizPNGGrayPath + elementToAdd.getQuizGrayFileName(), (int)width, (int)height);
+
+					}
+					else {
+						bm = originalResolution(TafseerManager.QuizPNGPath + elementToAdd.getQuizFileName(), (int)width, (int)height);
+
+						if(elementToAdd.getQuizStatus() == 2){
+							defectiveElements.add(elementToAdd);
+							imgInsideLoop.startAnimation(mFlashingAnimation);
+						}
+					}
+
+
+					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)width, (int)height);
+					params.setMargins((int)x, (int)y, 0, 0);
+					imgInsideLoop.setLayoutParams(params);
+
+					ElementBuilderActivity.this.runOnUiThread(new Runnable() {
 						
-			    	  openDefectiveElement((Integer)v.getTag());
-			    	  
-			      }
-			      case MotionEvent.ACTION_CANCEL: {
-			    	  ImageView view = (ImageView) v;
-			          view.getBackground().clearColorFilter();
-			          view.invalidate();
-			          break;
-			      }
-			      }
-			      return true;
+						@Override
+						public void run() {
+							imgInsideLoop.setImageBitmap(bm);
+							layout_scroll.addView(imgInsideLoop);
+						}
+					});
+					
+					i++;
+				}
+				
+				float x=900;
+			    float gap = 20;
+			    
+			    for(QuizElementToAdd elementDef : defectiveElements){
+			    	
+			    	int idx = Integer.valueOf(elementDef.getQuizIdx());
+			        
+			        float realWidth  = (float) (elementDef.getQuizWidth()/1.5);
+			        float realHeight = (float) (elementDef.getQuizHeight()/1.5);
+			        float scale=(float) (realHeight/70.0);
+			        float smallWidth=realWidth/scale;
+			        float smallHeight=realHeight/scale;
+			        
+			        x=x-smallWidth-gap;
+
+			        final ImageView imgDefectiveElement = new ImageView(ElementBuilderActivity.this);
+			        imgDefectiveElement.setTag(idx);
+					
+			        final Bitmap bm = originalResolution(TafseerManager.QuizPNGPath + elementDef.getQuizFileName(), (int)smallWidth, (int)smallHeight);
+			       
+					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)smallWidth, (int)smallHeight);
+					params.setMargins((int)x, 20, 0, 0);
+					imgDefectiveElement.setLayoutParams(params);
+					imgDefectiveElement.setBackgroundColor(Color.TRANSPARENT);
+					imgDefectiveElement.startAnimation(mFlashingAnimation);
+					
+					imgDefectiveElement.setOnTouchListener(new OnTouchListener() {
+						
+						@Override
+					    public boolean onTouch(View v, MotionEvent event) {
+					      switch (event.getAction()) {
+					      case MotionEvent.ACTION_DOWN: {
+					          ImageView view = (ImageView) v;
+					          view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+					          v.invalidate();
+					          break;
+					      }
+					      case MotionEvent.ACTION_UP: {
+								
+					    	  openDefectiveElement((Integer)v.getTag());
+					    	  
+					      }
+					      case MotionEvent.ACTION_CANCEL: {
+					    	  ImageView view = (ImageView) v;
+					          view.getBackground().clearColorFilter();
+					          view.invalidate();
+					          break;
+					      }
+					      }
+					      return true;
+					    }
+					});
+					
+					 ElementBuilderActivity.this.runOnUiThread(new Runnable() {
+							
+							@Override
+							public void run() {
+								imgDefectiveElement.setImageBitmap(bm);
+								layout_scroll.addView(imgDefectiveElement);
+//								imgDefectiveElement = null;
+							}
+						});
+					
 			    }
-			});
-			
-			layout_scroll.addView(imgDefectiveElement);
-			
-//			Utils.clearImageView(imgDefectiveElement);
-//			imgDefectiveElement = null;
-	    }
+			    
+			    ElementBuilderActivity.this.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						progressDialog.dismiss();
+					}
+				});
+			}
+		}).start();
+
+		
 		
 	}
 
-//	private void prepareElementToAdd() {
-//		//==========================================================================================
-//	    //  scroll the view to a suitable position according to the new element position
-//	    //==========================================================================================
-//		
-//		newX = currentQuizElement.getQuizElementX() - horizontal_scroll.getLayoutParams().width/2 + currentQuizElement.getQuizWidth()/2;
-//		
-//		int diff = img_draggable.getLayoutParams().width - horizontal_scroll.getLayoutParams().width;
-//		if (newX > diff) 
-//			newX = (float) diff;
-//
-//		if (newX<0f) newX=0f;
-//		
-////		newX = currentQuizElement.getQuizWidth();
-//
-//		horizontal_scroll.postDelayed(new Runnable() {
-//			@Override
-//			public void run() {
-//				horizontal_scroll.smoothScrollTo((int)newX, 0);
-//				seek_buildings.setProgress(getSeekProgress((int)newX));
-//			}
-//		},300);
-//
-//		 Log.i("prepareElementToAdd", "newX 3  " + newX);
-//		 
-////		 horizontal_scroll.setLeft((int)newX/6);
-//		 
-//		 imgToDrag = new ImageView(this);
-//		 imgToDrag.setTag(currentQuizElement.getQuizFileName());
-//		 bmToDrag = BitmapFactory.decodeFile(TafseerManager.QuizPNGPath + currentQuizElement.getQuizFileName());
-//		 imgToDrag.setImageBitmap(bmToDrag);
-//		 imgToDrag.setOnTouchListener(new OnTouchListener() {
-//		 
-//			public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//				if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !isDragOk) {
-//					
-//					// create it from the object's tag
-//					
-//					ClipData.Item item = new ClipData.Item((CharSequence)view.getTag());
-//					
-//					String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
-//
-//					ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
-//
-//					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-//
-//
-//					view.startDrag( data, //data to be dragged
-//							shadowBuilder, //drag shadow
-//							view, //local data about the drag and drop operation
-//							0   //no needed flags
-//							);
-//
-//					view.setVisibility(View.INVISIBLE);
-//
-//					return true;
-//				}
-//
-//				else {
-//					imgToDrag.setVisibility(View.VISIBLE);
-//					return false;
-//				}
-//			}
-//		});
-//		 
-//		
-//		 float scale = currentQuizElement.getQuizHeight()/100;
-//		 float smallWidth = currentQuizElement.getQuizWidth()/scale;
-//		 float smallHeight = currentQuizElement.getQuizHeight()/scale;
-//
-//		 viewToDragFrom = new RelativeLayout(this);
-//		 RelativeLayout.LayoutParams smallParams = new RelativeLayout.LayoutParams((int)smallWidth, (int)smallHeight);
-//		 viewToDragFrom.setLayoutParams(smallParams);
-//		 
-//		 viewToDragFrom.addView(imgToDrag);
-//		 
-//		 viewToDragIn = new RelativeLayout(this);
-//		 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight());
-//		 params.setMargins(getFixedX((int)currentQuizElement.getQuizElementX()), getScaledY(currentQuizElement.getQuizElementY()), 0, 0);
-//		 viewToDragIn.setLayoutParams(params);
-//		 viewToDragIn.setOnDragListener(new OnDragListener() {
-//			
-//			@Override
-//			public boolean onDrag(View v, DragEvent event) {
-//				switch (event.getAction()) {
-//				case DragEvent.ACTION_DRAG_STARTED:
-//					break;
-//				case DragEvent.ACTION_DRAG_ENTERED:
-//					break;
-//				case DragEvent.ACTION_DRAG_EXITED:
-//					break;
-//				case DragEvent.ACTION_DROP:
-//					// if the view is the viewToDragIn, we accept the drag item
-//					if(v == viewToDragIn) {
-//
-//						View view4 = (View) event.getLocalState();
-//						ViewGroup owner = (ViewGroup) view4.getParent();
-//						owner.removeView(view4);
-//
+	private void prepareElementToAdd() {
+		//==========================================================================================
+	    //  scroll the view to a suitable position according to the new element position
+	    //==========================================================================================
+		
+		newX = (float) (currentQuizElement.getQuizElementX()/1.5 - horizontal_scroll.getLayoutParams().width/3 + currentQuizElement.getQuizWidth()/3);
+		Log.i("prepareElementToAdd", "newX 1  " + newX);
+	
+		int diff = img_draggable.getLayoutParams().width - horizontal_scroll.getLayoutParams().width;
+		if (newX > diff) 
+			newX = (float) diff;
+
+		Log.i("prepareElementToAdd", "newX 2  " + newX);
+		
+		if (newX<0f) newX=0f;
+
+		horizontal_scroll.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				horizontal_scroll.smoothScrollTo((int)newX, 0);
+				seek_buildings.setProgress(getSeekProgress((int)newX));
+			}
+		},300);
+
+		 Log.i("prepareElementToAdd", "newX 3  " + newX);
+		 
+//		 horizontal_scroll.setLeft((int)newX/6);
+		 
+		 imgToDrag = new ImageView(this);
+		 imgToDrag.setTag(Integer.valueOf(currentQuizElement.getQuizIdx()));
+		 bmToDrag = BitmapFactory.decodeFile(TafseerManager.QuizPNGPath + currentQuizElement.getQuizFileName());
+		 imgToDrag.setImageBitmap(bmToDrag);
+		 imgToDrag.setOnTouchListener(new OnTouchListener() {
+		 
+			public boolean onTouch(View view, MotionEvent motionEvent) {
+
+				if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !isDragOk) {
+					
+					// create it from the object's tag
+					
+					ClipData.Item item = new ClipData.Item((CharSequence)String.valueOf(view.getTag()));
+					
+					String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
+
+					ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
+
+					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+
+
+					view.startDrag( data, //data to be dragged
+							shadowBuilder, //drag shadow
+							view, //local data about the drag and drop operation
+							0   //no needed flags
+							);
+
+					view.setVisibility(View.INVISIBLE);
+
+					return true;
+				}
+
+				else {
+					imgToDrag.setVisibility(View.VISIBLE);
+					return false;
+				}
+			}
+		});
+		 
+		
+		 float scale = currentQuizElement.getQuizHeight()/100;
+		 float smallWidth = currentQuizElement.getQuizWidth()/scale;
+		 float smallHeight = currentQuizElement.getQuizHeight()/scale;
+
+		 viewToDragFrom = new RelativeLayout(this);
+		 RelativeLayout.LayoutParams smallParams = new RelativeLayout.LayoutParams((int)smallWidth, (int)smallHeight);
+		 viewToDragFrom.setLayoutParams(smallParams);
+		 
+		 viewToDragFrom.addView(imgToDrag);
+		 
+		 viewToDragIn = new RelativeLayout(this);
+		 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)(currentQuizElement.getQuizWidth()/1.5), (int)(currentQuizElement.getQuizHeight()/1.5));
+		 params.setMargins((int)(currentQuizElement.getQuizElementX()/1.5), (int)(currentQuizElement.getQuizElementY()/1.5), 0, 0);
+		 viewToDragIn.setLayoutParams(params);
+		 viewToDragIn.setOnDragListener(new OnDragListener() {
+			
+			@Override
+			public boolean onDrag(View v, DragEvent event) {
+				switch (event.getAction()) {
+				case DragEvent.ACTION_DRAG_STARTED:
+					break;
+				case DragEvent.ACTION_DRAG_ENTERED:
+					break;
+				case DragEvent.ACTION_DRAG_EXITED:
+					break;
+				case DragEvent.ACTION_DROP:
+					// if the view is the viewToDragIn, we accept the drag item
+					if(v == viewToDragIn) {
+
+						View view4 = (View) event.getLocalState();
+						ViewGroup owner = (ViewGroup) view4.getParent();
+						owner.removeView(view4);
+
 //						RelativeLayout container = (RelativeLayout) v;
 //						container.addView(view4);
 //						view4.setVisibility(View.VISIBLE);
-//						
-//						isDragOk = true;
-//
-//					}
-//					break;
-//				case DragEvent.ACTION_DRAG_ENDED:
-//				default:
-//					break;
-//				}
-//				return true;
-//			}
-//		});
-//		 
-//		 principal_layout.addView(viewToDragFrom);
-//		 principal_layout.addView(viewToDragIn);
-//	}
+
+						isDragOk = true;
+						
+						ImageView imfDragged = (ImageView) view4;
+						
+						dragDoneWithSuccess(imfDragged);
+
+					}
+					break;
+				case DragEvent.ACTION_DRAG_ENDED:
+				default:
+					break;
+				}
+				return true;
+			}
+		});
+		 
+		 principal_layout.addView(viewToDragFrom);
+		 layout_scroll.addView(viewToDragIn);
+	}
 	
-//	private int getScaledX(double x){
-//		
-//		double dx = Double.valueOf(x);
-//		
-//		double dPercent = (double) (dx * 100.0 / 6144.0);
-//		double f = (double) (dPercent * img_draggable.getLayoutParams().width / 100.0);
-//		
-//		return (int)f;
-//	}
-//
-//	private int getScaledY(double y){
-//		
-//		double dy = Double.valueOf(y);
-//		
-//		double dPercent = (double) (dy * 100.0 / 768.0);
-//		double f = (double) (dPercent * img_draggable.getLayoutParams().height / 100.0);
-//		
-//		return (int)f;
-//	}
-//	
-//	private int getRealProgress(double progress){
-//		
-//		double dPercent = (double) (progress * 100.0 / 1365.0);
-//		double f = (double) (dPercent * img_draggable.getMeasuredWidth() / 100.0);
-//		
-//		return (int)f;
-//	}
-//	
-//	private int getSeekProgress(double scroll){
-//		
-//		double dPercent = (double) (scroll * 100.0 / img_draggable.getMeasuredWidth() );
-//		double f = (double) (dPercent * 1365.0 / 100.0);
-//		
-//		return (int)f;
-//	}
-//
-//	public void drawBitmapOnPosition(Bitmap bm, float left, float top){
-//		
-//		Bitmap bitmap = ((BitmapDrawable)img_draggable.getDrawable()).getBitmap();
-//		Bitmap mutableBitmap = bitmap.copy(Config.ARGB_8888, true);
-//		
-////		Bitmap bm = Bitmap.createScaledBitmap(bitmapToDraw, (int)currentQuizElement.getQuizElementX(), (int)currentQuizElement.getQuizElementY(), false);
-//
-//		Canvas canvas = new Canvas();
-//		canvas.setBitmap(mutableBitmap);
-////		canvas.drawBitmap(bitmapToDraw, new Matrix(), null);
-//		
-////		Bitmap bitmapToDraw = decodeSampledBitmapFromDescriptor(bmToDrag, (int)currentQuizElement.getQuizWidth(), (int)currentQuizElement.getQuizHeight());
-//
-//		canvas.drawBitmap(bm, left, top, null);
-//	
-//		img_draggable.setImageBitmap(mutableBitmap);
-//		
-//	}
+	private void dragDoneWithSuccess(ImageView imageDragged) {
+		
+		// Animate imageview : shake it
+		
+		currentQuizElement.setQuizLocated(true);
+		
+		myDB.setElementStatus(suraId, partNb, currentQuizElement.getQuizStatus());
+		myDB.setElementLocatedStatus(suraId, partNb, true);
+		
+		for (int i = 0; i < layout_scroll.getChildCount(); i++) {
+			View v = layout_scroll.getChildAt(i);
+			if(v instanceof ImageView){
+				if((Integer)v.getTag() == Integer.valueOf(currentQuizElement.getQuizIdx())){
+					ImageView iv = (ImageView) v;
+					
+					float width = (float) (currentQuizElement.getQuizWidth()/1.5);
+					float height = (float) (currentQuizElement.getQuizHeight()/1.5);
+					Bitmap bm = originalResolution(TafseerManager.QuizPNGPath + currentQuizElement.getQuizFileName(), (int)width, (int)height);
+					iv.setImageBitmap(bm);
+					
+					if(currentQuizElement.getQuizStatus() == 2)
+						iv.startAnimation(mFlashingAnimation);
+				}
+			}
+		}		
+	}
+
+
+	private int getScaledX(double x){
+		
+		double dx = Double.valueOf(x);
+		
+		double dPercent = (double) (dx * 100.0 / 6144.0);
+		double f = (double) (dPercent * img_draggable.getLayoutParams().width / 100.0);
+		
+		return (int)f;
+	}
+
+	private int getScaledY(double y){
+		
+		double dy = Double.valueOf(y);
+		
+		double dPercent = (double) (dy * 100.0 / 768.0);
+		double f = (double) (dPercent * img_draggable.getLayoutParams().height / 100.0);
+		
+		return (int)f;
+	}
 	
+	private int getRealProgress(double progress){
+		
+		double dPercent = (double) (progress * 100.0 / 1365.0);
+		double f = (double) (dPercent * img_draggable.getMeasuredWidth() / 100.0);
+		
+		return (int)f;
+	}
+	
+	private int getSeekProgress(double scroll){
+		
+		double dPercent = (double) (scroll * 100.0 / img_draggable.getMeasuredWidth() );
+		double f = (double) (dPercent * 1365.0 / 100.0);
+		
+		return (int)f;
+	}
+
 	private void openDefectiveElement(int tag) {
 		
 		QuizElementToAdd elementSelected = defectiveElements.get(tag);
