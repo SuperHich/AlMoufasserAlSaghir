@@ -11,6 +11,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.almoufasseralsaghir.utils.MySuperScaler;
@@ -25,6 +26,7 @@ public class RegistrationActivity extends MySuperScaler{
 	
 	private ImageView register_bas_gauche_1_hint, register_bas_gauche_2_hint , register_bas_gauche_3_hint ;
 	
+	private RelativeLayout principal_layout;
 	private Button register_cancel, register_confirm ;
 	private Button social_1, social_2, social_3 ;
 //	private String social_state = "mail";
@@ -43,6 +45,8 @@ public class RegistrationActivity extends MySuperScaler{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registration);
+		
+		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 				
 		register_cancel = (Button) findViewById(R.id.register_cancel);
 		register_confirm = (Button) findViewById(R.id.register_confirm);
@@ -332,6 +336,13 @@ public class RegistrationActivity extends MySuperScaler{
 		toggleSocialButton(social_2, Integer.parseInt(user.getType2()));
 		register_bas_droit_3.setText(user.getFollower3());
 		toggleSocialButton(social_3, Integer.parseInt(user.getType3()));
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Utils.cleanViews(principal_layout);
 	}
 
 }

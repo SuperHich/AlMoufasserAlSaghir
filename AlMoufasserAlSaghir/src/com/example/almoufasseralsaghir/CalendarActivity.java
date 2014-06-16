@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.almoufasseralsaghir.utils.CustomizedCalendarCells;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
+import com.almoufasseralsaghir.utils.Utils;
 import com.example.almoufasseralsaghir.entity.Reminder;
 import com.example.almoufasseralsaghir.entity.ReminderListItem;
 
@@ -48,8 +49,9 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	
 	public static String[] day_color ;
 	
-	private static final String tag = "MyCalendarActivity";
+	private static final String TAG = "MyCalendarActivity";
 
+	private RelativeLayout principal_layout;
 	private FontFitTextView currentMonth;
 	private ImageView prevMonth;
 	private ImageView nextMonth;
@@ -87,6 +89,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 			partNb = getIntent().getExtras().getInt("partNb");
 		}
 		
+		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		previous = (Button) findViewById(R.id.previous);
 
 		myDay = (FontFitTextView) findViewById(R.id.selected_day);
@@ -133,7 +136,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 		month = _calendar.get(Calendar.MONTH) +1 ;
 		myNumericMonth = formatSingleUnit(month+"");
 		year = _calendar.get(Calendar.YEAR);
-		Log.d(tag, "Calendar Instance:= " + "Month: " + month + " " + "Year: "
+		Log.d(TAG, "Calendar Instance:= " + "Month: " + month + " " + "Year: "
 				+ year);
 
     	int resourceId = CalendarActivity.this.getResources().getIdentifier("month_"+(String.valueOf(month)), "string", CalendarActivity.this.getPackageName());
@@ -295,7 +298,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 			} else {
 				month--;
 			}
-			Log.d(tag, "Setting Prev Month in GridCellAdapter: " + "Month: "
+			Log.d(TAG, "Setting Prev Month in GridCellAdapter: " + "Month: "
 					+ month + " Year: " + year);
 			setGridCellAdapterToDate(month, year);
 		}
@@ -308,7 +311,7 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 			} else {
 				month++;
 			}
-			Log.d(tag, "Setting Next Month in GridCellAdapter: " + "Month: "
+			Log.d(TAG, "Setting Next Month in GridCellAdapter: " + "Month: "
 					+ month + " Year: " + year);
 			setGridCellAdapterToDate(month, year);
 		}
@@ -317,8 +320,9 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 
 	@Override
 	public void onDestroy() {
-		Log.d(tag, "Destroying View ...");
 		super.onDestroy();
+		
+		Utils.cleanViews(principal_layout);
 	}
 	
 	

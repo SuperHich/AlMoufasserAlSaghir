@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.ImageAdapter;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 
 
@@ -28,7 +28,7 @@ public class HomeLoggedIn extends MySuperScaler{
 	private ListView part4_listView;
 	
 	private Button info, favourites, previous, home ;
-	private RelativeLayout part1, part2, part3, part4 ;
+	private RelativeLayout part1, part2, part3, part4, principal_layout ;
 	private ImageView herbes ;
 	
 	@Override
@@ -40,6 +40,8 @@ public class HomeLoggedIn extends MySuperScaler{
 		favourites = (Button) findViewById(R.id.e4_favourites);
 		previous = (Button) findViewById(R.id.e4_previous);
 		home = (Button) findViewById(R.id.e4_home);
+		
+		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		
 		part1 = (RelativeLayout) findViewById(R.id.e4_part1);
 		part2 = (RelativeLayout) findViewById(R.id.e4_part2);
@@ -320,5 +322,12 @@ public class HomeLoggedIn extends MySuperScaler{
 		    }
 		});
 		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Utils.cleanViews(principal_layout);
 	}
 }

@@ -20,6 +20,16 @@
         android:layout_marginTop="40px"
         android:background="@drawable/building_final"/>
     
+    <RelativeLayout
+            android:id="@+id/layout_defective"
+            android:layout_width="550px"
+            android:layout_height="400px"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20px"
+            android:layout_marginRight="20px">
+            </RelativeLayout>
+    
     <com.almoufasseralsaghir.utils.RightHorizontalScrollView
         android:id="@+id/horizontal_scroll"
  		android:layout_width="1310px"

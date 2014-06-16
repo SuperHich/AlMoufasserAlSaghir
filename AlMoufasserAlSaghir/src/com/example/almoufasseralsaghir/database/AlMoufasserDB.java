@@ -1014,7 +1014,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 	}
 	
 	public boolean setElementStatus(int suraId, int partNb, int status) {
-		SQLiteDatabase db = getReadableDatabase();
+		SQLiteDatabase db = getWritableDatabase();
 
 		String sqlTables = "UserQuizElements";
 		String elementID = getElementID(suraId, partNb);
@@ -1157,7 +1157,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 	}
 	
 	public void initiateUserQuizelements(String uid){
-		SQLiteDatabase db = getReadableDatabase();
+		SQLiteDatabase db = getWritableDatabase();
 
 //		String uid = mTafseerManager.getLoggedInUser().getUid();
 		db.execSQL("INSERT INTO UserQuizElements(ElementID,Part_numberStr,SuraStr,Status,Located,UserID) SELECT ElementID,Part_numberStr,SuraStr,'0','0','"+uid+"' FROM QuizElements");
@@ -1410,6 +1410,21 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 
 			String FileName = "/QuizElement" + idx + "@2x~ipad.png";
 			qe.setQuizFileName(FileName);
+			
+			String f6 = "0";
+            String f7 = "0";
+   
+			Cursor cQ = getQuizElementStatusLocated(qe.getQuizIdx());
+			
+			if(cQ.moveToFirst()){
+				f6 = cQ.getString(0);
+				f7 = cQ.getString(1);
+			}
+			
+			cQ.close();
+			
+			qe.setQuizStatus(Integer.valueOf(f6));
+			qe.setQuizLocated(f7.equals("1"));
 		}
 
 		c.close();

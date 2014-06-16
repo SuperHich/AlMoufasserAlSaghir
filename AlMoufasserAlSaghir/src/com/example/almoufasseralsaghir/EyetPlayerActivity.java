@@ -15,6 +15,7 @@ import android.view.View.OnTouchListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.external.TafseerMediaPlayer;
@@ -30,8 +31,8 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 	private Button repeat_eya, set_favourite,  next_eya, previous_eya ;
 	public Button play_eya ;
 	private WebView eyet_webview ;
-	FontFitTextView eya_repetitions ;
-	
+	private FontFitTextView eya_repetitions ;
+	private RelativeLayout principal_layout;
 	
 	public static int suraId, partNb, ayaID, trackID;
 	
@@ -59,6 +60,8 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 			partNb = getIntent().getExtras().getInt("partNb");
 						
 		}
+		
+		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		
 		eyet_webview = (WebView) findViewById(R.id.eyet_webview);
 		eyet_webview.getSettings().setJavaScriptEnabled(true);
@@ -504,6 +507,8 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		super.onDestroy();
 		mPlayer.stop();
     	play_eya.getBackground().clearColorFilter();
+    	
+    	Utils.cleanViews(principal_layout);
 	}
 	
 	@Override

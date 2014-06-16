@@ -40,7 +40,10 @@ import com.example.almoufasseralsaghir.entity.QuizElementToAdd;
 
 public class ElementBuilderActivity extends MySuperScaler{
 	
-	private RelativeLayout all_buildings_layout, all_builds_imgs, layout_scroll;
+	protected static final String TAG = ElementBuilderActivity.class.getSimpleName();
+	public static final String DRAG_STATUS = "drag_status";
+	
+	private RelativeLayout all_buildings_layout, all_builds_imgs, layout_scroll, layout_defective;
 	private ImageView puller;
 	private SeekBar seek_buildings;
 	private RelativeLayout principal_layout; 
@@ -62,7 +65,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 	private ImageView imgToDrag;
 	private RelativeLayout viewToDragIn, viewToDragFrom;
 	
-	private boolean isDragOk = false;
+	private boolean isDragOk = false, isDragEnabled = false;
 	private float newX;
 	
 	private Bitmap bmToDrag;
@@ -80,6 +83,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		if(getIntent().getExtras() != null){
 			suraId = getIntent().getExtras().getInt("suraId");
 			partNb = getIntent().getExtras().getInt("partNb");
+			isDragEnabled = getIntent().getExtras().getBoolean(DRAG_STATUS);
 		}
 		
 //		mTafseerManager = new TafseerManager(this);
@@ -88,6 +92,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		mFlashingAnimation = AnimationUtils.loadAnimation(ElementBuilderActivity.this, R.anim.flashing);
 		
 		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
+		layout_defective = (RelativeLayout) findViewById(R.id.layout_defective);
 		horizontal_scroll = (RightHorizontalScrollView) findViewById(R.id.horizontal_scroll);
 		layout_scroll = (RelativeLayout) findViewById(R.id.layout_scroll);
 		back = (Button) findViewById(R.id.back);
@@ -103,14 +108,16 @@ public class ElementBuilderActivity extends MySuperScaler{
 //		seek_buildings.setMax(800);
 		puller.bringToFront();
 		
+		layout_defective.bringToFront();
+		
 		seek_buildings.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				
-//				int real_progress = getRealProgress(seekBar.getProgress());
-//				horizontal_scroll.smoothScrollTo(real_progress, 0);
-//				Log.v(""," "+ seekBar.getProgress() + " ... " + real_progress + " ... " + horizontal_scroll.getMaxScrollAmount() + " ... " + horizontal_scroll.getMeasuredWidth());
+				int real_progress = getRealProgress(seekBar.getProgress());
+				horizontal_scroll.smoothScrollTo(real_progress, 0);
+				Log.v(""," "+ seekBar.getProgress() + " ... " + real_progress + " ... " + horizontal_scroll.getMaxScrollAmount() + " ... " + horizontal_scroll.getMeasuredWidth());
 			}
 			
 			@Override
@@ -259,14 +266,6 @@ public class ElementBuilderActivity extends MySuperScaler{
 			}
 		});
 		
-//		Bitmap bm = BitmapFactory.decodeFile(TafseerManager.QuizPNGPath + "buildings_black_white.png");
-//		Drawable d = Drawable.createFromPath(TafseerManager.QuizPNGPath + "complete_colored.png");
-//		img_draggable.setImageBitmap(bm);
-//		img_draggable.setBackgroundDrawable(d);
-		
-		
-		
-		
 	}
 	
 
@@ -279,6 +278,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		currentQuizElement = myDB.getQuizElementInfos(suraId, partNb);
 		
 		populateElements();
+		
 		prepareElementToAdd();
 	}
 	
@@ -336,7 +336,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 					i++;
 				}
 				
-				float x=900;
+				float x = (float) (900/1.5);
 			    float gap = 20;
 			    
 			    for(QuizElementToAdd elementDef : defectiveElements){
@@ -345,7 +345,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 			        
 			        float realWidth  = (float) (elementDef.getQuizWidth()/1.5);
 			        float realHeight = (float) (elementDef.getQuizHeight()/1.5);
-			        float scale=(float) (realHeight/70.0);
+			        float scale=(float) (realHeight/100.0);
 			        float smallWidth=realWidth/scale;
 			        float smallHeight=realHeight/scale;
 			        
@@ -389,15 +389,16 @@ public class ElementBuilderActivity extends MySuperScaler{
 					    }
 					});
 					
-					 ElementBuilderActivity.this.runOnUiThread(new Runnable() {
-							
-							@Override
-							public void run() {
-								imgDefectiveElement.setImageBitmap(bm);
-								layout_scroll.addView(imgDefectiveElement);
-//								imgDefectiveElement = null;
-							}
-						});
+					ElementBuilderActivity.this.runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							imgDefectiveElement.setImageBitmap(bm);
+							layout_defective.addView(imgDefectiveElement);
+						}
+					});
+					
+					Log.i(TAG , "idx " + idx + " x " + x + " smallWidth " + smallWidth + " smallHeight " + smallHeight);
 					
 			    }
 			    
@@ -441,8 +442,9 @@ public class ElementBuilderActivity extends MySuperScaler{
 
 		 Log.i("prepareElementToAdd", "newX 3  " + newX);
 		 
-//		 horizontal_scroll.setLeft((int)newX/6);
-		 
+		 if(!isDragEnabled)
+			 return;
+			 
 		 imgToDrag = new ImageView(this);
 		 imgToDrag.setTag(Integer.valueOf(currentQuizElement.getQuizIdx()));
 		 bmToDrag = BitmapFactory.decodeFile(TafseerManager.QuizPNGPath + currentQuizElement.getQuizFileName());
@@ -497,6 +499,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)(currentQuizElement.getQuizWidth()/1.5), (int)(currentQuizElement.getQuizHeight()/1.5));
 		 params.setMargins((int)(currentQuizElement.getQuizElementX()/1.5), (int)(currentQuizElement.getQuizElementY()/1.5), 0, 0);
 		 viewToDragIn.setLayoutParams(params);
+		 viewToDragIn.setBackgroundResource(R.drawable.border);
 		 viewToDragIn.setOnDragListener(new OnDragListener() {
 			
 			@Override
@@ -546,8 +549,11 @@ public class ElementBuilderActivity extends MySuperScaler{
 		
 		currentQuizElement.setQuizLocated(true);
 		
-		myDB.setElementStatus(suraId, partNb, currentQuizElement.getQuizStatus());
-		myDB.setElementLocatedStatus(suraId, partNb, true);
+		boolean isSetStatus = myDB.setElementStatus(suraId, partNb, currentQuizElement.getQuizStatus());
+		boolean isSetLocated = myDB.setElementLocatedStatus(suraId, partNb, true);
+		
+		Log.i(TAG , "ElementStatus" + currentQuizElement.getQuizStatus() + " isSetStatus " + isSetStatus);
+		Log.i(TAG , "ElementLocated" + currentQuizElement.isQuizLocated() + " isSetLocated " + isSetLocated);
 		
 		for (int i = 0; i < layout_scroll.getChildCount(); i++) {
 			View v = layout_scroll.getChildAt(i);
@@ -567,30 +573,9 @@ public class ElementBuilderActivity extends MySuperScaler{
 		}		
 	}
 
-
-	private int getScaledX(double x){
-		
-		double dx = Double.valueOf(x);
-		
-		double dPercent = (double) (dx * 100.0 / 6144.0);
-		double f = (double) (dPercent * img_draggable.getLayoutParams().width / 100.0);
-		
-		return (int)f;
-	}
-
-	private int getScaledY(double y){
-		
-		double dy = Double.valueOf(y);
-		
-		double dPercent = (double) (dy * 100.0 / 768.0);
-		double f = (double) (dPercent * img_draggable.getLayoutParams().height / 100.0);
-		
-		return (int)f;
-	}
-	
 	private int getRealProgress(double progress){
 		
-		double dPercent = (double) (progress * 100.0 / 1365.0);
+		double dPercent = (double) (progress * 100.0 / 1310.0);
 		double f = (double) (dPercent * img_draggable.getMeasuredWidth() / 100.0);
 		
 		return (int)f;
@@ -599,14 +584,26 @@ public class ElementBuilderActivity extends MySuperScaler{
 	private int getSeekProgress(double scroll){
 		
 		double dPercent = (double) (scroll * 100.0 / img_draggable.getMeasuredWidth() );
-		double f = (double) (dPercent * 1365.0 / 100.0);
+		double f = (double) (dPercent * 1310.0 / 100.0);
 		
 		return (int)f;
 	}
 
 	private void openDefectiveElement(int tag) {
 		
-		QuizElementToAdd elementSelected = defectiveElements.get(tag);
+		int index = 0;
+		
+		for (int i = 0; i < defectiveElements.size(); i++) {
+			QuizElementToAdd elt = defectiveElements.get(i);
+			int qid = Integer.valueOf(elt.getQuizIdx());
+			if(qid == tag){
+				index = i;
+				break;
+			}
+		}
+		
+		
+		QuizElementToAdd elementSelected = defectiveElements.get(index);
 		String elementId = elementSelected.getQuizIdx();
 		
 		if(elementSelected.isQuizLocated())
@@ -615,7 +612,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 				String partName = myDB.getElementPartName(elementId);
 				String suraName = myDB.getElementSuraName(elementId);
 				
-				String msg = suraName + getString(R.string.defective_msg2) + partName + getString(R.string.defective_msg1);
+				String msg = getString(R.string.defective_msg1) + " " + partName + " " +  getString(R.string.defective_msg2) + " " + suraName;
 				
 				int partNbToOpen = myDB.getElementPartNumber(elementId);
 				int suraIdToOpen = myDB.getElementSuraId(elementId);
@@ -623,8 +620,6 @@ public class ElementBuilderActivity extends MySuperScaler{
 				showAlertDialog(msg, suraIdToOpen, partNbToOpen);
 			}
 		
-		
-
 	}
 
 	private void showAlertDialog(String msg, final int suraId, final int partNb){
@@ -652,16 +647,6 @@ public class ElementBuilderActivity extends MySuperScaler{
 		// show it
 		alertDialogBuilder.show();
 		
-	}
-
-	private int getFixedX(int x){
-		int diff = 6144 - x;
-		return 1365 - diff;		
-	}
-	
-	private int getFixedY(int y){
-		int diff = 768 - y;
-		return 800 - diff;		
 	}
 	
 	public Bitmap originalResolution (String filePath, int width, int height)

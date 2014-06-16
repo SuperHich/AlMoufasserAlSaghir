@@ -14,6 +14,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	private FontFitTextView mProgressPercent;
 
 	private View mDownloaderLayout;
+	private RelativeLayout principal_layout;
 	
 	private Handler splashHandler = new Handler() {
 		private	Intent intent  ;
@@ -70,6 +72,7 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 		
 		ddm = new DataDownloadManager(this);
 		
+		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		mPB = (SeekBar) findViewById(R.id.progressBar);
 		mStatusText = (FontFitTextView) findViewById(R.id.statusText);
 		mProgressPercent = (FontFitTextView) findViewById(R.id.progressAsPercentage);
@@ -191,6 +194,13 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 				});
 		// show it
 		alertDialogBuilder.show();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Utils.cleanViews(principal_layout);
 	}
 
 }

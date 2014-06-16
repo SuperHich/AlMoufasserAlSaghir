@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.almoufasseralsaghir.utils.MySuperScaler;
+import com.almoufasseralsaghir.utils.Utils;
 import com.example.almoufasseralsaghir.pager.HelpFragmentAdapter;
 
 public class HelpActivity extends MySuperScaler {
@@ -19,11 +21,14 @@ public class HelpActivity extends MySuperScaler {
 	private HelpFragmentAdapter mAdapter;
 	private ViewPager mPager;
 	private ImageView icn1, icn2, icn3, icn4, icn5, icn6, icn7, icn8, icn9;
+	private RelativeLayout principal_layout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);
+		
+		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		
 		icn1 = (ImageView) findViewById(R.id.icn1);
 		icn2 = (ImageView) findViewById(R.id.icn2);
@@ -144,8 +149,12 @@ previous.setOnTouchListener(new OnTouchListener() {
 		
 	}
 	
-	public void onBackPressed() {
-		 finish();
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Utils.cleanViews(principal_layout);
 	}
+	
 	
 }

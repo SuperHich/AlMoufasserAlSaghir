@@ -47,7 +47,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 
 	private Button  register_enter, login_btn, new_user,
 	deconnect, account_settings, settings;
-	private RelativeLayout register_interface, logged_in_interface ;
+	private RelativeLayout register_interface, logged_in_interface, principal_layout ;
 	private EditText email_login ;
 	private FontFitTextView name_logged_in ;
 	private ListView listViewArticles;
@@ -79,6 +79,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 
 		register_enter = (Button) findViewById(R.id.register);
 
+		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		register_interface = (RelativeLayout) findViewById(R.id.register_interface);
 		login_btn = (Button) findViewById(R.id.login_btn);
 		new_user = (Button) findViewById(R.id.new_user_btn);
@@ -725,5 +726,12 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 		downloadManager.cancelDownload();
 		dialog.setCancelable(true);
 		download_layout.setVisibility(View.GONE);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Utils.cleanViews(principal_layout);
 	}
 }

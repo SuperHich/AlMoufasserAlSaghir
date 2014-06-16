@@ -8,17 +8,22 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.almoufasseralsaghir.utils.MySuperScaler;
+import com.almoufasseralsaghir.utils.Utils;
 
 public class InfoActivity extends MySuperScaler  {
 
+	private RelativeLayout principal_layout;
 	private Button previous, more_apps, help ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_activity);
+		
+		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		
 		previous = (Button) findViewById(R.id.previous);
 		more_apps = (Button) findViewById(R.id.more_apps);
@@ -106,9 +111,12 @@ public class InfoActivity extends MySuperScaler  {
 		
 		
 	}
-	
-	public void onBackPressed() {
-		 finish();
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Utils.cleanViews(principal_layout);
 	}
 	
 }

@@ -36,6 +36,8 @@ import com.example.almoufasseralsaghir.entity.Question;
 
 public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNotifier {
 	
+	private static final String TAG = QuestionsActivity.class.getSimpleName();
+
 	private Button info, favourites, previous, home ;
 	public  MediaPlayer mp;
 	private ImageView  indication;
@@ -408,6 +410,9 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	
 	private void answerTreatment(int i){
 		
+		if(mPlayer != null)
+			mPlayer.stop();
+		
 		answer_1.setEnabled(false);
 		answer_2.setEnabled(false);
 		answer_3.setEnabled(false);
@@ -418,13 +423,14 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		
 		if (answer){
 			correctAnswersCount++;
-			if(currentQuestionIndex + 1 == questions.size()){
-				if(suraId == 114)
-					correctCurrentAnswersCount++;
-				else
-					setElementStatus(1);
-			}else
-				correctCurrentAnswersCount++;
+			correctCurrentAnswersCount++;
+//			if(currentQuestionIndex + 1 == questions.size()){
+//				if(suraId == 114)
+//					correctCurrentAnswersCount++;
+//				else
+//					setElementStatus(1);
+//			}else
+//				correctCurrentAnswersCount++;
 			
 			if(mp != null) mp.release();
 			mp = MediaPlayer
@@ -524,11 +530,11 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			numberOfQuestionsBelogingToThisPart = questions.size() - 1;
 		}
 		
-		
+		boolean isSet = false;
 		
 		if(correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart - 2 || correctCurrentAnswersCount == 0){
 			// fail 
-	        myDB.setElementStatus(suraId, partNb, 3);
+			isSet = myDB.setElementStatus(suraId, partNb, 3);
 	        currentElementStatus = "3";
 	        
 	        finish();
@@ -537,25 +543,34 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		
 		else if (correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart - 1) {
 			 // all questions are answered partially .. colored element
-			myDB.setElementStatus(suraId, partNb, 2);
+			isSet = myDB.setElementStatus(suraId, partNb, 2);
 	        currentElementStatus = "2";
 	    }
 		
 		else if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart || correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart+1) {
 	        // all questions are answered correctly .. colored element
-			myDB.setElementStatus(suraId, partNb, 1);
+			isSet = myDB.setElementStatus(suraId, partNb, 1);
 	        currentElementStatus = "1";
 	      
 	    }
 		
+		Log.i(TAG , "currentElementStatus " + currentElementStatus + " " + isSet);
+		
 		Intent intent = new Intent(this, ElementBuilderActivity.class);
 		intent.putExtra("suraId", suraId);
 		intent.putExtra("partNb", partNb);
+		intent.putExtra(ElementBuilderActivity.DRAG_STATUS, true);
 		startActivity(intent);
 		finish();
 	
 	}
 
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Utils.cleanViews(myQuestionsBackground);
+	}
 	
 }

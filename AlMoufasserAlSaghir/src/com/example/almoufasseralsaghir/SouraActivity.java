@@ -39,7 +39,7 @@ public class SouraActivity extends MySuperScaler {
 	private Button info, favourites, previous, home, soura_parts_btn ;
 	private Button questions, calendar, mostafad, maana, player ;
 	private ImageView soura_title ;
-	private RelativeLayout parts_btn_layout ;
+	private RelativeLayout parts_btn_layout, principal_layout;
 	boolean dialog_enter = false ;  boolean scrolling = false;
 	
 	private Sura currentSura;
@@ -66,6 +66,7 @@ public class SouraActivity extends MySuperScaler {
 		setContentView(R.layout.soura_activity);
 		
 		soura_act = this ;
+		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		soura_title = (ImageView) findViewById(R.id.soura_title);
 		
 		info = (Button) findViewById(R.id.info);
@@ -848,5 +849,11 @@ public class SouraActivity extends MySuperScaler {
 	}	
 	
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Utils.cleanViews(principal_layout);
+	}
 
 }
