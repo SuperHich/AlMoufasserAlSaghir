@@ -1,5 +1,7 @@
 package com.example.almoufasseralsaghir;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.animation.Animator;
@@ -13,11 +15,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
@@ -51,6 +59,8 @@ public class ElementBuilderActivity extends MySuperScaler{
 	private Button back, all_buildings;
 	private ImageView img_draggable;
 	
+	private Drawable new_img ;
+	
 //	private AlMoufasserDB myDB;
 //	private TafseerManager mTafseerManager;
 	
@@ -74,6 +84,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 	private Animation mFlashingAnimation;
 	private ProgressDialog progressDialog;
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,6 +109,19 @@ public class ElementBuilderActivity extends MySuperScaler{
 		back = (Button) findViewById(R.id.back);
 		all_buildings = (Button) findViewById(R.id.all_buildings);
 		img_draggable = (ImageView) findViewById(R.id.img_draggable);
+		
+		img_draggable = (ImageView) findViewById(R.id.img_draggable);
+
+
+		try {
+			new_img = createLargeDrawable(R.drawable.complete_colored_4);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		img_draggable.setBackgroundDrawable(new_img);
+
+		
 		
 		///// Bottom Layout
 		all_buildings_layout = (RelativeLayout) findViewById(R.id.all_buildings_layout);
@@ -687,6 +711,60 @@ public class ElementBuilderActivity extends MySuperScaler{
 		}
 		return inSampleSize;
 	}
+	
+	private Drawable createLargeDrawable(int resId) throws IOException {
+		
+		 int MAX_SIZE = (int) ((screen_width + screen_height)/scale);
+		
+	//	int MAX_SIZE = 3000 ;
+		Log.i("MAX SIZE VALUE", String.valueOf(MAX_SIZE));
+		 
+		 
+	    InputStream is = getResources().openRawResource(resId);
+	    BitmapRegionDecoder brd = BitmapRegionDecoder.newInstance(is, true);
+
+	    try {
+	        if (brd.getWidth() <= MAX_SIZE && brd.getHeight() <= MAX_SIZE) {
+	            return new BitmapDrawable(getResources(), is);
+	        }
+
+	        int rowCount = (int) Math.ceil((float) brd.getHeight() / (float) MAX_SIZE);
+	        int colCount = (int) Math.ceil((float) brd.getWidth() / (float) MAX_SIZE);
+
+	        BitmapDrawable[] drawables = new BitmapDrawable[rowCount * colCount];
+
+	        for (int i = 0; i < rowCount; i++) {
+
+	            int top = MAX_SIZE * i;
+	            int bottom = i == rowCount - 1 ? brd.getHeight() : top + MAX_SIZE;
+
+	            for (int j = 0; j < colCount; j++) {
+
+	                int left = MAX_SIZE * j;
+	                int right = j == colCount - 1 ? brd.getWidth() : left + MAX_SIZE;
+
+	                Bitmap b = brd.decodeRegion(new Rect(left, top, right, bottom), null);
+	                BitmapDrawable bd = new BitmapDrawable(getResources(), b);
+	                bd.setGravity(Gravity.TOP | Gravity.LEFT);
+	                drawables[i * colCount + j] = bd;
+	            }
+	        }
+
+	        LayerDrawable ld = new LayerDrawable(drawables);
+	        for (int i = 0; i < rowCount; i++) {
+	            for (int j = 0; j < colCount; j++) {
+	                ld.setLayerInset(i * colCount + j, MAX_SIZE * j, MAX_SIZE * i, 0, 0);
+	            }
+	        }
+
+	        return ld;
+	    }
+	    finally {
+	        brd.recycle();
+	    }
+	}
+	
+	
 	
 	@Override
 	protected void onDestroy() {

@@ -49,7 +49,6 @@
                 android:adjustViewBounds="true"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@null"
-                android:src="@drawable/complete_colored"
                 android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
