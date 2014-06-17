@@ -22,6 +22,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -32,8 +33,12 @@ import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -57,12 +62,9 @@ public class ElementBuilderActivity extends MySuperScaler{
 	private RelativeLayout principal_layout; 
 	private RightHorizontalScrollView horizontal_scroll;
 	private Button back, all_buildings;
-	private ImageView img_draggable;
+	private ImageView img_draggable, successView;
 	
 	private Drawable new_img ;
-	
-//	private AlMoufasserDB myDB;
-//	private TafseerManager mTafseerManager;
 	
 	private ObjectAnimator objectAnimator;
 	
@@ -81,8 +83,12 @@ public class ElementBuilderActivity extends MySuperScaler{
 	private Bitmap bmToDrag;
 	
 	private ArrayList<QuizElementToAdd> defectiveElements;
-	private Animation mFlashingAnimation;
+	private Animation mFlashingAnimation, mShakeAnimation;
+	private AnimationSet faderAnimation;
 	private ProgressDialog progressDialog;
+	
+	private int seekAnimHeight;
+	
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -97,10 +103,21 @@ public class ElementBuilderActivity extends MySuperScaler{
 			isDragEnabled = getIntent().getExtras().getBoolean(DRAG_STATUS);
 		}
 		
-//		mTafseerManager = new TafseerManager(this);
-//		myDB = new AlMoufasserDB(this);
-		
 		mFlashingAnimation = AnimationUtils.loadAnimation(ElementBuilderActivity.this, R.anim.flashing);
+		mShakeAnimation = AnimationUtils.loadAnimation(ElementBuilderActivity.this, R.anim.shake);
+		
+		Animation fadeIn = new AlphaAnimation(0, 1);
+		fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+		fadeIn.setDuration(5000);
+
+		Animation fadeOut = new AlphaAnimation(1, 0);
+		fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+		fadeOut.setStartOffset(2500);//3500
+		fadeOut.setDuration(5000);
+		
+		faderAnimation = new AnimationSet(true); //change to false
+		faderAnimation.addAnimation(fadeIn);
+		faderAnimation.addAnimation(fadeOut);
 		
 		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		layout_defective = (RelativeLayout) findViewById(R.id.layout_defective);
@@ -110,7 +127,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		all_buildings = (Button) findViewById(R.id.all_buildings);
 		img_draggable = (ImageView) findViewById(R.id.img_draggable);
 		
-		img_draggable = (ImageView) findViewById(R.id.img_draggable);
+		successView = (ImageView) findViewById(R.id.successView);
 
 
 		try {
@@ -129,9 +146,22 @@ public class ElementBuilderActivity extends MySuperScaler{
 		puller = (ImageView) findViewById(R.id.puller);
 		seek_buildings = (SeekBar) findViewById(R.id.seek_buildings);
 		seek_buildings.setMax(all_buildings_layout.getLayoutParams().width);
-//		seek_buildings.setMax(800);
-		puller.bringToFront();
+	
+		Drawable thumb;
+		try{
+			thumb = createLargeDrawable(R.drawable.all_buildings_indexer);
+		}catch(Exception e){
+			thumb = getResources().getDrawable(R.drawable.all_buildings_indexer);
+		}
+		seek_buildings.setThumb(thumb);
 		
+		seekAnimHeight = all_builds_imgs.getLayoutParams().height;
+		
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) all_buildings_layout.getLayoutParams();
+		params.setMargins(0, 0, 0, -seekAnimHeight);
+		all_buildings_layout.setLayoutParams(params);
+		
+		puller.bringToFront();
 		layout_defective.bringToFront();
 		
 		seek_buildings.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -243,7 +273,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 			    	  
 			    	  if(!isAllBuildingsShown){
 			    		  isAllBuildingsShown = true;
-			    		  objectAnimator = ObjectAnimator.ofFloat(all_buildings_layout, "translationY", 0, -all_builds_imgs.getLayoutParams().height);
+			    		  objectAnimator = ObjectAnimator.ofFloat(all_buildings_layout, "translationY", 0, -(seekAnimHeight-24) * scale);
 			    		  objectAnimator.setDuration(700);
 			    		  objectAnimator.start();
 
@@ -263,8 +293,10 @@ public class ElementBuilderActivity extends MySuperScaler{
 
 			    			  @Override
 			    			  public void onAnimationEnd(Animator arg0) {
-			    				  // TODO Auto-generated method stub
-
+			    				  if(isAllBuildingsShown)
+			    					  puller.setBackgroundResource(R.drawable.puller_down);
+			    				  else
+			    					  puller.setBackgroundResource(R.drawable.puller_up);
 			    			  }
 
 			    			  @Override
@@ -328,6 +360,9 @@ public class ElementBuilderActivity extends MySuperScaler{
 					float y = (float) (elementToAdd.getQuizElementY()/1.5);
 					float width = (float) (elementToAdd.getQuizWidth()/1.5);
 					float height = (float) (elementToAdd.getQuizHeight()/1.5);
+					
+					if(x<0)
+						x=0;
 
 					final Bitmap bm;
 					if(!elementToAdd.isQuizLocated()){
@@ -358,6 +393,9 @@ public class ElementBuilderActivity extends MySuperScaler{
 					});
 					
 					i++;
+					
+					Log.i(TAG , "Tag" + (Integer)imgInsideLoop.getTag() + " x " + x + " y " + y + " width " + width + " height " + height);
+					
 				}
 				
 				float x = (float) (900/1.5);
@@ -445,22 +483,24 @@ public class ElementBuilderActivity extends MySuperScaler{
 	    //  scroll the view to a suitable position according to the new element position
 	    //==========================================================================================
 		
-		newX = (float) (currentQuizElement.getQuizElementX()/1.5 - horizontal_scroll.getLayoutParams().width/3 + currentQuizElement.getQuizWidth()/3);
-		Log.i("prepareElementToAdd", "newX 1  " + newX);
-	
-		int diff = img_draggable.getLayoutParams().width - horizontal_scroll.getLayoutParams().width;
-		if (newX > diff) 
-			newX = (float) diff;
+//		newX = (float) (currentQuizElement.getQuizElementX()/1.5 - horizontal_scroll.getLayoutParams().width/3 + currentQuizElement.getQuizWidth()/3);
+//		Log.i("prepareElementToAdd", "newX 1  " + newX);
+//	
+//		int diff = img_draggable.getLayoutParams().width - horizontal_scroll.getLayoutParams().width;
+//		if (newX > diff) 
+//			newX = (float) diff;
+//
+//		Log.i("prepareElementToAdd", "newX 2  " + newX);
+//		
+//		if (newX<0f) newX=0f;
 
-		Log.i("prepareElementToAdd", "newX 2  " + newX);
+		newX = getSeekProgress((int)currentQuizElement.getQuizElementX()/1.5);
 		
-		if (newX<0f) newX=0f;
-
 		horizontal_scroll.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				horizontal_scroll.smoothScrollTo((int)newX, 0);
-				seek_buildings.setProgress(getSeekProgress((int)newX));
+				seek_buildings.setProgress((int)newX);
 			}
 		},300);
 
@@ -543,13 +583,15 @@ public class ElementBuilderActivity extends MySuperScaler{
 						ViewGroup owner = (ViewGroup) view4.getParent();
 						owner.removeView(view4);
 
-//						RelativeLayout container = (RelativeLayout) v;
+						RelativeLayout container = (RelativeLayout) v;
+						container.setBackgroundColor(Color.TRANSPARENT);
 //						container.addView(view4);
 //						view4.setVisibility(View.VISIBLE);
 
 						isDragOk = true;
 						
 						ImageView imfDragged = (ImageView) view4;
+						imfDragged.startAnimation(mShakeAnimation);
 						
 						dragDoneWithSuccess(imfDragged);
 
@@ -594,7 +636,21 @@ public class ElementBuilderActivity extends MySuperScaler{
 						iv.startAnimation(mFlashingAnimation);
 				}
 			}
-		}		
+		}
+		
+		
+		if(myDB.checkIfGameFinished()){
+			
+			MediaPlayer mp = MediaPlayer.create(this, R.raw.success_answer);
+			mp.start();	
+			
+			successView.setBackgroundResource(R.drawable.final_success);
+			successView.setVisibility(View.VISIBLE);
+			successView.startAnimation(faderAnimation);
+			successView.setVisibility(View.INVISIBLE);
+
+		}
+		
 	}
 
 	private int getRealProgress(double progress){

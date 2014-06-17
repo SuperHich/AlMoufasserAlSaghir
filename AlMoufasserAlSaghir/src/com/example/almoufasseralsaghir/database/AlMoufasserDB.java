@@ -1525,4 +1525,138 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		 c.close();
 		 return suraId;
 	 }
+	 
+	 public boolean checkIfGameFinished() {
+		 SQLiteDatabase db = getReadableDatabase();
+		 SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		 String sqlTables = "UserQuizElements";
+		 qb.setTables(sqlTables);
+
+		 String[] sqlSelect = {"COUNT(*)"};
+
+		 String whereClause = "Status LIKE '1' AND Located LIKE '1' AND UserID = ?";
+		 String[] whereArgs = new String[]{mTafseerManager.getLoggedInUser().getUid()};
+		 
+		 Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+		 boolean isGameFinished = false;
+		 if(c.moveToFirst()){
+			 int count = Integer.valueOf(c.getString(0));
+			 if(count == 168)
+				 isGameFinished = true;
+		 }
+
+		 c.close();
+
+		 return isGameFinished;
+	 }
+	 
+	 public boolean getSavePoint() {
+		 SQLiteDatabase db = getReadableDatabase();
+		 SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		 String sqlTables = "UserQuizElements";
+		 qb.setTables(sqlTables);
+
+		 String[] sqlSelect = {"MAX(cast(ElementID as int))"};
+
+		 String whereClause = "Status NOT LIKE '0' AND Located LIKE '1' AND UserID = ?";
+		 String[] whereArgs = new String[]{mTafseerManager.getLoggedInUser().getUid()};
+
+		 Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+		 int MaxElementID = 0;
+		 boolean isGameFinished = false;
+		 if(c.moveToFirst()){
+			 String mx = c.getString(0);
+			 MaxElementID = mx == null ? 0 : Integer.valueOf(mx.toString());
+		 }
+		 
+		 c.close();
+
+		 if(MaxElementID != 168){
+			 
+			 Cursor cSave = getSaveSuraPart(MaxElementID);
+			 if(cSave.moveToFirst()){
+				 int partNb = Integer.valueOf(cSave.getString(0));
+				 int suraId = Integer.valueOf(cSave.getString(1));
+				 
+				 mTafseerManager.setCurrentSuraPart(partNb);
+				 mTafseerManager.setCurrentSura(suraId);
+				 mTafseerManager.setCurrentJuz2(getJuzBySuraNumber(suraId));
+			 }
+			 
+			 cSave.close();
+			 
+		 }else
+			 isGameFinished = true;
+		 
+		 return isGameFinished;
+	 }
+	 
+	 public Cursor getSaveSuraPart(int elementID) {
+
+		 SQLiteDatabase db = getReadableDatabase();
+		 SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		 String [] sqlSelect = {"Part_number", "Sura"}; 
+		 String sqlTables = "QuizElements";
+
+		 String whereClause = "ElementID = ?";
+		 String[] whereArgs = new String[]{String.valueOf(elementID)};
+
+		 qb.setTables(sqlTables);
+		 Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+		 return c;
+	 }
+
+	 public int getJuzBySuraNumber(int suraId) {
+
+		 SQLiteDatabase db = getReadableDatabase();
+		 SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		 String sqlTables = "quran_number";
+		 String[] sqlSelect = {"part"};
+
+		 String whereClause = "sura = ?";
+		 String[] whereArgs = new String[]{String.valueOf(suraId)};
+
+		 qb.setTables(sqlTables);
+		 qb.setDistinct(true);
+		 Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs, null, null, null);
+
+		 int juzNumber = -1;
+		 if(c.moveToFirst()){
+			 juzNumber = Integer.valueOf(c.getString(0));
+		 }
+
+		 if(suraId <= 51)
+			 juzNumber = 27;
+
+		 switch (juzNumber) {
+		 case 27:
+			 juzNumber = 3;
+			 break;
+
+		 case 28:
+			 juzNumber = 2;
+			 break;
+
+		 case 29:
+			 juzNumber = 1;
+			 break;
+
+		 case 30:
+			 juzNumber = 0;
+			 break;
+
+		 default:
+			 break;
+		 }
+
+		 c.close();
+		 return juzNumber;
+	 }
 }

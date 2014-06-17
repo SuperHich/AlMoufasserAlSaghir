@@ -51,7 +51,10 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 
 			if (user.isLoggedIn())
 			{	
-				intent = new Intent(SplashHome.this, SouraActivity.class);
+//				if(!myDB.getSavePoint())
+					intent = new Intent(SplashHome.this, SouraActivity.class);
+//				else
+//					intent = new Intent(SplashHome.this, MainActivity.class);
 			} else 	
 			{
 				MainActivity.first_entry = true ;

@@ -656,35 +656,39 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 				}
 				 
 				mTafseerManager.setCurrentJuz2(position2);
-
-				switch (position) {
-				case 0:
-					Intent i1 = new Intent(MainActivity.this, HomeLoggedIn.class);
-					startActivity(i1);
-					Utils.animateSlide(MainActivity.this);
-					finish();
-					break;
-				case 1:
-					Intent i2 = new Intent(MainActivity.this, HomeLoggedIn.class);
-					startActivity(i2);
-					Utils.animateSlide(MainActivity.this);
-					finish();
-					break;
-				case 2:
-					Intent i3 = new Intent(MainActivity.this, HomeLoggedIn.class);
-					startActivity(i3);
-					Utils.animateSlide(MainActivity.this);
-					finish();
-					break;
-				case 3:
-					Intent i4 = new Intent(MainActivity.this, HomeLoggedIn.class);
-					startActivity(i4);
-					Utils.animateSlide(MainActivity.this);
-					finish();
-					break;
-				default:
-					break;
-				}
+				Intent in = new Intent(MainActivity.this, HomeLoggedIn.class);
+				startActivity(in);
+				Utils.animateSlide(MainActivity.this);
+				finish();
+				
+//				switch (position) {
+//				case 0:
+//					Intent i1 = new Intent(MainActivity.this, HomeLoggedIn.class);
+//					startActivity(i1);
+//					Utils.animateSlide(MainActivity.this);
+//					finish();
+//					break;
+//				case 1:
+//					Intent i2 = new Intent(MainActivity.this, HomeLoggedIn.class);
+//					startActivity(i2);
+//					Utils.animateSlide(MainActivity.this);
+//					finish();
+//					break;
+//				case 2:
+//					Intent i3 = new Intent(MainActivity.this, HomeLoggedIn.class);
+//					startActivity(i3);
+//					Utils.animateSlide(MainActivity.this);
+//					finish();
+//					break;
+//				case 3:
+//					Intent i4 = new Intent(MainActivity.this, HomeLoggedIn.class);
+//					startActivity(i4);
+//					Utils.animateSlide(MainActivity.this);
+//					finish();
+//					break;
+//				default:
+//					break;
+//				}
 			}
 
 		});

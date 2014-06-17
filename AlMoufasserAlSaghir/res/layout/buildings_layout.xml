@@ -3,7 +3,7 @@
     android:layout_width="1310px"
     android:layout_height="800px"
     android:id="@+id/principal_layout"
-    android:layout_gravity="right" 
+    android:layout_gravity="center" 
     android:background="#fcffff">
     
     <Button android:id="@+id/back"
@@ -23,7 +23,7 @@
     <RelativeLayout
             android:id="@+id/layout_defective"
             android:layout_width="550px"
-            android:layout_height="400px"
+            android:layout_height="300px"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="20px"
@@ -57,15 +57,16 @@
     <RelativeLayout
         android:id="@+id/all_buildings_layout"
         android:layout_width="1310px"
-        android:layout_height="285px"
+        android:layout_height="307px"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-228px" >
+        android:gravity="bottom"
+        android:layout_marginBottom="-234px">
 
         <ImageView
             android:id="@+id/puller"
-            android:layout_width="79px"
-            android:layout_height="57px"
-            android:background="@drawable/all_buildings_puller" 
+            android:layout_width="101px"
+            android:layout_height="73px"
+            android:background="@drawable/puller_up" 
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="-25px"/>
@@ -73,13 +74,13 @@
         <RelativeLayout
             android:id="@+id/all_builds_imgs"
             android:layout_width="1310px"
-            android:layout_height="243px"
+            android:layout_height="234px"
             android:layout_below="@+id/puller"
             android:layout_alignParentBottom="true">
 
             <RelativeLayout
                 android:layout_width="1310px"
-                android:layout_height="243px"
+                android:layout_height="234px"
                 android:background="@drawable/all_buildings_holder" >
 
                 <SeekBar
@@ -89,17 +90,23 @@
                     android:layout_alignParentTop="true"
                     android:background="@android:color/transparent"
                     android:progressDrawable="@android:color/transparent"
-                    android:thumb="@drawable/all_buildings_indexer"
                     android:layout_marginTop="25px"/>
 
                 <ImageView
                     android:layout_width="1310px"
-                    android:layout_height="154px"
+                    android:layout_height="148px"
                     android:layout_alignParentBottom="true"
                     android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
                     android:src="@drawable/all_buildings_image"
                     android:layout_below="@+id/seek_buildings" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
+    
+    <ImageView
+        android:id="@+id/successView"
+        android:layout_width="1310px"
+        android:layout_height="800px"
+        android:visibility="invisible" />
 </RelativeLayout>

@@ -92,8 +92,7 @@ public class HomeLoggedIn extends MySuperScaler{
 			part1_listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			
-				mTafseerManager.setCurrentSura(position);
+				mTafseerManager.setCurrentSura(position);			
 				Intent in = new Intent(HomeLoggedIn.this, SouraActivity.class);
 				startActivity(in);
 				Utils.animateFad(HomeLoggedIn.this);
