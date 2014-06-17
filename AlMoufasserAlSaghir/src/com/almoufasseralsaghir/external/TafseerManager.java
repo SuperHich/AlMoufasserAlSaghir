@@ -19,12 +19,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
+import com.almoufasseralsaghir.entity.ActivityStats;
+import com.almoufasseralsaghir.entity.Answer;
+import com.almoufasseralsaghir.entity.Question;
+import com.almoufasseralsaghir.entity.QuizElementToAdd;
+import com.almoufasseralsaghir.entity.Sura;
+import com.almoufasseralsaghir.entity.User;
 import com.example.almoufasseralsaghir.R;
-import com.example.almoufasseralsaghir.entity.Answer;
-import com.example.almoufasseralsaghir.entity.Question;
-import com.example.almoufasseralsaghir.entity.QuizElementToAdd;
-import com.example.almoufasseralsaghir.entity.Sura;
-import com.example.almoufasseralsaghir.entity.User;
 
 /**
  * @author H.L - admin
@@ -244,6 +245,24 @@ public class TafseerManager {
 		
 		return null;
 	}
+	
+	public int getSouraIdByJuz(int juz, int bigPosition) {
+
+		Sura sura = getSuraById(bigPosition);
+		
+		switch (juz) {
+		case 0:
+			return part1_list.indexOf(sura);
+		case 1:
+			return part2_list.indexOf(sura);
+		case 2:
+			return part3_list.indexOf(sura);
+		case 3:
+			return part4_list.indexOf(sura);
+		}
+
+		return 0;
+	}
 
 	public Sura getSouraLabel(int part, int position) {
 
@@ -458,16 +477,16 @@ public class TafseerManager {
 	 * @param token
 	 * @return
 	 */
-	public String postActivity(String uid, String sura, String part,
-			String repeat, String percentage, String date) {
+	public String postActivityStats(ActivityStats statsObj) {
+		
 		// Building Parameters
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("Activity[uid]", uid));
-		params.add(new BasicNameValuePair("Activity[sura]", sura));
-		params.add(new BasicNameValuePair("Activity[part]", part));
-		params.add(new BasicNameValuePair("Activity[repeat]", repeat));
-		params.add(new BasicNameValuePair("Activity[percentage]", percentage));
-		params.add(new BasicNameValuePair("Activity[date]", date));
+		params.add(new BasicNameValuePair("Activity[uid]", statsObj.getUid()));
+		params.add(new BasicNameValuePair("Activity[sura]", statsObj.getSura()));
+		params.add(new BasicNameValuePair("Activity[part]", statsObj.getPart()));
+		params.add(new BasicNameValuePair("Activity[repeat]", statsObj.getRepeat()));
+		params.add(new BasicNameValuePair("Activity[percentage]", statsObj.getPercentage()));
+		params.add(new BasicNameValuePair("Activity[date]", statsObj.getDate()));
 		params.add(new BasicNameValuePair("token", TOKEN));
 
 		// getting Integer Value

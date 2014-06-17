@@ -24,6 +24,8 @@
     <string name="error_starting">خطأ في تنزيل الملف.. الرجاء إعادة المحاولة لاحقا</string>
     <string name="defective_msg1">سيتم تحولك إلى المقطع</string>
     <string name="defective_msg2">من سورة</string>
+    <string name="reminder_ok">تم الحفظ</string>
+    <string name="reminder_not_ok">لم يتم الحفظ</string>
     
     <string name="month_1">جانفي</string>
     <string name="month_2">فيفري</string>

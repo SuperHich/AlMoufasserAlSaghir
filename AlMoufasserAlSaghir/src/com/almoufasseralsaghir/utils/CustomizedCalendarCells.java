@@ -10,7 +10,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
-import com.example.almoufasseralsaghir.CalendarActivity;
+import com.almoufasseralsaghir.CalendarActivity;
 import com.example.almoufasseralsaghir.R;
 
 public class CustomizedCalendarCells extends ImageButton {

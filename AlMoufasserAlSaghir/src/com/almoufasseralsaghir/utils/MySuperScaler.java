@@ -14,13 +14,13 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.almoufasseralsaghir.HomeLoggedIn;
+import com.almoufasseralsaghir.MainActivity;
+import com.almoufasseralsaghir.QuestionsActivity;
+import com.almoufasseralsaghir.SouraActivity;
+import com.almoufasseralsaghir.database.AlMoufasserDB;
 import com.almoufasseralsaghir.external.TafseerManager;
-import com.example.almoufasseralsaghir.HomeLoggedIn;
-import com.example.almoufasseralsaghir.MainActivity;
-import com.example.almoufasseralsaghir.QuestionsActivity;
 import com.example.almoufasseralsaghir.R;
-import com.example.almoufasseralsaghir.SouraActivity;
-import com.example.almoufasseralsaghir.database.AlMoufasserDB;
 
 /**
  * This is Super Scaler
@@ -38,6 +38,8 @@ public class MySuperScaler extends FragmentActivity {
 	
 	public static int screen_width;
 	public static int screen_height;
+	
+	protected boolean isFirstStart = true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

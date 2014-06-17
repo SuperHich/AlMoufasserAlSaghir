@@ -12,9 +12,9 @@ import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import com.almoufasseralsaghir.SouraActivity;
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.example.almoufasseralsaghir.R;
-import com.example.almoufasseralsaghir.SouraActivity;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
@@ -35,7 +35,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 			Bundle extras = intent.getExtras();
 			if(extras != null){
 				Intent reminderIntent = new Intent(context, SouraActivity.class);
-				reminderIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				reminderIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				int suraId = extras.getInt(TafseerManager.SURA_ID);
 				int partNb = extras.getInt(TafseerManager.PART_NB);
 				reminderIntent.putExtra(TafseerManager.SURA_ID, suraId);
