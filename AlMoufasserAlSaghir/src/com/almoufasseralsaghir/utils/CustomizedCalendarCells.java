@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.widget.ImageButton;
 
 import com.almoufasseralsaghir.CalendarActivity;
-import com.example.almoufasseralsaghir.R;
+import com.almoufasseralsaghir.R;
 
 public class CustomizedCalendarCells extends ImageButton {
 	String mText = "";

@@ -31,7 +31,6 @@ import com.almoufasseralsaghir.utils.Utils;
 import com.almoufasseralsaghir.wheelview.AbstractWheelTextAdapter;
 import com.almoufasseralsaghir.wheelview.OnWheelScrollListener;
 import com.almoufasseralsaghir.wheelview.WheelView;
-import com.example.almoufasseralsaghir.R;
 
 @SuppressLint("NewApi")
 public class SouraActivity extends MySuperScaler {

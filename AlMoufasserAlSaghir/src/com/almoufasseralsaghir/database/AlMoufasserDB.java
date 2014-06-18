@@ -621,23 +621,46 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 	
 	public boolean deleteReminder(int suraId, int partNb){    	
     	SQLiteDatabase db = getWritableDatabase();
-		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
 		int reminderID = getReminderID(suraId, partNb);
 		String sqlTable = "reminders";
 		
-		String whereClause = "ReminderID = ?";
+		String whereClause = "ReminderID LIKE ?";
 		String[] whereArgs = {String.valueOf(reminderID)};
 		
 		//remove reminder from AlarmManager
 		alarmManager.cancelReminder(context, reminderID);
 		
 		//remove reminder from DB
-		qb.setTables(sqlTable);
 		long insertedId = db.delete(sqlTable, whereClause, whereArgs);
 		
-		return insertedId != -1;
+		return insertedId > 0;
     }
+	
+//	public void getReminders() {
+//		SQLiteDatabase db = getReadableDatabase();
+//		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+//
+//		String sqlTables = "reminders";
+//		
+//		qb.setTables(sqlTables);
+//		Cursor c = qb.query(db, null, null, null, null, null, null);
+//
+//		Reminder reminder = new Reminder();
+//		if(c.moveToFirst()){
+//			Log.i("Reminder Count", " " + c.getCount());
+//			do{
+//				reminder.setReminderID(Integer.parseInt(c.getString(0)));
+//				reminder.setDate(c.getString(3));
+//				reminder.setTime(c.getString(4));
+//				reminder.setType(Integer.parseInt(c.getString(5)));
+//				reminder.setStatus(c.getString(6).equals("1")?true:false);
+//				Log.i("Reminder ", " ID " + reminder.getReminderID());
+//			}while(c.moveToNext());
+//		}
+//		
+//		c.close();		
+//	}
 	
 	public int getReminderID(int suraId, int partNb) {
 		SQLiteDatabase db = getReadableDatabase();

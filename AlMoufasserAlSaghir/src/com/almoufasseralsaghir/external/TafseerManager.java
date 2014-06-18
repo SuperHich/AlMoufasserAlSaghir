@@ -19,13 +19,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
+import com.almoufasseralsaghir.R;
 import com.almoufasseralsaghir.entity.ActivityStats;
 import com.almoufasseralsaghir.entity.Answer;
 import com.almoufasseralsaghir.entity.Question;
 import com.almoufasseralsaghir.entity.QuizElementToAdd;
 import com.almoufasseralsaghir.entity.Sura;
 import com.almoufasseralsaghir.entity.User;
-import com.example.almoufasseralsaghir.R;
 
 /**
  * @author H.L - admin
@@ -82,6 +82,7 @@ public class TafseerManager {
 	public static String QuizPNGPath;
 	public static String QuizPNGGrayPath;
 	public static String FontsPath;
+	public static String SuraPath;
 	
 	private ArrayList<Question> questions = new ArrayList<Question>();
 	private LinkedHashMap<String, ArrayList<Answer>> answers = new LinkedHashMap<String, ArrayList<Answer>>();

@@ -41,7 +41,6 @@ import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.R;
 
 
 public class MainActivity extends MySuperScaler implements DownloadNotifier{

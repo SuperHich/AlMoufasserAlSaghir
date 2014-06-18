@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
-import com.example.almoufasseralsaghir.R;
+import com.almoufasseralsaghir.R;
 
 
 public class DensityHelper {

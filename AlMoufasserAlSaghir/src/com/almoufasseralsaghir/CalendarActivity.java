@@ -40,7 +40,6 @@ import com.almoufasseralsaghir.utils.CustomizedCalendarCells;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.R;
 
 @SuppressLint("SimpleDateFormat")
 public class CalendarActivity extends MySuperScaler implements OnClickListener {
@@ -921,10 +920,10 @@ public class CalendarActivity extends MySuperScaler implements OnClickListener {
 					}
 					case MotionEvent.ACTION_UP: {
 						
-						myDB.deleteReminder(suraId, partNb);
-						
-						refreshTimeStatus(timeList.size(), position, false);
-
+						if(myDB.deleteReminder(suraId, partNb))
+						{
+							refreshTimeStatus(timeList.size(), position, false);
+						}
 						dialog.dismiss();
 					}
 					case MotionEvent.ACTION_CANCEL: {

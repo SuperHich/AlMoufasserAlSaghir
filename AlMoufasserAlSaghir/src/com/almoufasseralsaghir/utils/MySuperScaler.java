@@ -17,10 +17,10 @@ import android.widget.TextView;
 import com.almoufasseralsaghir.HomeLoggedIn;
 import com.almoufasseralsaghir.MainActivity;
 import com.almoufasseralsaghir.QuestionsActivity;
+import com.almoufasseralsaghir.R;
 import com.almoufasseralsaghir.SouraActivity;
 import com.almoufasseralsaghir.database.AlMoufasserDB;
 import com.almoufasseralsaghir.external.TafseerManager;
-import com.example.almoufasseralsaghir.R;
 
 /**
  * This is Super Scaler

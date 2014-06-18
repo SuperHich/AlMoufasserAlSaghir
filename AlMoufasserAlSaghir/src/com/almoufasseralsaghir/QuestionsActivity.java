@@ -32,7 +32,6 @@ import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.IMediaPlayerNotifier;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.R;
 
 
 public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNotifier {

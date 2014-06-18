@@ -10,11 +10,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.almoufasseralsaghir.R;
 import com.almoufasseralsaghir.SouraActivity;
 import com.almoufasseralsaghir.external.TafseerManager;
-import com.example.almoufasseralsaghir.R;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
@@ -40,7 +41,10 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 				int partNb = extras.getInt(TafseerManager.PART_NB);
 				reminderIntent.putExtra(TafseerManager.SURA_ID, suraId);
 				reminderIntent.putExtra(TafseerManager.PART_NB, partNb);
+				int remId = extras.getInt(REMINDER_ID);
 				context.startActivity(reminderIntent);
+				
+				Log.v("AlarmManager BroadcastReceiver", "ID " + remId + " suraId " + suraId + " partNb " + partNb);
 			}
 			return;
 			
@@ -82,7 +86,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         intent.putExtra(TafseerManager.SURA_ID, suraId);
         intent.putExtra(TafseerManager.PART_NB, partNb);
         
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent pi = PendingIntent.getBroadcast(context, reminderID, intent, 0);
         am.set(AlarmManager.RTC_WAKEUP, when, pi);
     }
     	
@@ -92,7 +96,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         intent.setData(Uri.parse("custom://" + reminderID));
         intent.setAction(String.valueOf(reminderID));
         
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent pi = PendingIntent.getBroadcast(context, reminderID, intent, 0);
         am.cancel(pi);
     }
     
@@ -109,8 +113,9 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 		resultIntent.putExtra(REMINDER_ID, reminderID);
 		resultIntent.putExtra(TafseerManager.SURA_ID, suraId);
 		resultIntent.putExtra(TafseerManager.PART_NB, partNb);
+//		resultIntent.setData(Uri.parse(reminderID + "," + suraId + "," + partNb));
 		
-		PendingIntent resultPendingIntent= PendingIntent.getBroadcast(context, 0, resultIntent, 0);
+		PendingIntent resultPendingIntent= PendingIntent.getBroadcast(context, reminderID, resultIntent, 0);
 		
 		mBuilder.setContentIntent(resultPendingIntent);
 		

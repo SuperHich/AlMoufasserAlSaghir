@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.R;
 
 
 public class HomeLoggedIn extends MySuperScaler{

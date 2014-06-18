@@ -13,17 +13,28 @@ public class DataDownloadManager extends AlMoufasserDownloadManager {
 		super(context);
 	}
 	
+	public synchronized static DataDownloadManager getInstance(Context context) {
+		if (mInstance == null)
+			mInstance = new DataDownloadManager(context);
+
+		return (DataDownloadManager) mInstance;
+	}
+	
 	@Override
 	public boolean initializeDownload() {
 		
-		numberOfFiles = 2384;
+		numberOfFiles = 2451;
 		
-		URL_FILE = "http://islam.ws/tafseer/externals.zip";
-//		URL_FILE = "http://www.dropbox.com/s/2msafc1tz5f8kdw/externals.zip?dl=1";
+//		URL_FILE = "http://islam.ws/tafseer/externals.zip";
+		URL_FILE = "http://www.dropbox.com/s/2msafc1tz5f8kdw/externals.zip?dl=1";
 		
 		File d = context.getExternalFilesDir(null);
+//		File d = Environment.getExternalStorageDirectory();
+//		File d = new File(Environment.getExternalStorageDirectory().getPath()+"/"+context.getPackageName()+"/");
+//		d.mkdirs();
+		
 		if(d != null){
-			String basePath = d.getAbsolutePath() + File.separator;
+			basePath = d.getAbsolutePath() + File.separator;
 
 			folderName = "externals";
 			zipFileName = "externals.zip";
@@ -40,6 +51,7 @@ public class DataDownloadManager extends AlMoufasserDownloadManager {
 			TafseerManager.QuizPNGPath 		= TafseerManager.ExternalsPath + File.separator + "_QuizPNGS" + File.separator;
 			TafseerManager.QuizPNGGrayPath 	= TafseerManager.ExternalsPath + File.separator + "_QuizPNGsGray" + File.separator;
 			TafseerManager.FontsPath 		= TafseerManager.ExternalsPath + File.separator + "FONTS" + File.separator;
+			TafseerManager.SuraPath 		= TafseerManager.ExternalsPath + File.separator + "SuraPNG" + File.separator;
 			
 			return super.initializeDownload();
 		}
@@ -57,8 +69,9 @@ public class DataDownloadManager extends AlMoufasserDownloadManager {
 		folders.add(TafseerManager.QuizPNGPath);
 		folders.add(TafseerManager.QuizPNGGrayPath);
 		folders.add(TafseerManager.FontsPath);
+		folders.add(TafseerManager.SuraPath);
 		
-		int filesCounter = 5;
+		int filesCounter = 6;
 		
 		for(String path : folders){
 
@@ -69,7 +82,6 @@ public class DataDownloadManager extends AlMoufasserDownloadManager {
 				filesCounter += childfile.length;
 		}
 	
-		
 		return filesCounter >= numberOfFiles;
 	}
 

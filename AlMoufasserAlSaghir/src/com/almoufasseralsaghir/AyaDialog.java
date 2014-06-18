@@ -18,7 +18,6 @@ import com.almoufasseralsaghir.database.AlMoufasserDB;
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
-import com.example.almoufasseralsaghir.R;
 
 public class AyaDialog extends Dialog{
 

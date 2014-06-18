@@ -24,7 +24,6 @@ import com.almoufasseralsaghir.entity.User;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.R;
 
 @SuppressLint("HandlerLeak")
 public class SplashHome extends MySuperScaler implements DownloadNotifier {
@@ -76,7 +75,7 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splashhome);
 		
-		ddm = new DataDownloadManager(this);
+		ddm = DataDownloadManager.getInstance(this);
 		
 		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		mPB = (SeekBar) findViewById(R.id.progressBar);
@@ -91,6 +90,22 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	    mPB.setThumb(thumb);
 	    mPB.setMax(100);
 		
+	    if(ddm.isDownloading()){
+	    	ddm.setDownloadNotifier(this);
+	    	mDownloaderLayout.setVisibility(View.VISIBLE);
+			mStatusText.setVisibility(View.VISIBLE);	
+			mStatusText.setText(R.string.downloading);
+	    	return;
+	    }
+	    
+	    if(ddm.isUnzipping()){
+	    	ddm.setDownloadNotifier(this);
+	    	mDownloaderLayout.setVisibility(View.VISIBLE);
+			mStatusText.setVisibility(View.VISIBLE);	
+			mStatusText.setText(R.string.unzipping);
+	    	return;
+	    }
+	    
 		if(ddm.initializeDownload()) {
 			
 			mDownloaderLayout.setVisibility(View.VISIBLE);
@@ -120,7 +135,6 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 		}
 		return super.onKeyDown(keyCode, event);
 
-
 	}	
 	
 	@Override
@@ -134,7 +148,7 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 			}
 		});
 		
-//		Log.e(TAG, "progress " + mPB.getProgress());
+		Log.e(TAG, "progress " + mPB.getProgress());
 	}
 
 	@Override

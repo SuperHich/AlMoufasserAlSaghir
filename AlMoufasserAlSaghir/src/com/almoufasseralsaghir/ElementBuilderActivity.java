@@ -50,7 +50,6 @@ import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.RightHorizontalScrollView;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.R;
 
 public class ElementBuilderActivity extends MySuperScaler{
 	

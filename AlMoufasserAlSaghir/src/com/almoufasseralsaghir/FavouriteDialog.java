@@ -27,7 +27,6 @@ import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.SwipeListView;
 import com.almoufasseralsaghir.utils.SwipeListView.SwipeListViewCallback;
-import com.example.almoufasseralsaghir.R;
 
 public class FavouriteDialog extends Dialog {
 

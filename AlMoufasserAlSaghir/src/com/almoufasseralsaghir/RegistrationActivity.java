@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.almoufasseralsaghir.entity.User;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
-import com.example.almoufasseralsaghir.R;
 
 public class RegistrationActivity extends MySuperScaler{
 

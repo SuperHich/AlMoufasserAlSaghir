@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.almoufasseralsaghir.R;
+import com.almoufasseralsaghir.R;
 
 public class HelpFragmentAdapter extends FragmentPagerAdapter {
     protected static final int[] CONTENT = new int[] { 

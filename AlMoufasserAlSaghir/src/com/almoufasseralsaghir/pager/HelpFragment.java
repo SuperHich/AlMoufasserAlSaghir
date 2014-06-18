@@ -1,14 +1,14 @@
 package com.almoufasseralsaghir.pager;
 
-import com.almoufasseralsaghir.utils.MySuperScaler;
-import com.example.almoufasseralsaghir.R;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.almoufasseralsaghir.R;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 
 public final class HelpFragment extends Fragment {
     private static final String KEY_CONTENT = "TestFragment:Content";

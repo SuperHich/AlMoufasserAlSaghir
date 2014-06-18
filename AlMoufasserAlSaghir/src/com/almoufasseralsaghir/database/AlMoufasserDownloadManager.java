@@ -18,9 +18,9 @@ public class AlMoufasserDownloadManager {
 	protected String URL_FILE;
 
 	private static final String TAG = null;
-	private static AlMoufasserDownloadManager mInstance;
+	protected static AlMoufasserDownloadManager mInstance;
 	protected Context context;
-	private long downloadID;
+	private long downloadID = -1;
 	private boolean isDownloading = false;
 	private boolean isUnzipping = false;
 	private DownloadManager downloadManager;
@@ -29,6 +29,7 @@ public class AlMoufasserDownloadManager {
 	private ProgressThread progressThread;
 	private DecompressAsynck decompressAsync;
 	
+	protected String basePath;
 	protected String thePath;
 	protected String zipFile;
 	
@@ -47,8 +48,7 @@ public class AlMoufasserDownloadManager {
 		return mInstance;
 	}
 	
-	private String downloadCompleteIntentName = DownloadManager.ACTION_DOWNLOAD_COMPLETE;
-	private IntentFilter downloadCompleteIntentFilter = new IntentFilter(downloadCompleteIntentName);
+	private IntentFilter downloadCompleteIntentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
 	private BroadcastReceiver downloadCompleteReceiver = new BroadcastReceiver() {
 	    @Override
 	    public void onReceive(Context context, Intent intent) {
@@ -88,13 +88,16 @@ public class AlMoufasserDownloadManager {
 	};
 
 
-
 	public AlMoufasserDownloadManager(Context context) {
 
 		this.context = context.getApplicationContext();
 		downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 		notifier = (DownloadNotifier) context;
 		
+	}
+	
+	public void setDownloadNotifier(Context context){
+		notifier = (DownloadNotifier) context;
 	}
 	
 	public boolean initializeDownload(){
@@ -129,7 +132,8 @@ public class AlMoufasserDownloadManager {
 			file.delete();
 		}
 
-
+		clearAllFiles();
+		
 		DownloadManager.Request request = new DownloadManager.Request(Uri.parse(URL_FILE));
 
 		// only download via WIFI
@@ -148,16 +152,14 @@ public class AlMoufasserDownloadManager {
 		// when initialize
 		context.registerReceiver(downloadCompleteReceiver, downloadCompleteIntentFilter);
 
-		isDownloading = true;
+		isDownloading = downloadID != -1;
 
-		progressThread = new ProgressThread();
-		progressThread.start();
+		if(isDownloading){
+			progressThread = new ProgressThread();
+			progressThread.start();
+		}
 
-
-
-
-
-		return true;
+		return isDownloading;
 	}
 	
 	public void queryDownloadState(long id){
@@ -205,6 +207,18 @@ public class AlMoufasserDownloadManager {
 		return false;
 	}
 	
+	private void clearAllFiles(){
+		try{
+			File dir = new File(basePath);
+			for(File fd : dir.listFiles()){
+				if(fd.isFile())
+					fd.delete();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	public boolean isDownloading(){
 		return isDownloading;
 	}
@@ -231,7 +245,7 @@ public class AlMoufasserDownloadManager {
 	        public void run() {
 
 	            while (isDownloading) {
-
+	            	
 	                DownloadManager.Query q = new DownloadManager.Query();
 	                q.setFilterById(downloadID);
 
@@ -241,9 +255,9 @@ public class AlMoufasserDownloadManager {
 	                        .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
 	                int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
 
-	                if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
-	                    isDownloading = false;
-	                }
+//	                if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
+//	                    isDownloading = false;
+//	                }
 
 	                final int dl_progress = (int) ((double)bytes_downloaded / (double)bytes_total * 100f);
 
