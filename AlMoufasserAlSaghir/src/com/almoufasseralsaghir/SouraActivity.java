@@ -10,7 +10,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,6 +64,7 @@ public class SouraActivity extends MySuperScaler {
 				,R.drawable.popup_soura_part5 ,R.drawable.popup_soura_part6 ,R.drawable.popup_soura_part7 };
 	
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -121,8 +126,20 @@ public class SouraActivity extends MySuperScaler {
         soura_part_num.setBackgroundResource(drawablepartId);
 		
 		
-		int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+currentSura.getLabel(), "drawable", this.getPackageName());
-		soura_title.setBackgroundResource(drawableResourceId);
+        Bitmap soura_title_bitmap = BitmapFactory.decodeFile(TafseerManager.SuraPath+"e5_title_sourat_"+currentSura.getLabel()+ ".png");
+        Drawable soura_title_drawable = new BitmapDrawable(getResources(),soura_title_bitmap);
+        
+        
+	//	int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+currentSura.getLabel(), "drawable", this.getPackageName());
+		soura_title.setBackgroundDrawable(soura_title_drawable);
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		parts_btn_layout.bringToFront();
 		
