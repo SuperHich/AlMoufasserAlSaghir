@@ -17,7 +17,8 @@ public class ReceiterDownloadManager extends AlMoufasserDownloadManager {
 		
 		numberOfFiles = 1664;
 		
-		URL_FILE = "http://islam.ws/tafseer/basfar.zip";
+		URL_FILE = "http://zadgroup.net/tafseer/basfar.zip";
+//		URL_FILE = "http://islam.ws/tafseer/basfar.zip";
 
 		File d = context.getExternalFilesDir(null);
 		String basePath = d.getAbsolutePath() + File.separator;
