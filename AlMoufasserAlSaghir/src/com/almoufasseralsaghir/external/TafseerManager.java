@@ -1,5 +1,6 @@
 package com.almoufasseralsaghir.external;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,6 +89,8 @@ public class TafseerManager {
 	private LinkedHashMap<String, ArrayList<Answer>> answers = new LinkedHashMap<String, ArrayList<Answer>>();
 	
 	private User loggedInUser = new User();
+
+	private Context mContext;
 	
 	public User getLoggedInUser() {
 		return loggedInUser;
@@ -97,8 +100,22 @@ public class TafseerManager {
 		this.loggedInUser = loggedInUser;
 	}
 	
+	public static void setPaths(Context context){
+		File d = context.getExternalFilesDir(null);
+		if(d != null){
+			TafseerManager.ExternalsPath 	= d.getAbsolutePath() + File.separator + "externals" + File.separator;
+			TafseerManager.MainReceiterPath = TafseerManager.ExternalsPath + File.separator + "MP3s" + File.separator;
+			TafseerManager.AdvicesPath 		= TafseerManager.ExternalsPath + File.separator + "AdviceMP3s" + File.separator;
+			TafseerManager.QuizPNGPath 		= TafseerManager.ExternalsPath + File.separator + "_QuizPNGS" + File.separator;
+			TafseerManager.QuizPNGGrayPath 	= TafseerManager.ExternalsPath + File.separator + "_QuizPNGsGray" + File.separator;
+			TafseerManager.FontsPath 		= TafseerManager.ExternalsPath + File.separator + "FONTS" + File.separator;
+			TafseerManager.SuraPath 		= TafseerManager.ExternalsPath + File.separator + "SuraPNG" + File.separator;
+		}
+	}
+	
 	
 	public TafseerManager(Context context) {
+		mContext = context;
 		settings = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = settings.edit();
 		jsonParser = new JSONParser(); 

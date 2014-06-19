@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.almoufasseralsaghir.R;
 import com.almoufasseralsaghir.SouraActivity;
+import com.almoufasseralsaghir.database.AlMoufasserDB;
 import com.almoufasseralsaghir.external.TafseerManager;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
@@ -28,6 +29,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 	
 	private NotificationManager mNotifyManager;
 	private NotificationCompat.Builder mBuilder;
+	private AlMoufasserDB myDB;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -37,11 +39,16 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 			if(extras != null){
 				Intent reminderIntent = new Intent(context, SouraActivity.class);
 				reminderIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				int suraId = extras.getInt(TafseerManager.SURA_ID);
-				int partNb = extras.getInt(TafseerManager.PART_NB);
+				int remId =	Integer.valueOf(intent.getDataString());
+				myDB = new AlMoufasserDB(context);
+				
+				int suraId = myDB.getReminderSura(remId);
+				int partNb =  myDB.getReminderPart(remId);
+				
 				reminderIntent.putExtra(TafseerManager.SURA_ID, suraId);
 				reminderIntent.putExtra(TafseerManager.PART_NB, partNb);
-				int remId = extras.getInt(REMINDER_ID);
+				
+				
 				context.startActivity(reminderIntent);
 				
 				Log.v("AlarmManager BroadcastReceiver", "ID " + remId + " suraId " + suraId + " partNb " + partNb);
@@ -51,7 +58,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 		}
 		
 		 PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
+         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, AlarmManagerBroadcastReceiver.class.getSimpleName());
          //Acquire the lock
          wl.acquire();
 
@@ -79,12 +86,14 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     public void setReminder(Context context, int reminderID, int suraId, int partNb, String notifMsg, long when){
     	AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        intent.setData(Uri.parse("custom://" + reminderID));
+//        intent.setData(Uri.parse("custom://" + reminderID));
         intent.setAction(String.valueOf(reminderID));
         intent.putExtra(REMINDER_ID, reminderID);
         intent.putExtra(REMINDER_MESSAGE, notifMsg);
         intent.putExtra(TafseerManager.SURA_ID, suraId);
         intent.putExtra(TafseerManager.PART_NB, partNb);
+        
+        Log.i(" ",reminderID + "," + suraId + "," + partNb);
         
         PendingIntent pi = PendingIntent.getBroadcast(context, reminderID, intent, 0);
         am.set(AlarmManager.RTC_WAKEUP, when, pi);
@@ -93,7 +102,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     public void cancelReminder(Context context, int reminderID){
     	AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        intent.setData(Uri.parse("custom://" + reminderID));
+//        intent.setData(Uri.parse("custom://" + reminderID));
         intent.setAction(String.valueOf(reminderID));
         
         PendingIntent pi = PendingIntent.getBroadcast(context, reminderID, intent, 0);
@@ -110,6 +119,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 		
 		Intent resultIntent = new Intent(context, AlarmManagerBroadcastReceiver.class);
 		resultIntent.setAction(ACTION_NOTIF_CLICK);
+		resultIntent.setData(Uri.parse(String.valueOf(reminderID)));
 		resultIntent.putExtra(REMINDER_ID, reminderID);
 		resultIntent.putExtra(TafseerManager.SURA_ID, suraId);
 		resultIntent.putExtra(TafseerManager.PART_NB, partNb);

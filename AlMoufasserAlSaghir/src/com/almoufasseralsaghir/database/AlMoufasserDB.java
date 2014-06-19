@@ -637,6 +637,53 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 		return insertedId > 0;
     }
 	
+	
+	public int getReminderSura(int reminderID){    	
+    	SQLiteDatabase db = getReadableDatabase();
+    	SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTable = "reminders";
+		String[] sqlSelect = {"Sura"};
+		String whereClause = "ReminderID LIKE ?";
+		String[] whereArgs = {String.valueOf(reminderID)};
+		
+		qb.setTables(sqlTable);
+		
+    	Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs,
+				null, null, null);
+    	
+    	int suraId = 0;
+    	if(c.moveToFirst())
+    		suraId = Integer.valueOf(c.getString(0));
+    	
+    	c.close();
+    	
+		return suraId;
+    }
+	
+	public int getReminderPart(int reminderID){    	
+    	SQLiteDatabase db = getReadableDatabase();
+    	SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String sqlTable = "reminders";
+		String[] sqlSelect = {"Part_number"};
+		String whereClause = "ReminderID LIKE ?";
+		String[] whereArgs = {String.valueOf(reminderID)};
+		
+		qb.setTables(sqlTable);
+		
+    	Cursor c = qb.query(db, sqlSelect, whereClause, whereArgs,
+				null, null, null);
+    	
+    	int partNb = 0;
+    	if(c.moveToFirst())
+    		partNb = Integer.valueOf(c.getString(0));
+    	
+    	c.close();
+    	
+		return partNb;
+    }
+	
 //	public void getReminders() {
 //		SQLiteDatabase db = getReadableDatabase();
 //		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();

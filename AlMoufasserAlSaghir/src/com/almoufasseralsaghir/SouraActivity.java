@@ -125,6 +125,8 @@ public class SouraActivity extends MySuperScaler {
 		int drawablepartId = SouraActivity.this.getResources().getIdentifier("e5_soura_part_1", "drawable", SouraActivity.this.getPackageName());
         soura_part_num.setBackgroundResource(drawablepartId);
 		
+        if(TafseerManager.ExternalsPath == null)
+        	TafseerManager.setPaths(this);
 		
         Bitmap soura_title_bitmap = BitmapFactory.decodeFile(TafseerManager.SuraPath+"e5_title_sourat_"+currentSura.getLabel()+ ".png");
         Drawable soura_title_drawable = new BitmapDrawable(getResources(),soura_title_bitmap);
@@ -132,14 +134,7 @@ public class SouraActivity extends MySuperScaler {
         
 	//	int drawableResourceId = this.getResources().getIdentifier("e5_title_sourat_"+currentSura.getLabel(), "drawable", this.getPackageName());
 		soura_title.setBackgroundDrawable(soura_title_drawable);
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		parts_btn_layout.bringToFront();
 		

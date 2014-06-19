@@ -198,19 +198,19 @@ public class MySuperScaler extends FragmentActivity {
 	}
 	
 	public void onBackPressed() {
-		super.onBackPressed();
+//		super.onBackPressed();
 		
 		if(thisAct instanceof SouraActivity)
 		{
 			startActivity(new Intent(thisAct, HomeLoggedIn.class));
-			Utils.animateFad(thisAct);
+//			Utils.animateFad(thisAct);
 			finish();	
 		}
 		else if(thisAct instanceof HomeLoggedIn)
 		{
 			MainActivity.first_entry = false;
 			startActivity(new Intent(thisAct, MainActivity.class));
-			Utils.animateFad(thisAct);
+//			Utils.animateFad(thisAct);
 			finish();
 		}
 		else finish();
