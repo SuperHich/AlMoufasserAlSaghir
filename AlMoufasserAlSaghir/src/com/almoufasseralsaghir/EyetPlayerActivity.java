@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +33,7 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 	private Button repeat_eya, set_favourite,  next_eya, previous_eya ;
 	public Button play_eya ;
 	private WebView eyet_webview ;
-	private FontFitTextView eya_repetitions ;
+	private FontFitTextView eya_repetitions, virtual ;
 	private RelativeLayout principal_layout;
 	
 	public static int suraId, partNb, ayaID, trackID;
@@ -46,6 +48,9 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 	
 	public TafseerMediaPlayer mPlayer;
 	public boolean repetition_mode = false ;
+	
+	
+	public int font_size ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,7 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		previous_eya = (Button) findViewById(R.id.previous_eya);
 		
 		eya_repetitions = (FontFitTextView) findViewById(R.id.eya_repetitions);
+		virtual = (FontFitTextView) findViewById(R.id.virtual);
 		
 		info.bringToFront();
 		favourites.bringToFront();
@@ -385,7 +391,25 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		super.onStart();
 		
 		if(isFirstStart){
-			myDB.populatePartText(suraId, partNb);
+			
+			
+			if (isTablet(EyetPlayerActivity.this))
+			{
+			if (scale < 1)
+				font_size =  (int) virtual.getTextSize() + 6;
+			else
+				font_size =  (int) virtual.getTextSize() -6 ;
+			} else
+			{
+			font_size = 32 ;
+			}
+			
+			Log.e("MY VALUE-----------", String.valueOf(font_size));
+			
+			
+			
+			
+			myDB.populatePartText(suraId, partNb, font_size);
 			partText = mTafseerManager.getPartText();
 
 			number_of_aya_tracks = mTafseerManager.getNumberOfTracks();
@@ -394,9 +418,23 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 			for(String page : mTafseerManager.getCurrentlyUsedFonts()){
 				myFonts.append("@font-face{font-family: P"+page+";src: url('"+TafseerManager.FontsPath+"QCF_P"+page+".TTF')}");
 			}
-
-			String style = "<head><script type='text/javascript' src='JS/jquery-1.10.2.min.js'></script><style type=\"text/css\">"+myFonts+"@font-face{font-family: myFirstFontB; src: url('"+TafseerManager.FontsPath+"QCF_BSML.TTF')}.sora, .bsmla{font-family:myFirstFontB;} .sora{ width: 100% ; margin-top: 8px; background-size: 100% 51px; background-repeat: no-repeat; }.bsmla{ margin-top: -5px; display:block; text-align: center; } body{width : 100% !important; font-size: 56px;line-height:85px; margin: 0px; direction: rtl; background-color: blue|||; text-align: right;  } body a{ color: black; text-decoration: none; border:0 solid; border-radius:35px; padding: -15px 0; }</style></head>";
-			String htmlPart = "<html>"+style+"<body><div style='padding-right: 20px; margin:0 0px 0 0px !important; text-align: justify !important; background-color: red|||; width: 90%'>"+partText+"</div></body></html>";
+			
+		//	int my_value =(int) (( Math.max(screen_width, screen_height) )/scale);
+			
+			
+			
+			
+//			if (my_value > 1500)  font_size = 72 ;
+//			if ((my_value < 1500) && (my_value > 1000)) font_size = 65 ;
+//			if (my_value < 1000)  font_size = 35 ;
+			
+			
+	//		font_size = my_value ;
+			int line_size = font_size + 20 ;
+			int line_bsmla = font_size + 60 ;
+			
+			String style = "<head><script type='text/javascript' src='JS/jquery-1.10.2.min.js'></script><style type=\"text/css\">"+myFonts+"@font-face{font-family: myFirstFontB; src: url('"+TafseerManager.FontsPath+"QCF_BSML.TTF')}.sora, .bsmla{font-family:myFirstFontB;} .sora{ width: 100% ; margin-top: 8px; background-size: 100% 51px; background-repeat: no-repeat; }.bsmla{ margin-top: -5px; margin-left : 160px ; display:block; text-align: center;line-height:"+line_bsmla+"px; } body{width : 100% !important; font-size: "+font_size+"px;line-height:"+line_size+"px; margin: 0px; direction: rtl; background-color: blue|||; text-align: justify;  } body a{ color: black; text-decoration: none; border:0 solid; border-radius:35px; padding: -15px 0; }</style></head>";
+			String htmlPart = "<html>"+style+"<body><div style='padding-right: 25px; margin:0 0px 0 0px !important; text-align: justify !important; background-color: red|||; width: 90%'>"+partText+"</div></body></html>";
 
 			Log.i("EyetPlayerActivity", htmlPart);
 			eyet_webview.loadDataWithBaseURL("file:///android_asset/", htmlPart, "text/html", "UTF-8", null);
@@ -524,4 +562,6 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
     	dismissHighLight(playingTrack);
 	}
 
+	
+	
 }

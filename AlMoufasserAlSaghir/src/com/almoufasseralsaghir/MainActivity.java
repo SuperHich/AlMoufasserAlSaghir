@@ -1,13 +1,17 @@
 package com.almoufasseralsaghir;
 
+import java.io.IOException;
+
 import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.media.MediaPlayer;
@@ -15,16 +19,18 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,7 +44,6 @@ import com.almoufasseralsaghir.database.DownloadNotifier;
 import com.almoufasseralsaghir.database.ReceiterDownloadManager;
 import com.almoufasseralsaghir.entity.User;
 import com.almoufasseralsaghir.utils.FontFitTextView;
-import com.almoufasseralsaghir.utils.ImageAdapter;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 
@@ -65,6 +70,9 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 	private Dialog dialog;
 	
 	public static boolean play_welcomer = false ;
+	
+	
+	private Drawable d1, d2 , d3 , d4 ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -631,9 +639,24 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 
 		///////////////   LIST VIEW : HANDLING    /////////////////////////////////////////////////////////
 
+		try {
+			d1 = createLargeDrawable(R.drawable.list_1);
+			d2 = createLargeDrawable(R.drawable.list_2);
+			d3 = createLargeDrawable(R.drawable.list_3);
+			d4 = createLargeDrawable(R.drawable.list_4);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		Drawable[] lListIcone={d1 , d2 ,d3 ,d4};
 
-		Integer[] lListIcone={R.drawable.list_1 , R.drawable.list_2 ,R.drawable.list_3 ,R.drawable.list_4 };
-		ArrayAdapter<Integer> adapter = new ImageAdapter(this, R.layout.rowlv_module, lListIcone);
+		CustomAdapter adapter = new CustomAdapter(lListIcone);
+
+
+//		Integer[] lListIcone={d1 , d2 ,d3 ,d4};
+//		ArrayAdapter<Integer> adapter = new ImageAdapter(this, R.layout.rowlv_module, lListIcone);
 
 		listViewArticles = (ListView) findViewById(R.id.listView1);
 		listViewArticles.setAdapter(adapter);
@@ -732,6 +755,54 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 		dialog.setCancelable(true);
 		download_layout.setVisibility(View.GONE);
 	}
+	
+	
+	class CustomAdapter extends BaseAdapter
+	{
+	    Drawable images[]; 
+	    LayoutInflater inflater;
+	    public CustomAdapter(Drawable[] lListIcone)
+	    {
+	        images=lListIcone;
+	        inflater= LayoutInflater.from(MainActivity.this);
+
+	    }
+	    @Override
+	    public int getCount() {
+	        return images.length;
+	    }
+	    @Override
+	    public Object getItem(int arg0) {
+	        return arg0;
+	    }
+	    @Override
+	    public long getItemId(int position) {
+	        return 0;
+	    }
+	    @Override
+	    public View getView(int position, View convertView, ViewGroup parent) {
+	        ViewHolder holder;
+	        if(convertView==null)
+	        {
+	            holder = new ViewHolder();
+	            convertView = inflater.inflate(R.layout.rowlv_module2, null);
+	            holder.iv= (ImageView) convertView.findViewById(R.id.trim1);
+	            convertView.setTag(holder);
+	        }
+	        else {
+	            holder = (ViewHolder)convertView.getTag();
+	        }
+	        holder.iv.setImageDrawable(images[position]);
+	        return convertView;
+	    }
+
+	}
+	class ViewHolder
+	{
+	    ImageView iv;
+	}
+	
+	
 	
 	@Override
 	protected void onDestroy() {

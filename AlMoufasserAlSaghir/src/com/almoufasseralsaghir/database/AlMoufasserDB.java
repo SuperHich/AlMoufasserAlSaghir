@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
+import com.almoufasseralsaghir.EyetPlayerActivity;
 import com.almoufasseralsaghir.entity.ActivityStats;
 import com.almoufasseralsaghir.entity.Answer;
 import com.almoufasseralsaghir.entity.PartFavourite;
@@ -23,6 +24,7 @@ import com.almoufasseralsaghir.entity.Reminder;
 import com.almoufasseralsaghir.entity.User;
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
+import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class AlMoufasserDB extends SQLiteAssetHelper {
@@ -762,7 +764,7 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 	
 	//**************************** SURA PART AYA
 	
-	public void populatePartText (int suraId, int partNb){
+	public void populatePartText (int suraId, int partNb, int font_size){
 		SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		
@@ -810,8 +812,10 @@ public class AlMoufasserDB extends SQLiteAssetHelper {
 				String anchorTag = "<a class="+i+" href=local?SuraID="+suraID+"&AyaID="+ayaID+"&TrackID="+i+" style='font-family: P"+pageID+";'>";
 	            ayaText = anchorTag.concat(ayaText);
 	            
+				
+	            
 	            if (ayaID.equals("1")) {
-	                ayaText = "<a id=0 href=local class='bsmla' style='text-align: center !important; font-size: 40px; width: 800px; float: left;'>ﭚﭛﭜﭝ</a>".concat(ayaText);
+	                ayaText = "<a id=0 href=local class='bsmla' style='text-align: center !important;  font-size:"+font_size+"px; width: 70%; '>ﭚﭛﭜﭝ</a>".concat(ayaText);
 	            }
 	            
 	            ayaText = ayaText.substring(0, ayaText.length() - 1);

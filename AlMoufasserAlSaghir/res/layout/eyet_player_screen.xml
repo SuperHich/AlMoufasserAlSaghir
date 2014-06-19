@@ -41,6 +41,20 @@
         	android:background="@drawable/notif"
             />
     
+   <com.almoufasseralsaghir.utils.FontFitTextView 
+            android:id="@+id/virtual"
+            android:layout_width="115px"
+            android:layout_height="35px"
+            android:layout_marginLeft="340px"
+            android:textColor="#098c8e"
+            android:ellipsize="none"
+            android:gravity="center"
+        	android:maxLines="1"
+        	android:textStyle="bold"
+        	android:textSize="50sp"
+            />
+    
+    
     <Button 
 	    android:id="@+id/repeat_eya"
         android:layout_width="130px"

@@ -5,7 +5,9 @@ import java.io.InputStream;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Point;
@@ -51,6 +53,8 @@ public class MySuperScaler extends FragmentActivity {
 	
 	protected boolean isFirstStart = true;
 	
+	public static boolean isTablet ;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,6 +93,11 @@ public class MySuperScaler extends FragmentActivity {
 			screen_width = size.x;
 			screen_height = size.y;
 			
+			isTablet = isTablet(thisAct);
+			
+			Log.e("SCREEN WIDTH *****", String.valueOf(screen_width));
+			Log.e("SCREEN Height *****", String.valueOf(screen_height));
+			Log.e("SCALE *****", String.valueOf(scale));
 			
 			if(! (thisAct instanceof QuestionsActivity))
 			{
@@ -218,7 +227,11 @@ public class MySuperScaler extends FragmentActivity {
 		
 	}
 	
-	
+	public static boolean isTablet(Context context) {
+	    return (context.getResources().getConfiguration().screenLayout
+	            & Configuration.SCREENLAYOUT_SIZE_MASK)
+	            >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+	}
 	
 	
 	@Override
