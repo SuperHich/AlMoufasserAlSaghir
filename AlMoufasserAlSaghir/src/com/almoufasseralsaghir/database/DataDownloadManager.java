@@ -26,7 +26,8 @@ public class DataDownloadManager extends AlMoufasserDownloadManager {
 		numberOfFiles = 2451;
 		
 //		URL_FILE = "http://islam.ws/tafseer/externals.zip";
-		URL_FILE = "http://www.dropbox.com/s/2msafc1tz5f8kdw/externals.zip?dl=1";
+		URL_FILE = "http://zadgroup.net/tafseer/externals.zip";
+//		URL_FILE = "http://www.dropbox.com/s/2msafc1tz5f8kdw/externals.zip?dl=1";
 		
 		File d = context.getExternalFilesDir(null);
 //		File d = Environment.getExternalStorageDirectory();
