@@ -1,5 +1,6 @@
 package com.almoufasseralsaghir;
 
+import android.app.ProgressDialog;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -132,11 +133,16 @@ public class RegistrationActivity extends MySuperScaler{
 		  		//		Utils.animateFad(RegistrationActivity.this);
 		    	 
 		    	  if (Utils.isOnline(getApplicationContext())){
+		    		  final ProgressDialog pd = new ProgressDialog(RegistrationActivity.this);
+		    		  
 		    	  new AsyncTask<Void, String, String>() {
 		    		  		    		  
 						@Override
 						protected void onPreExecute() {
 							loggedInUser = new User();
+							pd.setCancelable(false);
+							pd.setIndeterminate(true);
+							pd.show();
 						}
 						
 						@Override
@@ -190,6 +196,7 @@ public class RegistrationActivity extends MySuperScaler{
 						
 						@Override
 						protected void onPostExecute(String result) {
+							pd.dismiss();
 							if(result != null)
 							{
 								if(result.equals("2")){

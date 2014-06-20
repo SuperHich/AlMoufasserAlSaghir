@@ -333,6 +333,7 @@ public class AlMoufasserDownloadManager {
 					break;
 				}
 
+				notifier.onErrorDownload();
 				Log.e(AlMoufasserDownloadManager.class.getSimpleName(), "FAILED: " + failedReason);
 //				Toast.makeText(context, "FAILED: " + failedReason, Toast.LENGTH_LONG).show();
 				break;
