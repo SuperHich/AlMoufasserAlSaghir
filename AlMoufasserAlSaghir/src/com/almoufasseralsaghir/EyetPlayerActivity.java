@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -393,16 +392,15 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		if(isFirstStart){
 			
 			
-			if (isTablet(EyetPlayerActivity.this))
-			{
-			if (scale < 1)
-				font_size =  (int) virtual.getTextSize() + 6;
-			else
-				font_size =  (int) virtual.getTextSize() -6 ;
-			} else
-			{
-			font_size = 32 ;
-			}
+	//		if (isTablet(EyetPlayerActivity.this))
+	//		{
+			if (tabletInchSize()> 8.5 ) font_size = 72 ;
+			
+			else if (tabletInchSize()>= 6 && tabletInchSize()<= 7.5) font_size =  56;
+			
+			else if (tabletInchSize()>= 4 && tabletInchSize()<= 5.5) font_size =  35;
+			 
+			else font_size = 32 ;
 			
 			Log.e("MY VALUE-----------", String.valueOf(font_size));
 			

@@ -19,6 +19,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -316,6 +317,23 @@ public class MySuperScaler extends FragmentActivity {
 		super.onStop();
 		
 		myDB.close();
+	}
+	
+    protected double tabletInchSize(){
+		
+		DisplayMetrics metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+		float widthInInches = metrics.widthPixels / metrics.xdpi;
+		float heightInInches = metrics.heightPixels / metrics.ydpi;
+		
+		double sizeInInches = Math.sqrt(Math.pow(widthInInches, 2) + Math.pow(heightInInches, 2));
+		//0.5" buffer for 7" devices
+	//	boolean is7inchTablet = sizeInInches >= 6.5 && sizeInInches <= 7.5; 
+		
+		Log.e("//////////////// SIZE IN INCH ////////////////", String.valueOf(sizeInInches));
+		
+		return sizeInInches ;
 	}
 	
 	public void memoryAnalyser(){
