@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -398,7 +397,7 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 			
 			else if (tabletInchSize()>= 6 && tabletInchSize()<= 7.5) font_size =  56;
 			
-			else if (tabletInchSize()>= 4 && tabletInchSize()<= 5.5) font_size =  35;
+//			else if (tabletInchSize()>= 4 && tabletInchSize()<= 5.5) font_size =  32;
 			 
 			else font_size = 32 ;
 			

@@ -403,7 +403,7 @@ public class AyaDialog extends Dialog{
 							
 							
 							for (int i = 0; i < old_data.length; i++){
-								old_data[i] =  " <br> "+ old_data[i] + " <br> ";
+								old_data[i] = old_data[i] + " <br> ";
 							}
 							
 							

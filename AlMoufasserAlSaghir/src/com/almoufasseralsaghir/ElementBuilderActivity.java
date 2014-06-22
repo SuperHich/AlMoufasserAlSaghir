@@ -1,7 +1,9 @@
 package com.almoufasseralsaghir;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -126,12 +128,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		
 		successView = (ImageView) findViewById(R.id.successView);
 
-
-		try {
-			new_img = createLargeDrawable(R.drawable.complete_colored_4);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		new_img = getResources().getDrawable(R.drawable.complete_colored_4);
 
 		img_draggable.setBackgroundDrawable(new_img);
 
@@ -144,12 +141,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 		seek_buildings = (SeekBar) findViewById(R.id.seek_buildings);
 		seek_buildings.setMax(all_buildings_layout.getLayoutParams().width);
 	
-		Drawable thumb;
-		try{
-			thumb = createLargeDrawable(R.drawable.all_buildings_indexer);
-		}catch(Exception e){
-			thumb = getResources().getDrawable(R.drawable.all_buildings_indexer);
-		}
+		Drawable thumb = getResources().getDrawable(R.drawable.all_buildings_indexer);
 		seek_buildings.setThumb(thumb);
 		
 		seekAnimHeight = all_builds_imgs.getLayoutParams().height;
@@ -731,33 +723,76 @@ public class ElementBuilderActivity extends MySuperScaler{
 		
 	}
 	
-	public Bitmap originalResolution (String filePath, int width, int height)
-	{   
-		Bitmap bitmap = null;
-		int reqHeight=width;
-		int reqWidth=height;
-		BitmapFactory.Options options = new BitmapFactory.Options();   
+	private Bitmap originalResolution(String path, int width, int height)   {
+		Bitmap bm = null;
+		BitmapFactory.Options bfOptions=new BitmapFactory.Options();
+		bfOptions.inDither=false;                     //Disable Dithering mode
+		bfOptions.inPurgeable=true;                   //Tell to gc that whether it needs free memory, the Bitmap can be cleared
+		bfOptions.inInputShareable=true;              //Which kind of reference will be used to recover the Bitmap data after being clear, when it will be used in the future
+		bfOptions.inTempStorage=new byte[32 * 1024]; 
 
-		try{
-			// First decode with inJustDecodeBounds=true to check dimensions
-			options.inJustDecodeBounds = true;
-			BitmapFactory.decodeFile(filePath, options);
+		// Calculate inSampleSize
+		bfOptions.inSampleSize = calculateInSampleSize(bfOptions, width, height);
 
-			// Calculate inSampleSize
-			options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+		// Decode bitmap with inSampleSize set
+		bfOptions.inJustDecodeBounds = false;    
 
-			// Decode bitmap with inSampleSize set
-			options.inJustDecodeBounds = false;    
-
-			bitmap = BitmapFactory.decodeFile(filePath, options);
-
-		}catch(OutOfMemoryError oome){
-			options.inSampleSize *= 2;
-			bitmap = BitmapFactory.decodeFile(filePath, options);
+		File file=new File(path);
+		FileInputStream fs=null;
+		try {
+			fs = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			//TODO do something intelligent
+			e.printStackTrace();
 		}
 
-		return bitmap;
+		try {
+			if(fs!=null) bm=BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
+		} catch (IOException e) {
+			//TODO do something intelligent
+			e.printStackTrace();
+		} finally{ 
+			if(fs!=null) {
+				try {
+					fs.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return bm;
+
 	}
+	
+//	public Bitmap originalResolution2 (String filePath, int width, int height)
+//	{   
+//		Bitmap bitmap = null;
+//		int reqHeight=width;
+//		int reqWidth=height;
+//		BitmapFactory.Options options = new BitmapFactory.Options();   
+//
+//		try{
+//			// First decode with inJustDecodeBounds=true to check dimensions
+////			options.inJustDecodeBounds = true;
+////			BitmapFactory.decodeFile(filePath, options);
+//
+//			// Calculate inSampleSize
+//			options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+//
+//			// Decode bitmap with inSampleSize set
+//			options.inJustDecodeBounds = false;    
+//
+//			bitmap = BitmapFactory.decodeFile(filePath, options);
+//
+//		}catch(OutOfMemoryError oome){
+//			options.inSampleSize *= 2;
+//			bitmap = BitmapFactory.decodeFile(filePath, options);
+//		}
+//
+//		return bitmap;
+//	}
 
 	private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
 
