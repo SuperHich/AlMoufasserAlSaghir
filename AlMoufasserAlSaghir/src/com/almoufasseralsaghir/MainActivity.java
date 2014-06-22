@@ -639,15 +639,19 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 
 		///////////////   LIST VIEW : HANDLING    /////////////////////////////////////////////////////////
 
-		try {
-			d1 = createLargeDrawable(R.drawable.list_1);
-			d2 = createLargeDrawable(R.drawable.list_2);
-			d3 = createLargeDrawable(R.drawable.list_3);
-			d4 = createLargeDrawable(R.drawable.list_4);
+//		try {
+//			d1 = createLargeDrawable(R.drawable.list_1);
+//			d2 = createLargeDrawable(R.drawable.list_2);
+//			d3 = createLargeDrawable(R.drawable.list_3);
+//			d4 = createLargeDrawable(R.drawable.list_4);
+			d1 = getResources().getDrawable(R.drawable.list_1);
+			d2 = getResources().getDrawable(R.drawable.list_2);
+			d3 = getResources().getDrawable(R.drawable.list_3);
+			d4 = getResources().getDrawable(R.drawable.list_4);
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		
 		Drawable[] lListIcone={d1 , d2 ,d3 ,d4};

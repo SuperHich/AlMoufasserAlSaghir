@@ -22,6 +22,7 @@
             android:layout_marginTop="5px"
             android:textStyle="bold" 
             android:text="@string/downloading"
+            android:textColor="@color/blue_dark"
             android:layout_alignParentRight="true"/>
 
         <com.almoufasseralsaghir.utils.FontFitTextView
@@ -30,6 +31,7 @@
             android:layout_width="170px"
             android:layout_height="50px"
             android:text="0%" 
+            android:textColor="@color/blue_dark"
             android:layout_toLeftOf="@+id/statusText"
             android:layout_margin="5px"/>
 

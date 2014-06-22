@@ -222,5 +222,24 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 		
 		Utils.cleanViews(principal_layout);
 	}
+	
+	public void showExit(Context context, int message) {
+
+		// Alert dialogue
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				context);
+		// set dialog message
+		alertDialogBuilder
+		.setMessage(context.getResources().getString(message))
+		.setCancelable(false)
+		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				finish();
+				return;
+			}
+		});
+		// show it
+		alertDialogBuilder.show();
+	}
 
 }

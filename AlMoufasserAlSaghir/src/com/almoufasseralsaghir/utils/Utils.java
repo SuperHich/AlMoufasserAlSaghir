@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class Utils {
 
@@ -64,7 +66,10 @@ public class Utils {
 			for (int i=0; i<nrOfChildren; i++){
 				View view = viewGroup.getChildAt(i);
 				unbindViewReferences(view);
-				if (view instanceof ViewGroup) cleanViews((ViewGroup) view);
+				if (view instanceof ViewGroup)
+					cleanViews((ViewGroup) view);
+				
+//				cleanStatus(view, i);
 			}
 			try {
 				clearBitmap(viewGroup.getDrawingCache());
@@ -73,11 +78,22 @@ public class Utils {
 			catch (Throwable mayHappen) {
 				// AdapterViews, ListViews and potentially other ViewGroups don't support the removeAllViews operation
 			}
+			
+			System.gc();
+
 		}catch (Exception e) {
 			Log.e("", "Unable to clean views ! ");
 		}
 	}
 
+	public static void cleanStatus(View view, int position){
+		if(view instanceof LinearLayout)
+			Log.i("Utils : cleanStatus " + position, "LinearLayout");
+		else if(view instanceof RelativeLayout)
+			Log.i("Utils : cleanStatus " + position, "RelativeLayout");
+		else if(view instanceof RightHorizontalScrollView)
+			Log.i("Utils : cleanStatus " + position, "RightHorizontalScrollView");
+	}
 
 	public static void clearImageView(ImageView imgView){
 

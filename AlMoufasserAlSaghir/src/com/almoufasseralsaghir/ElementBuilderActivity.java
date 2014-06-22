@@ -1,6 +1,9 @@
 package com.almoufasseralsaghir;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.animation.Animator;
@@ -392,7 +395,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 					
 					i++;
 					
-					Log.i(TAG , "Tag" + (Integer)imgInsideLoop.getTag() + " x " + x + " y " + y + " width " + width + " height " + height);
+//					Log.i(TAG , "Tag" + (Integer)imgInsideLoop.getTag() + " x " + x + " y " + y + " width " + width + " height " + height);
 					
 				}
 				
@@ -458,7 +461,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 						}
 					});
 					
-					Log.i(TAG , "idx " + idx + " x " + x + " smallWidth " + smallWidth + " smallHeight " + smallHeight);
+//					Log.i(TAG , "idx " + idx + " x " + x + " smallWidth " + smallWidth + " smallHeight " + smallHeight);
 					
 			    }
 			    
@@ -730,21 +733,30 @@ public class ElementBuilderActivity extends MySuperScaler{
 	
 	public Bitmap originalResolution (String filePath, int width, int height)
 	{   
+		Bitmap bitmap = null;
 		int reqHeight=width;
 		int reqWidth=height;
 		BitmapFactory.Options options = new BitmapFactory.Options();   
 
-		// First decode with inJustDecodeBounds=true to check dimensions
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(filePath, options);
+		try{
+			// First decode with inJustDecodeBounds=true to check dimensions
+			options.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(filePath, options);
 
-		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+			// Calculate inSampleSize
+			options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
-		// Decode bitmap with inSampleSize set
-		options.inJustDecodeBounds = false;        
+			// Decode bitmap with inSampleSize set
+			options.inJustDecodeBounds = false;    
 
-		return BitmapFactory.decodeFile(filePath, options); 
+			bitmap = BitmapFactory.decodeFile(filePath, options);
+
+		}catch(OutOfMemoryError oome){
+			options.inSampleSize *= 2;
+			bitmap = BitmapFactory.decodeFile(filePath, options);
+		}
+
+		return bitmap;
 	}
 
 	private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -785,5 +797,51 @@ public class ElementBuilderActivity extends MySuperScaler{
 		super.onDestroy();
 		
 		Utils.cleanViews(principal_layout);
+	}
+
+	private Bitmap loadImageFromSDcard(String strName, int width, int height) 
+	{
+		InputStream istr;
+		Bitmap bitmap = null  ;
+		BitmapFactory.Options o =new BitmapFactory.Options();
+
+		try {
+			System.gc();
+			istr = new BufferedInputStream(new FileInputStream(strName));
+			o.inJustDecodeBounds = true;
+			o.outWidth = width;
+			o.outHeight = height;
+			BitmapFactory.decodeStream(istr,null,o);
+			//The MAXIMUM_SIZE
+//			int MAXIMUM_SIZE = (int) ((screen_width + screen_height)/scale);
+			int MAXIMUM_SIZE = 1000;
+//			final int MAXIMUM_SIZE=1000;
+
+			//Find the correct scale value. It should be the power of 2.
+			int scale=1;
+			while(o.outWidth/scale/2>=MAXIMUM_SIZE && o.outHeight/scale/2>=MAXIMUM_SIZE)
+				scale*=2;
+
+			//Decode with inSampleSize
+			BitmapFactory.Options o2 = new BitmapFactory.Options();
+			o2.outWidth = width;
+			o2.outHeight = height;
+			o2.inSampleSize=scale;
+			o2.inTempStorage = new byte[16*1024];
+
+			o2.inPurgeable = true;
+
+			bitmap = BitmapFactory.decodeStream(istr,null,o2);
+			//     bitmap.recycle();
+			istr.close();
+			} catch (IOException e) {
+			e.printStackTrace();
+		}catch(OutOfMemoryError error) {
+			// double the sample size, thus reducing the memory needed by 50%
+			o.inSampleSize *= 2;
+		}
+
+		return bitmap;
+
 	}
 }

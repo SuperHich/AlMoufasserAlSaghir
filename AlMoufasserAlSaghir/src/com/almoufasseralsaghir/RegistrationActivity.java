@@ -1,6 +1,7 @@
 package com.almoufasseralsaghir;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -91,6 +93,20 @@ public class RegistrationActivity extends MySuperScaler{
 //			}
 //		});
 		
+		principal_layout.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN: {
+					hideKeyboard();
+					break;
+				}
+				}
+				return true;
+			}
+		});
+		
 		register_cancel.setOnTouchListener(new OnTouchListener() {
 			@Override
 		    public boolean onTouch(View v, MotionEvent event) {
@@ -163,14 +179,14 @@ public class RegistrationActivity extends MySuperScaler{
 							if(email_confirm.length() == 0)
 								return "10";
 							
-							if(follower1.length() == 0)
-								return "20";
-							
-							if(follower2.length() == 0)
-								return "30";
-							
-							if(follower3.length() == 0)
-								return "40";
+//							if(follower1.length() == 0)
+//								return "20";
+//							
+//							if(follower2.length() == 0)
+//								return "30";
+//							
+//							if(follower3.length() == 0)
+//								return "40";
 							
 							else if(email.equals(email_confirm)){
 								loggedInUser.setUdid(mTafseerManager.getDeviceID());
@@ -205,15 +221,15 @@ public class RegistrationActivity extends MySuperScaler{
 								else if(result.equals("10")){
 									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_confirm_email);
 								}
-								else if(result.equals("20")){
-									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_follower1);
-								}
-								else if(result.equals("30")){
-									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_follower2);
-								}
-								else if(result.equals("40")){
-									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_follower3);
-								}
+//								else if(result.equals("20")){
+//									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_follower1);
+//								}
+//								else if(result.equals("30")){
+//									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_follower2);
+//								}
+//								else if(result.equals("40")){
+//									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_follower3);
+//								}
 								else if(result.equals("50")){
 									mTafseerManager.showPopUp(RegistrationActivity.this, R.string.register_request_confirm_email);
 								}
@@ -350,6 +366,11 @@ public class RegistrationActivity extends MySuperScaler{
 		super.onDestroy();
 		
 		Utils.cleanViews(principal_layout);
+	}
+	
+	protected void hideKeyboard() {
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 	}
 
 }

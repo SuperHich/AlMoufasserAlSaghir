@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -16,6 +17,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Display;
@@ -41,6 +43,7 @@ import com.almoufasseralsaghir.external.TafseerManager;
 @SuppressLint("NewApi")
 public class MySuperScaler extends FragmentActivity {
 	
+	private static final String TAG = MySuperScaler.class.getSimpleName();
 	public static float scale ;
 	public static boolean scaled = false;
 	protected TafseerManager mTafseerManager ;
@@ -64,6 +67,8 @@ public class MySuperScaler extends FragmentActivity {
 		thisAct = this ;
 		mTafseerManager = TafseerManager.getInstance(this);
 		
+		memoryAnalyser();
+		
 	}
 	
 	@Override
@@ -71,6 +76,13 @@ public class MySuperScaler extends FragmentActivity {
 		super.onStart();
 		
 		myDB = new AlMoufasserDB(this);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		memoryAnalyser();
 	}
 
 	@Override
@@ -158,7 +170,7 @@ public class MySuperScaler extends FragmentActivity {
 		
 		 int MAX_SIZE = (int) ((screen_width + screen_height)/scale);
 		
-	//	int MAX_SIZE = 3000 ;
+//		int MAX_SIZE = 5000 ;
 		Log.i("MAX SIZE VALUE", String.valueOf(MAX_SIZE));
 		 
 		 
@@ -206,6 +218,71 @@ public class MySuperScaler extends FragmentActivity {
 	    }
 	}
 	
+	protected Drawable createLargeDrawable2(String pathName, int width, int height) {
+
+		int MAX_SIZE = (int) ((screen_width + screen_height)/scale);
+
+		//		int MAX_SIZE = 5000 ;
+		Log.i("MAX SIZE VALUE", String.valueOf(MAX_SIZE));
+
+		try {
+			//	    InputStream is = getResources().openRawResource(resId);
+			BitmapRegionDecoder brd = BitmapRegionDecoder.newInstance(pathName, true);
+
+			try {
+				if (brd.getWidth() <= MAX_SIZE && brd.getHeight() <= MAX_SIZE) {
+					BitmapFactory.Options opts =new BitmapFactory.Options();
+					opts.outWidth = width;
+					opts.outHeight = height;
+					Bitmap bm = BitmapFactory.decodeFile(pathName, opts);
+					return new BitmapDrawable(getResources(), bm);
+				}
+
+				int rowCount = (int) Math.ceil((float) brd.getHeight() / (float) MAX_SIZE);
+				int colCount = (int) Math.ceil((float) brd.getWidth() / (float) MAX_SIZE);
+
+				BitmapDrawable[] drawables = new BitmapDrawable[rowCount * colCount];
+
+				for (int i = 0; i < rowCount; i++) {
+
+					int top = MAX_SIZE * i;
+					int bottom = i == rowCount - 1 ? brd.getHeight() : top + MAX_SIZE;
+
+					for (int j = 0; j < colCount; j++) {
+
+						int left = MAX_SIZE * j;
+						int right = j == colCount - 1 ? brd.getWidth() : left + MAX_SIZE;
+
+						Bitmap b = brd.decodeRegion(new Rect(left, top, right, bottom), null);
+						BitmapDrawable bd = new BitmapDrawable(getResources(), b);
+						bd.setGravity(Gravity.TOP | Gravity.LEFT);
+						drawables[i * colCount + j] = bd;
+					}
+				}
+
+				LayerDrawable ld = new LayerDrawable(drawables);
+				for (int i = 0; i < rowCount; i++) {
+					for (int j = 0; j < colCount; j++) {
+						ld.setLayerInset(i * colCount + j, MAX_SIZE * j, MAX_SIZE * i, 0, 0);
+					}
+				}
+
+				return ld;
+
+
+			}
+			finally {
+				brd.recycle();
+			}
+
+		}catch(IOException ex){
+			ex.printStackTrace();
+		};
+
+		return null;
+
+	}
+
 	public void onBackPressed() {
 //		super.onBackPressed();
 		
@@ -239,5 +316,24 @@ public class MySuperScaler extends FragmentActivity {
 		super.onStop();
 		
 		myDB.close();
+	}
+	
+	public void memoryAnalyser(){
+		
+		Log.i(TAG,"... Memory Analyser check test ");
+		Runtime r = Runtime.getRuntime();
+		long mem0 = r.totalMemory();
+		Log.v(TAG,"Total memory is: " + (int)(mem0 / (1024*1024)) + " MB"); 
+		long mem1 = r.freeMemory();
+		Log.v(TAG,"Initial free memory: " + (int)(mem1 / (1024*1024)) + " MB");
+		long mem2 = r.maxMemory();
+		Log.v(TAG,"Max memory: " + (int)(mem2 / (1024*1024)) + " MB");
+
+		Log.v(TAG,"Memory usage : " + (int)((mem0*100)/mem2) + " %");
+		
+		Log.v(TAG,"Memory allocated : " + (int)((mem0 - mem1) / (1024*1024)) + " MB");
+		
+		long mem_alloc = Debug.getNativeHeapAllocatedSize();
+		Log.v(TAG,"Native Heap memory Allocated : " + (int)(mem_alloc / (1024*1024)) + " MB");
 	}
 }
