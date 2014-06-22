@@ -64,7 +64,7 @@
         	android:maxLines="1"
         	android:gravity="center"
         	android:text="avril"
-            android:textSize="7sp"/>
+            android:textSize="12sp"/>
     
     <com.almoufasseralsaghir.utils.FontFitTextView 
             android:id="@+id/selected_year"

@@ -1,10 +1,13 @@
 package com.almoufasseralsaghir;
 
+import java.util.ArrayList;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -22,6 +25,8 @@ import com.almoufasseralsaghir.utils.MySuperScaler;
 public class AyaDialog extends Dialog{
 
 	private AlMoufasserDB myDB;
+	
+	ArrayList<String> new_data = null  ;
 	
 	private boolean isEntry = true;
 	private boolean isMaana = false;
@@ -324,7 +329,32 @@ public class AyaDialog extends Dialog{
 
 							String data = myDB.getAyaTafseer(EyetPlayerActivity.suraId, EyetPlayerActivity.ayaID);
 
-							return data;
+							String[] old_data = data.split(" ");
+							
+							int z = 0 ;
+							
+							for (int i = 0; i < old_data.length; i++){
+								
+								if (old_data[i-1].contains(":")) 
+								{	String x ;
+									x =  old_data[i-1]+old_data[i];
+									new_data.add(x) ; z++ ;
+								}
+							}
+							
+							for (int i = 0; i < new_data.size();i++){
+								new_data.get(i).concat(" <br> ") ;
+							}
+							
+							StringBuilder result = new StringBuilder();
+							for (int i = 0; i < new_data.size(); i++) {
+								result.append( new_data.get(i) );
+							}
+							String my_data = result.toString();
+							
+							Log.e("My DATA ------", my_data);
+							
+							return my_data;
 						}
 
 						@Override

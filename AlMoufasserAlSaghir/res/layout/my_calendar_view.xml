@@ -30,7 +30,7 @@
            	android:layout_centerHorizontal="true"
            	android:layout_centerVertical="true"
             android:textColor="#1c2737" 
-            android:textSize="7sp"
+            android:textSize="12sp"
             android:ellipsize="none"
         	android:maxLines="1"
             android:gravity="center"

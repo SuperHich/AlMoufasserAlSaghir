@@ -22,19 +22,27 @@ import com.almoufasseralsaghir.utils.Utils;
 
 public class HomeLoggedIn extends MySuperScaler{
 		
-	private ListView part1_listView;
-	private ListView part2_listView;
-	private ListView part3_listView;
-	private ListView part4_listView;
-	
+	private ListView listView;
 	private Button info, favourites, previous, home ;
-	private RelativeLayout part1, part2, part3, part4, principal_layout ;
+	private RelativeLayout principal_layout ;
 	private ImageView herbes ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.home_logged_in);
+		int p = mTafseerManager.getCurrentJuz2();
+		
+		switch (p)  {
+			case 0 : setContentView(R.layout.home_logged_in1);
+				break ;
+			case 1 : setContentView(R.layout.home_logged_in2);
+				break ;
+			case 2 : setContentView(R.layout.home_logged_in3);
+				break ;
+			case 3 : setContentView(R.layout.home_logged_in4);
+				break ;
+		}
+		
 		
 		info = (Button) findViewById(R.id.e4_info);
 		favourites = (Button) findViewById(R.id.e4_favourites);
@@ -43,16 +51,7 @@ public class HomeLoggedIn extends MySuperScaler{
 		
 		principal_layout = (RelativeLayout) findViewById(R.id.principal_layout);
 		
-		part1 = (RelativeLayout) findViewById(R.id.e4_part1);
-		part2 = (RelativeLayout) findViewById(R.id.e4_part2);
-		part3 = (RelativeLayout) findViewById(R.id.e4_part3);
-		part4 = (RelativeLayout) findViewById(R.id.e4_part4);
-		
-		
-		part1_listView = (ListView) findViewById(R.id.listView1);
-		part2_listView = (ListView) findViewById(R.id.listView2);
-		part3_listView = (ListView) findViewById(R.id.listView3);
-		part4_listView = (ListView) findViewById(R.id.listView4);
+		listView = (ListView) findViewById(R.id.listView);
 		
 		herbes = (ImageView) findViewById(R.id.herbes);
 		
@@ -64,15 +63,9 @@ public class HomeLoggedIn extends MySuperScaler{
 		
 //		Bundle extras = getIntent().getExtras();
 //		String p =(String) extras.get("part");
-		int p = mTafseerManager.getCurrentJuz2();
+		
 		
 		if (p == 0) {
-			part1.setVisibility(View.VISIBLE);
-			part2.setVisibility(View.INVISIBLE);
-			part3.setVisibility(View.INVISIBLE);
-			part4.setVisibility(View.INVISIBLE);
-			
-			part1.bringToFront();
 			
 /////////////////////////////////////// LIST de PARTIE 1 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
@@ -87,9 +80,9 @@ public class HomeLoggedIn extends MySuperScaler{
 			};
 			ArrayAdapter<Integer> adapter = new ImageAdapter(this, R.layout.rowlv_module, part1_list);
 			
-			part1_listView.setAdapter(adapter);
-			part1_listView.setDivider(null);
-			part1_listView.setOnItemClickListener(new OnItemClickListener() {
+			listView.setAdapter(adapter);
+			listView.setDivider(null);
+			listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				mTafseerManager.setCurrentSura(position);			
@@ -106,12 +99,6 @@ public class HomeLoggedIn extends MySuperScaler{
 			
 		}
 		if (p == 1) {
-			part1.setVisibility(View.INVISIBLE);
-			part2.setVisibility(View.VISIBLE);
-			part3.setVisibility(View.INVISIBLE);
-			part4.setVisibility(View.INVISIBLE);
-			
-			part2.bringToFront();
 			
 /////////////////////////////////////// LIST de PARTIE 2 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
@@ -121,9 +108,9 @@ public class HomeLoggedIn extends MySuperScaler{
 			};
 			ArrayAdapter<Integer> adapter2 = new ImageAdapter(this, R.layout.rowlv_module, part2_list);
 			
-			part2_listView.setAdapter(adapter2);
-			part2_listView.setDivider(null);
-			part2_listView.setOnItemClickListener(new OnItemClickListener() {
+			listView.setAdapter(adapter2);
+			listView.setDivider(null);
+			listView.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 					mTafseerManager.setCurrentSura(position);
@@ -139,12 +126,6 @@ public class HomeLoggedIn extends MySuperScaler{
 			
 		}
 		if (p == 2) {
-			part1.setVisibility(View.INVISIBLE);
-			part2.setVisibility(View.INVISIBLE);
-			part3.setVisibility(View.VISIBLE);
-			part4.setVisibility(View.INVISIBLE);
-			
-			part3.bringToFront();
 			
 /////////////////////////////////////// LIST de PARTIE 3 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
@@ -153,9 +134,9 @@ public class HomeLoggedIn extends MySuperScaler{
 					};
 					ArrayAdapter<Integer> adapter3 = new ImageAdapter(this, R.layout.rowlv_module, part3_list);
 					
-					part3_listView.setAdapter(adapter3);
-					part3_listView.setDivider(null);
-					part3_listView.setOnItemClickListener(new OnItemClickListener() {
+					listView.setAdapter(adapter3);
+					listView.setDivider(null);
+					listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 						mTafseerManager.setCurrentSura(position);
@@ -172,13 +153,6 @@ public class HomeLoggedIn extends MySuperScaler{
 			
 		}
 		if (p == 3) {
-			part1.setVisibility(View.INVISIBLE);
-			part2.setVisibility(View.INVISIBLE);
-			part3.setVisibility(View.INVISIBLE);
-			part4.setVisibility(View.VISIBLE);
-			
-			part4.bringToFront();
-			
 /////////////////////////////////////// LIST de PARTIE 4 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
 			Integer[] part4_list ={R.drawable.p4_s1_qaf , R.drawable.p4_s2_dhariet ,R.drawable.p4_s3_tour ,R.drawable.p4_s4_najm ,R.drawable.p4_s5_qamar,
@@ -186,9 +160,9 @@ public class HomeLoggedIn extends MySuperScaler{
 					};
 					ArrayAdapter<Integer> adapter4 = new ImageAdapter(this, R.layout.rowlv_module, part4_list);
 					
-					part4_listView.setAdapter(adapter4);
-					part4_listView.setDivider(null);
-					part4_listView.setOnItemClickListener(new OnItemClickListener() {
+					listView.setAdapter(adapter4);
+					listView.setDivider(null);
+					listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 						mTafseerManager.setCurrentSura(position);
