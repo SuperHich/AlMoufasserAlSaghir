@@ -329,38 +329,16 @@ public class AyaDialog extends Dialog{
 
 							String data = myDB.getAyaTafseer(EyetPlayerActivity.suraId, EyetPlayerActivity.ayaID);
 
-							String[] old_data = data.split(" ");
 							
-							int z = 0 ;
 							
-							for (int i = 0; i < old_data.length; i++){
-								
-								if (old_data[i-1].contains(":")) 
-								{	String x ;
-									x =  old_data[i-1]+old_data[i];
-									new_data.add(x) ; z++ ;
-								}
-							}
-							
-							for (int i = 0; i < new_data.size();i++){
-								new_data.get(i).concat(" <br> ") ;
-							}
-							
-							StringBuilder result = new StringBuilder();
-							for (int i = 0; i < new_data.size(); i++) {
-								result.append( new_data.get(i) );
-							}
-							String my_data = result.toString();
-							
-							Log.e("My DATA ------", my_data);
-							
-							return my_data;
+							return data;
 						}
 
 						@Override
 						protected void onPostExecute(String data) {
 							String style = "<style type=\"text/css\">body {font-size: 27px;margin: 10px; direction: rtl;  text-align: justify; }</style>";
-		
+							
+							Log.e("-----------My DATA ------", data);
 									
 							if(data != null)
 							{	
@@ -421,17 +399,34 @@ public class AyaDialog extends Dialog{
 
 							String mofdata = myDB.getAyaWordMeaning(EyetPlayerActivity.suraId, EyetPlayerActivity.ayaID);
 							
-							return mofdata;
+							String[] old_data = mofdata.split("\\r?\\n");
+							
+							
+							for (int i = 0; i < old_data.length; i++){
+								old_data[i] =  " <br> "+ old_data[i] + " <br> ";
+							}
+							
+							
+							StringBuilder result = new StringBuilder();
+							for (int i = 0; i < old_data.length; i++) {
+								result.append(old_data[i]);
+							}
+							String my_data = result.toString();
+						
+							Log.e("-----------My DATA ------", my_data);
+							
+							
+							return my_data;
 						}
 
 						@Override
-						protected void onPostExecute(String mofdata) {
+						protected void onPostExecute(String my_data) {
 							String style = "<style type=\"text/css\">body {font-size: 27px;margin: 10px; direction: rtl;  text-align: justify; }</style>";
 		
 									
-							if(mofdata != null)
+							if(my_data != null)
 							{	
-								mofradat_webview.loadData("<html><head>"+style+"</head><body>"+mofdata+"</body></html>", "text/html; charset=UTF-8", null);
+								mofradat_webview.loadData("<html><head>"+style+"</head><body><div>"+my_data+"</div></body></html>", "text/html; charset=UTF-8", null);
 
 							}else{ 
 								
