@@ -112,6 +112,9 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 			mStatusText.setVisibility(View.VISIBLE);	
 			mStatusText.setText(R.string.downloading);
 		}
+		else if(!ddm.isNetworkOn()){
+			showExit(this, R.string.error_internet_connexion);
+		}
 		else if(ddm.isDataReady())
 		{
 			Message msg = new Message();

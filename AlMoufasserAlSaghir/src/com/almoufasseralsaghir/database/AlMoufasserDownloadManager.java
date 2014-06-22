@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.zip.ZipFile;
 
+import com.almoufasseralsaghir.utils.Utils;
+
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -41,6 +43,7 @@ public class AlMoufasserDownloadManager {
 	protected int numberOfFiles = -1;
 	
 	protected boolean isDataReady = true;
+	protected boolean isNetworkOn = true;
 	
 	public synchronized static AlMoufasserDownloadManager getInstance(Context context) {
 		if (mInstance == null)
@@ -133,6 +136,12 @@ public class AlMoufasserDownloadManager {
 		{
 			File file = new File(zipFile);
 			file.delete();
+		}
+		
+		if(!Utils.isOnline(context)){
+			
+			setNetworkOn(false);
+			return false;
 		}
 
 		clearAllFiles();
@@ -240,6 +249,14 @@ public class AlMoufasserDownloadManager {
 
 	public void setDataReady(boolean isDataReady) {
 		this.isDataReady = isDataReady;
+	}
+
+	public boolean isNetworkOn() {
+		return isNetworkOn;
+	}
+
+	public void setNetworkOn(boolean isNetworkOn) {
+		this.isNetworkOn = isNetworkOn;
 	}
 
 	
