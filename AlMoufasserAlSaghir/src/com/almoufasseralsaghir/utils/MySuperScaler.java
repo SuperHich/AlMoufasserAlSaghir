@@ -1,28 +1,17 @@
 package com.almoufasseralsaghir.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -167,122 +156,122 @@ public class MySuperScaler extends FragmentActivity {
 		}
 	}
 
-	protected Drawable createLargeDrawable(int resId) throws IOException {
-		
-		 int MAX_SIZE = (int) ((screen_width + screen_height)/scale);
-		
-//		int MAX_SIZE = 5000 ;
-		Log.i("MAX SIZE VALUE", String.valueOf(MAX_SIZE));
-		 
-		 
-	    InputStream is = getResources().openRawResource(resId);
-	    BitmapRegionDecoder brd = BitmapRegionDecoder.newInstance(is, true);
-
-	    try {
-	        if (brd.getWidth() <= MAX_SIZE && brd.getHeight() <= MAX_SIZE) {
-	            return new BitmapDrawable(getResources(), is);
-	        }
-
-	        int rowCount = (int) Math.ceil((float) brd.getHeight() / (float) MAX_SIZE);
-	        int colCount = (int) Math.ceil((float) brd.getWidth() / (float) MAX_SIZE);
-
-	        BitmapDrawable[] drawables = new BitmapDrawable[rowCount * colCount];
-
-	        for (int i = 0; i < rowCount; i++) {
-
-	            int top = MAX_SIZE * i;
-	            int bottom = i == rowCount - 1 ? brd.getHeight() : top + MAX_SIZE;
-
-	            for (int j = 0; j < colCount; j++) {
-
-	                int left = MAX_SIZE * j;
-	                int right = j == colCount - 1 ? brd.getWidth() : left + MAX_SIZE;
-
-	                Bitmap b = brd.decodeRegion(new Rect(left, top, right, bottom), null);
-	                BitmapDrawable bd = new BitmapDrawable(getResources(), b);
-	                bd.setGravity(Gravity.TOP | Gravity.LEFT);
-	                drawables[i * colCount + j] = bd;
-	            }
-	        }
-
-	        LayerDrawable ld = new LayerDrawable(drawables);
-	        for (int i = 0; i < rowCount; i++) {
-	            for (int j = 0; j < colCount; j++) {
-	                ld.setLayerInset(i * colCount + j, MAX_SIZE * j, MAX_SIZE * i, 0, 0);
-	            }
-	        }
-
-	        return ld;
-	    }
-	    finally {
-	        brd.recycle();
-	    }
-	}
-	
-	protected Drawable createLargeDrawable2(String pathName, int width, int height) {
-
-		int MAX_SIZE = (int) ((screen_width + screen_height)/scale);
-
-		//		int MAX_SIZE = 5000 ;
-		Log.i("MAX SIZE VALUE", String.valueOf(MAX_SIZE));
-
-		try {
-			//	    InputStream is = getResources().openRawResource(resId);
-			BitmapRegionDecoder brd = BitmapRegionDecoder.newInstance(pathName, true);
-
-			try {
-				if (brd.getWidth() <= MAX_SIZE && brd.getHeight() <= MAX_SIZE) {
-					BitmapFactory.Options opts =new BitmapFactory.Options();
-					opts.outWidth = width;
-					opts.outHeight = height;
-					Bitmap bm = BitmapFactory.decodeFile(pathName, opts);
-					return new BitmapDrawable(getResources(), bm);
-				}
-
-				int rowCount = (int) Math.ceil((float) brd.getHeight() / (float) MAX_SIZE);
-				int colCount = (int) Math.ceil((float) brd.getWidth() / (float) MAX_SIZE);
-
-				BitmapDrawable[] drawables = new BitmapDrawable[rowCount * colCount];
-
-				for (int i = 0; i < rowCount; i++) {
-
-					int top = MAX_SIZE * i;
-					int bottom = i == rowCount - 1 ? brd.getHeight() : top + MAX_SIZE;
-
-					for (int j = 0; j < colCount; j++) {
-
-						int left = MAX_SIZE * j;
-						int right = j == colCount - 1 ? brd.getWidth() : left + MAX_SIZE;
-
-						Bitmap b = brd.decodeRegion(new Rect(left, top, right, bottom), null);
-						BitmapDrawable bd = new BitmapDrawable(getResources(), b);
-						bd.setGravity(Gravity.TOP | Gravity.LEFT);
-						drawables[i * colCount + j] = bd;
-					}
-				}
-
-				LayerDrawable ld = new LayerDrawable(drawables);
-				for (int i = 0; i < rowCount; i++) {
-					for (int j = 0; j < colCount; j++) {
-						ld.setLayerInset(i * colCount + j, MAX_SIZE * j, MAX_SIZE * i, 0, 0);
-					}
-				}
-
-				return ld;
-
-
-			}
-			finally {
-				brd.recycle();
-			}
-
-		}catch(IOException ex){
-			ex.printStackTrace();
-		};
-
-		return null;
-
-	}
+//	protected Drawable createLargeDrawable(int resId) throws IOException {
+//		
+//		 int MAX_SIZE = (int) ((screen_width + screen_height)/scale);
+//		
+////		int MAX_SIZE = 5000 ;
+//		Log.i("MAX SIZE VALUE", String.valueOf(MAX_SIZE));
+//		 
+//		 
+//	    InputStream is = getResources().openRawResource(resId);
+//	    BitmapRegionDecoder brd = BitmapRegionDecoder.newInstance(is, true);
+//
+//	    try {
+//	        if (brd.getWidth() <= MAX_SIZE && brd.getHeight() <= MAX_SIZE) {
+//	            return new BitmapDrawable(getResources(), is);
+//	        }
+//
+//	        int rowCount = (int) Math.ceil((float) brd.getHeight() / (float) MAX_SIZE);
+//	        int colCount = (int) Math.ceil((float) brd.getWidth() / (float) MAX_SIZE);
+//
+//	        BitmapDrawable[] drawables = new BitmapDrawable[rowCount * colCount];
+//
+//	        for (int i = 0; i < rowCount; i++) {
+//
+//	            int top = MAX_SIZE * i;
+//	            int bottom = i == rowCount - 1 ? brd.getHeight() : top + MAX_SIZE;
+//
+//	            for (int j = 0; j < colCount; j++) {
+//
+//	                int left = MAX_SIZE * j;
+//	                int right = j == colCount - 1 ? brd.getWidth() : left + MAX_SIZE;
+//
+//	                Bitmap b = brd.decodeRegion(new Rect(left, top, right, bottom), null);
+//	                BitmapDrawable bd = new BitmapDrawable(getResources(), b);
+//	                bd.setGravity(Gravity.TOP | Gravity.LEFT);
+//	                drawables[i * colCount + j] = bd;
+//	            }
+//	        }
+//
+//	        LayerDrawable ld = new LayerDrawable(drawables);
+//	        for (int i = 0; i < rowCount; i++) {
+//	            for (int j = 0; j < colCount; j++) {
+//	                ld.setLayerInset(i * colCount + j, MAX_SIZE * j, MAX_SIZE * i, 0, 0);
+//	            }
+//	        }
+//
+//	        return ld;
+//	    }
+//	    finally {
+//	        brd.recycle();
+//	    }
+//	}
+//	
+//	protected Drawable createLargeDrawable2(String pathName, int width, int height) {
+//
+//		int MAX_SIZE = (int) ((screen_width + screen_height)/scale);
+//
+//		//		int MAX_SIZE = 5000 ;
+//		Log.i("MAX SIZE VALUE", String.valueOf(MAX_SIZE));
+//
+//		try {
+//			//	    InputStream is = getResources().openRawResource(resId);
+//			BitmapRegionDecoder brd = BitmapRegionDecoder.newInstance(pathName, true);
+//
+//			try {
+//				if (brd.getWidth() <= MAX_SIZE && brd.getHeight() <= MAX_SIZE) {
+//					BitmapFactory.Options opts =new BitmapFactory.Options();
+//					opts.outWidth = width;
+//					opts.outHeight = height;
+//					Bitmap bm = BitmapFactory.decodeFile(pathName, opts);
+//					return new BitmapDrawable(getResources(), bm);
+//				}
+//
+//				int rowCount = (int) Math.ceil((float) brd.getHeight() / (float) MAX_SIZE);
+//				int colCount = (int) Math.ceil((float) brd.getWidth() / (float) MAX_SIZE);
+//
+//				BitmapDrawable[] drawables = new BitmapDrawable[rowCount * colCount];
+//
+//				for (int i = 0; i < rowCount; i++) {
+//
+//					int top = MAX_SIZE * i;
+//					int bottom = i == rowCount - 1 ? brd.getHeight() : top + MAX_SIZE;
+//
+//					for (int j = 0; j < colCount; j++) {
+//
+//						int left = MAX_SIZE * j;
+//						int right = j == colCount - 1 ? brd.getWidth() : left + MAX_SIZE;
+//
+//						Bitmap b = brd.decodeRegion(new Rect(left, top, right, bottom), null);
+//						BitmapDrawable bd = new BitmapDrawable(getResources(), b);
+//						bd.setGravity(Gravity.TOP | Gravity.LEFT);
+//						drawables[i * colCount + j] = bd;
+//					}
+//				}
+//
+//				LayerDrawable ld = new LayerDrawable(drawables);
+//				for (int i = 0; i < rowCount; i++) {
+//					for (int j = 0; j < colCount; j++) {
+//						ld.setLayerInset(i * colCount + j, MAX_SIZE * j, MAX_SIZE * i, 0, 0);
+//					}
+//				}
+//
+//				return ld;
+//
+//
+//			}
+//			finally {
+//				brd.recycle();
+//			}
+//
+//		}catch(IOException ex){
+//			ex.printStackTrace();
+//		};
+//
+//		return null;
+//
+//	}
 
 	public void onBackPressed() {
 //		super.onBackPressed();
