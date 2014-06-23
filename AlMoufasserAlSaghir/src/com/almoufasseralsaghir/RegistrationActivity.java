@@ -1,7 +1,6 @@
 package com.almoufasseralsaghir;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -96,20 +94,6 @@ public class RegistrationActivity extends MySuperScaler{
 //				finish();
 //			}
 //		});
-		
-		principal_layout.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN: {
-					hideKeyboard();
-					break;
-				}
-				}
-				return true;
-			}
-		});
 		
 		register_cancel.setOnTouchListener(new OnTouchListener() {
 			@Override
@@ -370,11 +354,6 @@ public class RegistrationActivity extends MySuperScaler{
 		super.onDestroy();
 		
 		Utils.cleanViews(principal_layout);
-	}
-	
-	protected void hideKeyboard() {
-		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 	}
 
 }

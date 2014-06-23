@@ -82,7 +82,7 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 		mStatusText = (FontFitTextView) findViewById(R.id.statusText);
 		mProgressPercent = (FontFitTextView) findViewById(R.id.progressAsPercentage);
 		mDownloaderLayout = findViewById(R.id.downloaderLayout);
-
+	
 		ShapeDrawable thumb = new ShapeDrawable(new RectShape());
 	    thumb.getPaint().setColor(Color.rgb(0, 0, 0));
 	    thumb.setIntrinsicHeight(-80);

@@ -1,14 +1,11 @@
 package com.almoufasseralsaghir;
 
-import java.io.IOException;
-
 import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -110,6 +107,19 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 
 		herbes.bringToFront();
 
+		principal_layout.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN: {
+					hideKeyboard();
+					break;
+				}
+				}
+				return true;
+			}
+		});
 
 
 		///////////////  SOUND ANIMATION : GIF ALIKE /////////////////////////////////////////////////////////
