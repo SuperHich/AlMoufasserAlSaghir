@@ -53,6 +53,8 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	private ImageView result_3_format_3, result_2_format_3, result_1_format_3,
 					   result_4_format_4, result_3_format_4, result_2_format_4, result_1_format_4 ;
 	
+	private RelativeLayout answer_1_click, answer_2_click, answer_3_click ;
+	
 	private int currentQuestionIndex = 0, correctCurrentAnswersCount = 0, correctAnswersCount = 0 ;
 	private boolean format_4 = false;
 	private boolean format_3 = false;
@@ -96,6 +98,10 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		results_format_3 = (RelativeLayout) findViewById(R.id.results_format_3);
 		results_format_4 = (RelativeLayout) findViewById(R.id.results_format_4);
 		
+		answer_1_click = (RelativeLayout) findViewById(R.id.proposition_1_click);
+		answer_2_click = (RelativeLayout) findViewById(R.id.proposition_2_click);
+		answer_3_click = (RelativeLayout) findViewById(R.id.proposition_3_click);
+		
 		question = (FontFitTextView) findViewById(R.id.question);
 		answer_1 = (FontFitTextView) findViewById(R.id.proposition_1);
 		answer_2 = (FontFitTextView) findViewById(R.id.proposition_2);
@@ -126,7 +132,7 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		animation.addAnimation(fadeOut);
 		
 		
-		answer_1.setOnClickListener(new OnClickListener() {
+		answer_1_click.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
@@ -144,7 +150,7 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			       }	
 			}
 		});
-		answer_2.setOnClickListener(new OnClickListener() {
+		answer_2_click.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
@@ -162,7 +168,7 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 			       }
 			}
 		});
-		answer_3.setOnClickListener(new OnClickListener() {
+		answer_3_click.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
