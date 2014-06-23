@@ -76,6 +76,10 @@ public class RegistrationActivity extends MySuperScaler{
 		social_2 = (Button) findViewById(R.id.social_btn_bas_droit_2);
 		social_3 = (Button) findViewById(R.id.social_btn_bas_droit_3);
 		
+		register_bas_droit_1.setEnabled(false);
+		register_bas_droit_2.setEnabled(false);
+		register_bas_droit_3.setEnabled(false);
+		
 		if(getIntent().getExtras() != null)
 		{
 			isUpdate = getIntent().getExtras().getBoolean("update");
@@ -169,11 +173,11 @@ public class RegistrationActivity extends MySuperScaler{
 							String email_confirm  	= register_mail_confirm.getText().toString();
 							String twitter  		= register_twitter.getText().toString();
 							String facebook 		= register_fb.getText().toString();
-							String follower1 		= register_bas_droit_1.getText().toString();
+							String follower1 		= register_bas_gauche_1.getText().toString();
 							String type1 			= String.valueOf(state_social_1);
-							String follower2  		= register_bas_droit_2.getText().toString();
+							String follower2  		= register_bas_gauche_2.getText().toString();
 							String type2 			= String.valueOf(state_social_2);
-							String follower3 		= register_bas_droit_3.getText().toString();
+							String follower3 		= register_bas_gauche_3.getText().toString();
 							String type3 			= String.valueOf(state_social_3);
 							
 							if(email_confirm.length() == 0)
@@ -353,11 +357,11 @@ public class RegistrationActivity extends MySuperScaler{
 //		register_mail_confirm.setText(user.getEmail());
 		register_twitter.setText(user.getTwitter());
 		register_fb.setText(user.getFacebook());
-		register_bas_droit_1.setText(user.getFollower1());
+		register_bas_gauche_1.setText(user.getFollower1());
 		toggleSocialButton(social_1, Integer.parseInt(user.getType1()));
-		register_bas_droit_2.setText(user.getFollower2());
+		register_bas_gauche_2.setText(user.getFollower2());
 		toggleSocialButton(social_2, Integer.parseInt(user.getType2()));
-		register_bas_droit_3.setText(user.getFollower3());
+		register_bas_gauche_3.setText(user.getFollower3());
 		toggleSocialButton(social_3, Integer.parseInt(user.getType3()));
 	}
 	
