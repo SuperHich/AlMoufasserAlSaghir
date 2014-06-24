@@ -100,6 +100,8 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 		name_logged_in = (FontFitTextView) findViewById(R.id.welcome_logged_name);
 
 
+		email_login.setTextSize(my_font_size);
+		
 		//	name_logged_in.setText("Sedki Trimech");
 		//	name_logged_in.resizeText(600,200);
 

@@ -74,6 +74,21 @@ public class RegistrationActivity extends MySuperScaler{
 		social_2 = (Button) findViewById(R.id.social_btn_bas_droit_2);
 		social_3 = (Button) findViewById(R.id.social_btn_bas_droit_3);
 		
+		
+		register_name.setTextSize(my_font_size);
+		register_mail.setTextSize(my_font_size);
+		register_mail_confirm.setTextSize(my_font_size);
+		register_fb.setTextSize(my_font_size);
+		register_twitter.setTextSize(my_font_size);
+		
+		register_bas_droit_1.setTextSize(my_font_size);
+		register_bas_droit_2.setTextSize(my_font_size);
+		register_bas_droit_3.setTextSize(my_font_size);
+		
+		register_bas_gauche_1.setTextSize(my_font_size);
+		register_bas_gauche_2.setTextSize(my_font_size);
+		register_bas_gauche_3.setTextSize(my_font_size);
+		
 		register_bas_droit_1.setEnabled(false);
 		register_bas_droit_2.setEnabled(false);
 		register_bas_droit_3.setEnabled(false);
@@ -94,6 +109,10 @@ public class RegistrationActivity extends MySuperScaler{
 //				finish();
 //			}
 //		});
+		
+		if(! register_bas_gauche_1.getText().toString().equals("")) register_bas_gauche_1_hint.setVisibility(View.INVISIBLE);
+		if(! register_bas_gauche_2.getText().toString().equals("")) register_bas_gauche_2_hint.setVisibility(View.INVISIBLE);
+		if(! register_bas_gauche_3.getText().toString().equals("")) register_bas_gauche_3_hint.setVisibility(View.INVISIBLE);
 		
 		register_cancel.setOnTouchListener(new OnTouchListener() {
 			@Override
@@ -285,7 +304,7 @@ public class RegistrationActivity extends MySuperScaler{
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 
-				if (hasFocus) register_bas_gauche_1_hint.setVisibility(View.INVISIBLE);
+				if (hasFocus || !(register_bas_gauche_1.getText().toString().equals(""))) register_bas_gauche_1_hint.setVisibility(View.INVISIBLE);
 				else 
 					if(register_bas_gauche_1.getText().toString().equals(""))
 					register_bas_gauche_1_hint.setVisibility(View.VISIBLE);
@@ -297,7 +316,7 @@ public class RegistrationActivity extends MySuperScaler{
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 
-				if (hasFocus) register_bas_gauche_2_hint.setVisibility(View.INVISIBLE);
+				if (hasFocus || !(register_bas_gauche_2.getText().toString().equals(""))) register_bas_gauche_2_hint.setVisibility(View.INVISIBLE);
 				else 
 					if(register_bas_gauche_2.getText().toString().equals(""))
 					register_bas_gauche_2_hint.setVisibility(View.VISIBLE);
@@ -309,7 +328,7 @@ public class RegistrationActivity extends MySuperScaler{
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 		
-				if (hasFocus) register_bas_gauche_3_hint.setVisibility(View.INVISIBLE);
+				if (hasFocus ||  !(register_bas_gauche_3.getText().toString().equals(""))) register_bas_gauche_3_hint.setVisibility(View.INVISIBLE);
 				else 
 					if(register_bas_gauche_3.getText().toString().equals(""))
 					register_bas_gauche_3_hint.setVisibility(View.VISIBLE);

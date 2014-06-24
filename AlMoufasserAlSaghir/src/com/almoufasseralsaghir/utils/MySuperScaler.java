@@ -44,6 +44,7 @@ public class MySuperScaler extends FragmentActivity {
 	
 	public static int screen_width;
 	public static int screen_height;
+	public static int my_font_size ;
 	
 	protected boolean isFirstStart = true;
 	
@@ -59,6 +60,28 @@ public class MySuperScaler extends FragmentActivity {
 		mTafseerManager = TafseerManager.getInstance(this);
 		
 		memoryAnalyser();
+		
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		screen_width = size.x;
+		screen_height = size.y;
+		
+		isTablet = isTablet(thisAct);
+		
+		Log.e("SCREEN WIDTH *****", String.valueOf(screen_width));
+		Log.e("SCREEN Height *****", String.valueOf(screen_height));
+		Log.e("SCALE *****", String.valueOf(scale));
+		
+		
+		
+		
+		if (tabletInchSize()> 8.5 ) my_font_size = 14 ;
+		
+		else if (tabletInchSize()>= 6 && tabletInchSize()<= 7.5) my_font_size =  10;
+		
+		else my_font_size = 8 ;
+		
 		
 	}
 	
@@ -90,17 +113,7 @@ public class MySuperScaler extends FragmentActivity {
 			scaleViewAndChildren(rootView, scale);
 			
 			
-			Display display = getWindowManager().getDefaultDisplay();
-			Point size = new Point();
-			display.getSize(size);
-			screen_width = size.x;
-			screen_height = size.y;
 			
-			isTablet = isTablet(thisAct);
-			
-			Log.e("SCREEN WIDTH *****", String.valueOf(screen_width));
-			Log.e("SCREEN Height *****", String.valueOf(screen_height));
-			Log.e("SCALE *****", String.valueOf(scale));
 			
 			if(! (thisAct instanceof QuestionsActivity))
 			{

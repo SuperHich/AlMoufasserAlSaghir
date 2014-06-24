@@ -3,211 +3,9 @@
     android:id="@+id/principal_layout"
     android:layout_width="1422px"
     android:layout_height="800px"
-    android:layout_gravity="center"
-    android:background="@drawable/register_bg" >
+    android:background="@drawable/woody_bg" >
     
-    <EditText 
-            android:id="@+id/register_name"
-            android:layout_width="761px"
-            android:layout_height="54px"
-            android:layout_marginTop="83px"
-            android:layout_marginLeft="170px"
-            android:paddingLeft="30px"
-            android:textColor="#062e4b"
-            android:textSize="30px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_haut"
-            />
-    
-    <EditText 
-            android:id="@+id/register_mail"
-            android:layout_width="761px"
-            android:layout_height="54px"
-            android:layout_marginTop="145px"
-            android:layout_marginLeft="170px"
-            android:paddingLeft="30px"
-            android:textColor="#062e4b"
-            android:textSize="30px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_haut"
-            />
-    <EditText 
-            android:id="@+id/register_mail_confirm"
-            android:layout_width="761px"
-            android:layout_height="54px"
-            android:layout_marginTop="207px"
-            android:layout_marginLeft="170px"
-            android:paddingLeft="30px"
-            android:textColor="#062e4b"
-            android:textSize="30px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_haut"
-            />
-    <EditText 
-            android:id="@+id/register_twitter"
-            android:layout_width="761px"
-            android:layout_height="54px"
-            android:layout_marginTop="269px"
-            android:layout_marginLeft="170px"
-            android:paddingLeft="30px"
-            android:textColor="#062e4b"
-            android:textSize="30px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_haut"
-            />
-    <EditText 
-            android:id="@+id/register_fb"
-            android:layout_width="761px"
-            android:layout_height="54px"
-            android:layout_marginTop="331px"
-            android:layout_marginLeft="170px"
-            android:paddingLeft="30px"
-            android:textColor="#062e4b"
-            android:textSize="30px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_haut"
-            />
-    
-    <EditText 
-            android:id="@+id/register_bas_droit_1"
-            android:layout_width="540px"
-            android:layout_height="57px"
-            android:layout_marginTop="465px"
-            android:layout_marginLeft="690px"
-            android:paddingLeft="90px"
-            android:textColor="#062e4b"
-            android:textSize="25px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_basdroit"
-            />
-    <EditText 
-            android:id="@+id/register_bas_droit_2"
-            android:layout_width="540px"
-            android:layout_height="57px"
-            android:layout_marginTop="535px"
-            android:layout_marginLeft="690px"
-            android:paddingLeft="90px"
-            android:textColor="#062e4b"
-            android:textSize="25px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_basdroit"
-            />
-    <EditText 
-            android:id="@+id/register_bas_droit_3"
-            android:layout_width="540px"
-            android:layout_height="57px"
-            android:layout_marginTop="604px"
-            android:layout_marginLeft="690px"
-            android:paddingLeft="90px"
-            android:textColor="#062e4b"
-            android:textSize="25px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_basdroit"
-            />
-   
-    
-    <Button 
-            android:id="@+id/social_btn_bas_droit_1"
-            android:layout_width="40px"
-            android:layout_height="40px"
-            android:layout_marginTop="475px"
-            android:layout_marginLeft="720px"
-            android:background="@drawable/register_social_mail"
-            />
-    <Button 
-            android:id="@+id/social_btn_bas_droit_2"
-            android:layout_width="40px"
-            android:layout_height="40px"
-            android:layout_marginTop="545px"
-            android:layout_marginLeft="720px"
-            android:background="@drawable/register_social_fb"
-            />
-    <Button 
-            android:id="@+id/social_btn_bas_droit_3"
-            android:layout_width="40px"
-            android:layout_height="40px"
-            android:layout_marginTop="614px"
-            android:layout_marginLeft="720px"
-            android:background="@drawable/register_social_twitter"
-            />
-    
-    
-    
-    <EditText 
-            android:id="@+id/register_bas_gauche_1"
-            android:layout_width="497px"
-            android:layout_height="57px"
-            android:layout_marginTop="465px"
-            android:layout_marginLeft="150px"
-            android:paddingLeft="20px"
-            android:textColor="#062e4b"
-            android:textSize="25px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_basgauche"
-            />
-    <EditText 
-            android:id="@+id/register_bas_gauche_2"
-            android:layout_width="497px"
-            android:layout_height="57px"
-            android:layout_marginTop="535px"
-            android:layout_marginLeft="150px"
-               android:paddingLeft="20px"
-            android:textColor="#062e4b"
-            android:textSize="25px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_basgauche"
-            />
-    <EditText 
-            android:id="@+id/register_bas_gauche_3"
-            android:layout_width="497px"
-            android:layout_height="57px"
-            android:layout_marginTop="604px"
-            android:layout_marginLeft="150px"
-            android:paddingLeft="20px"
-            android:textColor="#062e4b"
-            android:textSize="25px"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:background="@drawable/register_edittext_basgauche"
-            />
-    
-    <ImageView 
-            android:id="@+id/register_bas_gauche_1_hint"
-            android:layout_width="164px"
-            android:layout_height="34px"
-            android:layout_marginTop="475px"
-            android:layout_marginLeft="460px"
-            android:background="@drawable/register_edittext_basgauche_hint"
-            />
-    <ImageView
-            android:id="@+id/register_bas_gauche_2_hint"
-            android:layout_width="164px"
-            android:layout_height="34px"
-            android:layout_marginTop="548px"
-            android:layout_marginLeft="460px"
-            android:background="@drawable/register_edittext_basgauche_hint"
-            />
-    <ImageView 
-            android:id="@+id/register_bas_gauche_3_hint"
-            android:layout_width="164px"
-            android:layout_height="34px"
-            android:layout_marginTop="618px"
-            android:layout_marginLeft="460px"
-            android:background="@drawable/register_edittext_basgauche_hint"
-            />
-     
-    
-    <Button 
+      <Button 
             android:id="@+id/register_confirm"
             android:layout_width="188px"
             android:layout_height="55px"
@@ -227,5 +25,239 @@
             android:layout_marginRight="70px"
             android:background="@drawable/register_cancel"
             />
+    
+    <LinearLayout
+        android:layout_width="1310px"
+        android:layout_height="698px"
+        android:layout_above="@id/register_cancel"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/papers"
+        android:orientation="vertical" >
+        
+        <ImageView 
+            android:layout_width="296px"
+            android:layout_height="40px"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10px"
+            android:background="@drawable/tasjil"
+            />
+
+        <LinearLayout
+            android:layout_width="1218px"
+            android:layout_height="322px"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5px"
+            android:background="@drawable/personal_infos"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/register_name"
+                android:layout_width="761px"
+                android:layout_height="54px"
+                android:layout_marginLeft="80px"
+                android:layout_marginTop="10px"
+                android:background="@drawable/register_edittext_haut"
+                android:paddingLeft="30px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textSize="30px"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/register_mail"
+                android:layout_width="761px"
+                android:layout_height="54px"
+                android:layout_marginLeft="80px"
+                android:layout_marginTop="10px"
+                android:background="@drawable/register_edittext_haut"
+                android:paddingLeft="30px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textSize="30px"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/register_mail_confirm"
+                android:layout_width="761px"
+                android:layout_height="54px"
+                android:layout_marginLeft="80px"
+                android:layout_marginTop="10px"
+                android:background="@drawable/register_edittext_haut"
+                android:paddingLeft="30px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textSize="30px"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/register_twitter"
+                android:layout_width="761px"
+                android:layout_height="54px"
+                android:layout_marginLeft="80px"
+                android:layout_marginTop="10px"
+                android:background="@drawable/register_edittext_haut"
+                android:paddingLeft="30px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textSize="30px"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/register_fb"
+                android:layout_width="761px"
+                android:layout_height="54px"
+                android:layout_marginLeft="80px"
+                android:layout_marginTop="7px"
+                android:background="@drawable/register_edittext_haut"
+                android:paddingLeft="30px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textSize="30px"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="1214px"
+            android:layout_height="275px"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5px"
+            android:background="@drawable/followers" >
+
+            <EditText
+                android:id="@+id/register_bas_droit_1"
+                android:layout_width="540px"
+                android:layout_height="57px"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="90px"
+                android:layout_marginTop="65px"
+                android:paddingLeft="90px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textStyle="bold" 
+                android:background="@drawable/register_edittext_basdroit"/>
+
+            <EditText
+                android:id="@+id/register_bas_droit_2"
+                android:layout_width="540px"
+                android:layout_height="57px"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="90px"
+                android:layout_marginTop="135px"
+                android:background="@drawable/register_edittext_basdroit"
+                android:paddingLeft="90px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/register_bas_droit_3"
+                android:layout_width="540px"
+                android:layout_height="57px"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="90px"
+                android:layout_marginTop="205px"
+                android:background="@drawable/register_edittext_basdroit"
+                android:paddingLeft="90px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/social_btn_bas_droit_1"
+                android:layout_width="40px"
+                android:layout_height="40px"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="560px"
+                android:layout_marginTop="75px"
+                android:background="@drawable/register_social_mail" />
+
+            <Button
+                android:id="@+id/social_btn_bas_droit_2"
+                android:layout_width="40px"
+                android:layout_height="40px"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="560px"
+                android:layout_marginTop="145px"
+                android:background="@drawable/register_social_fb" />
+
+            <Button
+                android:id="@+id/social_btn_bas_droit_3"
+                android:layout_width="40px"
+                android:layout_height="40px"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="560px"
+                android:layout_marginTop="215px"
+                android:background="@drawable/register_social_twitter" />
+
+            <EditText
+                android:id="@+id/register_bas_gauche_1"
+                android:layout_width="497px"
+                android:layout_height="57px"
+                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="65px"
+                android:background="@drawable/register_edittext_basgauche"
+                android:paddingLeft="20px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/register_bas_gauche_2"
+                android:layout_width="497px"
+                android:layout_height="57px"
+                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="135px"
+                android:background="@drawable/register_edittext_basgauche"
+                android:paddingLeft="20px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/register_bas_gauche_3"
+                android:layout_width="497px"
+                android:layout_height="57px"
+                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="205px"
+                android:background="@drawable/register_edittext_basgauche"
+                android:paddingLeft="20px"
+                android:singleLine="true"
+                android:textColor="#062e4b"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/register_bas_gauche_1_hint"
+                android:layout_width="164px"
+                android:layout_height="34px"
+                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="360px"
+                android:layout_marginTop="80px"
+                android:background="@drawable/register_edittext_basgauche_hint" />
+
+            <ImageView
+                android:id="@+id/register_bas_gauche_2_hint"
+                android:layout_width="164px"
+                android:layout_height="34px"
+                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="360px"
+                android:layout_marginTop="150px"
+                android:background="@drawable/register_edittext_basgauche_hint" />
+
+            <ImageView
+                android:id="@+id/register_bas_gauche_3_hint"
+                android:layout_width="164px"
+                android:layout_height="34px"
+                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="360px"
+                android:layout_marginTop="220px"
+                android:background="@drawable/register_edittext_basgauche_hint" />
+        </RelativeLayout>
+        
+    </LinearLayout>
+    
+  
 
 </RelativeLayout>
