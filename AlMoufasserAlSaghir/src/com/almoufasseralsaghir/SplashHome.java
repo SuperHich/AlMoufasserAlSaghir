@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.almoufasseralsaghir.database.DataDownloadManager;
 import com.almoufasseralsaghir.database.DownloadNotifier;
 import com.almoufasseralsaghir.entity.User;
+import com.almoufasseralsaghir.utils.AlMoufasserFonts;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
@@ -74,6 +75,8 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splashhome);
+		
+		AlMoufasserFonts.InitAlMoufasserFonts(this);
 		
 		ddm = DataDownloadManager.getInstance(this);
 		

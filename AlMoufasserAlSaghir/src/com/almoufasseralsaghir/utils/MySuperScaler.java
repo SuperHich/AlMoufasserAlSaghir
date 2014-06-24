@@ -23,6 +23,7 @@ import com.almoufasseralsaghir.HomeLoggedIn;
 import com.almoufasseralsaghir.MainActivity;
 import com.almoufasseralsaghir.QuestionsActivity;
 import com.almoufasseralsaghir.R;
+import com.almoufasseralsaghir.RegistrationActivity;
 import com.almoufasseralsaghir.SouraActivity;
 import com.almoufasseralsaghir.database.AlMoufasserDB;
 import com.almoufasseralsaghir.external.TafseerManager;
@@ -80,7 +81,7 @@ public class MySuperScaler extends FragmentActivity {
 		
 		else if (tabletInchSize()>= 6 && tabletInchSize()<= 7.5) my_font_size =  10;
 		
-		else my_font_size = 8 ;
+		else my_font_size = 9 ;
 		
 		
 	}
@@ -296,7 +297,7 @@ public class MySuperScaler extends FragmentActivity {
 //			Utils.animateFad(thisAct);
 			finish();	
 		}
-		else if(thisAct instanceof HomeLoggedIn)
+		else if(thisAct instanceof HomeLoggedIn || thisAct instanceof RegistrationActivity)
 		{
 			MainActivity.first_entry = false;
 			startActivity(new Intent(thisAct, MainActivity.class));

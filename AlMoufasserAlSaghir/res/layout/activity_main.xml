@@ -134,7 +134,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="430px"
             android:layout_marginTop="45px"
-            android:textStyle="italic|bold"
+            android:textStyle="bold"
             android:textColor="#062e4b"
             android:ellipsize="none"
         	android:maxLines="1"

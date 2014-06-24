@@ -40,6 +40,7 @@ import android.widget.Toast;
 import com.almoufasseralsaghir.database.DownloadNotifier;
 import com.almoufasseralsaghir.database.ReceiterDownloadManager;
 import com.almoufasseralsaghir.entity.User;
+import com.almoufasseralsaghir.utils.AlMoufasserFonts;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
@@ -98,7 +99,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 		settings = (Button) findViewById(R.id.settings);
 
 		name_logged_in = (FontFitTextView) findViewById(R.id.welcome_logged_name);
-
+		name_logged_in.setTypeface(AlMoufasserFonts.getFont_ge_ss_med());
 
 		email_login.setTextSize(my_font_size);
 		
@@ -386,6 +387,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 					hideKeyboard();
 					
 					startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+					finish();
 					//		Utils.animateFad(RegistrationActivity.this);
 				}
 				case MotionEvent.ACTION_CANCEL: {
@@ -454,7 +456,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 					Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
 					intent.putExtra("update", true);
 					startActivity(intent);
-
+					finish();
 					//		Utils.animateFad(RegistrationActivity.this);
 				}
 				case MotionEvent.ACTION_CANCEL: {

@@ -1,6 +1,7 @@
 package com.almoufasseralsaghir;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -127,7 +128,9 @@ public class RegistrationActivity extends MySuperScaler{
 		      case MotionEvent.ACTION_UP:
 		          // Your action here on button click
 //		  				Utils.animateFad(RegistrationActivity.this);
-		  				finish();
+		    	  MainActivity.first_entry = false;
+		    	  startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+		    	  finish();
 		    	  
 		      case MotionEvent.ACTION_CANCEL: {
 		          Button view = (Button) v;
@@ -246,11 +249,15 @@ public class RegistrationActivity extends MySuperScaler{
 									if(!isUpdate)
 										myDB.insertUser(loggedInUser);
 									else{
-										if(myDB.updateUser(loggedInUser))
+										if(myDB.updateUser(loggedInUser)){
+											loggedInUser.setLoggedIn(true);
 											mTafseerManager.setLoggedInUser(loggedInUser);
+										}
 									}
 									
 									Toast.makeText(RegistrationActivity.this, R.string.register_success, Toast.LENGTH_LONG).show();
+									MainActivity.first_entry = false;
+									startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
 									finish();
 								}
 							}else
