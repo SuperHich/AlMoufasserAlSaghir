@@ -412,20 +412,16 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 				answer_3.setText(currentAnswers.get(2).getText());
 		}
 		
-		answer_1.setEnabled(true);
-		answer_2.setEnabled(true);
-		answer_3.setEnabled(true);
+		enableClick();
 	
 	}
 	
 	private void answerTreatment(int i){
+
+		disableClick();
 		
 		if(mPlayer != null)
 			mPlayer.stop();
-		
-		answer_1.setEnabled(false);
-		answer_2.setEnabled(false);
-		answer_3.setEnabled(false);
 		
 		String correctAnswer;
 		answer = currentAnswers.get(i).isStatus();
@@ -526,43 +522,63 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 	    
 	}
 	
-	private void goToElementBuilder() {
+private void goToElementBuilder() {
 		
 		quizHistoryStr = quizHistoryStr.substring(0, quizHistoryStr.length() - 1);
 		myDB.insertQuizHistory(suraId, partNb, quizHistoryStr);
 		
 		currentElementStatus = "3";
 		
-		int numberOfQuestionsBelogingToThisPart ;
-		if (suraId == 114) {
-			numberOfQuestionsBelogingToThisPart = questions.size();
-		} else {
-			numberOfQuestionsBelogingToThisPart = questions.size() - 1;
-		}
+		int numberOfQuestionsBelogingToThisPart = questions.size();
+//		if (suraId == 114) {
+//			numberOfQuestionsBelogingToThisPart = questions.size();
+//		} else {
+//			numberOfQuestionsBelogingToThisPart = questions.size() - 1;
+//		}
 		
 		boolean isSet = false;
 		
-		if(correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart - 2 || correctCurrentAnswersCount == 0){
-			// fail 
-			isSet = myDB.setElementStatus(suraId, partNb, 3);
-	        currentElementStatus = "3";
-	        
-	        finish();
-	        return;
-		}
-		
-		else if (correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart - 1) {
-			 // all questions are answered partially .. colored element
-			isSet = myDB.setElementStatus(suraId, partNb, 2);
-	        currentElementStatus = "2";
-	    }
-		
-		else if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart || correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart+1) {
+		if (correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart) {
 	        // all questions are answered correctly .. colored element
 			isSet = myDB.setElementStatus(suraId, partNb, 1);
 	        currentElementStatus = "1";
 	      
 	    }
+		else if (correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart - 1 && suraId != 114) {
+			 // all questions are answered partially .. colored element
+			isSet = myDB.setElementStatus(suraId, partNb, 2);
+	        currentElementStatus = "2";
+	    }
+		else{
+			// fail 
+			isSet = myDB.setElementStatus(suraId, partNb, 3);
+			currentElementStatus = "3";
+
+			finish();
+			return;
+		}
+		
+//		if(correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart - 2 || correctCurrentAnswersCount == 0){
+//			// fail 
+//			isSet = myDB.setElementStatus(suraId, partNb, 3);
+//	        currentElementStatus = "3";
+//	        
+//	        finish();
+//	        return;
+//		}
+//		
+//		else if (correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart - 1) {
+//			 // all questions are answered partially .. colored element
+//			isSet = myDB.setElementStatus(suraId, partNb, 2);
+//	        currentElementStatus = "2";
+//	    }
+//		
+//		else if (correctCurrentAnswersCount==numberOfQuestionsBelogingToThisPart || correctCurrentAnswersCount == numberOfQuestionsBelogingToThisPart+1) {
+//	        // all questions are answered correctly .. colored element
+//			isSet = myDB.setElementStatus(suraId, partNb, 1);
+//	        currentElementStatus = "1";
+//	      
+//	    }
 		
 		Log.i(TAG , "currentElementStatus " + currentElementStatus + " " + isSet);
 		
@@ -581,6 +597,18 @@ public class QuestionsActivity extends MySuperScaler implements IMediaPlayerNoti
 		super.onDestroy();
 		
 		Utils.cleanViews(myQuestionsBackground);
+	}
+	
+	private void enableClick(){
+		answer_1_click.setEnabled(true);
+		answer_2_click.setEnabled(true);
+		answer_3_click.setEnabled(true);
+	}
+	
+	private void disableClick(){
+		answer_1_click.setEnabled(false);
+		answer_2_click.setEnabled(false);
+		answer_3_click.setEnabled(false);
 	}
 	
 }
