@@ -22,6 +22,11 @@ import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
 public class AyaDialog extends Dialog{
 
 	private AlMoufasserDB myDB;

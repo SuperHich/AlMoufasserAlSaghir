@@ -1,5 +1,11 @@
 package com.almoufasseralsaghir.entity;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class QuizElement {
 	
 	private String QuizIdx;

@@ -17,6 +17,12 @@ import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.conn.ssl.SSLSocketFactory;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class MySSLSocketFactory extends SSLSocketFactory {
     SSLContext sslContext = SSLContext.getInstance("TLS");
 

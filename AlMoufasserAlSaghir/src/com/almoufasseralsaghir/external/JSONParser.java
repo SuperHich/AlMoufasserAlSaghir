@@ -33,6 +33,12 @@ import org.json.JSONObject;
 
 import android.util.Log;
  
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class JSONParser {
  
     static InputStream is = null;

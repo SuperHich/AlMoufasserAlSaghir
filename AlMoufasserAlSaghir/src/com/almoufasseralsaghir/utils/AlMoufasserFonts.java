@@ -3,6 +3,12 @@ package com.almoufasseralsaghir.utils;
 import android.content.Context;
 import android.graphics.Typeface;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class AlMoufasserFonts {
 	
 	private static Typeface ge_ss_med;

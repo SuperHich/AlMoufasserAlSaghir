@@ -28,6 +28,12 @@ import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.SwipeListView;
 import com.almoufasseralsaghir.utils.SwipeListView.SwipeListViewCallback;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class FavouriteDialog extends Dialog {
 
 	private ListView fav_list;

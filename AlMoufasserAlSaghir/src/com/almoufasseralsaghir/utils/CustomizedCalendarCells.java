@@ -13,6 +13,12 @@ import android.widget.ImageButton;
 import com.almoufasseralsaghir.CalendarActivity;
 import com.almoufasseralsaghir.R;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class CustomizedCalendarCells extends ImageButton {
 	String mText = "";
 	Paint mTextPaint;

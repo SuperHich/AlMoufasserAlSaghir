@@ -41,6 +41,12 @@ import com.almoufasseralsaghir.utils.FontFitTextView;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 @SuppressLint("SimpleDateFormat")
 public class CalendarActivity extends MySuperScaler implements OnClickListener {
 	private ImageView herbes, cal_compl ;

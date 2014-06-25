@@ -20,6 +20,12 @@ import com.almoufasseralsaghir.entity.User;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class RegistrationActivity extends MySuperScaler{
 
 	private EditText register_name, register_mail, register_mail_confirm, register_fb, register_twitter,

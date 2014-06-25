@@ -24,6 +24,12 @@ import com.almoufasseralsaghir.utils.IMediaPlayerNotifier;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 @SuppressLint("SetJavaScriptEnabled")
 public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNotifier {
 

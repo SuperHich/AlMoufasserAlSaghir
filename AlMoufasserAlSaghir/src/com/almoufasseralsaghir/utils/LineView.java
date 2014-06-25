@@ -1,8 +1,4 @@
-/**
- * 
- */
 package com.almoufasseralsaghir.utils;
-
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,6 +7,12 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
 
 public class LineView extends View {
 	int x;

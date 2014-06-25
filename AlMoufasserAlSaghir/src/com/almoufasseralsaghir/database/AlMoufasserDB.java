@@ -25,6 +25,12 @@ import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class AlMoufasserDB extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "Almufassir_1.0.sqlite";

@@ -36,6 +36,12 @@ import com.almoufasseralsaghir.wheelview.AbstractWheelTextAdapter;
 import com.almoufasseralsaghir.wheelview.OnWheelScrollListener;
 import com.almoufasseralsaghir.wheelview.WheelView;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 @SuppressLint("NewApi")
 public class SouraActivity extends MySuperScaler {
 

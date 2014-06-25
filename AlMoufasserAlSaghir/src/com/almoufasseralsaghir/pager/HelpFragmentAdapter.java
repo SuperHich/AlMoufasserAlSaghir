@@ -6,6 +6,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.almoufasseralsaghir.R;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class HelpFragmentAdapter extends FragmentPagerAdapter {
     protected static final int[] CONTENT = new int[] { 
     	R.drawable.help_page9, 

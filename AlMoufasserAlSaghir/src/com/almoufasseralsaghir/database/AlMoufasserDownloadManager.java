@@ -16,6 +16,12 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class AlMoufasserDownloadManager {
 	
 	protected String URL_FILE;

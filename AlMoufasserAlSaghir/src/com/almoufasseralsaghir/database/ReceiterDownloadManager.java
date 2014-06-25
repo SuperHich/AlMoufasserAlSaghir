@@ -6,6 +6,12 @@ import com.almoufasseralsaghir.external.TafseerManager;
 
 import android.content.Context;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class ReceiterDownloadManager extends AlMoufasserDownloadManager {
 
 	public ReceiterDownloadManager(Context context) {

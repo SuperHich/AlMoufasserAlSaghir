@@ -10,6 +10,12 @@ import android.widget.ImageView;
 import com.almoufasseralsaghir.R;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public final class HelpFragment extends Fragment {
     private static final String KEY_CONTENT = "TestFragment:Content";
     private int mImageId;

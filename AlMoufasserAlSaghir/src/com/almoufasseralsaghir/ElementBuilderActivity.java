@@ -50,6 +50,12 @@ import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.RightHorizontalScrollView;
 import com.almoufasseralsaghir.utils.Utils;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class ElementBuilderActivity extends MySuperScaler{
 	
 	protected static final String TAG = ElementBuilderActivity.class.getSimpleName();

@@ -7,6 +7,11 @@ import android.util.DisplayMetrics;
 
 import com.almoufasseralsaghir.R;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
 
 public class DensityHelper {
 

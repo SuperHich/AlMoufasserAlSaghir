@@ -29,9 +29,11 @@ import com.almoufasseralsaghir.entity.Sura;
 import com.almoufasseralsaghir.entity.User;
 
 /**
- * @author H.L - admin
- * 
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
  */
+
 public class TafseerManager {
 
 	static final String TAG = "BPAPrefsManager";

@@ -10,6 +10,12 @@ import java.util.zip.ZipInputStream;
 import android.os.AsyncTask;
 import android.util.Log;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class DecompressAsynck extends AsyncTask<Void, Integer, Integer> {
 
 	private static final String TAG = "DecompressAsynck";

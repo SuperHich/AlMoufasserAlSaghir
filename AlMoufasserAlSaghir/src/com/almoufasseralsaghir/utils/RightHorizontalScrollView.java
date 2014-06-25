@@ -7,6 +7,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class RightHorizontalScrollView extends HorizontalScrollView {
 	private boolean mGravityRight = false;
 	private boolean mAutoScrolling = false;

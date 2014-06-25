@@ -1,7 +1,5 @@
 package com.almoufasseralsaghir.utils;
 
-
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
@@ -14,6 +12,12 @@ import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
 import android.widget.TextView;
+
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
 
 public class FontFitTextView extends TextView {
 private interface SizeTester {

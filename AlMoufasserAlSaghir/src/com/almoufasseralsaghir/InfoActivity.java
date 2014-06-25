@@ -13,6 +13,12 @@ import android.widget.RelativeLayout;
 import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.almoufasseralsaghir.utils.Utils;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class InfoActivity extends MySuperScaler  {
 
 	private RelativeLayout principal_layout;

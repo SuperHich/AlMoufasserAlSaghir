@@ -1,7 +1,6 @@
 package com.almoufasseralsaghir.external;
 
 import java.io.IOException;
-import java.util.Random;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -9,6 +8,12 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 
 import com.almoufasseralsaghir.utils.IMediaPlayerNotifier;
+
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
 
 public class TafseerMediaPlayer {
 

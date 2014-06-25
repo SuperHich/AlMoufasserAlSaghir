@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
+
 public class SwipeListView {
 	public static interface SwipeListViewCallback {
 		/**

@@ -1,7 +1,5 @@
 package com.almoufasseralsaghir.utils;
 
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +10,11 @@ import android.widget.ImageView;
 
 import com.almoufasseralsaghir.R;
 
-
+/**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ */
 
 public class ImageAdapter extends ArrayAdapter<Integer> {
 

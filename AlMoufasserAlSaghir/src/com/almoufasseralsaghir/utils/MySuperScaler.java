@@ -29,9 +29,14 @@ import com.almoufasseralsaghir.database.AlMoufasserDB;
 import com.almoufasseralsaghir.external.TafseerManager;
 
 /**
+ * AlMoufasserAlSaghir
+ * @author HICHEM LAROUSSI - RAMI TRABELSI
+ * Copyright (c) 2014 Zad Group. All rights reserved.
+ *
  * This is Super Scaler
  *
  */
+
 @SuppressLint("NewApi")
 public class MySuperScaler extends FragmentActivity {
 	
