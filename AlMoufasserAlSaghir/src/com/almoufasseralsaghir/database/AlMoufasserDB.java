@@ -14,7 +14,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
-import com.almoufasseralsaghir.EyetPlayerActivity;
 import com.almoufasseralsaghir.entity.ActivityStats;
 import com.almoufasseralsaghir.entity.Answer;
 import com.almoufasseralsaghir.entity.PartFavourite;
@@ -24,7 +23,6 @@ import com.almoufasseralsaghir.entity.Reminder;
 import com.almoufasseralsaghir.entity.User;
 import com.almoufasseralsaghir.external.TafseerManager;
 import com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver;
-import com.almoufasseralsaghir.utils.MySuperScaler;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class AlMoufasserDB extends SQLiteAssetHelper {

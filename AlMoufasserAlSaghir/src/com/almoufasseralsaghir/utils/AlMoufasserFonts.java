@@ -8,7 +8,7 @@ public class AlMoufasserFonts {
 	private static Typeface ge_ss_med;
 	
 	public static void InitAlMoufasserFonts(Context context){
-		ge_ss_med  				= Typeface.createFromAsset(context.getAssets(), "fonts/ge-ss-med.ttf");
+		ge_ss_med  				= Typeface.createFromAsset(context.getAssets(), "fonts/GE_SS_Two_Bold.otf");
 	}
 
 	public static Typeface getFont_ge_ss_med() {
