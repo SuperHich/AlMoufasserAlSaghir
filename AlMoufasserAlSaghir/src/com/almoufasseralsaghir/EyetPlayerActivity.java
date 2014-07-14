@@ -225,7 +225,7 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 		      }
 		      case MotionEvent.ACTION_UP: {
 		    	// Your action here on button click
-		    	  if(playingTrack + 1 <= mTafseerManager.getNumberOfTracks())
+		    	  if(playingTrack + 1 < mTafseerManager.getNumberOfTracks())
 		    	  {
 		    		  playingTrack += 1;
 		    		  preparePlayer(playingTrack);
@@ -539,12 +539,16 @@ public class EyetPlayerActivity extends MySuperScaler implements IMediaPlayerNot
 	}
 	
 	public void preparePlayer(int playingTrack){
-		String song = mPlayer.formatReceiterSDCardSong(mTafseerManager.getAyaAudioFileNames().get(playingTrack), 
-				mTafseerManager.getLoggedInUser().getDefaultReciter());
-		HighLightPlayingAya(playingTrack);
-		mPlayer.playFromSdcardWithCompletion(song);
-		
-		Log.i("MY SONG PATH", song);
+		try{
+			String song = mPlayer.formatReceiterSDCardSong(mTafseerManager.getAyaAudioFileNames().get(playingTrack), 
+					mTafseerManager.getLoggedInUser().getDefaultReciter());
+			HighLightPlayingAya(playingTrack);
+			mPlayer.playFromSdcardWithCompletion(song);
+
+			Log.i("MY SONG PATH", song);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

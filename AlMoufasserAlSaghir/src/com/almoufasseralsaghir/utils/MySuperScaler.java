@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v4.app.FragmentActivity;
@@ -69,7 +70,14 @@ public class MySuperScaler extends FragmentActivity {
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
-		display.getSize(size);
+		
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2){   //API LEVEL 13
+			display.getSize(size);
+		}else{    
+		    size.x = display.getWidth();
+		    size.y = display.getHeight();
+		}
+		
 		screen_width = size.x;
 		screen_height = size.y;
 		
