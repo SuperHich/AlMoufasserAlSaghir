@@ -69,7 +69,6 @@ public class TafseerManager {
 	private SharedPreferences.Editor editor;
 
 	private JSONParser jsonParser;
-	private Context context ;
 	
 	private ArrayList<String> currentlyUsedFonts = new ArrayList<String>();
 	private ArrayList<String> ayaAudioFileNames = new ArrayList<String>();
@@ -105,13 +104,14 @@ public class TafseerManager {
 	public static void setPaths(Context context){
 		File d = context.getExternalFilesDir(null);
 		if(d != null){
-			TafseerManager.ExternalsPath 	= d.getAbsolutePath() + File.separator + "externals" + File.separator;
-			TafseerManager.MainReceiterPath = TafseerManager.ExternalsPath + File.separator + "MP3s" + File.separator;
-			TafseerManager.AdvicesPath 		= TafseerManager.ExternalsPath + File.separator + "AdviceMP3s" + File.separator;
-			TafseerManager.QuizPNGPath 		= TafseerManager.ExternalsPath + File.separator + "_QuizPNGS" + File.separator;
-			TafseerManager.QuizPNGGrayPath 	= TafseerManager.ExternalsPath + File.separator + "_QuizPNGsGray" + File.separator;
-			TafseerManager.FontsPath 		= TafseerManager.ExternalsPath + File.separator + "FONTS" + File.separator;
-			TafseerManager.SuraPath 		= TafseerManager.ExternalsPath + File.separator + "SuraPNG" + File.separator;
+			ExternalsPath 		= d.getAbsolutePath() + File.separator + "externals" + File.separator;
+			MainReceiterPath 	= TafseerManager.ExternalsPath + "MP3s" + File.separator;
+			AdvicesPath 		= TafseerManager.ExternalsPath + "AdviceMP3s" + File.separator;
+			QuizPNGPath 		= TafseerManager.ExternalsPath + "_QuizPNGS" + File.separator;
+			QuizPNGGrayPath 	= TafseerManager.ExternalsPath + "_QuizPNGsGray" + File.separator;
+			FontsPath 			= TafseerManager.ExternalsPath + "FONTS" + File.separator;
+			SuraPath 			= TafseerManager.ExternalsPath + "SuraPNG" + File.separator;
+			SecondReceiterPath 	= TafseerManager.ExternalsPath + "basfar" + File.separator;
 		}
 	}
 	
@@ -123,7 +123,7 @@ public class TafseerManager {
 		jsonParser = new JSONParser(); 
 		deviceID = "DS" + Secure.getString(context.getContentResolver(),  Secure.ANDROID_ID).toUpperCase(Locale.US);
 
-		this.context = context ;
+		setPaths(context);
 		
 		EXCLUDED_ADVICES_MP3.add(70);
 		EXCLUDED_ADVICES_MP3.add(71);
@@ -212,7 +212,7 @@ public class TafseerManager {
 
 	public int getBigDrawable(String label) {
 	
-		int drawableResourceId = context.getResources().getIdentifier("e5_title_sourat_"+label, "drawable", context.getPackageName());
+		int drawableResourceId = mContext.getResources().getIdentifier("e5_title_sourat_"+label, "drawable", mContext.getPackageName());
 		return drawableResourceId;
 	
 	}
