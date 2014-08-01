@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.almoufasseralsaghir"
-    android:versionCode="3"
+    android:versionCode="4"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -27,10 +27,11 @@
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+         android:theme="@style/MyTheme" >
         <activity
             android:name="com.almoufasseralsaghir.SplashHome"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -38,43 +39,53 @@
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.MainActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize" >
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.RegistrationActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.HomeLoggedIn"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.SouraActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.InfoActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.HelpActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.CalendarActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.EyetPlayerActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.QuestionsActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
         </activity>
         <activity
             android:name="com.almoufasseralsaghir.ElementBuilderActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
         </activity>
         <receiver android:name="com.almoufasseralsaghir.reminder.AlarmManagerBroadcastReceiver">
             <intent-filter>

@@ -340,6 +340,7 @@ public class ElementBuilderActivity extends MySuperScaler{
 	private void populateElements(){
 		
 		progressDialog = new ProgressDialog(this);
+		progressDialog.setMessage(getString(R.string.wait));
 		progressDialog.setCancelable(false);
 		progressDialog.show();
 		

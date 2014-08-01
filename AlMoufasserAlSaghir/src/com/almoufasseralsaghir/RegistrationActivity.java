@@ -172,6 +172,7 @@ public class RegistrationActivity extends MySuperScaler{
 						@Override
 						protected void onPreExecute() {
 							loggedInUser = new User();
+							pd.setMessage(getString(R.string.wait));
 							pd.setCancelable(false);
 							pd.setIndeterminate(true);
 							pd.show();

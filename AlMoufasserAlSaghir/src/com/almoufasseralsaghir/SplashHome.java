@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -47,6 +46,8 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 
 	private View mDownloaderLayout;
 	private RelativeLayout principal_layout;
+	
+	private boolean isBackPressed = false;
 	
 	private Handler splashHandler = new Handler() {
 		private	Intent intent  ;
@@ -122,7 +123,7 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 			mStatusText.setText(R.string.downloading);
 		}
 		else if(!ddm.isNetworkOn()){
-			showExit(this, R.string.error_internet_connexion);
+			showPopUp(this, R.string.error_internet_connexion);
 		}
 		else if(ddm.isDataReady())
 		{
@@ -135,19 +136,21 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 			Toast.makeText(this, R.string.error_starting, Toast.LENGTH_LONG).show();
 			finish();
 		}
-	}
-
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-			splashHandler.removeMessages(STOPSPLASH);
-			if(ddm.isDownloading())
-				ddm.cancelDownload();
-			else if(ddm.isUnzipping())
-				ddm.cancelUnzip();
-		}
-		return super.onKeyDown(keyCode, event);
-
 	}	
+	
+	@Override
+	public void onBackPressed() {
+		
+		isBackPressed = true;
+		
+		splashHandler.removeMessages(STOPSPLASH);
+		if(ddm.isDownloading())
+			ddm.cancelDownload();
+		else if(ddm.isUnzipping())
+			ddm.cancelUnzip();
+		
+		super.onBackPressed();
+	}
 	
 	@Override
 	public void onProgressDownload(final int progress) {
@@ -160,7 +163,7 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 			}
 		});
 		
-		Log.e(TAG, "progress " + mPB.getProgress());
+//		Log.e(TAG, "progress " + mPB.getProgress());
 	}
 
 	@Override
@@ -207,7 +210,8 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 	public void onErrorDownload() {
 		ddm.cancelDownload();
 		
-		showPopUp(this, R.string.error_download);
+		if(!isBackPressed)
+			showPopUp(this, R.string.error_download);
 	};
 	
 	public void showPopUp(Context context, int message) {
@@ -221,7 +225,7 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 				.setCancelable(false)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						finish();
+						onBackPressed();
 					}
 				});
 		// show it
@@ -235,23 +239,23 @@ public class SplashHome extends MySuperScaler implements DownloadNotifier {
 		Utils.cleanViews(principal_layout);
 	}
 	
-	public void showExit(Context context, int message) {
-
-		// Alert dialogue
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				context);
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(context.getResources().getString(message))
-		.setCancelable(false)
-		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				finish();
-				return;
-			}
-		});
-		// show it
-		alertDialogBuilder.show();
-	}
+//	public void showExit(Context context, int message) {
+//
+//		// Alert dialogue
+//		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+//				context);
+//		// set dialog message
+//		alertDialogBuilder
+//		.setMessage(context.getResources().getString(message))
+//		.setCancelable(false)
+//		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//			public void onClick(DialogInterface dialog, int id) {
+//				finish();
+//				return;
+//			}
+//		});
+//		// show it
+//		alertDialogBuilder.show();
+//	}
 
 }

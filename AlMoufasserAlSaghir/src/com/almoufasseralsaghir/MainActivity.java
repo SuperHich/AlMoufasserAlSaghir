@@ -301,6 +301,7 @@ public class MainActivity extends MySuperScaler implements DownloadNotifier{
 							@Override
 							protected void onPreExecute() {
 								register_interface.setVisibility(View.GONE);
+								pd.setMessage(getString(R.string.wait));
 								pd.setCancelable(false);
 								pd.setIndeterminate(true);
 								pd.show();

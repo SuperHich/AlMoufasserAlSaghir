@@ -36,7 +36,7 @@ import com.almoufasseralsaghir.entity.User;
 
 public class TafseerManager {
 
-	static final String TAG = "BPAPrefsManager";
+	static final String TAG = "TafseerManager";
 
 	private static final String URL_BASE = "https://islam.ws/tafseer/website/com/";
 	private static final String URL_REGISTER = URL_BASE + "register";
